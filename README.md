@@ -1,5 +1,5 @@
 # AECOFARM-FE
-[개발중] 대학생 교내 물품 공유 플랫폼 '아코팜' 
+[👩🏻‍🌾 개발 중] 대학생 교내 물품 공유 플랫폼 '아코팜' 프론트엔드
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
