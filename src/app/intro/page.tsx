@@ -1,6 +1,7 @@
 'use client'
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
+import OrangeButton from '@/components/OrangeButton';
 
 const HeadContainer = styled.div`
   position: absolute;
@@ -84,7 +85,7 @@ const IntroPage = () => {
       </ImageContainer>
       
       <ButtonContainer>
-        <Button>시작하기</Button>
+        <OrangeButton text='시작하기'/>
       </ButtonContainer>
     </AppLayout>
   );
