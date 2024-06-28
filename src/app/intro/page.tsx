@@ -60,7 +60,7 @@ const IntroPage = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/sign-up');
+    router.push('/login');
   };
 
   return (
