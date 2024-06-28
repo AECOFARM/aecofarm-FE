@@ -5,7 +5,7 @@ import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
 
 const HeaderLogo = styled.img`
-  padding: 30px 20px;
+  padding: 40px 20px 10px;
   margin-left: 100px;
 `;
 
@@ -35,7 +35,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
 `;
 
-const Button = styled.button`
+const Button = styled.input`
   width: 310px;
   padding: 13px 22px;
   border-radius: 15px;
@@ -44,6 +44,22 @@ const Button = styled.button`
   background-color: #F2F2F2;
   font-size: 16px;
   text-align: left;
+`;
+
+
+
+const PasswordInputContainer = styled.div`
+  position: relative;
+  width: 310px;
+  display: flex;
+  align-items: center;
+`;
+
+
+const PasswordIcon = styled.img`
+  position: absolute;
+  right: 15px; 
+  width: 23px;
 `;
 
 const SignUpPage = () => {
@@ -62,11 +78,22 @@ const SignUpPage = () => {
 
       <TextContainer>정보를 입력해주세요</TextContainer>
       <ButtonContainer>
-        <Button> 이름 </Button>
-        <Button> 전화번호 </Button>
-        <Button> 이메일 </Button>
-        <Button> 비밀번호 </Button>
-        <Button> 학번 </Button>
+        <Button type='text' placeholder="이름"/>
+        <Button type='tel' placeholder="전화번호"/>
+        <Button type='email' placeholder="이메일"/>
+        <PasswordInputContainer>
+            <Button type="password" placeholder="비밀번호"></Button>
+            <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+          </PasswordInputContainer>
+        <Button
+          type="number"
+          placeholder="학번"
+          onKeyDown={(e) => {
+            if (e.key === '.' || e.key === '-' || e.key === '+' || e.key === 'e') {
+              e.preventDefault();
+            }
+          }}
+        /> 
         <OrangeButton text='등록' onClick={handleClick} ></OrangeButton>
       </ButtonContainer>
      

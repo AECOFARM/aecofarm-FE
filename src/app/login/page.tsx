@@ -66,8 +66,14 @@ const SignUpButton = styled.button`
 
 const SignUpPage = () => {
 
+  const router = useRouter();
+
+  const login = () => {
+    router.push('/sign-up');
+  };
+  
   const handleClick = () => {
-    
+    router.push('/sign-up');
   };
 
   return (
@@ -80,10 +86,10 @@ const SignUpPage = () => {
             <Button type="password" placeholder="비밀번호"></Button>
             <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
           </PasswordInputContainer>
-          <OrangeButton text='로그인' onClick={handleClick} ></OrangeButton>
+          <OrangeButton text='로그인' onClick={login}></OrangeButton>
         </ButtonContainer>
         <ExtraButtonContainer>
-          <SignUpButton>회원가입</SignUpButton> 
+          <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
           <span> | </span>
           <SignUpButton>비밀번호 찾기</SignUpButton>
         </ExtraButtonContainer>
