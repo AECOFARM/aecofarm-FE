@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { aecofarmFont } from "@/app/fonts";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
