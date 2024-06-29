@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
+
+const Wrapper = styled.div`
+ padding-top: 25px;
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -70,21 +75,24 @@ const SignUpPage = () => {
 
   return (
     <AppLayout>
-      <ButtonContainer>
-        <SortButtonContainer>
-          <SortButton>
-            <option key="최신순" value="latest">최신순</option>
-            <option key="거리순" value="distance">거리순</option>
-            <option key="낮은 가격순" value="low-price">낮은 가격순</option>
-            <option key="높은 가격순" value="high-price">높은 가격순</option>
-          </SortButton>
-        </SortButtonContainer>
+      <Wrapper>
+        <Header/>
+        <ButtonContainer>
+          <SortButtonContainer>
+            <SortButton>
+              <option key="최신순" value="latest">최신순</option>
+              <option key="거리순" value="distance">거리순</option>
+              <option key="낮은 가격순" value="low-price">낮은 가격순</option>
+              <option key="높은 가격순" value="high-price">높은 가격순</option>
+            </SortButton>
+          </SortButtonContainer>
 
-        <DonateContainer>
-          <CheckDonateButton>기부 모아보기</CheckDonateButton>
-          <CheckIcon src='/img/not-checked.svg' alt='check' />
-        </DonateContainer>
-      </ButtonContainer>  
+          <DonateContainer>
+            <CheckDonateButton>기부 모아보기</CheckDonateButton>
+            <CheckIcon src='/img/not-checked.svg' alt='check' />
+          </DonateContainer>
+        </ButtonContainer>  
+      </Wrapper>
     </AppLayout>
   );
 };

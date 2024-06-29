@@ -1,18 +1,16 @@
 "use client";
 import styled from 'styled-components';
+import AppLayout from './layout/MobileLayout';
 
 const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 45px;
+  margin: 0 20px;
+  height: 40px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  z-index: 1000;
+  width: 350px;
 `;
 
 const Logo = styled.div`
@@ -33,6 +31,7 @@ const IconContainer = styled.div`
 
 const Header = () => {
     return (
+      <AppLayout>
         <HeaderContainer>
             <IconContainer>
                 <img src = "/search.svg" alt="search" />
@@ -44,6 +43,8 @@ const Header = () => {
                 <img src = "/bell.svg" alt="alarm" />
             </IconContainer>
         </HeaderContainer>
+      </AppLayout>
+        
     );
 }
 
