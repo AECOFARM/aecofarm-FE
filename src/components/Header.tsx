@@ -38,7 +38,7 @@ const Header = () => {
                 <img src = "/search.svg" alt="search" />
             </IconContainer>
             <Logo>
-                <img src="/aecofarmLogo.svg" alt="logo" />
+                <img src="/aecofarm-logo.svg" alt="logo" />
             </Logo>
             <IconContainer>
                 <img src = "/bell.svg" alt="alarm" />

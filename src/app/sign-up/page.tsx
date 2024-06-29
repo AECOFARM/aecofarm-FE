@@ -71,7 +71,7 @@ const SignUpPage = () => {
   return (
     <AppLayout>
 
-      <HeaderLogo src="/img/aecofarm-logo.svg" alt="Intro"></HeaderLogo>
+      <HeaderLogo src="/aecofarm-logo.svg" alt="Intro"></HeaderLogo>
 
       <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
       <ProfileContainer></ProfileContainer>
