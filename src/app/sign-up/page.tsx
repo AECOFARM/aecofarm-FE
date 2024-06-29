@@ -5,24 +5,20 @@ import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
 
 const HeaderLogo = styled.img`
-  padding: 35px 20px;
+  padding: 40px 20px 10px;
   margin-left: 100px;
 `;
 
-const TitleText = styled.h2`
-  margin-left: 32px;
-  margin-bottom: 15px;
-`;
 
 const TextContainer = styled.h3`
   margin-left: 32px;
-  padding: 10px 0;
+  padding: 13px 0;
 `;
 
 const ProfileContainer = styled.div`
-  margin: 0 32px 25px;
-  width: 150px;
-  height: 150px;
+  margin: 0 32px 20px;
+  width: 134px;
+  height: 134px;
   background-color: #D9D9D9;
   border-radius: 11px;
 `;
@@ -39,20 +35,37 @@ const ButtonContainer = styled.div`
   flex-direction: column;
 `;
 
-const Button = styled.button`
+const Button = styled.input`
   width: 310px;
-  padding: 13px;
+  padding: 13px 22px;
   border-radius: 15px;
   border: 0px;
   color: #8E8F90;
   background-color: #F2F2F2;
   font-size: 16px;
+  text-align: left;
+`;
+
+
+
+const PasswordInputContainer = styled.div`
+  position: relative;
+  width: 310px;
+  display: flex;
+  align-items: center;
+`;
+
+
+const PasswordIcon = styled.img`
+  position: absolute;
+  right: 15px; 
+  width: 23px;
 `;
 
 const SignUpPage = () => {
 
   const handleClick = () => {
-    router.push('/sign-up');
+    
   };
 
   return (
@@ -60,19 +73,30 @@ const SignUpPage = () => {
 
       <HeaderLogo src="/img/aecofarm-logo.svg" alt="Intro"></HeaderLogo>
 
-      <TitleText>회원가입</TitleText>
-
       <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
       <ProfileContainer></ProfileContainer>
 
       <TextContainer>정보를 입력해주세요</TextContainer>
       <ButtonContainer>
-        <Button> 이름 </Button>
-        <Button> 전화번호 </Button>
-        <Button> 주소 </Button>
-        <Button> 학번 </Button>
+        <Button type='text' placeholder="이름"/>
+        <Button type='tel' placeholder="전화번호"/>
+        <Button type='email' placeholder="이메일"/>
+        <PasswordInputContainer>
+            <Button type="password" placeholder="비밀번호"></Button>
+            <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+          </PasswordInputContainer>
+        <Button
+          type="number"
+          placeholder="학번"
+          onKeyDown={(e) => {
+            if (e.key === '.' || e.key === '-' || e.key === '+' || e.key === 'e') {
+              e.preventDefault();
+            }
+          }}
+        /> 
         <OrangeButton text='등록' onClick={handleClick} ></OrangeButton>
       </ButtonContainer>
+     
     </AppLayout>
   );
 };
