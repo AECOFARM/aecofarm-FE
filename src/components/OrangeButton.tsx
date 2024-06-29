@@ -13,10 +13,11 @@ const Button = styled.button`
 
 interface ButtonProps {
   text: string;
+  onClick: () => void;
 }
 
-const OrangeButton: NextPage<ButtonProps> = ({ text }) => {
-  return <Button>{text}</Button>;
+const OrangeButton: NextPage<ButtonProps> = ({ text, onClick }) => {
+  return <Button onClick={onClick}>{text}</Button>;
 };
 
 export default OrangeButton;

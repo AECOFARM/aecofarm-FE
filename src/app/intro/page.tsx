@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
+import { useRouter } from 'next/navigation';
 
 const HeadContainer = styled.div`
   position: absolute;
@@ -50,21 +51,18 @@ const ButtonContainer = styled.div`
   position: absolute;
   top: 670px;
   margin-left: 32px;
+   z-index: 2;
 `;
-
-const Button = styled.button`
-  width: 310px;
-  padding: 13px;
-  border-radius: 10px;
-  border: 0px;
-  color: white;
-  background-color: #FF9B3F;
-  font-size: 16px;
-`;
-
 
 
 const IntroPage = () => {
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/login');
+  };
+
   return (
     <AppLayout>
       <HeadContainer>
@@ -85,7 +83,7 @@ const IntroPage = () => {
       </ImageContainer>
       
       <ButtonContainer>
-        <OrangeButton text='시작하기'/>
+        <OrangeButton text='시작하기' onClick={handleClick}/>
       </ButtonContainer>
     </AppLayout>
   );
