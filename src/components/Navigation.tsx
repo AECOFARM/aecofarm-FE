@@ -11,9 +11,9 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  max-width: 100%
+  max-width: 500px;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-left: 15px;
 `;
 
 const NavContainer = styled.nav`
