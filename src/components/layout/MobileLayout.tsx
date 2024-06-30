@@ -18,5 +18,6 @@ const FixedWidth = styled.div`
   @media (max-width: 500px) { /* 화면 너비가 500px 이하가 되면 요소 너비를 100%로 고정*/
     width: 100%;
   }
+  min-height: 100vh;
 `;
 export default AppLayout;

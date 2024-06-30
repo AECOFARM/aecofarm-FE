@@ -1,10 +1,11 @@
 "use client";
 import styled from 'styled-components';
-import AppLayout from './layout/MobileLayout';
 
 const HeaderContainer = styled.header`
   position: fixed;
   bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   height: 60px;
   background-color: white;
   display: flex;
@@ -32,7 +33,6 @@ const NavItem = styled.img`
 
 const Navigation = () => {
     return (
-      <AppLayout>
         <HeaderContainer>
           <NavContainer>
             <NavItem src='/img/lend-icon.svg' alt='lend'/>
@@ -42,7 +42,6 @@ const Navigation = () => {
             <NavItem src='/img/profile-icon.svg' alt='lend'/>
           </NavContainer>
         </HeaderContainer>
-      </AppLayout>
     );
 }
 
