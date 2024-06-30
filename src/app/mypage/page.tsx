@@ -5,6 +5,7 @@ import AppLayout from "@/components/layout/MobileLayout";
 import MypageList from "./components/MypageList";
 import {useRouter} from "next/navigation";
 import ItemList from "@/components/ItemList";
+import MainLayout from "@/components/layout/MainLayout";
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -135,6 +136,7 @@ const Mypage = () => {
   
   return (
     <AppLayout>
+      <MainLayout>
       <ProfileContainer>
         <ProfileImageContainer src = "/img/defaultImage.png" />
         <ProfileContentContainer>
@@ -168,6 +170,7 @@ const Mypage = () => {
           <ItemList img = "/img/item-image.png" price = "3,000" time = {3} title = "초고속 멀티 충전기"/>
         </ItemContainer>
       </RecentlyViewedListContainer>
+      </MainLayout>
     </AppLayout>
   );
 };
