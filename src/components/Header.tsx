@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import AppLayout from './layout/MobileLayout';
 
 const HeaderContainer = styled.header`
+  max-width: 500px;
+  width: 100%;
+  position: sticky;
   height: 40px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  max-width: 500px;
-  margin-top: 40px;
+  margin-top: 20px;
+  background-color: #FFFFFF;
 `;
 
 const Logo = styled.div`

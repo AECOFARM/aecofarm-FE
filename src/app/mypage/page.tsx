@@ -117,17 +117,6 @@ const ItemContainer = styled.div`
   width: 100%;
 `;
 
-const DeleteButton = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 20px auto;
-  p {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #686868;
-  }
-`;
 
 const Mypage = () => {
   const router = useRouter();
@@ -179,9 +168,6 @@ const Mypage = () => {
           <ItemList img = "/img/item-image.png" price = "3,000" time = {3} title = "초고속 멀티 충전기"/>
         </ItemContainer>
       </RecentlyViewedListContainer>
-      <DeleteButton>
-        <p>탈퇴하기</p>
-      </DeleteButton>
     </AppLayout>
   );
 };
