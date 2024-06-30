@@ -4,21 +4,25 @@ import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import Navigation from '@/components/Navigation';
 
 const Wrapper = styled.div`
  padding-top: 25px;
+
 `;
 
 const ButtonContainer = styled.div`
+  justify-content: space-between;
+  max-width: 390px;
   display: flex;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 10px;
 `;
 
 const SortButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 22px;
+  margin-left: 20px;
   color: black;
   font-size: 15px; 
 
@@ -41,7 +45,7 @@ const SortButton = styled.select`
 
 
 const DonateContainer = styled.div`
-  margin-left: 110px;
+  margin-right: 25px;
   width: 110px;
   position: relative;
 `;
@@ -92,6 +96,7 @@ const SignUpPage = () => {
             <CheckIcon src='/img/not-checked.svg' alt='check' />
           </DonateContainer>
         </ButtonContainer>  
+        <Navigation/>
       </Wrapper>
     </AppLayout>
   );

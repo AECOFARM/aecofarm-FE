@@ -116,8 +116,9 @@ const ItemInfoContainer = styled.div`
 `;
 
 const PostButtonContainer = styled.div`
+  max-width: 500px;
   width: 100%;
-  border-top: 0.5px solid #999999;
+  box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
