@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import AppLayout from './layout/MobileLayout';
 
 const HeaderContainer = styled.header`
-  margin: 0 20px;
   height: 40px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  width: 350px;
+  max-width: 500px;
+  margin-top: 40px;
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
   img {
-    width: 9rem;
+    width: 8.5rem;
   }
 `;
 
