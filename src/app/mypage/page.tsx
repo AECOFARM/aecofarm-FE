@@ -14,6 +14,7 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   padding: 20px;
   margin: 20px auto;
+  margin-top: 80px;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 `;
