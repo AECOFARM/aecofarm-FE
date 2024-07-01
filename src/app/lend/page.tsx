@@ -1,4 +1,3 @@
-// LendPage.js
 "use client";
 
 import styled from 'styled-components';
@@ -8,38 +7,26 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
-import ItemPost from './components/ItemPost'; // ItemPost 컴포넌트를 불러옵니다
+import ItemPost from './components/ItemPost'; 
+import SeeDonate from './components/SeeDonate';
 
 const ButtonContainer = styled.div`
-  position: relative;
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   font-size: 18px;
   padding-top: 20px;
+  z-index:10000;
 `;
 
-const DonateContainer = styled.div`
-  margin-right: 25px;
-  width: 150px;
-  display: flex;
-`;
-
-const CheckDonateButton = styled.button`
-  margin: 0 5px;
-  color: black;
-  border: 0px;
-  background-color: white;
-  width: auto;
-  font-size: 18px;
-`;
-
-const CheckIcon = styled.img`
-  width: 30px;
-  right: 10px;
-  top: 50%;
-  padding: 0 2px;
+const PostContainer = styled.div`
+  position: fixed;
+  top: 130px;
+  max-height: 635px;
+  overflow-y: auto;
+  width: 100%;
 `;
 
 const LendPage = () => {
@@ -57,13 +44,13 @@ const LendPage = () => {
   const exampleData = [
     {
       "contractId": 123456,
-      "itemId": 789012,
-      "itemName": "게시물 제목 1",
-      "itemImage": "/images/item1.jpg",
-      "price": 5000,
-      "itemPlace": "서울시 강남구",
-      "time": 1625123456,
-      "itemHash": ["태그1", "태그2", "태그3"],
+      "itemId": 1,
+      "itemName": "맥북 맥세이프 충전기",
+      "itemImage": "/img/item-image.png",
+      "price": 3000,
+      "itemPlace": "경영관",
+      "time": 5,
+      "itemHash": ["eunjeong", "맥북프로", "충전기"],
       "likeStatus": true,
       "donateStatus": false,
       "distance": 10,
@@ -72,13 +59,58 @@ const LendPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 345678,
-      "itemName": "게시물 제목 2",
-      "itemImage": "/images/item2.jpg",
-      "price": 8000,
-      "itemPlace": "경기도 수원시",
-      "time": 1625123456,
-      "itemHash": ["태그4", "태그5", "태그6"],
+      "itemId": 2,
+      "itemName": "아이패드 에어 4",
+      "itemImage": "/img/item-image.png",
+      "price": 5000,
+      "itemPlace": "신공학관",
+      "time": 3,
+      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
+      "likeStatus": false,
+      "donateStatus": true,
+      "distance": 15,
+      "lowPrice": 5,
+      "highPrice": 30
+    },
+    {
+      "contractId": 789012,
+      "itemId": 2,
+      "itemName": "아이패드 에어 4",
+      "itemImage": "/img/item-image.png",
+      "price": 5000,
+      "itemPlace": "신공학관",
+      "time": 3,
+      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
+      "likeStatus": false,
+      "donateStatus": true,
+      "distance": 15,
+      "lowPrice": 5,
+      "highPrice": 30
+    },
+    {
+      "contractId": 789012,
+      "itemId": 2,
+      "itemName": "아이패드 에어 4",
+      "itemImage": "/img/item-image.png",
+      "price": 5000,
+      "itemPlace": "신공학관",
+      "time": 3,
+      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
+      "likeStatus": false,
+      "donateStatus": true,
+      "distance": 15,
+      "lowPrice": 5,
+      "highPrice": 30
+    },
+    {
+      "contractId": 789012,
+      "itemId": 2,
+      "itemName": "아이패드 에어 4",
+      "itemImage": "/img/item-image.png",
+      "price": 5000,
+      "itemPlace": "신공학관",
+      "time": 3,
+      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
       "distance": 15,
@@ -93,17 +125,13 @@ const LendPage = () => {
       <MainLayout>
         <ButtonContainer>
           <SelectBox/>
-          <DonateContainer>
-            <CheckDonateButton>기부 모아보기</CheckDonateButton>
-            <CheckIcon src='/img/not-checked.svg' alt='check' />
-          </DonateContainer>
+          <SeeDonate/>
         </ButtonContainer>
-        
-       
-        {exampleData.map((post) => (
-          <ItemPost key={post.itemId} post={post} />
-        ))}
-        
+        <PostContainer>
+          {exampleData.map((post) => (
+            <ItemPost key={post.itemId} post={post} />
+          ))}
+        </PostContainer>
       </MainLayout>
       <Navigation/>
     </AppLayout>
