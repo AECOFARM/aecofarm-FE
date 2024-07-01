@@ -1,7 +1,6 @@
 'use client'
 import React from "react";
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
 import MypageList from "./components/MypageList";
 import {useRouter} from "next/navigation";
 import ItemList from "@/components/ItemList";
@@ -136,8 +135,7 @@ const Mypage = () => {
   };
   
   return (
-    <AppLayout>
-      <MainLayout>
+    <MainLayout>
       <ProfileContainer>
         <ProfileImageContainer src = "/img/defaultImage.png" />
         <ProfileContentContainer>
@@ -172,7 +170,6 @@ const Mypage = () => {
         </ItemContainer>
       </RecentlyViewedListContainer>
       </MainLayout>
-    </AppLayout>
   );
 };
   
