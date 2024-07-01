@@ -15,7 +15,8 @@ const HeaderContainer = styled.header`
   max-width: 500px;
   width: 100%;
   box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
-  margin-left: 18px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const NavContainer = styled.nav`

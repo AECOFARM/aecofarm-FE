@@ -1,10 +1,10 @@
 'use client'
 import React from "react";
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
 import MypageList from "./components/MypageList";
 import {useRouter} from "next/navigation";
 import ItemList from "@/components/ItemList";
+import MainLayout from "@/components/layout/MainLayout";
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -13,6 +13,7 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   padding: 20px;
   margin: 20px auto;
+  margin-top: 80px;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 `;
@@ -134,7 +135,7 @@ const Mypage = () => {
   };
   
   return (
-    <AppLayout>
+    <MainLayout>
       <ProfileContainer>
         <ProfileImageContainer src = "/img/defaultImage.png" />
         <ProfileContentContainer>
@@ -168,7 +169,7 @@ const Mypage = () => {
           <ItemList img = "/img/item-image.png" price = "3,000" time = {3} title = "초고속 멀티 충전기"/>
         </ItemContainer>
       </RecentlyViewedListContainer>
-    </AppLayout>
+      </MainLayout>
   );
 };
   
