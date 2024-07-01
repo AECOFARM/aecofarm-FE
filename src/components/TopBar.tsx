@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { NextPage } from 'next';
+import {useRouter } from "next/navigation";
 
 const PostHeader = styled.div`
   position: sticky;
@@ -29,14 +30,19 @@ const IconContainer = styled.div`
 
 interface Props {
     text: string;
-    onClick: () => void;
 }
 
-const TopBar: NextPage<Props> = ({ text, onClick }) => {
+const TopBar: NextPage<Props> = ({ text}) => {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
     return(
         <PostHeader>
             <p>{text}</p>
-            <IconContainer onClick={onClick}>
+            <IconContainer onClick={handleBack}>
                 <img src = "/back.svg" alt = "back" />
             </IconContainer>
         </PostHeader>

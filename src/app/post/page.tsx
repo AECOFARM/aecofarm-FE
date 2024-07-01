@@ -150,16 +150,10 @@ const PostButton = styled.div`
 `;
 
 const Post = () => {
-  const router = useRouter();
-
-  const handleBack = () => {
-    router.back();
-  };
-
   return(
     <AppLayout>
     <Wrapper>
-      <TopBar text="글쓰기" onClick = {handleBack}/>
+      <TopBar text="글쓰기" />
       <SelectContainer>
         <select>
           <option key="대여하고 싶어요" value="latest">대여하고 싶어요</option>
