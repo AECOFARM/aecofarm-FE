@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
-import { useRouter } from 'next/navigation';
 
 const HeaderLogo = styled.img`
   padding: 40px 20px 10px;
@@ -23,7 +22,7 @@ const ProfileContainer = styled.div`
   border-radius: 11px;
 `;
 
-const Profile = styled.image`
+const Profile = styled.img`
 `;
 
 

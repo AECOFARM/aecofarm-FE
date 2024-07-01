@@ -1,53 +1,29 @@
-'use client'
+// LendPage.js
+"use client";
+
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
-import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
+import SelectBox from './components/SelectBox';
+import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
-
-const Wrapper = styled.div`
- padding-top: 25px;
-
-`;
+import MainLayout from '@/components/layout/MainLayout';
+import ItemPost from './components/ItemPost'; // ItemPost 컴포넌트를 불러옵니다
 
 const ButtonContainer = styled.div`
+  position: relative;
+  display: flex;
   justify-content: space-between;
-  max-width: 390px;
-  display: flex;
-  font-size: 15px;
-  margin-top: 10px;
-`;
-
-const SortButtonContainer = styled.div`
-  display: flex;
   align-items: center;
-  margin-left: 20px;
-  color: black;
-  font-size: 15px; 
-
+  width: 100%;
+  font-size: 18px;
+  padding-top: 20px;
 `;
-
-const SortButton = styled.select`
-  margin: 0 10px;
-  color: black;
-  border: 0px;
-  background-color: white;
-  font-size: 15px; 
-  text-align: center;
-  background-color: white;
-
-  option {
-    background: white;
-    font-size: 15px; 
-  }
-`;
-
 
 const DonateContainer = styled.div`
   margin-right: 25px;
-  width: 110px;
-  position: relative;
+  width: 150px;
+  display: flex;
 `;
 
 const CheckDonateButton = styled.button`
@@ -56,17 +32,17 @@ const CheckDonateButton = styled.button`
   border: 0px;
   background-color: white;
   width: auto;
+  font-size: 18px;
 `;
 
 const CheckIcon = styled.img`
-  position: absolute;
-  width: 18px;
-  right: 10px; /* 필요에 따라 조정 */
-  top: 50%; /* 아이콘을 수직 중앙에 위치 */
-  transform: translateY(-50%);
+  width: 30px;
+  right: 10px;
+  top: 50%;
+  padding: 0 2px;
 `;
 
-const SignUpPage = () => {
+const LendPage = () => {
   const router = useRouter();
 
   const login = () => {
@@ -77,29 +53,61 @@ const SignUpPage = () => {
     router.push('/sign-up');
   };
 
+  // 예시 데이터
+  const exampleData = [
+    {
+      "contractId": 123456,
+      "itemId": 789012,
+      "itemName": "게시물 제목 1",
+      "itemImage": "/images/item1.jpg",
+      "price": 5000,
+      "itemPlace": "서울시 강남구",
+      "time": 1625123456,
+      "itemHash": ["태그1", "태그2", "태그3"],
+      "likeStatus": true,
+      "donateStatus": false,
+      "distance": 10,
+      "lowPrice": 2,
+      "highPrice": 25
+    },
+    {
+      "contractId": 789012,
+      "itemId": 345678,
+      "itemName": "게시물 제목 2",
+      "itemImage": "/images/item2.jpg",
+      "price": 8000,
+      "itemPlace": "경기도 수원시",
+      "time": 1625123456,
+      "itemHash": ["태그4", "태그5", "태그6"],
+      "likeStatus": false,
+      "donateStatus": true,
+      "distance": 15,
+      "lowPrice": 5,
+      "highPrice": 30
+    }
+  ];
+
   return (
     <AppLayout>
-      <Wrapper>
-        <Header/>
+      <Header/>
+      <MainLayout>
         <ButtonContainer>
-          <SortButtonContainer>
-            <SortButton>
-              <option key="최신순" value="latest">최신순</option>
-              <option key="거리순" value="distance">거리순</option>
-              <option key="낮은 가격순" value="low-price">낮은 가격순</option>
-              <option key="높은 가격순" value="high-price">높은 가격순</option>
-            </SortButton>
-          </SortButtonContainer>
-
+          <SelectBox/>
           <DonateContainer>
             <CheckDonateButton>기부 모아보기</CheckDonateButton>
             <CheckIcon src='/img/not-checked.svg' alt='check' />
           </DonateContainer>
-        </ButtonContainer>  
-        <Navigation/>
-      </Wrapper>
+        </ButtonContainer>
+        
+       
+        {exampleData.map((post) => (
+          <ItemPost key={post.itemId} post={post} />
+        ))}
+        
+      </MainLayout>
+      <Navigation/>
     </AppLayout>
   );
 };
 
-export default SignUpPage;
+export default LendPage;
