@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { NextPage } from 'next';
 import {useRouter } from "next/navigation";
 
-const PostHeader = styled.div`
-  position: sticky;
+const Header = styled.div`
+  position: fixed;
   height: 50px;
+  top: 60px;
+  max-width: 500px;
   width: 100%;
   background-color: #FFFFFF;
   display: flex;
@@ -40,12 +42,12 @@ const TopBar: NextPage<Props> = ({ text}) => {
   };
 
     return(
-        <PostHeader>
+        <Header>
             <p>{text}</p>
             <IconContainer onClick={handleBack}>
                 <img src = "/back.svg" alt = "back" />
             </IconContainer>
-        </PostHeader>
+        </Header>
     );
 };
 

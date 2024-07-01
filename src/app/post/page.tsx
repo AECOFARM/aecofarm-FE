@@ -1,13 +1,11 @@
 'use client'
 import React from "react";
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
-import TopBar from "@/components/TopBar";
 import {useRouter} from "next/navigation";
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  margin-top: 60px;
+  margin-top: 100px;
   margin-bottom: 120px;
 `;
 
@@ -151,9 +149,7 @@ const PostButton = styled.div`
 
 const Post = () => {
   return(
-    <AppLayout>
-    <Wrapper>
-      <TopBar text="글쓰기" />
+      <Wrapper>
       <SelectContainer>
         <select>
           <option key="대여하고 싶어요" value="latest">대여하고 싶어요</option>
@@ -188,7 +184,6 @@ const Post = () => {
         </PostButton>
       </PostButtonContainer>
       </Wrapper>
-    </AppLayout>
   );
 };
 
