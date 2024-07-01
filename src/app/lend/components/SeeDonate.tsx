@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const DonateContainer = styled.div`
-  margin-right: 25px;
+  margin-left: 20px;
   width: 150px;
   display: flex;
 `;
@@ -12,8 +12,7 @@ const CheckDonateButton = styled.button`
   color: black;
   border: 0px;
   background-color: white;
-  width: auto;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 const CheckIcon = styled.img`

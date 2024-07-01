@@ -16,6 +16,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 500px;
   font-size: 18px;
   padding-top: 20px;
   z-index:10000;
