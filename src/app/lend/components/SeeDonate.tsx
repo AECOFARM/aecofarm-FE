@@ -34,8 +34,8 @@ const SeeDonate = () => {
 
 
   return (
-    <DonateContainer>
-      <CheckDonateButton onClick={checkSeeDonateStatus}>기부 모아보기</CheckDonateButton>
+    <DonateContainer onClick={checkSeeDonateStatus}>
+      <CheckDonateButton>기부 모아보기</CheckDonateButton>
       <CheckIcon src={SeeDonateSrc} alt='check' />
     </DonateContainer>
   )
