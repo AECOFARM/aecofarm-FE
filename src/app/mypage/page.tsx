@@ -16,7 +16,9 @@ const ListContainer = styled.div`
   padding: 0 10px;
   hr {
     width : 100%;
-    color: #686868;
+    border: 0;
+    height: 1px;
+    background-color: #686868;
   }
 `;
 
@@ -33,7 +35,9 @@ const RecentlyViewedListContainer = styled.div`
   border-radius: 20px;
   hr {
     width : 100%;
-    color: #686868;
+    border: 0;
+    height: 1px;
+    background-color: #686868;
   }
 `;
 
