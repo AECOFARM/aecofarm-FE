@@ -69,7 +69,7 @@ const SignUpPage = () => {
   const router = useRouter();
 
   const login = () => {
-    router.push('/lend');
+    router.push('/borrow');
   };
   
   const handleClick = () => {
