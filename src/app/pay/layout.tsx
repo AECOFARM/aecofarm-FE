@@ -19,8 +19,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppLayout>
           <Header />
-            <TopBar text = "상품 결제하기" />
-              {children}
+          <TopBar text="상품 결제하기" />
+            {children}
           <Navigation />
         </AppLayout>
       </body>
