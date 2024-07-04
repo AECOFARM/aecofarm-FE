@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import ItemPost from './components/ItemPost'; 
-
+import SeeDonate from './components/SeeDonate';
 
 const ButtonContainer = styled.div`
   position: fixed;
@@ -126,6 +126,7 @@ const BorrowPage = () => {
       <MainLayout>
         <ButtonContainer>
           <SelectBox/>
+          <SeeDonate/>
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (

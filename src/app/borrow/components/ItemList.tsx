@@ -7,6 +7,7 @@ const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  color: black;
 `;
 
 const exampleData = [
@@ -14,6 +15,7 @@ const exampleData = [
     "contractId": 123456,
     "itemId": 789012,
     "itemName": "게시물 제목 1",
+    "itemImage": "/images/item1.jpg",
     "price": 5000,
     "itemPlace": "서울시 강남구",
     "time": 1625123456,
@@ -28,6 +30,7 @@ const exampleData = [
     "contractId": 789012,
     "itemId": 345678,
     "itemName": "게시물 제목 2",
+    "itemImage": "/images/item2.jpg",
     "price": 8000,
     "itemPlace": "경기도 수원시",
     "time": 1625123456,
