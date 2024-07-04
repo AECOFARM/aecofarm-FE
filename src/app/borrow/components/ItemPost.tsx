@@ -41,7 +41,9 @@ const TimeAndPrice = styled.p`
   margin-bottom: 5px;
 `;
 
-const HashTags = styled.div``;
+const HashTags = styled.div`
+
+`;
 
 const HashTag = styled.span`
   background-color: white;
@@ -61,24 +63,12 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
-const LendButton = styled.button`
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: #FF792E;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-`;
-
 const ItemPost = ({ post }) => {
   const {
     contractId,
     itemId,
     itemName,
+    itemImage,
     itemPlace,
     price,
     time,
@@ -98,13 +88,9 @@ const ItemPost = ({ post }) => {
     setLikeStatus(prevStatus => !prevStatus);
   };
 
-  const handleLendClick = () => {
-    // Handle lend button click
-    console.log('Lend button clicked');
-  };
-
   return (
     <Container>
+      <ItemImage src={itemImage} alt={itemName} />
       <ItemInfo>
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
@@ -118,7 +104,6 @@ const ItemPost = ({ post }) => {
         </HashTags>
       </ItemInfo>
       <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-      <LendButton onClick={handleLendClick}>빌려주기</LendButton>
     </Container>
   );
 };

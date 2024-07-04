@@ -81,6 +81,7 @@
 
 html,
 body {
+  background-color: #ffffff;
   max-width: 100vw;
   overflow-x: hidden;
 }

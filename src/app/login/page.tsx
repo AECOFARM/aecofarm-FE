@@ -6,17 +6,21 @@ import { useRouter } from 'next/navigation';
 
 const Wrapper = styled.div`
   margin-top: 150px;
+  width: 100%; 
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const HeaderLogo = styled.img`
   padding: 35px 20px;
-  margin-left: 100px;
 `;
 
 
 const ButtonContainer = styled.div`
   gap: 13px;
-  margin-left: 32px;
+
   display: flex;
   flex-direction: column;
 `;
@@ -48,15 +52,18 @@ const PasswordIcon = styled.img`
 `;
 
 const ExtraButtonContainer = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   display: flex;
   width: 300px;
-  margin-left: 200px;
   margin-top: 10px;
   color: #757575;
+  align-items: right;
+  text-align: right;
+  justify-content: flex-end;
 `;
 
 const SignUpButton = styled.button`
+  font-size: 15px;
   margin: 0 5px;
   color: #757575;
   border: 0px;
@@ -69,7 +76,7 @@ const SignUpPage = () => {
   const router = useRouter();
 
   const login = () => {
-    router.push('/lend');
+    router.push('/borrow');
   };
   
   const handleClick = () => {
@@ -80,19 +87,19 @@ const SignUpPage = () => {
     <AppLayout>
       <Wrapper>
         <HeaderLogo src='/img/aeco-logo.svg'></HeaderLogo>
-        <ButtonContainer>
-          <Button type="email" placeholder="이메일"></Button>
-          <PasswordInputContainer>
-            <Button type="password" placeholder="비밀번호"></Button>
-            <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
-          </PasswordInputContainer>
-          <OrangeButton text='로그인' onClick={login}></OrangeButton>
-        </ButtonContainer>
-        <ExtraButtonContainer>
-          <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
-          <span> | </span>
-          <SignUpButton>비밀번호 찾기</SignUpButton>
-        </ExtraButtonContainer>
+          <ButtonContainer>
+            <Button type="email" placeholder="이메일"></Button>
+              <PasswordInputContainer>
+                <Button type="password" placeholder="비밀번호"></Button>
+                <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+              </PasswordInputContainer>
+              <OrangeButton text='로그인' onClick={login}></OrangeButton>
+              <ExtraButtonContainer>
+                <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
+                <span> | </span>
+                <SignUpButton>비밀번호 찾기</SignUpButton>
+            </ExtraButtonContainer>
+          </ButtonContainer>
       </Wrapper>
     </AppLayout>
   );
