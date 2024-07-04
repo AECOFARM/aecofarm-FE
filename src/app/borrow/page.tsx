@@ -30,7 +30,7 @@ const PostContainer = styled.div`
   width: 100%;
 `;
 
-const LendPage = () => {
+const BorrowPage = () => {
   const router = useRouter();
 
   const login = () => {
@@ -139,4 +139,4 @@ const LendPage = () => {
   );
 };
 
-export default LendPage;
+export default BorrowPage;

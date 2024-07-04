@@ -22,6 +22,7 @@ const ItemInfo = styled.div`
 `;
 
 const Title = styled.h2`
+  color: black;
   font-size: 19px;
   margin-bottom: 5px;
   font-weight: 600;

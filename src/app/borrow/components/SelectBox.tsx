@@ -23,6 +23,7 @@ const SelectButton = styled.button`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: black;
 
   &:hover,
   &:focus {
@@ -59,6 +60,7 @@ const OptionButton = styled.button`
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 15px;
+  color: black;
 
   &:hover,
   &:focus {
@@ -69,6 +71,7 @@ const OptionButton = styled.button`
 const OptionList = styled.li`
   padding: 3px 5px;
   margin: 0 3px;
+  color: black;
 `;
 
 const SelectBox = () => {
