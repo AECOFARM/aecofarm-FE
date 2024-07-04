@@ -152,10 +152,10 @@ const Post = () => {
       <Wrapper>
       <SelectContainer>
         <select>
-          <option key="대여하고 싶어요" value="latest">대여하고 싶어요</option>
-          <option key="빌려주고 싶어요" value="distance">빌려주고 싶어요</option>
-          <option key="학생회/동아리" value="low-price">학생회/동아리</option>
-          <option key="기부하기" value="high-price">기부하기</option>
+          <option key="대여하고 싶어요" value="borrow">대여하고 싶어요</option>
+          <option key="빌려주고 싶어요" value="lend">빌려주고 싶어요</option>
+          <option key="학생회/동아리" value="club">학생회/동아리</option>
+          <option key="기부하기" value="donate">기부하기</option>
         </select>
       </SelectContainer>
       <InputContainer>
