@@ -65,13 +65,18 @@ const LendButton = styled.button`
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background-color: #FF792E;
-  color: white;
+  background-color: white;
+  color: #FF792E;
   padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
+  border: 1px solid #DDDDDD;
+  border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
+
+  &:hover {
+    background-color: #FF792E;
+    color: white;
+  }
 `;
 
 const ItemPost = ({ post }) => {
