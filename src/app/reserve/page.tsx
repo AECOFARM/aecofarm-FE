@@ -76,6 +76,7 @@ const Reserve = () => {
         text = "예약하기" 
         onClick={handleClick} 
         checked={checkStatus}
+        disabled={!checkStatus} 
       />
     </Wrapper>
   );

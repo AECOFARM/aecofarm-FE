@@ -43,6 +43,7 @@ const Pay = () => {
         text = {`${exampleData.price} P 결제하기`} 
         onClick={handleClick} 
         checked={checkStatus}
+        disabled={!checkStatus} 
       />
     </Wrapper>
   );

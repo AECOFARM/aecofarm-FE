@@ -52,7 +52,7 @@ const GoToMain: React.FC<Props> = ({text}) => {
           </IconContainer>
           <p>{text}</p>
         </CompleteMessageContainer>
-        <ExtendedOrangeButton text="메인으로" onClick={handleClick} checked={true}/>
+        <ExtendedOrangeButton text="메인으로" onClick={handleClick} checked={true} disabled={false}/>
       </Wrapper>
     );
   }

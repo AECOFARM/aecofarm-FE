@@ -4,6 +4,7 @@ import React from "react";
 
 interface ModifiedButtonProps {
   checked: boolean;
+  disabled: boolean;
 }
 
 const ModifiedOrangeButton = styled(OrangeButton)<ModifiedButtonProps>`
@@ -17,10 +18,25 @@ interface ButtonProps {
   text: string;
   onClick: () => void;
   checked: boolean;
+  disabled: boolean;
 }
 
-const ExtendedOrangeButton: React.FC<ButtonProps> = ({ text, onClick, checked}) => (
-  <ModifiedOrangeButton text={text} onClick={onClick} checked={checked} />
-);
+const ExtendedOrangeButton: React.FC<ButtonProps> = ({ text, onClick, checked, disabled}) => {
+  
+  const handleClick = () => {
+    if (!disabled) {
+      onClick();
+    }
+  };
+
+  return (
+    <ModifiedOrangeButton 
+      text={text} 
+      onClick={handleClick} 
+      checked={checked} 
+      disabled={disabled} 
+    />
+  )
+};
 
 export default ExtendedOrangeButton;
