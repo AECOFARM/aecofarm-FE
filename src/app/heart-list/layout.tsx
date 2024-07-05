@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppLayout>
           <Header />
-          <TopBar text="좋아요 내역" />
+          <TopBar text="좋아요 목록" />
             {children}
           <Navigation />
         </AppLayout>

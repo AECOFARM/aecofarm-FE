@@ -1,7 +1,7 @@
 'use client'
 import styled from 'styled-components';
 import { Wrapper } from '@/components/CommonStyles';
-import MyItemList from './components/MyItemList';
+import MyItemList from './components/MyHeartList';
 
 const HeartList = () =>{
   return(
