@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { NextPage } from 'next';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 const ItemContainer = styled.div`
   .profileImage {
     border-radius: 10px;
-    width: 7rem;
-    height: 7rem; 
+    width: 100px;
+    height: 100px;
   }
   display: flex;
   flex-direction: column;
@@ -21,6 +20,7 @@ const ItemContainer = styled.div`
     background-color: #EBEBEB;
   }
   position: relative;
+  width: 100%;
 `;
 
 const IconContainer = styled.div`
@@ -30,8 +30,8 @@ const IconContainer = styled.div`
     width: 20px;
   }
   position: absolute;
-  top: 5.8rem;
-  left: 5.8rem;
+  top: 80px;
+  left: 80px;
 `;
 
 const ItemInfoContainer = styled.div`
@@ -95,7 +95,7 @@ const MyItemListItem: React.FC<ItemProps> = ({ item }) => {
       <ItemInfoContainer>
         <p className='price'>{price}</p>
         <p>|</p>
-        <p className='time'>{time}시간 대여</p>
+        <p className='time'>{time}시간</p>
       </ItemInfoContainer>
       <ItemTitle>{itemName}</ItemTitle>
       <IconContainer>
@@ -106,4 +106,3 @@ const MyItemListItem: React.FC<ItemProps> = ({ item }) => {
 }
 
 export default MyItemListItem;
-  

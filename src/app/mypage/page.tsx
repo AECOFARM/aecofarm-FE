@@ -42,8 +42,8 @@ const RecentlyViewedListContainer = styled.div`
 `;
 
 const TextContainer = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: #686868;
 `;
 
