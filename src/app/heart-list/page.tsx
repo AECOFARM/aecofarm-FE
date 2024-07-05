@@ -1,9 +1,14 @@
 'use client'
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
+import { Wrapper } from '@/components/CommonStyles';
+import MyItemList from './components/MyItemList';
 
-const Example = () =>{
-  return(<>Example 페이지로 이동 성공</>)
+const HeartList = () =>{
+  return(
+    <Wrapper>
+      <MyItemList></MyItemList>
+    </Wrapper>
+  );
 }
 
-export default Example;
+export default HeartList;
