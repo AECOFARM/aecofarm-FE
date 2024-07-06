@@ -25,6 +25,7 @@ const ButtonContainer = styled.div`
 const PostContainer = styled.div`
   position: fixed;
   top: 130px;
+  height: 75%;
   max-height: 635px;
   overflow-y: auto;
   width: 100%;
@@ -51,6 +52,7 @@ const BorrowPage = () => {
       "price": 3000,
       "itemPlace": "경영관",
       "time": 5,
+      "contractTime": 10,
       "itemHash": ["eunjeong", "맥북프로", "충전기"],
       "likeStatus": true,
       "donateStatus": false,
@@ -66,6 +68,7 @@ const BorrowPage = () => {
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime": 10,
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -81,6 +84,7 @@ const BorrowPage = () => {
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime":"10",
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -96,6 +100,7 @@ const BorrowPage = () => {
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime":"10",
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -111,6 +116,7 @@ const BorrowPage = () => {
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime":"10",
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,

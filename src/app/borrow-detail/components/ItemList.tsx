@@ -1,4 +1,3 @@
-// 예시: ItemList 컴포넌트
 import React from 'react';
 import styled from 'styled-components';
 import BorrowItemPost from '../../../components/BorrowItemPost';
@@ -10,10 +9,9 @@ const Container = styled.div`
 `;
 
 
-  // 예시 데이터
   const exampleData = [
     {
-      "contractId": 123456,
+      "contractId": 6,
       "itemId": 1,
       "itemName": "맥북 맥세이프 충전기",
       "itemImage": "",
@@ -29,7 +27,7 @@ const Container = styled.div`
       "highPrice": 25
     },
     {
-      "contractId": 789012,
+      "contractId": 7,
       "itemId": 2,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -45,7 +43,7 @@ const Container = styled.div`
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 8,
       "itemId": 3,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -61,7 +59,7 @@ const Container = styled.div`
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 9,
       "itemId": 4,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -77,7 +75,7 @@ const Container = styled.div`
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 10,
       "itemId": 5,
       "itemName": "아이패드 에어 4",
       "itemImage": "",
@@ -94,6 +92,7 @@ const Container = styled.div`
     }
   ];
 
+  
 const ItemList = () => {
   return (
     <Container>

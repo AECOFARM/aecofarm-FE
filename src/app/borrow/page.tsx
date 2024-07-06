@@ -19,12 +19,13 @@ const ButtonContainer = styled.div`
   max-width: 500px;
   font-size: 18px;
   padding-top: 20px;
-  z-index:10000;
+  z-index: 10000;
 `;
 
 const PostContainer = styled.div`
   position: fixed;
   top: 130px;
+  height: 75%;
   max-height: 635px;
   overflow-y: auto;
   width: 100%;
@@ -37,8 +38,8 @@ const BorrowPage = () => {
     router.push('/lend');
   };
 
-  const handleClick = () => {
-    router.push('/sign-up');
+  const moveDetail = (itemId: number) => {
+    router.push(`/borrow-detail/${itemId}`);
   };
 
   // 예시 데이터
@@ -51,6 +52,7 @@ const BorrowPage = () => {
       "price": 3000,
       "itemPlace": "경영관",
       "time": 5,
+      "contractTime": 10,
       "itemHash": ["eunjeong", "맥북프로", "충전기"],
       "likeStatus": true,
       "donateStatus": false,
@@ -66,6 +68,7 @@ const BorrowPage = () => {
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime": 10,
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -75,12 +78,13 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 3,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime": 10,
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -90,12 +94,13 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 4,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime": 10,
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -105,12 +110,13 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 5,
       "itemName": "아이패드 에어 4",
       "itemImage": "",
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,
+      "contractTime": 10,
       "itemHash": ["jeongseon", "네고가능", "상태좋음"],
       "likeStatus": false,
       "donateStatus": true,
@@ -130,7 +136,9 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <ItemPost key={post.itemId} post={post} />
+            <div onClick={() => moveDetail(post.itemId)}>
+              <ItemPost key={post.itemId} post={post} />
+            </div>
           ))}
         </PostContainer>
       </MainLayout>

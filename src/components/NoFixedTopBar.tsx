@@ -3,15 +3,15 @@ import { NextPage } from 'next';
 import { useRouter } from "next/navigation";
 
 const Header = styled.div`
-  position: fixed;
-  height: 50px;
-  top: 60px;
+  height: 60px;
   max-width: 500px;
   width: 100%;
   background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 10px;
+
   p {
     font-size: 1rem;
     font-weight: 700;
@@ -35,7 +35,7 @@ interface Props {
     text: string;
 }
 
-const TopBar: NextPage<Props> = ({ text }) => {
+const NoFixedTopBar: NextPage<Props> = ({ text }) => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -52,4 +52,4 @@ const TopBar: NextPage<Props> = ({ text }) => {
     );
 };
 
-export default TopBar;
+export default NoFixedTopBar;

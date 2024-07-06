@@ -37,10 +37,10 @@ const Navigation = () => {
       <HeaderContainer>
         <NavContainer>
           <Link href="/borrow" passHref>
-            <NavItem src='/img/borrow-icon.svg' alt='borrow'/>
+            <NavItem src='/img/borrow-icon.svg' alt='lend'/>
           </Link>
           <Link href="/lend" passHref>
-            <NavItem src='/img/lend-icon.svg' alt='lend'/>
+            <NavItem src='/img/lend-icon.svg' alt='borrow'/>
           </Link>
           <Link href="/post" passHref>
             <NavItem src='/img/post-icon.svg' alt='post'/>

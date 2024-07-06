@@ -16,6 +16,7 @@ const ItemImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
 `;
 
 const ItemInfo = styled.div`
@@ -33,10 +34,19 @@ const Title = styled.h2`
   font-weight: 600;
 `;
 
-const Place = styled.p`
+const Place = styled.div`
   font-size: 15px;
   color: #666666;
   margin: 5px 0 0 0;
+  display: flex;
+
+  img {
+   margin-right: 2px;  
+  }
+
+  div {
+   margin-left: 7px;
+  }
 `;
 
 const TimeAndPrice = styled.p`
@@ -107,6 +117,9 @@ const BorrowItemPost = ({ post }) => {
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
           <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
+          <div>
+            <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
+          </div>
         </Place>
         <HashTags>
           {itemHash.map((tag, index) => (

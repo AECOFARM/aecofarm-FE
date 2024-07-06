@@ -26,10 +26,19 @@ const Title = styled.h2`
   font-weight: 600;
 `;
 
-const Place = styled.p`
+const Place = styled.div`
   font-size: 15px;
   color: #666666;
   margin: 5px 0 0 0;
+  display: flex;
+  
+  img {
+   margin-right: 2px;  
+  }
+
+  div {
+   margin-left: 7px;
+  }
 `;
 
 const TimeAndPrice = styled.p`
@@ -64,12 +73,13 @@ const LendButton = styled.button`
   bottom: 10px;
   right: 20px;
   background-color: white;
-  color: #FF792E;
+  color: #FF792E;ㄴ
   padding: 10px 15px;
   border: 1px solid #DDDDDD;
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
+  padding: 8px 12px;
 
   &:hover {
     background-color: #FF792E;
@@ -85,6 +95,7 @@ const LendItemPost = ({ post }) => {
     itemPlace,
     price,
     time,
+    contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
     donateStatus,
@@ -113,6 +124,9 @@ const LendItemPost = ({ post }) => {
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
           <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
+          <div>
+            <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 희망
+          </div>
         </Place>
         <HashTags>
           {itemHash.map((tag, index) => (

@@ -97,9 +97,6 @@ const SelectBox = () => {
           <OptionButton onClick={() => handleOptionClick('최신순')}>최신순</OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('거리순')}>거리순</OptionButton>
-        </OptionList>
-        <OptionList>
           <OptionButton onClick={() => handleOptionClick('낮은 가격순')}>낮은 가격순</OptionButton>
         </OptionList>
         <OptionList>
