@@ -1,7 +1,7 @@
 // 예시: ItemList 컴포넌트
 import React from 'react';
 import styled from 'styled-components';
-import LendItemPost from '../../../components/LendItemPost'; // 실제 파일 위치에 맞게 수정하세요
+import LendItemPost from '../../../components/LendItemPost'; 
 
 const Container = styled.div`
   max-width: 800px;
@@ -17,6 +17,7 @@ const exampleData = [
     "price": 5000,
     "itemPlace": "서울시 강남구",
     "time": 1625123456,
+    "contractTime": 10,
     "itemHash": ["태그1", "태그2", "태그3"],
     "likeStatus": true,
     "donateStatus": false,
@@ -31,6 +32,7 @@ const exampleData = [
     "price": 8000,
     "itemPlace": "경기도 수원시",
     "time": 1625123456,
+    "contractTime": 10,
     "itemHash": ["태그4", "태그5", "태그6"],
     "likeStatus": false,
     "donateStatus": true,
