@@ -1,15 +1,15 @@
 'use client'
 import styled from 'styled-components';
 import { Wrapper } from '@/components/CommonStyles';
-import MyItemList from './components/MyHeartList';
+import MyItemList from './components/MyPostList';
 
 
-const HeartList = () =>{
+const PostList = () =>{
   return(
     <Wrapper>
-      <MyItemList/>
+      <MyItemList />
     </Wrapper>
   );
 }
 
-export default HeartList;
+export default PostList;

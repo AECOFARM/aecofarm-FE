@@ -3,7 +3,7 @@ import React from "react";
 import styled from 'styled-components';
 import ItemPreview from "@/components/ItemPreview";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
-import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/ReserveAndPayStyles";
+import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
 import {useRouter} from "next/navigation";
 import { useState } from "react";
 import Agreement from "@/components/Agreement";

@@ -1,7 +1,7 @@
 // 예시: ItemList 컴포넌트
 import React from 'react';
 import styled from 'styled-components';
-import ItemPost from './ItemPost'; // 실제 파일 위치에 맞게 수정하세요
+import BorrowItemPost from '../../../components/BorrowItemPost'; // 실제 파일 위치에 맞게 수정하세요
 
 const Container = styled.div`
   max-width: 800px;
@@ -47,7 +47,7 @@ const ItemList = () => {
   return (
     <Container>
       {exampleData.map((post) => (
-        <ItemPost key={post.itemId} post={post} />
+        <BorrowItemPost key={post.itemId} post={post} />
       ))}
     </Container>
   );
