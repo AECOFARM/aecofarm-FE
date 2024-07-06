@@ -4,9 +4,13 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 120px;
+  margin-top: 110px;
   margin-bottom: 120px;
   background-color: #ffffff;
+`;
+
+export const CategoryItemsContainer = styled.div`
+  margin-top: 50px;
 `;
 
 export const ListContainer = styled.div`
