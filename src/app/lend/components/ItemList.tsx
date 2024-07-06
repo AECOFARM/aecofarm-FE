@@ -46,7 +46,7 @@ const ItemList = () => {
   return (
     <Container>
       {exampleData.map((post) => (
-        <LendItemPost key={post.itemId} post={post} />
+        <LendItemPost key={post.itemId} post={post} buttonVisible={true}/>
       ))}
     </Container>
   );

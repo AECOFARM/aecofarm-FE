@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
-  padding: 15px 15px;
+  padding: 10px 10px;
   position: relative;
   display: flex;
   max-width: 480px;
@@ -27,7 +27,7 @@ const Title = styled.h2`
 `;
 
 const Place = styled.div`
-  font-size: 15px;
+  font-size: 13px;
   color: #666666;
   margin: 5px 0 0 0;
   display: flex;
@@ -42,7 +42,7 @@ const Place = styled.div`
 `;
 
 const TimeAndPrice = styled.p`
-  font-size: 15px;
+  font-size: 13px;
   color: #000000;
   font-weight: 400;
   margin-bottom: 5px;
@@ -56,7 +56,7 @@ const HashTag = styled.span`
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 const LikeIcon = styled.img`
@@ -68,12 +68,13 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
-const LendButton = styled.button`
+const LendButton = styled.button<{ visible: boolean }>`
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
   position: absolute;
   bottom: 10px;
   right: 20px;
   background-color: white;
-  color: #FF792E;ㄴ
+  color: #FF792E;
   padding: 10px 15px;
   border: 1px solid #DDDDDD;
   border-radius: 24px;
@@ -87,10 +88,29 @@ const LendButton = styled.button`
   }
 `;
 
-const LendItemPost = ({ post }) => {
+interface Post {
+  contractId: number;
+  itemId: number;
+  itemName: string;
+  itemPlace: string;
+  price: number;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+  likeStatus: boolean;
+  donateStatus: boolean;
+  distance: number;
+  lowPrice: number;
+  highPrice: number;
+}
+
+interface LendItemPostProps {
+  post: Post;
+  buttonVisible: boolean;
+}
+
+const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible }) => {
   const {
-    contractId,
-    itemId,
     itemName,
     itemPlace,
     price,
@@ -98,10 +118,6 @@ const LendItemPost = ({ post }) => {
     contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
-    donateStatus,
-    distance,
-    lowPrice,
-    highPrice
   } = post;
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
@@ -135,7 +151,7 @@ const LendItemPost = ({ post }) => {
         </HashTags>
       </ItemInfo>
       <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-      <LendButton onClick={handleLendClick}>빌려주기</LendButton>
+      <LendButton onClick={handleLendClick} visible={buttonVisible}>빌려주기</LendButton>
     </Container>
   );
 };

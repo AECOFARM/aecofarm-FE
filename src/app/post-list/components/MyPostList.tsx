@@ -13,7 +13,7 @@ const Container = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   align-items: center;
-  width: 100%;
+  width: 95%;
 `;
 
 const PostContainer = styled.div`
@@ -108,21 +108,49 @@ interface ExampleData {
         ],
         "likeStatus" : true, // 좋아요 여부
         "donateStatus" : false // 기부하기 여부
-    },
-    {
-      "contractId" : 4,
-      "itemName" : "초고속 멀티 충전기",
-      "itemImage" : "/img/item-image.png",
-      "price" : 3000,
-      "itemPlace" : "중앙도서관",
-      "time" : 5, // 대여 가능 시간 (ex. 3시간)
-      "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-      "itemHash" : [
-       "중도지킴이", "빠른거래가능", "초고속"
-      ],
-      "likeStatus" : true, // 좋아요 여부
-      "donateStatus" : false // 기부하기 여부
-  }
+      },
+      {
+        "contractId" : 4,
+        "itemName" : "초고속 멀티 충전기",
+        "itemImage" : "/img/item-image.png",
+        "price" : 0,
+        "itemPlace" : "중앙도서관",
+        "time" : 5, // 대여 가능 시간 (ex. 3시간)
+        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
+        "itemHash" : [
+         "중도지킴이", "빠른거래가능", "초고속"
+        ],
+        "likeStatus" : false, // 좋아요 여부
+        "donateStatus" : true // 기부하기 여부
+      },
+      {
+        "contractId" : 5,
+        "itemName" : "초고속 멀티 충전기",
+        "itemImage" : "/img/item-image.png",
+        "price" : 0,
+        "itemPlace" : "중앙도서관",
+        "time" : 5, // 대여 가능 시간 (ex. 3시간)
+        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
+        "itemHash" : [
+         "중도지킴이", "빠른거래가능", "초고속"
+        ],
+        "likeStatus" : true, // 좋아요 여부
+        "donateStatus" : true // 기부하기 여부
+      },
+      {
+        "contractId" : 6,
+        "itemName" : "초고속 멀티 충전기",
+        "itemImage" : "/img/item-image.png",
+        "price" : 3000,
+        "itemPlace" : "중앙도서관",
+        "time" : 5, // 대여 가능 시간 (ex. 3시간)
+        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
+        "itemHash" : [
+         "중도지킴이", "빠른거래가능", "초고속"
+        ],
+        "likeStatus" : true, // 좋아요 여부
+        "donateStatus" : false // 기부하기 여부
+      }
     ]
   };
 
@@ -143,6 +171,12 @@ const MyItemList: NextPage = () => {
       return exampleData.lendingItems.map((item) => ({
         ...item,
         type: "lending",
+      }));
+    } else if (selectedCategory === "기부하기") {
+      return exampleData.borrowingItems.filter((item) => item.donateStatus === true)
+      .map((item) => ({
+        ...item,
+        type: "borrowing",
       }));
     } else {
       return [
@@ -170,7 +204,7 @@ const MyItemList: NextPage = () => {
         <PostContainer>
           {filteredItems.map((item) => (
             item.type === "lending" ? (
-              <LendItemPost key={item.contractId} post={item as LendingItem} />
+              <LendItemPost key={item.contractId} post={item as LendingItem} buttonVisible={false} />
             ) : (
               <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
             )

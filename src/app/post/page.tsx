@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  margin-top: 100px;
+  margin-top: 110px;
   margin-bottom: 120px;
 `;
 
@@ -136,15 +136,16 @@ const NoticeButton = styled.p`
 `;
 
 const PostButton = styled.div`
-  background-color: #7EAA92;
-  width: 10rem;
-  height: 3rem;
-  font-size: 1.2rem;
+  background-color: #FF9B3F;
+  width: 30%;
+  height: 40px;
+  font-size: 1rem;
   font-weight: 700;
   border-radius: 15px;
   color: #FFFFFF;
   text-align: center;
-  padding: 12px;
+  padding: 10px;
+  cursor: pointer;
 `;
 
 const Post = () => {

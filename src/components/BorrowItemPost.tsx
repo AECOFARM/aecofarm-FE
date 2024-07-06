@@ -5,7 +5,7 @@ import DonateLabel from './DonateLabel';
 const Container = styled.div`
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
-  padding: 15px 15px;
+  padding: 10px 10px;
   position: relative;
   display: flex;
   max-width: 480px;
@@ -43,7 +43,7 @@ const Title = styled.h2`
 `;
 
 const Place = styled.div`
-  font-size: 15px;
+  font-size: 13px;
   color: #666666;
   margin: 5px 0 0 0;
   display: flex;
@@ -58,14 +58,13 @@ const Place = styled.div`
 `;
 
 const TimeAndPrice = styled.p`
-  font-size: 15px;
+  font-size: 14px;
   color: #000000;
   font-weight: 400;
   margin-bottom: 5px;
 `;
 
 const HashTags = styled.div`
-
 `;
 
 const HashTag = styled.span`
@@ -74,7 +73,8 @@ const HashTag = styled.span`
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 13px;
+  white-space: nowrap;
 `;
 
 const LikeIcon = styled.img`
@@ -122,7 +122,7 @@ const BorrowItemPost = ({ post }) => {
       <ItemImage src={imageSrc} alt={itemName} />
       <ItemInfo>
         <TitleContainer>
-        <Title>{itemName}</Title>
+          <Title>{itemName}</Title>
           {donateStatus === true && <DonateLabel />}
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
