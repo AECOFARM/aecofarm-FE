@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 import ItemPreview from "@/components/ItemPreview";
 import Agreement from "@/components/Agreement";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
-import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/ReserveAndPayStyles";
+import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
 import { useState } from "react";
 
 const SelectContainer = styled.div`
