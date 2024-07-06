@@ -38,9 +38,6 @@ const BorrowPage = () => {
     router.push('/lend');
   };
 
-  const handleClick = () => {
-    router.push('/sign-up');
-  };
 
   // 예시 데이터
   const exampleData = [
@@ -78,7 +75,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 3,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
@@ -94,7 +91,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 4,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
@@ -110,7 +107,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 5,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
@@ -135,7 +132,7 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <ItemPost key={post.itemId} post={post} />
+              <ItemPost key={post.itemId} post={post} />
           ))}
         </PostContainer>
       </MainLayout>
