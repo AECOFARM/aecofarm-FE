@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import { NextPage } from 'next';
+import React, {useState} from 'react';
 
 const ItemContainer = styled.div`
   .profileImage {
     border-radius: 10px;
-    width: 100px;
-    height: 100px;
+    width: 7rem;
+    height: 7rem; 
   }
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
   padding: 5px;
   background-color: #FFFFFF;
   border-radius: 10px;
@@ -20,18 +21,17 @@ const ItemContainer = styled.div`
     background-color: #EBEBEB;
   }
   position: relative;
-  width: 100%;
 `;
 
-const IconContainer = styled.div<{ visible: boolean }>`
-  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+const IconContainer = styled.div`
+  display: flex;
   align-items: center;
   img {
     width: 20px;
   }
   position: absolute;
-  top: 80px;
-  left: 80px;
+  top: 5.8rem;
+  left: 5.8rem;
 `;
 
 const ItemInfoContainer = styled.div`
@@ -41,74 +41,69 @@ const ItemInfoContainer = styled.div`
   gap: 5px;
   p {
     color: #686868;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
   }
   .time {
-    color: #686868;
-    font-weight: 700;
+    color: #000000;
   }
   .price {
     color: #DF5532;
-    font-weight: 700;
   }
 `;
 
 const ItemTitle = styled.p`
   font-size: 0.8rem;
   font-weight: 700;
-  color: #000000;
+  color: #686868;
 `;
 
 interface Item {
   contractId: number;
   itemName: string;
-  itemImage: string;
+  image: string;
   time: number;
   price: number;
-  likeStatus?: boolean;
+  likeStatus: boolean;
 }
 
 interface ItemProps {
   item: Item;
 }
 
-const MyItemListItem: React.FC<ItemProps> = React.memo(({ item }) => {
+const MyItemListItem: React.FC<ItemProps> = ({ item }) => {
   const {
     contractId,
     itemName,
-    itemImage,
+    image,
     time,
     price,
     likeStatus: initialLikeStatus,
   } = item;
 
-  const [likeStatus, setLikeStatus] = useState(initialLikeStatus || false);
+  const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
   
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
-  };
-
-  let imageSrc = itemImage;
-  if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
   }
 
   return (
     <ItemContainer>
-      <img className='profileImage' src = {imageSrc} alt = "item" />
-      <ItemTitle>{itemName}</ItemTitle>
+      <img className='profileImage' src = {image} alt = "item" />
       <ItemInfoContainer>
-        <p className='price'>{price} P</p>
+        <p className='price'>{price}</p>
         <p>|</p>
-        <p className='time'>{time}시간</p>
+        <p className='time'>{time}시간 대여</p>
       </ItemInfoContainer>
-      <IconContainer visible={initialLikeStatus !== undefined}>
+      <ItemTitle>{itemName}</ItemTitle>
+      <IconContainer>
         <img src = {likeIconSrc} alt = "like" onClick={toggleLikeStatus} />
       </IconContainer>
     </ItemContainer>
   )
-});
+}
 
 export default MyItemListItem;
+  

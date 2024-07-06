@@ -18,7 +18,6 @@ const Header = styled.div`
     color: #000000;
     text-align: center;
   }
-  z-index: 1000;
 `;
 
 const IconContainer = styled.div`

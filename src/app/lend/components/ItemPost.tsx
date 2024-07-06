@@ -4,26 +4,21 @@ import styled from 'styled-components';
 const Container = styled.div`
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
-  padding: 15px 15px;
+  margin: 10px 20px 0;
+  padding: 10px 0;
   position: relative;
   display: flex;
   max-width: 480px;
-  width: 100%;
-  justify-content: center;
 `;
 
 const ItemImage = styled.img`
   width: 100px;
-  height: 100px;
   border-radius: 10px;
 `;
 
 const ItemInfo = styled.div`
   width: 75%;
-  padding: 0 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 0 10px;
 `;
 
 const Title = styled.h2`
@@ -46,9 +41,7 @@ const TimeAndPrice = styled.p`
   margin-bottom: 5px;
 `;
 
-const HashTags = styled.div`
-
-`;
+const HashTags = styled.div``;
 
 const HashTag = styled.span`
   background-color: white;
@@ -62,22 +55,38 @@ const HashTag = styled.span`
 const LikeIcon = styled.img`
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 10px;
   width: 24px;
   height: 24px;
   cursor: pointer;
 `;
 
+const LendButton = styled.button`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: white;
+  color: #FF792E;
+  padding: 10px 15px;
+  border: 1px solid #DDDDDD;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 14px;
 
-const BorrowItemPost = ({ post }) => {
+  &:hover {
+    background-color: #FF792E;
+    color: white;
+  }
+`;
+
+const ItemPost = ({ post }) => {
   const {
     contractId,
+    itemId,
     itemName,
-    itemImage,
     itemPlace,
     price,
     time,
-    contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
     donateStatus,
@@ -94,14 +103,13 @@ const BorrowItemPost = ({ post }) => {
     setLikeStatus(prevStatus => !prevStatus);
   };
 
-  let imageSrc = itemImage;
-  if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
-  }
+  const handleLendClick = () => {
+    // Handle lend button click
+    console.log('Lend button clicked');
+  };
 
   return (
     <Container>
-      <ItemImage src={imageSrc} alt={itemName} />
       <ItemInfo>
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
@@ -115,8 +123,9 @@ const BorrowItemPost = ({ post }) => {
         </HashTags>
       </ItemInfo>
       <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+      <LendButton onClick={handleLendClick}>빌려주기</LendButton>
     </Container>
   );
 };
 
-export default BorrowItemPost;
+export default ItemPost;

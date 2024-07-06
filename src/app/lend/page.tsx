@@ -7,7 +7,7 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
-import ItemPost from '../../components/LendItemPost'; 
+import ItemPost from './components/ItemPost'; 
 
 
 const ButtonContainer = styled.div`

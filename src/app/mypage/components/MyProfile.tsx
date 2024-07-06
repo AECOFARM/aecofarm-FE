@@ -83,9 +83,6 @@ const ButtonContainer = styled.div`
     font-size: 0.6rem;
     color: #AAAAAA;
   }
-  .logout, .edit {
-    cursor: pointer;
-  }
 `;
 
 interface ProfileProps {
@@ -111,9 +108,9 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
           </ProfilePointContainer>
         </ProfileContentContainer>
         <ButtonContainer>
-            <p className='edit'>프로필 수정</p>
+            <p>프로필 수정</p>
             <p>|</p>
-            <p className='logout'>로그아웃</p>
+            <p>로그아웃</p>
         </ButtonContainer>
     </ProfileContainer>
   );
