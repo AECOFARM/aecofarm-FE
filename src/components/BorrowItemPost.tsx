@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import DonateLabel from './DonateLabel';
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -25,6 +26,13 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
 `;
 
 const Title = styled.h2`
@@ -113,7 +121,10 @@ const BorrowItemPost = ({ post }) => {
     <Container>
       <ItemImage src={imageSrc} alt={itemName} />
       <ItemInfo>
+        <TitleContainer>
         <Title>{itemName}</Title>
+          {donateStatus === true && <DonateLabel />}
+        </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
           <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}

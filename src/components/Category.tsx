@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 10px;
+  padding: 15px;
   gap: 10px;
   width: 100%;
   max-width: 500px;
@@ -30,7 +30,7 @@ const CategoryContainer = styled.div<{ isSelected: boolean }>`
   }
 `;
 
-const categories = ["전체", "대여하기", "빌려주기"];
+const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
 
 interface CategoryProps {
   selectedCategory: string;
