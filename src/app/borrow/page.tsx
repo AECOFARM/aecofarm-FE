@@ -19,7 +19,7 @@ const ButtonContainer = styled.div`
   max-width: 500px;
   font-size: 18px;
   padding-top: 20px;
-  z-index:10000;
+  z-index: 10000;
 `;
 
 const PostContainer = styled.div`
@@ -38,8 +38,8 @@ const BorrowPage = () => {
     router.push('/lend');
   };
 
-  const handleClick = () => {
-    router.push('/sign-up');
+  const moveDetail = (itemId: number) => {
+    router.push(`/borrow-detail/${itemId}`);
   };
 
   // 예시 데이터
@@ -78,7 +78,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 3,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
@@ -94,7 +94,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 4,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
       "price": 5000,
@@ -110,7 +110,7 @@ const BorrowPage = () => {
     },
     {
       "contractId": 789012,
-      "itemId": 2,
+      "itemId": 5,
       "itemName": "아이패드 에어 4",
       "itemImage": "",
       "price": 5000,
@@ -136,7 +136,9 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <ItemPost key={post.itemId} post={post} />
+            <div onClick={() => moveDetail(post.itemId)}>
+              <ItemPost key={post.itemId} post={post} />
+            </div>
           ))}
         </PostContainer>
       </MainLayout>
