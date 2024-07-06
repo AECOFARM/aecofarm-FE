@@ -25,6 +25,7 @@ const ButtonContainer = styled.div`
 const PostContainer = styled.div`
   position: fixed;
   top: 130px;
+  height: 75%;
   max-height: 635px;
   overflow-y: auto;
   width: 100%;
