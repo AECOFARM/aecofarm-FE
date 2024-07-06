@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { useRouter } from "next/navigation";
 
 const Header = styled.div`
-  height: 60px;
+  height: 45px;
   max-width: 500px;
   width: 100%;
   background-color: #FFFFFF;

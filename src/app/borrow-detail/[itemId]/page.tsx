@@ -9,9 +9,10 @@ import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 
 interface ItemDetail {
-  contractId: number;
   itemId: number;
   itemName: string;
+  itemContent: string;
+  kakao: string;
   itemImage: string;
   price: number;
   itemPlace: string;
@@ -20,9 +21,6 @@ interface ItemDetail {
   itemHash: string[];
   likeStatus: boolean;
   donateStatus: boolean;
-  distance: number;
-  lowPrice: number;
-  highPrice: number;
 }
 
 const Container = styled.div`
@@ -30,16 +28,18 @@ const Container = styled.div`
   border: 1px solid #e0e0e0;
   padding: 20px;
   position: relative;
-  max-width: 460px;
-  width: 100%;
+  max-width: 440px;
+  width: 90%;
   border-radius: 10px;
-  margin: 10px;
+  margin: 20px;
   max-height: 700px;
+  margin: auto;
+
 `;
 
 const ItemInfo = styled.div`
   width: 100%;
-  padding: 0 10px;
+  padding: 15px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,7 +53,7 @@ const Title = styled.h2`
 `;
 
 const Chat = styled.div`
-  font-size: 17px;
+  font-size: 13px;
   color: #666666;
   margin: 5px 0 0 0;
   display: flex;
@@ -77,6 +77,14 @@ const Place = styled.div`
   div {
    margin-left: 7px;
   }
+`;
+
+
+const Content = styled.div`
+  font-size: 17px;
+  color: #717171;
+  font-weight: 400;
+  margin-bottom: 5px;
 `;
 
 const TimeAndPrice = styled.p`
@@ -106,7 +114,7 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
-const LendButton = styled.button`
+const LendButton = styled.a`
   background-color: white;
   color: #FF792E;
   padding: 12px 15px;
@@ -115,7 +123,6 @@ const LendButton = styled.button`
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
-
 
   &:hover {
     background-color: #FF792E;
@@ -135,11 +142,13 @@ const DetailContainer = styled.div`
 
 const ItemImage = styled.img`
   width: 100%;
-  max-width: 410px;
-  height: 410px;
+  max-width: 400px;
+  max-height: 375px;
   margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid #e0e0e0;
+  margin: auto;
+  display: block;
 `;
 
 const BorrowDetailPage = () => {
@@ -157,9 +166,10 @@ const BorrowDetailPage = () => {
       // Replace with your API call
       const exampleData: ItemDetail[] = [
         {
-              "contractId": 123456,
               "itemId": 1,
               "itemName": "맥북 맥세이프 충전기",
+              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
               "price": 3000,
               "itemPlace": "경영관",
@@ -167,16 +177,14 @@ const BorrowDetailPage = () => {
               "contractTime": 10,
               "itemHash": ["eunjeong", "맥북프로", "충전기"],
               "likeStatus": true,
-              "donateStatus": false,
-              "distance": 10,
-              "lowPrice": 2,
-              "highPrice": 25
+              "donateStatus": false
             },
             {
-              "contractId": 789012,
               "itemId": 2,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
+              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 5000,
               "itemPlace": "신공학관",
               "time": 3,
@@ -184,15 +192,13 @@ const BorrowDetailPage = () => {
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
               "donateStatus": true,
-              "distance": 15,
-              "lowPrice": 5,
-              "highPrice": 30
             },
             {
-              "contractId": 789012,
               "itemId": 3,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
+              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 5000,
               "itemPlace": "신공학관",
               "time": 3,
@@ -200,15 +206,13 @@ const BorrowDetailPage = () => {
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
               "donateStatus": true,
-              "distance": 15,
-              "lowPrice": 5,
-              "highPrice": 30
             },
             {
-              "contractId": 789012,
               "itemId": 4,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
+              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 5000,
               "itemPlace": "신공학관",
               "time": 3,
@@ -216,14 +220,12 @@ const BorrowDetailPage = () => {
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
               "donateStatus": true,
-              "distance": 15,
-              "lowPrice": 5,
-              "highPrice": 30
             },
             {
-              "contractId": 789012,
               "itemId": 5,
               "itemName": "아이패드 에어 4",
+              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
               "price": 5000,
               "itemPlace": "신공학관",
@@ -232,9 +234,6 @@ const BorrowDetailPage = () => {
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
               "donateStatus": true,
-              "distance": 15,
-              "lowPrice": 5,
-              "highPrice": 30
             }
           ];
       const item = exampleData.find((item) => item.itemId === Number(itemId));
@@ -265,50 +264,57 @@ const BorrowDetailPage = () => {
 
   const {
     itemName,
+    itemContent,
+    kakao,
     itemImage,
     itemPlace,
     price,
     time,
     contractTime,
     itemHash,
+    donateStatus
+
   } = itemDetail;
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
   return (
     <AppLayout>
-      <NoFixedTopBar text=''/>
-        <Container>
-          <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
-          <ItemInfo>
-            <Title>{itemName}</Title>
-            <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
-            <Chat>
-              <img src='/img/chat-icon.svg'/> 오픈채팅방 링크 :
-            </Chat>
-            <Place>
-              <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
-              <div>
-                <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
-              </div>
-            </Place>
-            <HashTags>
-              {itemHash.map((tag, index) => (
-                <HashTag key={index}>#{tag}</HashTag>
-              ))}
-            </HashTags>
-          </ItemInfo>
-          <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-          <ButtonContainer>
-            <LendButton onClick={() => console.log('Lend item')}>
-              오픈채팅 바로가기
-            </LendButton>
-            <LendButton onClick={() => console.log('Lend item')}>
-              대여 요청하기
-            </LendButton>
-          </ButtonContainer>
-        </Container>
- 
+      <Header/>
+        <MainLayout>
+          <NoFixedTopBar text=''/>
+            <Container>
+              <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
+              <ItemInfo>
+                <Title>{itemName}</Title>
+                <Content>{itemContent}</Content>
+                <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
+                <Chat>
+                  <img src='/img/chat-icon.svg'/> {kakao}
+                </Chat>
+                <Place>
+                  <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
+                  <div>
+                    <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
+                  </div>
+                </Place>
+                <HashTags>
+                  {itemHash.map((tag, index) => (
+                    <HashTag key={index}>#{tag}</HashTag>
+                  ))}
+                </HashTags>
+              </ItemInfo>
+            <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+            <ButtonContainer>
+              <LendButton href={kakao} target="_blank">
+                오픈채팅 바로가기
+              </LendButton>
+              <LendButton onClick={() => console.log('Lend item')}>
+                대여 요청하기
+              </LendButton>
+            </ButtonContainer>
+          </Container>
+        </MainLayout>
       <Navigation />
     </AppLayout>
   );
