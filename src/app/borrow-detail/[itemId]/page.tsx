@@ -139,6 +139,7 @@ const ItemImage = styled.img`
   height: 410px;
   margin-bottom: 20px;
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
 `;
 
 const BorrowDetailPage = () => {

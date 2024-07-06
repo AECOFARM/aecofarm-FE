@@ -16,6 +16,7 @@ const ItemImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
 `;
 
 const ItemInfo = styled.div`
