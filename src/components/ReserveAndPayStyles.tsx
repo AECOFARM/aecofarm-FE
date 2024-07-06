@@ -4,21 +4,9 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 110px;
+  margin-top: 120px;
   margin-bottom: 120px;
   background-color: #ffffff;
-`;
-
-export const CategoryItemsContainer = styled.div`
-  margin-top: 50px;
-`;
-
-export const ListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
-  gap: 0px;
-  position: relative;
-  height: auto;
 `;
 
 export const Container = styled.div`
@@ -56,4 +44,3 @@ export const PaymentContainer = styled.div`
     font-weight: 600;
   }
 `;
-

@@ -7,7 +7,7 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
-import ItemPost from '../../components/BorrowItemPost'; 
+import ItemPost from './components/ItemPost'; 
 import SeeDonate from './components/SeeDonate';
 
 const ButtonContainer = styled.div`
@@ -47,7 +47,7 @@ const BorrowPage = () => {
       "contractId": 123456,
       "itemId": 1,
       "itemName": "맥북 맥세이프 충전기",
-      "itemImage": "",
+      "itemImage": "/img/item-image.png",
       "price": 3000,
       "itemPlace": "경영관",
       "time": 5,
@@ -107,7 +107,7 @@ const BorrowPage = () => {
       "contractId": 789012,
       "itemId": 2,
       "itemName": "아이패드 에어 4",
-      "itemImage": "",
+      "itemImage": "/img/item-image.png",
       "price": 5000,
       "itemPlace": "신공학관",
       "time": 3,

@@ -14,7 +14,7 @@ const Container = styled.div`
 interface Item {
     contractId: number;
     itemName: string;
-    itemImage: string;
+    image: string;
     time: number;
     price: number;
     likeStatus: boolean;
@@ -24,15 +24,15 @@ const exampleData: Item[] = [
     {
         "contractId" : 1234,
         "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
+        "image" : "/img/Item-image.png",
         "time" : 5,
         "price" : 3000,
-        "likeStatus" : false // 좋아요 여부
+        "likeStatus" : true // 좋아요 여부
     },
     {
         "contractId" : 1235,
         "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "",
+        "image" : "/img/Item-image.png",
         "time" : 5,
         "price" : 3000,
         "likeStatus" : true // 좋아요 여부
@@ -40,15 +40,15 @@ const exampleData: Item[] = [
     {
         "contractId" : 1236,
         "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
+        "image" : "/img/Item-image.png",
         "time" : 5,
         "price" : 3000,
-        "likeStatus" : false // 좋아요 여부
+        "likeStatus" : true // 좋아요 여부
     },
     {
         "contractId" : 1237,
         "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
+        "image" : "/img/Item-image.png",
         "time" : 5,
         "price" : 3000,
         "likeStatus" : true // 좋아요 여부
