@@ -64,7 +64,7 @@ const LendButton = styled.button`
   bottom: 10px;
   right: 20px;
   background-color: white;
-  color: #FF792E;
+  color: #FF792E;ㄴ
   padding: 10px 15px;
   border: 1px solid #DDDDDD;
   border-radius: 24px;
