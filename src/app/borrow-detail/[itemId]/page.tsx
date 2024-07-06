@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
+import NoFixedTopBar from '@/components/NoFixedTopBar';
 
 interface ItemDetail {
   contractId: number;
@@ -34,7 +35,6 @@ const Container = styled.div`
   border-radius: 10px;
   margin: 10px;
   max-height: 700px;
-
 `;
 
 const ItemInfo = styled.div`
@@ -277,8 +277,7 @@ const BorrowDetailPage = () => {
 
   return (
     <AppLayout>
-      <Header />
-      <MainLayout>
+      <NoFixedTopBar text=''/>
         <Container>
           <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
           <ItemInfo>
@@ -309,7 +308,7 @@ const BorrowDetailPage = () => {
             </LendButton>
           </ButtonContainer>
         </Container>
-      </MainLayout>
+ 
       <Navigation />
     </AppLayout>
   );
