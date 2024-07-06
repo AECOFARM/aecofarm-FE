@@ -55,19 +55,15 @@ const Mypage = () => {
     router.push('/heart-list');
   };
 
-  const borrowList = () => {
-    router.push('/borrow-list');
-  };
-  
-  const lendList = () => {
-    router.push('/lend-list');
+  const postList = () => {
+    router.push('/post-list');
   };
 
   const profile = {
-    email: "aeco@naver.com",
-    userName: "아기코끼리",
-    point: 108,
-    image: "/img/defaultImage.png"
+    "email": "aeco@naver.com",
+    "userName": "아기코끼리",
+    "point": 108,
+    "image": "/img/profile-image.png"
   };
   
   return (
@@ -81,9 +77,7 @@ const Mypage = () => {
       <ListContainer>
         <MypageList img = "/heart-list.svg" text="내가 좋아요한 게시물" onClick={heartList}></MypageList>
         <hr/>
-        <MypageList img = "/borrow.svg" text="내가 쓴 대여하기 게시물" onClick={borrowList}></MypageList>
-        <hr/>
-        <MypageList img = "/lend.svg" text="내가 쓴 빌려주기 게시물" onClick={lendList}></MypageList>
+        <MypageList img = "/post-list.svg" text="내가 쓴 게시물" onClick={postList}></MypageList>
       </ListContainer>
       <RecentlyViewedListContainer>
         <TextContainer>최근 본 대여 물품</TextContainer>

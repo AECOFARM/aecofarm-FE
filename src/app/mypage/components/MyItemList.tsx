@@ -32,7 +32,7 @@ const exampleData: Item[] = [
     {
         "contractId" : 1235,
         "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
+        "itemImage" : "",
         "time" : 5,
         "price" : 3000,
         "likeStatus" : true // 좋아요 여부
