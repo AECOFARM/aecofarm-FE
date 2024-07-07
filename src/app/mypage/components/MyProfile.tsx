@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -96,6 +97,12 @@ interface ProfileProps {
 }
 
 const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
+  const router = useRouter();
+
+  const profileEdit = () => {
+    router.push('/mypage/edit');
+  }
+
   return (
     <ProfileContainer>
         <ProfileImageContainer src = {image} />
@@ -111,7 +118,7 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
           </ProfilePointContainer>
         </ProfileContentContainer>
         <ButtonContainer>
-            <p className='edit'>프로필 수정</p>
+            <p onClick={profileEdit} className='edit'>프로필 수정</p>
             <p>|</p>
             <p className='logout'>로그아웃</p>
         </ButtonContainer>
