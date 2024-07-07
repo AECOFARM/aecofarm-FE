@@ -9,6 +9,7 @@ const Container = styled.div`
   display: flex;
   max-width: 480px;
   width: 100%;
+  cursor: pointer;
 `;
 
 const ItemInfo = styled.div`

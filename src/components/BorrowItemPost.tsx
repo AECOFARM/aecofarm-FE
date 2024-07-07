@@ -11,6 +11,7 @@ const Container = styled.div`
   max-width: 480px;
   width: 100%;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const ItemImage = styled.img`
@@ -26,26 +27,25 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 5px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 5px;
 `;
 
 const Title = styled.h2`
   color: black;
   font-size: 19px;
-  margin-bottom: 5px;
   font-weight: 600;
 `;
 
 const Place = styled.div`
   font-size: 13px;
   color: #666666;
-  margin: 5px 0 0 0;
   display: flex;
 
   img {
@@ -61,7 +61,6 @@ const TimeAndPrice = styled.p`
   font-size: 14px;
   color: #000000;
   font-weight: 400;
-  margin-bottom: 5px;
 `;
 
 const HashTags = styled.div`
