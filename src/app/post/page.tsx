@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, {useState} from "react";
 import styled from 'styled-components';
 import {useRouter} from "next/navigation";
 
@@ -133,6 +133,7 @@ const NoticeButton = styled.p`
   font-size: 0.9rem;
   text-decoration: underline;
   color: #000000;
+  cursor: pointer;
 `;
 
 const PostButton = styled.div`
@@ -149,20 +150,33 @@ const PostButton = styled.div`
 `;
 
 const Post = () => {
+  const router = useRouter();
+
+  const [category, setCategory] = useState("BORROW");
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value);
+  };
+
+  const handleClick = () => {
+    router.push('/borrow');
+    // 실제 글쓰기 시 생성된 글의 상세페이지로 가도록 수정
+  };
+
   return(
       <Wrapper>
       <SelectContainer>
-        <select>
-          <option key="대여하고 싶어요" value="borrow">대여하고 싶어요</option>
-          <option key="빌려주고 싶어요" value="lend">빌려주고 싶어요</option>
-          <option key="학생회/동아리" value="club">학생회/동아리</option>
-          <option key="기부하기" value="donate">기부하기</option>
+        <select value={category} onChange={handleCategoryChange}>
+          <option key="빌려주고 싶어요" value="BORROW">빌려주고 싶어요</option>
+          <option key="대여하고 싶어요" value="LEND">대여하고 싶어요</option>
         </select>
       </SelectContainer>
       <InputContainer>
-        <ImageInputContainer>
+        {category === "BORROW" && (
+          <ImageInputContainer>
             <div className="image" />
-        </ImageInputContainer>
+          </ImageInputContainer>
+        )}
         <TextInput type='text' placeholder="상품명"/>
         <TextInput type='text' placeholder="오픈채팅방 링크"/>
         <TextInput type='text' placeholder="# 태그"/>
@@ -180,7 +194,7 @@ const Post = () => {
       </InputContainer>
       <PostButtonContainer>
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <PostButton>
+        <PostButton onClick={handleClick}>
           등록하기
         </PostButton>
       </PostButtonContainer>
