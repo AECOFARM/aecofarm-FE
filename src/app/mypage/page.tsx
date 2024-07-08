@@ -61,7 +61,7 @@ const Mypage = () => {
 
   const profile = {
     "email": "aeco@naver.com",
-    "userName": "아기코끼리",
+    "userName": "이아코",
     "point": 108,
     "image": "/img/profile-image.png"
   };

@@ -21,7 +21,7 @@ const ItemInfoContainer = styled.div`
 `;
 
 const ItemName = styled.p`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #000000;
 `;
@@ -35,8 +35,8 @@ const ItemHashTags = styled.div`
 `;
 
 const ItemHashTag = styled.p`
-  color: #FF9B3F;
-  font-size: 0.7rem;
+  color: var(--orange1);
+  font-size: 0.8rem;
   white-space: nowrap;
 `;
 
@@ -46,8 +46,8 @@ const TimeAndPrice = styled.div`
   gap: 5px;
   align-items: flex-start;
   p {
-    font-size: 0.7rem;
-    color: #999999;
+    font-size: 0.8rem;
+    color: var(--gray5);
   }
 `;
 
@@ -67,8 +67,8 @@ const ItemPlace = styled.div`
   justify-content: center;
   gap: 5px;
   p {
-    font-size: 0.7rem;
-    color: #999999;
+    font-size: 0.8rem;
+    color: var(--gray5);
   }
 `;
 
@@ -78,8 +78,8 @@ const ItemContractTime = styled.div`
   justify-content: center;
   gap: 5px;
   p {
-    font-size: 0.7rem;
-    color: #999999;
+    font-size: 0.8rem;
+    color: var(--gray5);
   }
 `;
 
@@ -129,7 +129,7 @@ const ItemPreview: React.FC<ItemProps> = ({item}) => {
             <TimeAndPrice>
                 <p>{time}시간</p>
                 <p>|</p>
-                <p>{price}원</p>
+                 <p>{price}원</p>
             </TimeAndPrice>
             <PlaceAndContract>
               <ItemPlace>

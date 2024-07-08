@@ -11,7 +11,7 @@ const ModifiedOrangeButton = styled(OrangeButton)<ModifiedButtonProps>`
   font-weight: 600;
   width: 90%;
   margin: 20px;
-  background-color: ${({ checked }) => (checked ? "#FF9B3F" : "#ADADAD")};
+  background-color: ${({ checked }) => (checked ? "#FF9B3F" : "var(--gray4)")};
 `;
 
 interface ButtonProps {
