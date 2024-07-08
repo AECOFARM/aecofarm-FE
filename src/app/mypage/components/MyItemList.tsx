@@ -60,7 +60,7 @@ const MyItemList: NextPage = () => {
         <Container>
             {exampleData.map((item) => (
                 <MyItemListItem 
-                    key={item.contractId} item={item}
+                    key={item.contractId} item={item} imageHeight="100px" imageWidth="100px"
                 />
             ))}
         </Container>

@@ -16,6 +16,15 @@ const HeaderContainer = styled.header`
   margin-top: 20px;
   background-color: #FFFFFF;
   z-index: 1000;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background-color: #FFFFFF;
+  }
 `;
 
 const Logo = styled.div`

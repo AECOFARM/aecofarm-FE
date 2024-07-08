@@ -132,8 +132,8 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-              <ItemPost key={post.itemId} post={post} />
-          ))}
+            <ItemPost key={post.itemId} post={post} buttonVisible={true}/>
+           ))}
         </PostContainer>
       </MainLayout>
       <Navigation/>

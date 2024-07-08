@@ -1,12 +1,8 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import Router from 'next/navigation';
 
 const ItemContainer = styled.div`
-  .profileImage {
-    border-radius: 10px;
-    width: 100px;
-    height: 100px;
-  }
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,6 +17,13 @@ const ItemContainer = styled.div`
   }
   position: relative;
   width: 100%;
+`;
+
+const ProfileImage = styled.img<{ width: string, height: string }>`
+  border-radius: 10px;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  aspect-ratio: 1 / 1; /* Width와 Height를 동일하게 유지 */
 `;
 
 const IconContainer = styled.div<{ visible: boolean }>`
@@ -70,9 +73,12 @@ interface Item {
 
 interface ItemProps {
   item: Item;
+  onClick: () => void;
+  imageWidth: string;
+  imageHeight: string;
 }
 
-const MyItemListItem: React.FC<ItemProps> = React.memo(({ item }) => {
+const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHeight, imageWidth }) => {
   const {
     contractId,
     itemName,
@@ -97,7 +103,7 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item }) => {
 
   return (
     <ItemContainer>
-      <img className='profileImage' src = {imageSrc} alt = "item" />
+      <ProfileImage src={imageSrc} alt="item" width={imageWidth} height={imageHeight} />
       <ItemTitle>{itemName}</ItemTitle>
       <ItemInfoContainer>
         <p className='price'>{price} P</p>

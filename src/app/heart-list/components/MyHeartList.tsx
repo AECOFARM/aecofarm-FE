@@ -8,6 +8,7 @@ import Category from "@/components/Category";
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
+  width: 95%;
 `;
 
 const ItemContainer = styled.div`
@@ -65,7 +66,7 @@ const exampleData: ExampleData = {
       "itemName": "초고속 멀티 충전기",
       "itemImage": "/img/Item-image.png",
       "time": 5,
-      "price": 3000,
+      "price": 0,
     },
     {
       "contractId": 1237,
@@ -76,6 +77,20 @@ const exampleData: ExampleData = {
     },
     {
       "contractId": 1238,
+      "itemName": "초고속 멀티 충전기",
+      "itemImage": "/img/Item-image.png",
+      "time": 5,
+      "price": 3000,
+    },
+    {
+      "contractId": 1239,
+      "itemName": "초고속 멀티 충전기",
+      "itemImage": "/img/Item-image.png",
+      "time": 5,
+      "price": 0,
+    },
+    {
+      "contractId": 1240,
       "itemName": "초고속 멀티 충전기",
       "itemImage": "/img/Item-image.png",
       "time": 5,
@@ -91,11 +106,16 @@ const MyItemList: NextPage = () => {
     setSelectedCategory(category);
   }, []);
 
+  const imageSize = "100%";
+
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return exampleData.lendingItems;
-    } else if (selectedCategory === "빌려주기") {
       return exampleData.borrowingItems;
+    } else if (selectedCategory === "빌려주기") {
+      return exampleData.lendingItems;
+    } else if (selectedCategory === "기부하기") {
+      return exampleData.borrowingItems
+      .filter((item) => item.price === 0);
     } else {
       return [...exampleData.lendingItems, ...exampleData.borrowingItems];
     }
@@ -113,7 +133,7 @@ const MyItemList: NextPage = () => {
     <ListContainer>
       {filteredItems.map((item) => (
         <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} />
+          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} />
         </ItemContainer>
       ))}
     </ListContainer>

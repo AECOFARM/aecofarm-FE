@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
+import DonateLabel from '@/components/DonateLabel';
 
 interface ItemDetail {
   itemId: number;
@@ -43,19 +44,26 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 5px;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 `;
 
 const Title = styled.h2`
   color: black;
   font-size: 22px;
-  margin-bottom: 5px;
   font-weight: 600;
 `;
 
 const Chat = styled.div`
   font-size: 13px;
   color: #666666;
-  margin: 5px 0 0 0;
+
   display: flex;
    
   img {
@@ -67,7 +75,7 @@ const Chat = styled.div`
 const Place = styled.div`
   font-size: 17px;
   color: #666666;
-  margin: 5px 0 0 0;
+
   display: flex;
   
   img {
@@ -91,7 +99,6 @@ const TimeAndPrice = styled.p`
   font-size: 17px;
   color: #000000;
   font-weight: 400;
-  margin-bottom: 5px;
 `;
 
 const HashTags = styled.div``;
@@ -171,13 +178,13 @@ const BorrowDetailPage = () => {
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
-              "price": 3000,
+              "price": 0,
               "itemPlace": "경영관",
               "time": 5,
               "contractTime": 10,
               "itemHash": ["eunjeong", "맥북프로", "충전기"],
               "likeStatus": true,
-              "donateStatus": false
+              "donateStatus": true
             },
             {
               "itemId": 2,
@@ -191,7 +198,7 @@ const BorrowDetailPage = () => {
               "contractTime": 10,
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
-              "donateStatus": true,
+              "donateStatus": false,
             },
             {
               "itemId": 3,
@@ -205,7 +212,7 @@ const BorrowDetailPage = () => {
               "contractTime": 10,
               "itemHash": ["jeongseon", "네고가능", "상태좋음"],
               "likeStatus": false,
-              "donateStatus": true,
+              "donateStatus": false,
             },
             {
               "itemId": 4,
@@ -213,7 +220,7 @@ const BorrowDetailPage = () => {
               "itemImage": "/img/item-image.png",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "price": 5000,
+              "price": 0,
               "itemPlace": "신공학관",
               "time": 3,
               "contractTime": 10,
@@ -227,7 +234,7 @@ const BorrowDetailPage = () => {
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
-              "price": 5000,
+              "price": 0,
               "itemPlace": "신공학관",
               "time": 3,
               "contractTime": 10,
@@ -286,7 +293,11 @@ const BorrowDetailPage = () => {
             <Container>
               <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
               <ItemInfo>
-                <Title>{itemName}</Title>
+
+                <TitleContainer>
+                  <Title>{itemName}</Title>
+                  {donateStatus === true && <DonateLabel />}
+                </TitleContainer>
                 <Content>{itemContent}</Content>
                 <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
                 <Chat>
