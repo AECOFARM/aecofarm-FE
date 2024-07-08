@@ -10,6 +10,7 @@ import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 
 interface ItemDetail {
+  contractId: number;
   itemId: number;
   itemName: string;
   itemContent: string;
@@ -159,12 +160,12 @@ const ItemImage = styled.img`
 `;
 
 const BorrowDetailPage = () => {
-  const { itemId } = useParams();
+  const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
 
   useEffect(() => {
-    if (!itemId) {
+    if (!contractId) {
       return; // Exit if itemId is not yet defined
     }
 
@@ -173,6 +174,7 @@ const BorrowDetailPage = () => {
       // Replace with your API call
       const exampleData: ItemDetail[] = [
         {
+              "contractId": 123456,
               "itemId": 1,
               "itemName": "맥북 맥세이프 충전기",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -187,6 +189,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true
             },
             {
+              "contractId": 789012,
               "itemId": 2,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -201,6 +204,7 @@ const BorrowDetailPage = () => {
               "donateStatus": false,
             },
             {
+              "contractId": 789013,
               "itemId": 3,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -215,6 +219,7 @@ const BorrowDetailPage = () => {
               "donateStatus": false,
             },
             {
+              "contractId": 789014,
               "itemId": 4,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -229,6 +234,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true,
             },
             {
+              "contractId": 789015,
               "itemId": 5,
               "itemName": "아이패드 에어 4",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -243,7 +249,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true,
             }
           ];
-      const item = exampleData.find((item) => item.itemId === Number(itemId));
+      const item = exampleData.find((item) => item.contractId === Number(contractId));
       setItemDetail(item || null);
       if (item) {
         setLikeStatus(item.likeStatus);
@@ -251,7 +257,7 @@ const BorrowDetailPage = () => {
     };
 
     fetchItemDetail();
-  }, [itemId]);
+  }, [contractId]);
 
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);

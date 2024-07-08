@@ -38,8 +38,8 @@ const BorrowPage = () => {
     router.push('/lend');
   };
 
-  const moveDetail = (itemId: number) => {
-    router.push(`/borrow-detail/${itemId}`);
+  const moveDetail = (contractId: number) => {
+    router.push(`/borrow-detail/${contractId}`);
   };
 
   // 예시 데이터
@@ -136,8 +136,8 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <div onClick={() => moveDetail(post.itemId)}>
-              <ItemPost key={post.itemId} post={post} />
+            <div onClick={() => moveDetail(post.contractId)}>
+              <ItemPost key={post.contractId} post={post} />
             </div>
           ))}
         </PostContainer>

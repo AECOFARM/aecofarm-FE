@@ -152,7 +152,6 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible }) => {
         </HashTags>
       </ItemInfo>
       <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-      <LendButton onClick={handleLendClick} visible={buttonVisible}>빌려주기</LendButton>
     </Container>
   );
 };
