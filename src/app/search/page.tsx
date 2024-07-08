@@ -5,7 +5,7 @@ import AppLayout from "@/components/layout/MobileLayout";
 import NoFixedTopBar from "@/components/NoFixedTopBar";
 import SearchBar from "./components/SearchBar";
 import KeyWords from "./components/KeyWords";
-
+import Lanking from "./components/Lanking";
 
 
 const SearchPage = () => {
@@ -15,7 +15,7 @@ const SearchPage = () => {
       <NoFixedTopBar text="검색하기"/>
         <SearchBar/>
         <KeyWords/>
-       
+        <Lanking/>
 
     </AppLayout>
   );
