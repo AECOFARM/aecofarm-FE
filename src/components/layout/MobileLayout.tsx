@@ -11,7 +11,7 @@ const AppLayout = (props: { children: React.ReactNode }) => {
 const Centering = styled.div`
   display: flex;
   justify-content: center;
-  background-color: #FFFFFF;
+  background-color: white;
 `;
 const FixedWidth = styled.div`
   width: 500px;
