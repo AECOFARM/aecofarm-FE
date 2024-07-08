@@ -34,10 +34,9 @@ const PostContainer = styled.div`
 const BorrowPage = () => {
   const router = useRouter();
 
-  const login = () => {
-    router.push('/lend');
+  const moveDetail = (contractId: number) => {
+    router.push(`/lend-detail/${contractId}`);
   };
-
 
   // 예시 데이터
   const exampleData = [
@@ -74,7 +73,7 @@ const BorrowPage = () => {
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 789013,
       "itemId": 3,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -90,7 +89,7 @@ const BorrowPage = () => {
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 789014,
       "itemId": 4,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -106,7 +105,7 @@ const BorrowPage = () => {
       "highPrice": 30
     },
     {
-      "contractId": 789012,
+      "contractId": 789015,
       "itemId": 5,
       "itemName": "아이패드 에어 4",
       "itemImage": "/img/item-image.png",
@@ -132,7 +131,9 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <ItemPost key={post.itemId} post={post} buttonVisible={true}/>
+            <div onClick={() => moveDetail(post.contractId)}>
+              <ItemPost key={post.contractId} post={post} buttonVisible={true}/>
+            </div>
            ))}
         </PostContainer>
       </MainLayout>

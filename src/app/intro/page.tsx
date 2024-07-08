@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  max-width: 400px;
 `;
 
 const HeadContainer = styled.div`
@@ -23,7 +24,7 @@ const IntroHeading = styled.h1`
 const IntroText = styled.div`
   font-size: 17px;
   margin-bottom: 20px;
-  color: #969696;
+  color: var(--gray5);
 `;
 
 const ImageContainer = styled.div`
@@ -33,7 +34,7 @@ const ImageContainer = styled.div`
 const ImageBackGround = styled.div`
   width: 330px;
   height: 330px;
-  background-color: #FFE5BD;
+  background-color: var(--orange0);
   border-radius: 50%;
   z-index: 0;
 `;
@@ -51,6 +52,9 @@ const ButtonContainer = styled.div`
   position: absolute;
   top: 670px;
   z-index: 2;
+  width: 90%;
+  max-width: 450px;
+  padding: 0 40px 0 60px;
 `;
 
 

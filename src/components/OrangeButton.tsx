@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { NextPage } from 'next';
 
 const Button = styled.button`
-  width: 310px;
+  width: 100%;
   padding: 13px;
   border-radius: 10px;
   border: 0px;
   color: white;
-  background-color: #FF9B3F;
+  background-color: var(--orange2);
   font-size: 16px;
 `;
 

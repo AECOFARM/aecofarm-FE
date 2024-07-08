@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  max-width: 500px;
 `;
 
 const HeaderLogo = styled.img`
@@ -20,18 +21,19 @@ const HeaderLogo = styled.img`
 
 const ButtonContainer = styled.div`
   gap: 13px;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0 20px;
 `;
 
 const Button = styled.input`
-  width: 310px;
+  width: 100%;
   padding: 13px 22px;
   border-radius: 15px;
   border: 0px;
-  color: #8E8F90;
-  background-color: #F2F2F2;
+  color: var(--gray6);
+  background-color: var(--gray2);
   font-size: 16px;
   text-align: left;
 `;
@@ -39,7 +41,7 @@ const Button = styled.input`
 
 const PasswordInputContainer = styled.div`
   position: relative;
-  width: 310px;
+  width: 100%;
   display: flex;
   align-items: center;
 `;
@@ -54,9 +56,8 @@ const PasswordIcon = styled.img`
 const ExtraButtonContainer = styled.div`
   font-size: 13px;
   display: flex;
-  width: 300px;
   margin-top: 10px;
-  color: #757575;
+  color: var(--gray5);
   align-items: right;
   text-align: right;
   justify-content: flex-end;
@@ -65,7 +66,7 @@ const ExtraButtonContainer = styled.div`
 const SignUpButton = styled.button`
   font-size: 15px;
   margin: 0 5px;
-  color: #757575;
+  color: var(--gray5);
   border: 0px;
   background-color: white;
   width: auto;
@@ -83,6 +84,10 @@ const SignUpPage = () => {
     router.push('/sign-up');
   };
 
+  const findPassword = () => {
+    router.push('/find-password');
+  };
+
   return (
     <AppLayout>
       <Wrapper>
@@ -97,7 +102,7 @@ const SignUpPage = () => {
               <ExtraButtonContainer>
                 <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
                 <span> | </span>
-                <SignUpButton>비밀번호 찾기</SignUpButton>
+                <SignUpButton onClick={findPassword}>비밀번호 찾기</SignUpButton>
             </ExtraButtonContainer>
           </ButtonContainer>
       </Wrapper>

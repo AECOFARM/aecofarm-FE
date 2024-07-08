@@ -10,6 +10,7 @@ import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 
 interface ItemDetail {
+  contractId: number;
   itemId: number;
   itemName: string;
   itemContent: string;
@@ -25,8 +26,8 @@ interface ItemDetail {
 }
 
 const Container = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  background-color: white;
+  border: 1px solid var(--gray3);
   padding: 20px;
   position: relative;
   max-width: 440px;
@@ -60,21 +61,10 @@ const Title = styled.h2`
   font-weight: 600;
 `;
 
-const Chat = styled.div`
-  font-size: 13px;
-  color: #666666;
-
-  display: flex;
-   
-  img {
-   margin-right: 3px;  
-  }
-
-`;
 
 const Place = styled.div`
   font-size: 17px;
-  color: #666666;
+  color: var(--gray6);
 
   display: flex;
   
@@ -90,14 +80,14 @@ const Place = styled.div`
 
 const Content = styled.div`
   font-size: 17px;
-  color: #717171;
+  color: var(--gray5);
   font-weight: 400;
   margin-bottom: 5px;
 `;
 
 const TimeAndPrice = styled.p`
   font-size: 17px;
-  color: #000000;
+  color: black;
   font-weight: 400;
 `;
 
@@ -105,7 +95,7 @@ const HashTags = styled.div``;
 
 const HashTag = styled.span`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
@@ -123,16 +113,16 @@ const LikeIcon = styled.img`
 
 const LendButton = styled.a`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 12px 15px;
   margin: 10px 5px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid var(--gray3);
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
 
   &:hover {
-    background-color: #FF792E;
+    background-color: var(--orange2);
     color: white;
   }
 `;
@@ -153,18 +143,18 @@ const ItemImage = styled.img`
   max-height: 375px;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gray3);
   margin: auto;
   display: block;
 `;
 
 const BorrowDetailPage = () => {
-  const { itemId } = useParams();
+  const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
 
   useEffect(() => {
-    if (!itemId) {
+    if (!contractId) {
       return; // Exit if itemId is not yet defined
     }
 
@@ -173,6 +163,7 @@ const BorrowDetailPage = () => {
       // Replace with your API call
       const exampleData: ItemDetail[] = [
         {
+              "contractId": 123456,
               "itemId": 1,
               "itemName": "맥북 맥세이프 충전기",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -187,6 +178,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true
             },
             {
+              "contractId": 789012,
               "itemId": 2,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -201,6 +193,7 @@ const BorrowDetailPage = () => {
               "donateStatus": false,
             },
             {
+              "contractId": 789013,
               "itemId": 3,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -215,6 +208,7 @@ const BorrowDetailPage = () => {
               "donateStatus": false,
             },
             {
+              "contractId": 789014,
               "itemId": 4,
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
@@ -229,6 +223,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true,
             },
             {
+              "contractId": 789015,
               "itemId": 5,
               "itemName": "아이패드 에어 4",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -243,7 +238,7 @@ const BorrowDetailPage = () => {
               "donateStatus": true,
             }
           ];
-      const item = exampleData.find((item) => item.itemId === Number(itemId));
+      const item = exampleData.find((item) => item.contractId === Number(contractId));
       setItemDetail(item || null);
       if (item) {
         setLikeStatus(item.likeStatus);
@@ -251,7 +246,7 @@ const BorrowDetailPage = () => {
     };
 
     fetchItemDetail();
-  }, [itemId]);
+  }, [contractId]);
 
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
@@ -300,9 +295,6 @@ const BorrowDetailPage = () => {
                 </TitleContainer>
                 <Content>{itemContent}</Content>
                 <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
-                <Chat>
-                  <img src='/img/chat-icon.svg'/> {kakao}
-                </Chat>
                 <Place>
                   <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
                   <div>
