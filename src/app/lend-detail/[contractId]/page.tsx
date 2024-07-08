@@ -1,14 +1,12 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
-import DonateLabel from '@/components/DonateLabel';
 
 interface ItemDetail {
   contractId: number;
@@ -62,21 +60,22 @@ const Title = styled.h2`
 `;
 
 const User = styled.div`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
-`;
 
-const Chat = styled.div`
-  font-size: 14px;
-  color: #666666;
-  padding: 5px 0;
-
-  display: flex;
-   
-  img {
-   margin-right: 3px;  
+  span {
+    padding: 0 10px;
   }
 
+  img, span {
+    vertical-align: middle;
+  }
+`;
+
+const ProfileImg = styled.img`
+  width: 40px;
+  border-radius: 30px;
+  border: 1px solid #cccccc;
 `;
 
 const Place = styled.div`
@@ -294,7 +293,7 @@ const LendDetailPage = () => {
                 <TitleContainer>
                   <Title>{itemName}</Title>
                 </TitleContainer>
-                <User>{userName}</User>
+                <User><ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span></User>
                 <Content>{itemContent}</Content>
                 <HashTags>
                   {itemHash.map((tag, index) => (
@@ -302,9 +301,6 @@ const LendDetailPage = () => {
                   ))}
                 </HashTags>
                 <TimeAndPrice>{time}시간 대여 희망 | {price}P</TimeAndPrice>
-                <Chat>
-                  <img src='/img/chat-icon.svg'/> {kakao}
-                </Chat>
                 <Place>
                   <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
                   <div>

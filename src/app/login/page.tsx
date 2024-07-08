@@ -83,6 +83,10 @@ const SignUpPage = () => {
     router.push('/sign-up');
   };
 
+  const findPassword = () => {
+    router.push('/find-password');
+  };
+
   return (
     <AppLayout>
       <Wrapper>
@@ -97,7 +101,7 @@ const SignUpPage = () => {
               <ExtraButtonContainer>
                 <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
                 <span> | </span>
-                <SignUpButton>비밀번호 찾기</SignUpButton>
+                <SignUpButton onClick={findPassword}>비밀번호 찾기</SignUpButton>
             </ExtraButtonContainer>
           </ButtonContainer>
       </Wrapper>
