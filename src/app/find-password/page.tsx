@@ -10,14 +10,16 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  max-width: 500px;
 `;
 
 const TextContainer = styled.h3`
   color: black;
-  padding: 18px 0 15px;
+  padding: 18px 45px 15px;
   font-size: 20px;
   text-align: left;
   font-weight: 700;
+  width: 100%;
 
   p {
     font-size: 15px;  
@@ -31,24 +33,27 @@ const ButtonContainer = styled.div`
   gap: 23px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 0 40px;
 `;
 
 const Button = styled.input`
-  width: 310px;
-  padding: 13px 22px;
+  padding: 18px 22px;
   border-radius: 15px;
   border: 0px;
   color: #8E8F90;
   background-color: #F2F2F2;
-  font-size: 16px;
+  font-size: 17px;
   text-align: left;
+  width: 100%;
 `;
 
 const PasswordInputContainer = styled.div`
   position: relative;
-  width: 310px;
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 500px;
 `;
 
 const PasswordIcon = styled.img`

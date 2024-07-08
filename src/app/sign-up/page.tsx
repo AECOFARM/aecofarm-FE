@@ -3,18 +3,20 @@ import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
+import NoFixedTopBar from '@/components/NoFixedTopBar';
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 500px;
 `;
 
 const Container = styled.div`
   width: 100%; 
   padding: 0 32px; 
   box-sizing: border-box; 
-  margin-top: 50px;
+  margin-top: 20px;
 `;
 
 const HeaderLogo = styled.img`
@@ -42,13 +44,16 @@ const Profile = styled.img`
 const ButtonContainer = styled.div`
   position: absolute;
   top: 340px;
-  gap: 18px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 470px;
+  padding-right: 40px;
 `;
 
 const Button = styled.input`
-  width: 310px;
+  width: 100%;
   padding: 13px 22px;
   border-radius: 15px;
   border: 0px;
@@ -60,7 +65,7 @@ const Button = styled.input`
 
 const PasswordInputContainer = styled.div`
   position: relative;
-  width: 310px;
+  width: 100%;
   display: flex;
   align-items: center;
 `;
@@ -82,8 +87,9 @@ const SignUpPage = () => {
 
   return (
     <AppLayout>
+      <NoFixedTopBar text='회원가입'/>
       <Wrapper>
-       
+     
         <Container>
           <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
           <ProfileContainer></ProfileContainer>
