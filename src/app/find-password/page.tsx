@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 const TextContainer = styled.h3`
   color: black;
-  padding: 18px 0 13px;
+  padding: 18px 0 15px;
   font-size: 20px;
   text-align: left;
   font-weight: 700;
@@ -76,10 +76,6 @@ export default function TestPage() {
             <ButtonContainer>
               <Button type='text' placeholder="이름"/>
               <Button type='email' placeholder="이메일"/>
-              <PasswordInputContainer>
-                  <Button type="password" placeholder="비밀번호"></Button>
-                  <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
-              </PasswordInputContainer>
               <Button
                 type="number"
                 placeholder="학번"
@@ -89,6 +85,10 @@ export default function TestPage() {
                   }
                 }}
               /> 
+              <PasswordInputContainer>
+                  <Button type="password" placeholder="새로운 비밀번호"></Button>
+                  <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+              </PasswordInputContainer>
               <OrangeButton text='비밀번호 변경' onClick={handleClick} ></OrangeButton>
             </ButtonContainer>
           </Wrapper>
