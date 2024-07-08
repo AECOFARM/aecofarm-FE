@@ -12,6 +12,7 @@ import DonateLabel from '@/components/DonateLabel';
 interface ItemDetail {
   contractId: number;
   itemId: number;
+  userName: string;
   itemName: string;
   itemContent: string;
   kakao: string;
@@ -59,6 +60,30 @@ const Title = styled.h2`
   color: black;
   font-size: 22px;
   font-weight: 600;
+`;
+
+
+const User = styled.div`
+  font-size: 17px;
+  font-weight: 500;
+  display: flex;
+  padding-left:10px;
+  align-items: center;
+  gap: 10px;
+  
+  span {
+    padding-right: 30px;
+  }
+
+  img, span {
+    vertical-align: middle;
+  }
+`;
+
+const ProfileImg = styled.img`
+  width: 30px;
+  border-radius: 30px;
+  border: 1px solid var(--gray3);
 `;
 
 
@@ -127,6 +152,7 @@ const LendButton = styled.a`
   }
 `;
 
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -165,6 +191,7 @@ const BorrowDetailPage = () => {
         {
               "contractId": 123456,
               "itemId": 1,
+              "userName": "이정선",
               "itemName": "맥북 맥세이프 충전기",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
@@ -180,6 +207,7 @@ const BorrowDetailPage = () => {
             {
               "contractId": 789012,
               "itemId": 2,
+              "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -195,6 +223,7 @@ const BorrowDetailPage = () => {
             {
               "contractId": 789013,
               "itemId": 3,
+              "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -210,6 +239,7 @@ const BorrowDetailPage = () => {
             {
               "contractId": 789014,
               "itemId": 4,
+              "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
@@ -225,6 +255,7 @@ const BorrowDetailPage = () => {
             {
               "contractId": 789015,
               "itemId": 5,
+              "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
@@ -266,6 +297,7 @@ const BorrowDetailPage = () => {
 
   const {
     itemName,
+    userName,
     itemContent,
     kakao,
     itemImage,
@@ -288,7 +320,6 @@ const BorrowDetailPage = () => {
             <Container>
               <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
               <ItemInfo>
-
                 <TitleContainer>
                   <Title>{itemName}</Title>
                   {donateStatus === true && <DonateLabel />}
@@ -308,14 +339,18 @@ const BorrowDetailPage = () => {
                 </HashTags>
               </ItemInfo>
             <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-            <ButtonContainer>
-              <LendButton href={kakao} target="_blank">
-                오픈채팅 바로가기
-              </LendButton>
-              <LendButton onClick={() => console.log('Lend item')}>
-                대여 요청하기
-              </LendButton>
-            </ButtonContainer>
+            <User><ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span></User>
+   
+              <ButtonContainer>
+                <LendButton href={kakao} target="_blank">
+                  오픈채팅 바로가기
+                </LendButton>
+                <LendButton onClick={() => console.log('Lend item')}>
+                  대여 요청하기
+                </LendButton>
+              </ButtonContainer>
+      
+            
           </Container>
         </MainLayout>
       <Navigation />
