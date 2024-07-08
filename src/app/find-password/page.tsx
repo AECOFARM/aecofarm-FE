@@ -24,7 +24,7 @@ const TextContainer = styled.h3`
   p {
     font-size: 15px;  
     font-weight: 500;
-    color: #969696;
+    color: var(--gray6);
     padding: 4px 0;
   }
 `;
@@ -41,8 +41,8 @@ const Button = styled.input`
   padding: 18px 22px;
   border-radius: 15px;
   border: 0px;
-  color: #8E8F90;
-  background-color: #F2F2F2;
+  color: var(--gray6);
+  background-color: var(--gray2);
   font-size: 17px;
   text-align: left;
   width: 100%;

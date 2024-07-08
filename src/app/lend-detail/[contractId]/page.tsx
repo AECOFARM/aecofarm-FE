@@ -24,8 +24,8 @@ interface ItemDetail {
 }
 
 const Container = styled.div`
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  background-color: white;
+  border: 1px solid var(--gray3);
   padding: 20px;
   position: relative;
   max-width: 440px;
@@ -75,12 +75,12 @@ const User = styled.div`
 const ProfileImg = styled.img`
   width: 40px;
   border-radius: 30px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--gray3);
 `;
 
 const Place = styled.div`
   font-size: 17px;
-  color: #666666;
+  color: var(--gray6);
 
   display: flex;
   
@@ -96,14 +96,14 @@ const Place = styled.div`
 
 const Content = styled.div`
   font-size: 17px;
-  color: #717171;
+  color: var(--gray6);
   font-weight: 400;
   margin: 15px 0 10px;
 `;
 
 const TimeAndPrice = styled.p`
   font-size: 17px;
-  color: #000000;
+  color: black;
   font-weight: 400;
 `;
 
@@ -113,7 +113,7 @@ const HashTags = styled.div`
 
 const HashTag = styled.span`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
@@ -131,16 +131,16 @@ const LikeIcon = styled.img`
 
 const LendButton = styled.a`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 12px 15px;
   margin: 10px 5px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid var(--gray3);
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
 
   &:hover {
-    background-color: #FF792E;
+    background-color: var(--orange2);
     color: white;
   }
 `;

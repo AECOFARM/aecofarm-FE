@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import DonateLabel from './DonateLabel';
 
 const Container = styled.div`
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+  border-bottom: 1px solid var(--gray3);
   padding: 10px 10px;
   position: relative;
   display: flex;
@@ -18,7 +18,7 @@ const ItemImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--gray3);
 `;
 
 const ItemInfo = styled.div`
@@ -45,7 +45,7 @@ const Title = styled.h2`
 
 const Place = styled.div`
   font-size: 13px;
-  color: #666666;
+  color: var(--gray6);
   display: flex;
 
   img {
@@ -59,7 +59,7 @@ const Place = styled.div`
 
 const TimeAndPrice = styled.p`
   font-size: 14px;
-  color: #000000;
+  color: black;
   font-weight: 400;
 `;
 
@@ -68,7 +68,7 @@ const HashTags = styled.div`
 
 const HashTag = styled.span`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;

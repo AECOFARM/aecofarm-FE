@@ -32,8 +32,8 @@ const Button = styled.input`
   padding: 13px 22px;
   border-radius: 15px;
   border: 0px;
-  color: #8E8F90;
-  background-color: #F2F2F2;
+  color: var(--gray6);
+  background-color: var(--gray2);
   font-size: 16px;
   text-align: left;
 `;
@@ -57,7 +57,7 @@ const ExtraButtonContainer = styled.div`
   font-size: 13px;
   display: flex;
   margin-top: 10px;
-  color: #757575;
+  color: var(--gray5);
   align-items: right;
   text-align: right;
   justify-content: flex-end;
@@ -66,7 +66,7 @@ const ExtraButtonContainer = styled.div`
 const SignUpButton = styled.button`
   font-size: 15px;
   margin: 0 5px;
-  color: #757575;
+  color: var(--gray5);
   border: 0px;
   background-color: white;
   width: auto;

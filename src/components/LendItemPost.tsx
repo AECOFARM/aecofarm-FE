@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+  border-bottom: 1px solid var(--gray3);
   padding: 10px 10px;
   position: relative;
   display: flex;
@@ -29,7 +29,7 @@ const Title = styled.h2`
 
 const Place = styled.div`
   font-size: 13px;
-  color: #666666;
+  color: var(--gray6);
   margin: 5px 0 0 0;
   display: flex;
   
@@ -44,7 +44,7 @@ const Place = styled.div`
 
 const TimeAndPrice = styled.p`
   font-size: 13px;
-  color: #000000;
+  color: black;
   font-weight: 400;
   margin-bottom: 5px;
 `;
@@ -53,7 +53,7 @@ const HashTags = styled.div``;
 
 const HashTag = styled.span`
   background-color: white;
-  color: #FF792E;
+  color: var(--orange2);
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
@@ -75,16 +75,16 @@ const LendButton = styled.button<{ visible: boolean }>`
   bottom: 10px;
   right: 20px;
   background-color: white;
-  color: #FF792E;
+  color: var(--oragne2);
   padding: 10px 15px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid var(--gray2);
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
   padding: 8px 12px;
 
   &:hover {
-    background-color: #FF792E;
+    background-color: var(--oragne2);
     color: white;
   }
 `;

@@ -14,8 +14,8 @@ const SelectButton = styled.button`
   padding: 13px 30px 13px 14px;
   font-size: 15px;
   line-height: 14px;
-  background-color: #fff;
-  border: 1px solid #c4c4c4;
+  background-color: white;
+  border: 1px solid var(--gray4);
   box-sizing: border-box;
   border-radius: 10px;
   cursor: pointer;
@@ -27,8 +27,8 @@ const SelectButton = styled.button`
 
   &:hover,
   &:focus {
-    border: 1px solid #FF9B3F;
-    outline: 3px solid #FFD9B7;
+    border: 1px solid var(--orange2);
+    outline: 3px solid var(--orange0);
   }
 `;
 
@@ -41,18 +41,18 @@ const SelectList = styled.ul`
   left: 0;
   margin: 0 0 0 20px;
   padding: 0;
-  border: 1px solid #c4c4c4;
+  border: 1px solid var(--gray4);
   box-sizing: border-box;
   box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  background-color: #fff;
+  background-color: white;
 `;
 
 const OptionButton = styled.button`
   width: 100%;
   padding: 7px 10px;
   border: none;
-  background-color: #fff;
+  background-color: white;
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
@@ -64,7 +64,7 @@ const OptionButton = styled.button`
 
   &:hover,
   &:focus {
-    background-color: #FFD9B7;
+    background-color: var(--orange0);
   }
 `;
 

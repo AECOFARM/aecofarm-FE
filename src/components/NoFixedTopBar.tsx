@@ -6,7 +6,7 @@ const Header = styled.div`
   height: 45px;
   max-width: 500px;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +15,7 @@ const Header = styled.div`
   p {
     font-size: 1rem;
     font-weight: 700;
-    color: #000000;
+    color: black;
     text-align: center;
   }
   z-index: 1000;
