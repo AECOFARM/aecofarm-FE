@@ -62,7 +62,7 @@ const PasswordIcon = styled.img`
   width: 23px;
 `;
 
-export default function TestPage() {
+const FindPassword = () => {
 
   const handleClick = () => {
 
@@ -101,3 +101,5 @@ export default function TestPage() {
     </AppLayout>
   );
 }
+
+export default FindPassword;

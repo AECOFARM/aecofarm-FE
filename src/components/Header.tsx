@@ -1,5 +1,6 @@
 "use client";
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 
 const HeaderContainer = styled.header`
   max-width: 500px;
@@ -44,9 +45,16 @@ const IconContainer = styled.div`
 `;
 
 const Header = () => {
+
+  const router = useRouter();
+
+  const moveSearchPage = () => {
+    router.push('/search');
+  };
+  
     return (
         <HeaderContainer>
-            <IconContainer>
+            <IconContainer onClick={moveSearchPage}>
                 <img src = "/search.svg" alt="search" />
             </IconContainer>
             <Logo>
