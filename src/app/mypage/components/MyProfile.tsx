@@ -20,7 +20,7 @@ const ProfileImageContainer = styled.img`
   height: 90px;
   box-shadow: 1px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 1rem;
+  border-radius: 10rem;
   img {
     width: 90px;
     height: 90px;

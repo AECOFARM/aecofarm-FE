@@ -52,7 +52,7 @@ const Content = styled.div`
   flex-direction: row;
   gap: 8px;
   p { 
-    color: #9E95A2;
+    color: var(--gray5);
     font-size: 0.9rem;
   }
   img {

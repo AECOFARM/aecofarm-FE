@@ -63,6 +63,7 @@ const TextInput = styled.input`
   background-color: #FFFFFF;
   font-size: 1rem;
   color: #999999;
+  outline: 0;
 `;
 
 const PriceInputContainer = styled.div`
@@ -80,6 +81,7 @@ const PriceInput = styled.input`
   background-color: #FFFFFF;
   font-size: 1rem;
   color: #999999;
+  outline: 0;
 `;
 
 const FixedText = styled.span`
