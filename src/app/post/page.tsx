@@ -66,7 +66,7 @@ const PriceInput = styled.input`
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid #999999;
+  border-bottom: 1px solid var(--gray6);
   background-color: #FFFFFF;
   font-size: 1rem;
   color: var(--gray6);

@@ -66,15 +66,19 @@ const HashWrapOuter = styled.div`
 `;
 
 const HashWrapInner = styled.div`
-  background-color: var(--orange1);
-  color: #fff;
+  font-size: 0.9rem;
+  background-color: var(--white);
+  color: var(--orange2);
   gap: 0px;
   padding: 5px 10px;
+  border: 1px solid var(--orange2);
   border-radius: 100px;
   cursor: pointer;
   display: flex;
   &:hover {
     background-color: var(--orange2);
+    border: 1px solid var(--orange2);
+    color: var(--white);
   }
   margin: 5px;
 `;
