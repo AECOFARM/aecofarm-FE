@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import {NextPage} from "next";
+import { useRouter } from "next/navigation";
 
 const Container = styled.div`
   display: flex;
@@ -55,12 +56,17 @@ const exampleData: Item[] = [
     }
 ]
 
-const MyItemList: NextPage = () => {
+const MyItemList = () => {
+    const router = useRouter();
+
+    const moveDetail = (contractId: number) => {
+        router.push(`/borrow-detail/${contractId}`);
+    }
     return (
         <Container>
             {exampleData.map((item) => (
                 <MyItemListItem 
-                    key={item.contractId} item={item} imageHeight="100px" imageWidth="100px"
+                    key={item.contractId} item={item} imageHeight="100px" imageWidth="100px" onClick={() => moveDetail(item.contractId)}
                 />
             ))}
         </Container>

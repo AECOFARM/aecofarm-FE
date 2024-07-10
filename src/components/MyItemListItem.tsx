@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import Router from 'next/navigation';
+import {useRouter} from 'next/navigation';
 
 const ItemContainer = styled.div`
   display: flex;
@@ -102,7 +102,7 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
   }
 
   return (
-    <ItemContainer>
+    <ItemContainer onClick={onClick}>
       <ProfileImage src={imageSrc} alt="item" width={imageWidth} height={imageHeight} />
       <ItemTitle>{itemName}</ItemTitle>
       <ItemInfoContainer>

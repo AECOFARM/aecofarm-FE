@@ -131,9 +131,7 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {exampleData.map((post) => (
-            <div onClick={() => moveDetail(post.contractId)}>
-              <ItemPost key={post.contractId} post={post} buttonVisible={true}/>
-            </div>
+            <ItemPost key={post.contractId} post={post} buttonVisible={true} onClick={() => moveDetail(post.contractId)}/>
            ))}
         </PostContainer>
       </MainLayout>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 
 const Container = styled.div`
   background-color: white;
@@ -69,25 +70,25 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
-const LendButton = styled.button<{ visible: boolean }>`
-  display: ${({ visible }) => (visible ? 'flex' : 'none')};
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  background-color: white;
-  color: var(--oragne2);
-  padding: 10px 15px;
-  border: 1px solid var(--gray2);
-  border-radius: 24px;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 8px 12px;
+// const LendButton = styled.button`
+//   display: flex;
+//   position: absolute;
+//   bottom: 10px;
+//   right: 20px;
+//   background-color: white;
+//   color: var(--oragne2);
+//   padding: 10px 15px;
+//   border: 1px solid var(--gray2);
+//   border-radius: 24px;
+//   cursor: pointer;
+//   font-size: 14px;
+//   padding: 8px 12px;
 
-  &:hover {
-    background-color: var(--oragne2);
-    color: white;
-  }
-`;
+//   &:hover {
+//     background-color: var(--oragne2);
+//     color: white;
+//   }
+// `;
 
 interface Post {
   contractId: number;
@@ -107,10 +108,9 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
-  buttonVisible: boolean;
 }
 
-const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible }) => {
+const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const {
     itemName,
     itemPlace,
@@ -120,6 +120,12 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible }) => {
     itemHash,
     likeStatus: initialLikeStatus,
   } = post;
+
+  const router = useRouter();
+
+  const moveDetail = () => {
+    router.push(`/lend-detail/${post.contractId}`);
+  }
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
@@ -135,7 +141,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible }) => {
   };
 
   return (
-    <Container>
+    <Container onClick={moveDetail}>
       <ItemInfo>
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
