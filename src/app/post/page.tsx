@@ -1,7 +1,9 @@
 'use client'
 import React, {useState} from "react";
 import styled from 'styled-components';
-import {useRouter} from "next/navigation";
+import TagInput from "./components/TagInput";
+import TextInput from "./components/TextInput";
+import { useRouter } from "next/navigation";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -53,19 +55,6 @@ const ImageInputContainer = styled.div`
   }
 `;
 
-const TextInput = styled.input`
-  width: 100%;
-  height: 50px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #999999;
-  background-color: #FFFFFF;
-  font-size: 1rem;
-  color: #999999;
-  outline: 0;
-`;
-
 const PriceInputContainer = styled.div`
   position: relative;
   width: 100%;
@@ -80,8 +69,11 @@ const PriceInput = styled.input`
   border-bottom: 1px solid #999999;
   background-color: #FFFFFF;
   font-size: 1rem;
-  color: #999999;
+  color: var(--gray6);
   outline: 0;
+  &::placeholder {
+    color: var(--gray4);
+  }
 `;
 
 const FixedText = styled.span`
@@ -90,7 +82,7 @@ const FixedText = styled.span`
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none; 
-  color: #999999;
+  color: var(--gray6);
 `;
 
 const ItemInfoContainer = styled.div`
@@ -103,7 +95,7 @@ const ItemInfoContainer = styled.div`
   margin: 10px 0;
   p {
     font-size: 1rem;
-    color: #999999;
+    color: var(--gray6);
   }
   textarea {
     height: 100%;
@@ -112,6 +104,9 @@ const ItemInfoContainer = styled.div`
     border: none;
     color: #999999;
     font-size: 1rem;
+    &::placeholder {
+      color: var(--gray4);
+    }
   }
 `;
 
@@ -155,6 +150,7 @@ const Post = () => {
   const router = useRouter();
 
   const [category, setCategory] = useState("BORROW");
+  const [tags, setTags] = useState<{ value: string }[]>([]);
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -165,8 +161,12 @@ const Post = () => {
     // 실제 글쓰기 시 생성된 글의 상세페이지로 가도록 수정
   };
 
+  const handleTagsChange = (e: CustomEvent) => {
+    setTags(e.detail.value);
+  };
+
   return(
-      <Wrapper>
+    <Wrapper>
       <SelectContainer>
         <select value={category} onChange={handleCategoryChange}>
           <option key="빌려주고 싶어요" value="BORROW">빌려주고 싶어요</option>
@@ -179,16 +179,16 @@ const Post = () => {
             <div className="image" />
           </ImageInputContainer>
         )}
-        <TextInput type='text' placeholder="상품명"/>
-        <TextInput type='text' placeholder="오픈채팅방 링크"/>
-        <TextInput type='text' placeholder="# 태그"/>
+        <TextInput placeholder="상품명"/>
+        <TextInput placeholder="오픈채팅방 링크"/>
+        <TagInput value={tags} onChange={handleTagsChange} placeholder="해시태그 입력"/>
         <PriceInputContainer>
           <PriceInput type = 'text' placeholder="가격"/>
           <FixedText>원 / 일</FixedText>
         </PriceInputContainer>
-        <TextInput type='text' placeholder="거래 가능 장소"/>
-        <TextInput type='text' placeholder="거래 가능 시간"/>
-        <TextInput type='text' placeholder="대여 가능 시간"/>
+        <TextInput placeholder="거래 가능 장소"/>
+        <TextInput placeholder="거래 가능 시간"/>
+        <TextInput placeholder="대여 가능 시간"/>
         <ItemInfoContainer>
           <p>설명</p>
           <textarea placeholder="상품의 상태를 자세히 적어주세요."/>
@@ -200,7 +200,7 @@ const Post = () => {
           등록하기
         </PostButton>
       </PostButtonContainer>
-      </Wrapper>
+    </Wrapper>
   );
 };
 
