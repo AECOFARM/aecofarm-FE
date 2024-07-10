@@ -1,5 +1,5 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
@@ -70,6 +70,7 @@ const User = styled.div`
   padding-left:10px;
   align-items: center;
   gap: 10px;
+  color: var(--gray6);
   
   span {
     padding-right: 30px;
@@ -312,6 +313,12 @@ const BorrowDetailPage = () => {
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
+  const router = useRouter();
+
+  const moveReserve = () => {
+    router.push(`/reserve/${contractId}`);
+  }
+
   return (
     <AppLayout>
       <Header/>
@@ -345,7 +352,7 @@ const BorrowDetailPage = () => {
                 <LendButton href={kakao} target="_blank">
                   오픈채팅 바로가기
                 </LendButton>
-                <LendButton onClick={() => console.log('Lend item')}>
+                <LendButton onClick={moveReserve}>
                   대여 요청하기
                 </LendButton>
               </ButtonContainer>

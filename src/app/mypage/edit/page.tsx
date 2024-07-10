@@ -75,7 +75,7 @@ const Example = () =>{
 
   const profileData = {
     userName: "이아코",
-    email: "example@example.com",
+    email: "aeco@naver.com",
     image: "/img/profile-image.png"
   };
 
