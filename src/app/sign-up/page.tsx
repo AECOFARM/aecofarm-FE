@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
+import Popup from '@/components/Popup';
 
 const Wrapper = styled.div`
   display: flex;
@@ -81,9 +83,14 @@ const SignUpPage = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    // handle click event
     router.push('/login');
   };
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => setIsPopupOpen(true);
+  const handleClosePopup = () => setIsPopupOpen(false);
+
 
   return (
     <AppLayout>
@@ -113,7 +120,10 @@ const SignUpPage = () => {
                 }
               }}
             /> 
-            <OrangeButton text='등록' onClick={handleClick} ></OrangeButton>
+            <OrangeButton text='등록' onClick={handleOpenPopup} ></OrangeButton>
+            <Popup isOpen={isPopupOpen} onClose={handleClosePopup} title="회원가입 완료" button1="로그인 바로가기" button2="닫기">
+              <p>아코팜의 회원이 되어주셔서 감사해요!</p>
+            </Popup>
           </ButtonContainer>
         </Container>
       </Wrapper>
