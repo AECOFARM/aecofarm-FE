@@ -118,7 +118,7 @@ const ItemPreview: React.FC<ItemProps> = ({item}) => {
 
   return (
     <ItemPreviewContainer>
-        <img className="itemImage" src = {image} />
+        <img className="itemImage" src ={image || '/img/default-image.png'} />
         <ItemInfoContainer>
             <ItemName>{itemName}</ItemName>
             <ItemHashTags>

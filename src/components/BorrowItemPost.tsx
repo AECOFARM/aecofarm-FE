@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DonateLabel from './DonateLabel';
+import { useRouter } from 'next/navigation';
 
 const Container = styled.div`
   background-color: white;
@@ -85,10 +86,31 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
+interface Post {
+  contractId: number;
+  itemId: number;
+  itemName: string;
+  itemImage: string;
+  itemPlace: string;
+  price: number;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+  likeStatus: boolean;
+  donateStatus: boolean;
+  distance: number;
+  lowPrice: number;
+  highPrice: number;
+}
 
-const BorrowItemPost = ({ post }) => {
+interface LendItemPostProps {
+  post: Post;
+}
+
+const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const {
     contractId,
+    itemId,
     itemName,
     itemImage,
     itemPlace,
@@ -102,6 +124,12 @@ const BorrowItemPost = ({ post }) => {
     lowPrice,
     highPrice
   } = post;
+
+  const router = useRouter();
+
+  const moveDetail = () => {
+    router.push(`/borrow-detail/${contractId}`);
+  }
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
@@ -117,7 +145,7 @@ const BorrowItemPost = ({ post }) => {
   }
 
   return (
-    <Container>
+    <Container onClick={moveDetail}>
       <ItemImage src={imageSrc} alt={itemName} />
       <ItemInfo>
         <TitleContainer>

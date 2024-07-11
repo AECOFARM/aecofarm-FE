@@ -87,7 +87,7 @@ const Agreement: React.FC<AgreementProps> = ({checkStatus, setCheckStatus}) => {
     <Container>
       <Title>
         <IconContainer>
-          <img src = {checkIconSrc} onClick={toggleCheckStatus} />
+          <img src = {checkIconSrc} onClick={toggleCheckStatus} alt="check icon"/>
         </IconContainer>
         <p>예약 내용 확인 및 동의</p>
       </Title>

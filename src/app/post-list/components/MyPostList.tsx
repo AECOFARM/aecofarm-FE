@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import MyItemListItem from "@/components/MyItemListItem";
 import {NextPage} from "next";
 import { ListContainer } from "@/components/CommonStyles";
 import LendItemPost from "@/components/LendItemPost";
 import BorrowItemPost from "@/components/BorrowItemPost";
 import Category from "@/components/Category";
 import { CategoryItemsContainer } from "@/components/CommonStyles";
+import { useRouter } from "next/navigation";
 
 const Container = styled.div`
   display: block;
@@ -204,7 +204,7 @@ const MyItemList: NextPage = () => {
         <PostContainer>
           {filteredItems.map((item) => (
             item.type === "lending" ? (
-              <LendItemPost key={item.contractId} post={item as LendingItem} buttonVisible={false} />
+              <LendItemPost key={item.contractId} post={item as LendingItem} />
             ) : (
               <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
             )

@@ -4,6 +4,7 @@ import MyItemListItem from "@/components/MyItemListItem";
 import { NextPage } from "next";
 import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles";
 import Category from "@/components/Category";
+import { useRouter } from "next/navigation";
 
 const Container = styled.div`
   display: flex;
@@ -100,6 +101,15 @@ const exampleData: ExampleData = {
 };
 
 const MyItemList: NextPage = () => {
+  const router = useRouter();
+
+  const moveBorrowDetail = (contractId: number) => {
+    router.push(`/borrow-detail/${contractId}`);
+  }
+
+  const moveLendDetail = (contractId: number) => {
+    router.push(`lend-detail/${contractId}`);
+  }
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
   const handleCategoryChange = useCallback((category: string) => {
@@ -110,14 +120,32 @@ const MyItemList: NextPage = () => {
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return exampleData.borrowingItems;
+      return exampleData.borrowingItems.map((item) => ({
+        ...item,
+        type: "borrowing",
+      }));
     } else if (selectedCategory === "빌려주기") {
-      return exampleData.lendingItems;
+      return exampleData.lendingItems.map((item) => ({
+        ...item,
+        type: "lending",
+      }));
     } else if (selectedCategory === "기부하기") {
-      return exampleData.borrowingItems
-      .filter((item) => item.price === 0);
+      return exampleData.borrowingItems.filter((item) => item.price === 0)
+      .map((item) => ({
+        ...item,
+        type: "borrowing",
+      }));
     } else {
-      return [...exampleData.lendingItems, ...exampleData.borrowingItems];
+      return [
+        ...exampleData.borrowingItems.map((item) => ({
+          ...item,
+          type: "borrowing",
+        })),
+        ...exampleData.lendingItems.map((item) => ({
+          ...item,
+          type: "lending",
+        })),
+      ];
     }
   }, [selectedCategory]);
 
@@ -132,9 +160,15 @@ const MyItemList: NextPage = () => {
     <CategoryItemsContainer>
     <ListContainer>
       {filteredItems.map((item) => (
+        item.type === "lending" ? (
         <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} />
+          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
         </ItemContainer>
+          ) : (
+         <ItemContainer key={item.contractId}>
+          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
+        </ItemContainer>
+          )
       ))}
     </ListContainer>
     </CategoryItemsContainer>

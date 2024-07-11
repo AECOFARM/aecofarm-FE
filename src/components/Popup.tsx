@@ -38,6 +38,7 @@ const Content = styled.div`
 
 const Title = styled.h2`
   font-size: 28px;
+  color: var(--black);
 `;
 
 
@@ -49,6 +50,7 @@ const Line = styled.div`
 const Detail = styled.div`
   margin: 10px;
   font-size: 17px;
+  color: var(--black);
 `;
 
 const ButtonContainer = styled.div`
