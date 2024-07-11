@@ -145,9 +145,9 @@ const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   }
 
   return (
-    <Container onClick={moveDetail}>
-      <ItemImage src={imageSrc} alt={itemName} />
-      <ItemInfo>
+    <Container>
+      <ItemImage src={imageSrc} alt={itemName} onClick={moveDetail}/>
+      <ItemInfo onClick={moveDetail}>
         <TitleContainer>
           <Title>{itemName}</Title>
           {donateStatus === true && <DonateLabel />}

@@ -17,7 +17,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppLayout>
           <Header />
-          <TopBar text="글쓰기" />
           {children}
         </AppLayout>
       </body>

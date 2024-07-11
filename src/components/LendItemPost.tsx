@@ -141,8 +141,8 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   };
 
   return (
-    <Container onClick={moveDetail}>
-      <ItemInfo>
+    <Container>
+      <ItemInfo onClick={moveDetail}>
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
