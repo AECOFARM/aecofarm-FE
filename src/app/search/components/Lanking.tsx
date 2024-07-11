@@ -102,10 +102,10 @@ const Lanking = () => {
 
     const previousIndex = previousRankings.indexOf(item);
     if (previousIndex === -1) return null;
-    
+
     if (previousIndex > index) return '▲'; // 순위 상승
     if (previousIndex < index) return '▼'; // 순위 하락
-    return null; // 순위 동일
+    return '-'; // 순위 동일
   };
 
   return (
