@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
-
   async redirects() {
     return [
       {
@@ -9,10 +7,8 @@ const nextConfig = {
         destination: '/intro',
         permanent: true
       }
-    ]
-  }
-
-
+    ];
+  },
 };
 
 export default nextConfig;
