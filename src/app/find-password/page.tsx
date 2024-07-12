@@ -75,7 +75,7 @@ const FindPassword: React.FC = () => {
 
   const handleClick = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/member/update/pw`, {
+      const response = await fetch(`api/member/update/pw`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
