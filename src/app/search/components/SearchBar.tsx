@@ -1,7 +1,7 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const SearchContainer = styled.div`
   background-color: white;
@@ -25,11 +25,10 @@ const SearchForm = styled.form`
   padding: 3px;
 `;
 
-
 const SearchInput = styled.input`
   border: none;
   font-size: 16px;
-  color: var(--gray3);
+  color: var(--gray6);
   flex: 1;
 `;
 
@@ -49,21 +48,22 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar = () =>  {
-  const [query, setQuery] = useState('');
+const SearchBar: React.FC = () => {
+  const [query, setQuery] = useState<string>('');
+  const router = useRouter();
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Search query:', query);
+    router.push(`/search/query=${query}`);
   };
 
   return (
     <SearchContainer>
-      <SearchImg src="/img/search-icon.svg"/>
+      <SearchImg src="/img/search-icon.svg" alt="Search Icon"/>
       <SearchForm onSubmit={handleSubmit}>
         <SearchInput 
           type="text" 
@@ -74,9 +74,7 @@ const SearchBar = () =>  {
         <SearchButton type="submit">검색</SearchButton>
       </SearchForm>
     </SearchContainer>
-    
   );
-}
+};
 
 export default SearchBar;
-
