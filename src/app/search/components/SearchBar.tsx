@@ -48,8 +48,12 @@ const SearchButton = styled.button`
   }
 `;
 
-const SearchBar: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
+interface SearchBarProps {
+  initialData: string;
+}
+
+const SearchBar: React.FC = ({ initialData = '' }) => {
+  const [query, setQuery] = useState<string>(initialData);
   const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +62,7 @@ const SearchBar: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/search/query=${query}`);
+    router.push(`/search/${query}`);
   };
 
   return (
@@ -67,7 +71,7 @@ const SearchBar: React.FC = () => {
       <SearchForm onSubmit={handleSubmit}>
         <SearchInput 
           type="text" 
-          value={query} 
+          value={query}  
           onChange={handleInputChange} 
           placeholder="검색어를 입력하세요" 
         />
