@@ -2,6 +2,7 @@
 import Header from '@/components/Header';
 import { Inter } from "next/font/google";
 import "../globals.css";
+import Navigation from '@/components/Navigation';
 import AppLayout from '@/components/layout/MobileLayout';
 import TopBar from '@/components/TopBar';
 
@@ -17,7 +18,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppLayout>
           <Header />
-          {children}
+          <TopBar text="학생회/동아리" />
+            {children}
+          <Navigation />
         </AppLayout>
       </body>
     </html>

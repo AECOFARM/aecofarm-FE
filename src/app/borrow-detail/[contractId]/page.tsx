@@ -14,7 +14,7 @@ interface ItemDetail {
   itemId: number;
   userName: string;
   itemName: string;
-  itemContent: string;
+  itemContents: string;
   kakao: string;
   itemImage: string;
   price: number;
@@ -194,7 +194,7 @@ const BorrowDetailPage = () => {
               "itemId": 1,
               "userName": "이정선",
               "itemName": "맥북 맥세이프 충전기",
-              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
               "price": 0,
@@ -211,7 +211,7 @@ const BorrowDetailPage = () => {
               "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
-              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 5000,
               "itemPlace": "신공학관",
@@ -227,7 +227,7 @@ const BorrowDetailPage = () => {
               "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
-              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 5000,
               "itemPlace": "신공학관",
@@ -243,7 +243,7 @@ const BorrowDetailPage = () => {
               "userName": "이정선",
               "itemName": "아이패드 에어 4",
               "itemImage": "/img/item-image.png",
-              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "price": 0,
               "itemPlace": "신공학관",
@@ -258,7 +258,7 @@ const BorrowDetailPage = () => {
               "itemId": 5,
               "userName": "이정선",
               "itemName": "아이패드 에어 4",
-              "itemContent": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
               "kakao": "https://open.kakao.com/o/s37YOrBg",
               "itemImage": "",
               "price": 0,
@@ -299,7 +299,7 @@ const BorrowDetailPage = () => {
   const {
     itemName,
     userName,
-    itemContent,
+    itemContents,
     kakao,
     itemImage,
     itemPlace,
@@ -331,7 +331,7 @@ const BorrowDetailPage = () => {
                   <Title>{itemName}</Title>
                   {donateStatus === true && <DonateLabel />}
                 </TitleContainer>
-                <Content>{itemContent}</Content>
+                <Content>{itemContents}</Content>
                 <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
                 <Place>
                   <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}

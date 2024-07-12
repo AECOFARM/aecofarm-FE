@@ -4,29 +4,28 @@ import styled from 'styled-components';
 import TagInput from "./components/TagInput";
 import TextInput from "./components/TextInput";
 import { useRouter } from "next/navigation";
-
-const Wrapper = styled.div`
-  min-height: 100vh;
-  margin-top: 110px;
-  margin-bottom: 120px;
-`;
-
+import TopBar from "@/components/TopBar";
+import MainLayout from "@/components/layout/MainLayout";
+import { Wrapper } from "@/components/CommonStyles";
+import PostButton from "./components/PostButton";
 const SelectContainer = styled.div`
   height: 30px;
+  mas-width: 500px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  color: #686868;
-  border-bottom: 0.5px solid #686868;
+  border-bottom: 0.5px solid var(--gray6);
   select, option {
     font-size: 0.8rem; 
     text-align: center;
-    color: #686868;
+    color: var(--gray6);
     width: inherit;
     height: inherit;
     background: transparent;
     border: 0 none;
+    outline: 0;
   }
 `;
 
@@ -35,7 +34,7 @@ const InputContainer = styled.div`
   padding: 25px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
   justify-content: center;
 `;
@@ -55,36 +54,6 @@ const ImageInputContainer = styled.div`
   }
 `;
 
-const PriceInputContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const PriceInput = styled.input`
-  width: 100%;
-  height: 50px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid var(--gray6);
-  background-color: #FFFFFF;
-  font-size: 1rem;
-  color: var(--gray6);
-  outline: 0;
-  &::placeholder {
-    color: var(--gray4);
-  }
-`;
-
-const FixedText = styled.span`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; 
-  color: var(--gray6);
-`;
-
 const ItemInfoContainer = styled.div`
   width: 100%;
   height: 150px;
@@ -100,13 +69,14 @@ const ItemInfoContainer = styled.div`
   textarea {
     height: 100%;
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: var(--white);
     border: none;
-    color: #999999;
+    color: var(--gray6);
     font-size: 1rem;
     &::placeholder {
       color: var(--gray4);
     }
+    outline: 0;
   }
 `;
 
@@ -133,24 +103,18 @@ const NoticeButton = styled.p`
   cursor: pointer;
 `;
 
-const PostButton = styled.div`
-  background-color: #FF9B3F;
-  width: 30%;
-  height: 40px;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 15px;
-  color: #FFFFFF;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-`;
-
 const Post = () => {
   const router = useRouter();
 
   const [category, setCategory] = useState("BORROW");
   const [tags, setTags] = useState<{ value: string }[]>([]);
+  const [itemName, setItemName] = useState("");
+  const [kakao, setKakao] = useState("");
+  const [price, setPrice] = useState("");
+  const [place, setPlace] = useState("");
+  const [contractTime, setContractTime] = useState("");
+  const [time, setTime] = useState("");
+  const [itemContents, setItemContents] = useState("");
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -165,8 +129,11 @@ const Post = () => {
     setTags(e.detail.value);
   };
 
+
   return(
-    <Wrapper>
+    <MainLayout>
+      <TopBar text="글쓰기" />
+      <Wrapper>
       <SelectContainer>
         <select value={category} onChange={handleCategoryChange}>
           <option key="빌려주고 싶어요" value="BORROW">빌려주고 싶어요</option>
@@ -179,28 +146,54 @@ const Post = () => {
             <div className="image" />
           </ImageInputContainer>
         )}
-        <TextInput placeholder="상품명"/>
-        <TextInput placeholder="오픈채팅방 링크"/>
+        <TextInput
+          placeholder="상품명"
+          name="itemName"
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
+        />
+        <TextInput
+          placeholder="오픈채팅방 링크"
+          name="kakao"
+          value={kakao}
+          onChange={(e) => setKakao(e.target.value)}
+        />
         <TagInput value={tags} onChange={handleTagsChange} placeholder="해시태그 입력"/>
-        <PriceInputContainer>
-          <PriceInput type = 'text' placeholder="가격"/>
-          <FixedText>원 / 일</FixedText>
-        </PriceInputContainer>
-        <TextInput placeholder="거래 가능 장소"/>
-        <TextInput placeholder="거래 가능 시간"/>
-        <TextInput placeholder="대여 가능 시간"/>
+        <TextInput
+          placeholder="가격"
+          name="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <TextInput
+          placeholder="거래 가능 장소"
+          name="place"
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
+        />
+        <TextInput
+          placeholder="거래 가능 시간"
+          name="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+        />
+        <TextInput
+          placeholder="대여 가능 시간"
+          name="contractTime"
+          value={contractTime}
+          onChange={(e) => setContractTime(e.target.value)}
+        />
         <ItemInfoContainer>
           <p>설명</p>
-          <textarea placeholder="상품의 상태를 자세히 적어주세요."/>
+          <textarea placeholder="상품의 상태를 자세히 적어주세요." value={itemContents}/>
         </ItemInfoContainer>
       </InputContainer>
       <PostButtonContainer>
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <PostButton onClick={handleClick}>
-          등록하기
-        </PostButton>
+        <PostButton text="등록하기" />
       </PostButtonContainer>
     </Wrapper>
+    </MainLayout>
   );
 };
 
