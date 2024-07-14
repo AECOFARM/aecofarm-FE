@@ -10,6 +10,7 @@ import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 
 interface ItemDetail {
+  owner: boolean;
   contractId: number;
   itemId: number;
   userName: string;
@@ -37,7 +38,6 @@ const Container = styled.div`
   margin: 20px;
   max-height: 700px;
   margin: auto;
-
 `;
 
 const ItemInfo = styled.div`
@@ -62,12 +62,16 @@ const Title = styled.h2`
   font-weight: 600;
 `;
 
+const UserContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const User = styled.div`
   font-size: 17px;
   font-weight: 500;
   display: flex;
-  padding-left:10px;
   align-items: center;
   gap: 10px;
   color: var(--gray6);
@@ -87,22 +91,19 @@ const ProfileImg = styled.img`
   border: 1px solid var(--gray3);
 `;
 
-
 const Place = styled.div`
   font-size: 17px;
   color: var(--gray6);
-
   display: flex;
   
   img {
-   margin-right: 2px;  
+    margin-right: 2px;  
   }
 
   div {
-   margin-left: 7px;
+    margin-left: 7px;
   }
 `;
-
 
 const Content = styled.div`
   font-size: 17px;
@@ -153,7 +154,6 @@ const LendButton = styled.a`
   }
 `;
 
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -175,6 +175,39 @@ const ItemImage = styled.img`
   display: block;
 `;
 
+const EditDeleteContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const EditButton = styled.button`
+  background-color: var(--orange2);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    background-color: var(--orange3);
+  }
+`;
+
+const DeleteButton = styled.button`
+  background-color: var(--red);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  
+  &:hover {
+    background-color: darkred;
+  }
+`;
+
 const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
@@ -190,86 +223,91 @@ const BorrowDetailPage = () => {
       // Replace with your API call
       const exampleData: ItemDetail[] = [
         {
-              "contractId": 123456,
-              "itemId": 1,
-              "userName": "이정선",
-              "itemName": "맥북 맥세이프 충전기",
-              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-              "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "itemImage": "",
-              "price": 0,
-              "itemPlace": "경영관",
-              "time": 5,
-              "contractTime": 10,
-              "itemHash": ["eunjeong", "맥북프로", "충전기"],
-              "likeStatus": true,
-              "donateStatus": true
-            },
-            {
-              "contractId": 789012,
-              "itemId": 2,
-              "userName": "이정선",
-              "itemName": "아이패드 에어 4",
-              "itemImage": "/img/item-image.png",
-              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-              "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "price": 5000,
-              "itemPlace": "신공학관",
-              "time": 3,
-              "contractTime": 10,
-              "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-              "likeStatus": false,
-              "donateStatus": false,
-            },
-            {
-              "contractId": 789013,
-              "itemId": 3,
-              "userName": "이정선",
-              "itemName": "아이패드 에어 4",
-              "itemImage": "/img/item-image.png",
-              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-              "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "price": 5000,
-              "itemPlace": "신공학관",
-              "time": 3,
-              "contractTime": 10,
-              "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-              "likeStatus": false,
-              "donateStatus": false,
-            },
-            {
-              "contractId": 789014,
-              "itemId": 4,
-              "userName": "이정선",
-              "itemName": "아이패드 에어 4",
-              "itemImage": "/img/item-image.png",
-              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-              "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "price": 0,
-              "itemPlace": "신공학관",
-              "time": 3,
-              "contractTime": 10,
-              "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-              "likeStatus": false,
-              "donateStatus": true,
-            },
-            {
-              "contractId": 789015,
-              "itemId": 5,
-              "userName": "이정선",
-              "itemName": "아이패드 에어 4",
-              "itemContents": "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-              "kakao": "https://open.kakao.com/o/s37YOrBg",
-              "itemImage": "",
-              "price": 0,
-              "itemPlace": "신공학관",
-              "time": 3,
-              "contractTime": 10,
-              "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-              "likeStatus": false,
-              "donateStatus": true,
-            }
-          ];
+          owner: true,
+          contractId: 123456,
+          itemId: 1,
+          userName: "이정선",
+          itemName: "맥북 맥세이프 충전기",
+          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+          kakao: "https://open.kakao.com/o/s37YOrBg",
+          itemImage: "",
+          price: 0,
+          itemPlace: "경영관",
+          time: 5,
+          contractTime: 10,
+          itemHash: ["eunjeong", "맥북프로", "충전기"],
+          likeStatus: true,
+          donateStatus: true
+        },
+        {
+          owner: false,
+          contractId: 789012,
+          itemId: 2,
+          userName: "이정선",
+          itemName: "아이패드 에어 4",
+          itemImage: "/img/item-image.png",
+          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+          kakao: "https://open.kakao.com/o/s37YOrBg",
+          price: 5000,
+          itemPlace: "신공학관",
+          time: 3,
+          contractTime: 10,
+          itemHash: ["jeongseon", "네고가능", "상태좋음"],
+          likeStatus: false,
+          donateStatus: false,
+        },
+        {
+          owner: true,
+          contractId: 789013,
+          itemId: 3,
+          userName: "이정선",
+          itemName: "아이패드 에어 4",
+          itemImage: "/img/item-image.png",
+          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+          kakao: "https://open.kakao.com/o/s37YOrBg",
+          price: 5000,
+          itemPlace: "신공학관",
+          time: 3,
+          contractTime: 10,
+          itemHash: ["jeongseon", "네고가능", "상태좋음"],
+          likeStatus: false,
+          donateStatus: false,
+        },
+        {
+          owner: true,
+          contractId: 789014,
+          itemId: 4,
+          userName: "이정선",
+          itemName: "아이패드 에어 4",
+          itemImage: "/img/item-image.png",
+          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+          kakao: "https://open.kakao.com/o/s37YOrBg",
+          price: 0,
+          itemPlace: "신공학관",
+          time: 3,
+          contractTime: 10,
+          itemHash: ["jeongseon", "네고가능", "상태좋음"],
+          likeStatus: false,
+          donateStatus: true,
+        },
+        {
+          owner: true,
+          contractId: 789015,
+          itemId: 5,
+          userName: "이정선",
+          itemName: "아이패드 에어 4",
+          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
+          kakao: "https://open.kakao.com/o/s37YOrBg",
+          itemImage: "",
+          price: 0,
+          itemPlace: "신공학관",
+          time: 3,
+          contractTime: 10,
+          itemHash: ["jeongseon", "네고가능", "상태좋음"],
+          likeStatus: false,
+          donateStatus: true,
+        }
+      ];
       const item = exampleData.find((item) => item.contractId === Number(contractId));
       setItemDetail(item || null);
       if (item) {
@@ -297,6 +335,7 @@ const BorrowDetailPage = () => {
   }
 
   const {
+    owner,
     itemName,
     userName,
     itemContents,
@@ -308,7 +347,6 @@ const BorrowDetailPage = () => {
     contractTime,
     itemHash,
     donateStatus
-
   } = itemDetail;
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
@@ -317,49 +355,56 @@ const BorrowDetailPage = () => {
 
   const moveReserve = () => {
     router.push(`/reserve/${contractId}`);
-  }
+  };
 
   return (
     <AppLayout>
       <Header/>
-        <MainLayout>
-          <NoFixedTopBar text=''/>
-            <Container>
-              <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
-              <ItemInfo>
-                <TitleContainer>
-                  <Title>{itemName}</Title>
-                  {donateStatus === true && <DonateLabel />}
-                </TitleContainer>
-                <Content>{itemContents}</Content>
-                <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
-                <Place>
-                  <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
-                  <div>
-                    <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
-                  </div>
-                </Place>
-                <HashTags>
-                  {itemHash.map((tag, index) => (
-                    <HashTag key={index}>#{tag}</HashTag>
-                  ))}
-                </HashTags>
-              </ItemInfo>
-            <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
-            <User><ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span></User>
-   
-              <ButtonContainer>
-                <LendButton href={kakao} target="_blank">
-                  오픈채팅 바로가기
-                </LendButton>
-                <LendButton onClick={moveReserve}>
-                  대여 요청하기
-                </LendButton>
-              </ButtonContainer>
-      
-            
-          </Container>
-        </MainLayout>
+      <MainLayout>
+        <NoFixedTopBar text=''/>
+        <Container>
+          <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
+          <ItemInfo>
+            <TitleContainer>
+              <Title>{itemName}</Title>
+              {donateStatus === true && <DonateLabel />}
+            </TitleContainer>
+            <Content>{itemContents}</Content>
+            <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
+            <Place>
+              <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
+              <div>
+                <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
+              </div>
+            </Place>
+            <HashTags>
+              {itemHash.map((tag, index) => (
+                <HashTag key={index}>#{tag}</HashTag>
+              ))}
+            </HashTags>
+          </ItemInfo>
+          <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+          <UserContainer>
+            <User>
+              <ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span>
+            </User>
+            {owner && (
+              <EditDeleteContainer>
+                <EditButton>수정</EditButton>
+                <DeleteButton>삭제</DeleteButton>
+              </EditDeleteContainer>
+            )}
+          </UserContainer>
+          <ButtonContainer>
+            <LendButton href={kakao} target="_blank">
+              오픈채팅 바로가기
+            </LendButton>
+            <LendButton onClick={moveReserve}>
+              대여 요청하기
+            </LendButton>
+          </ButtonContainer>
+        </Container>
+      </MainLayout>
       <Navigation />
     </AppLayout>
   );
