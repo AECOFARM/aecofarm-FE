@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import Popup from '@/components/Popup';
+import axios from 'axios';
+import FormData from 'form-data';
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,31 +23,87 @@ const Container = styled.div`
   margin-top: 20px;
 `;
 
-const HeaderLogo = styled.img`
-  padding-top: 40px;
-  padding-bottom: 10px;
-`;
-
 const TextContainer = styled.h3`
   color: black;
-  padding: 13px 0;
-  font-size: 20px;
+  padding: 15px 0;
+  font-size: 22px;
   text-align: left;
 `;
 
 const ProfileContainer = styled.div`
-  width: 134px;
-  height: 134px;
-  background-color: var(--gray3);
-  border-radius: 11px;
+  display: flex;
+  align-items: center;
 `;
 
-const Profile = styled.img`
+const HiddenProfileInput = styled.input`
+  display: none;
 `;
+
+const CustomProfileInputLabel = styled.label`
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 80px 10px 15px 10px;
+  border: 1px solid var(--gray3);
+  color: var(--orange2);
+  font-size: 17px;
+
+  &:hover {
+    background: var(--orange2);
+    color: #fff;   
+    border: none;
+  }
+`;
+
+const DefaultProfile = styled.div`
+  width: 200px;
+  height: 200px;
+  background-color: var(--gray3);
+  border-radius: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 11px;
+  object-fit: cover;
+`;
+
+const DeleteImage = styled.div`
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  border: 1px solid var(--gray3);
+  color: var(--orange2);
+  font-size: 16px;
+
+  &:hover {
+    background: var(--orange2);
+    color: #fff;   
+    border: none;
+  }
+`;
+
 
 const ButtonContainer = styled.div`
   position: absolute;
-  top: 340px;
+  top: 420px;
   gap: 20px;
   display: flex;
   flex-direction: column;
@@ -56,12 +114,12 @@ const ButtonContainer = styled.div`
 
 const Button = styled.input`
   width: 100%;
-  padding: 13px 22px;
+  padding: 15px 22px;
   border-radius: 15px;
   border: 0px;
   color: var(--gray6);
   background-color: var(--gray2);
-  font-size: 16px;
+  font-size: 17px;
   text-align: left;
 `;
 
@@ -79,48 +137,102 @@ const PasswordIcon = styled.img`
 `;
 
 const SignUpPage = () => {
-
   const router = useRouter();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [userData, setUserData] = useState({
+    email: '',
+    userName: '',
+    password: '',
+    phone: '',
+    schoolNum: ''
+  });
+  const [profileImage, setProfileImage] = useState(null);
 
-  const handleClick = () => {
-    router.push('/login');
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  console.log("API Base URL:", API_BASE_URL);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
   };
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const handleRemoveImage = () => {
+    setProfileImage(null);
+  };
+  
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
 
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
 
+  const handleSignUp = async () => {
+    const formData = new FormData();
+    formData.append('file', profileImage);
+    formData.append('signupData', JSON.stringify(userData));
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/member/signup`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.data.code === 200) {
+        handleOpenPopup();
+      } else {
+        alert('회원가입에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('회원가입 오류:', error);
+      alert('회원가입에 실패하였습니다.');
+    }
+  };
 
   return (
     <AppLayout>
       <NoFixedTopBar text='회원가입'/>
       <Wrapper>
-     
         <Container>
           <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
-          <ProfileContainer></ProfileContainer>
+          <ProfileContainer> 
+            {profileImage ? (
+              <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image" />
+            ) : (
+              <DefaultProfile>
+                <span></span>
+              </DefaultProfile>
+            )}
+            <HiddenProfileInput type="file" accept=".jpg" id="profileImage" onChange={handleImageChange} />
+            <div>
+              <CustomProfileInputLabel htmlFor="profileImage">사진 선택</CustomProfileInputLabel>
+              <DeleteImage onClick={handleRemoveImage}>기본 이미지로 변경</DeleteImage>
+            </div>
+          </ProfileContainer>
         </Container>
         <Container>
           <TextContainer>정보를 입력해주세요</TextContainer>
           <ButtonContainer>
-            <Button type='text' placeholder="이름"/>
-            <Button type='tel' placeholder="전화번호"/>
-            <Button type='email' placeholder="이메일"/>
+            <Button type='text' placeholder="이름" name="userName" onChange={handleInputChange} />
+            <Button type='tel' placeholder="전화번호" name="phone" onChange={handleInputChange} />
+            <Button type='email' placeholder="이메일" name="email" onChange={handleInputChange} />
             <PasswordInputContainer>
-                <Button type="password" placeholder="비밀번호"></Button>
-                <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+              <Button type="password" placeholder="비밀번호" name="password" onChange={handleInputChange} />
+              <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
             </PasswordInputContainer>
             <Button
               type="number"
               placeholder="학번"
+              name="schoolNum"
               onKeyDown={(e) => {
                 if (e.key === '.' || e.key === '-' || e.key === '+' || e.key === 'e') {
                   e.preventDefault();
                 }
               }}
-            /> 
-            <OrangeButton text='등록' onClick={handleOpenPopup} ></OrangeButton>
+              onChange={handleInputChange}
+            />
+            <OrangeButton text='등록' onClick={handleSignUp} />
             <Popup isOpen={isPopupOpen} onClose={handleClosePopup} title="회원가입 완료" button1="로그인 바로가기" button2="닫기">
               <p>아코팜의 회원이 되어주셔서 감사해요!</p>
             </Popup>
