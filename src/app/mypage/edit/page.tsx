@@ -1,5 +1,5 @@
-"use client"
-import React, {useState} from "react";
+"use client";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TopBar from "@/components/TopBar";
 import { Wrapper } from "@/components/CommonStyles";
@@ -7,8 +7,9 @@ import MainLayout from "@/components/layout/MainLayout";
 import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
+import axios from 'axios';
 
-const ProfileImageContainer = styled.div<{ image? : string}>`
+const ProfileImageContainer = styled.div<{ image?: string }>`
   background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-position: center;
@@ -63,6 +64,7 @@ const EditInput = styled.input`
   box-sizing: border-box;
   color: var(--gray6);
 `;
+
 const ModifiedButton = styled(OrangeButton)`
   width: 80%;
 `;
@@ -78,21 +80,51 @@ const LeaveButton = styled.div`
   }
 `;
 
-const Example = () =>{ 
+const Example = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
   const handleClick = () => {
     router.push("/mypage");
-  }
+  };
+
+  const handleDeleteAccount = async () => {
+    const token = localStorage.getItem('token');
+    console.log(token)
+    if (!token) {
+      alert('로그인 토큰이 없습니다. 다시 로그인해 주세요.');
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const response = await axios.delete('/api/member/signout', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.data.code === 200) {
+        alert(response.data.message); // Use the success message from the response
+        router.push('/');
+      } else {
+        alert('회원 탈퇴에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('회원 탈퇴에 실패하였습니다.');
+    } finally {
+      closeModal();
+    }
+  };
 
   const profileData = {
     userName: "이아코",
@@ -102,30 +134,37 @@ const Example = () =>{
 
   return (
     <MainLayout>
-    <TopBar text = "프로필 수정" />
-    <Wrapper>
-      <ProfileImageContainer image="/img/profile-image.png"/>
-      <ProfileImageEditButton>
-        <p>시진 수정 및 삭제</p>
-      </ProfileImageEditButton>
-      <ProfileEditContainer>
-        <TextInputContainer>
-          <EditTitle>이름</EditTitle>
-          <EditInput type='text' defaultValue={profileData.userName} />
-        </TextInputContainer>
-        <TextInputContainer>
-          <EditTitle>이메일</EditTitle>
-          <EditInput type='text' defaultValue={profileData.email} />
-        </TextInputContainer>
-      </ProfileEditContainer>
-      <ModifiedButton text="수정하기" onClick={handleClick} />
-      <LeaveButton> 
-        <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
-        <Popup isOpen={isOpen} onClose={closeModal} title="정말 탈퇴하시겠습니까?" children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다" button1="예" button2="아니오" />
-      </LeaveButton>
-    </Wrapper>
+      <TopBar text="프로필 수정" />
+      <Wrapper>
+        <ProfileImageContainer image={profileData.image} />
+        <ProfileImageEditButton>
+          <p>사진 수정 및 삭제</p>
+        </ProfileImageEditButton>
+        <ProfileEditContainer>
+          <TextInputContainer>
+            <EditTitle>이름</EditTitle>
+            <EditInput type="text" defaultValue={profileData.userName} />
+          </TextInputContainer>
+          <TextInputContainer>
+            <EditTitle>이메일</EditTitle>
+            <EditInput type="text" defaultValue={profileData.email} />
+          </TextInputContainer>
+        </ProfileEditContainer>
+        <ModifiedButton text="수정하기" onClick={handleClick} />
+        <LeaveButton>
+          <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
+          <Popup 
+            isOpen={isOpen} 
+            onClose={closeModal} 
+            title="정말 탈퇴하시겠습니까?" 
+            children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다." 
+            button1={{ text: "예", onClick: handleDeleteAccount }} 
+            button2={{ text: "아니오", onClick: closeModal }} 
+          />
+        </LeaveButton>
+      </Wrapper>
     </MainLayout>
-  )
-}
+  );
+};
 
 export default Example;
