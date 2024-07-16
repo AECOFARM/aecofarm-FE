@@ -74,11 +74,15 @@ const FindPassword: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const handleClick = async () => {
+
+    const token = localStorage.getItem('token'); // 로컬 스토리지에서 JWT 토큰을 가져옴
+
     try {
       const response = await fetch(`api/member/update/pw`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
         body: JSON.stringify({
           email,

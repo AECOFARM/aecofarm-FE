@@ -7,9 +7,14 @@ interface PopupProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  button1: string;
-  button2: string;
-  isTrue: () => void;
+  button1: {
+    text: string;
+    onClick: () => void;
+  };
+  button2: {
+    text: string;
+    onClick: () => void;
+  };
 }
 
 const Overlay = styled.div`
@@ -44,7 +49,7 @@ const Title = styled.h2`
 
 const Line = styled.div`
   background-color: var(--gray8);
-  width 40px;
+  width: 40px;
 `;
 
 const Detail = styled.div`
@@ -69,7 +74,7 @@ const CloseButton = styled.button`
   font-weight: 600;
 `;
 
-const Popup: React.FC<PopupProps> = ({ isOpen, onClose, title, children, button1, button2, isTrue }) => {
+const Popup: React.FC<PopupProps> = ({ isOpen, onClose, title, children, button1, button2 }) => {
   if (!isOpen) return null;
 
   return (
@@ -79,8 +84,8 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, title, children, button1
         <Title>{title}</Title>
         <Detail>{children}</Detail>
         <ButtonContainer>
-          <MintButton text={button1} onClick={isTrue} />
-          <CloseButton onClick={onClose}>{button2}</CloseButton> 
+          <MintButton text={button1.text} onClick={button1.onClick} />
+          <CloseButton onClick={button2.onClick}>{button2.text}</CloseButton>
         </ButtonContainer>
       </Content>
     </Overlay>
