@@ -30,14 +30,13 @@ const CategoryContainer = styled.div<{ isSelected: boolean }>`
   }
 `;
 
-const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
-
 interface CategoryProps {
   selectedCategory: string;
   onSelectCategory:  (category: string) => void;
+  categories: string[]
 }
 
-const Category: React.FC<CategoryProps> = React.memo(({selectedCategory, onSelectCategory}) => {
+const Category: React.FC<CategoryProps> = React.memo(({selectedCategory, onSelectCategory, categories}) => {
   return (
     <Container>
       {categories.map((category) => (

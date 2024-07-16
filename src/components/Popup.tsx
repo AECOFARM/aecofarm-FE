@@ -21,6 +21,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10000;
 `;
 
 const Content = styled.div`
@@ -37,7 +38,7 @@ const Content = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 28px;
+  font-size: 22px;
   color: var(--black);
 `;
 

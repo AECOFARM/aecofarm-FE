@@ -155,6 +155,7 @@ interface ExampleData {
   };
 
 const MyItemList: NextPage = () => {
+  const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
   const handleCategoryChange = useCallback((category: string) => {
@@ -198,6 +199,7 @@ const MyItemList: NextPage = () => {
           <Category 
             selectedCategory={selectedCategory}
             onSelectCategory={handleCategoryChange}
+            categories={categories}
           />
         </CategoryContainer>
         <CategoryItemsContainer>
