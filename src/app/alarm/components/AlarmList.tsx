@@ -91,7 +91,7 @@ const exampleData: AlarmList = {
         "status" : "REQUEST",
         "userName" : "이정선",
         "memberStatus" : "LEND",
-        "contractId" : 1236,
+        "contractId" : 1238,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
@@ -100,7 +100,7 @@ const exampleData: AlarmList = {
         "status" : "REQUEST",
         "userName" : "이정선",
         "memberStatus" : "BORROW",
-        "contractId" : 1237,
+        "contractId" : 1239,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
@@ -109,7 +109,7 @@ const exampleData: AlarmList = {
         "status" : "ACCEPT",
         "userName" : "이정선",
         "memberStatus" : "LEND",
-        "contractId" : 1236,
+        "contractId" : 1240,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
@@ -118,7 +118,7 @@ const exampleData: AlarmList = {
         "status" : "ACCEPT",
         "userName" : "이정선",
         "memberStatus" : "BORROW",
-        "contractId" : 1237,
+        "contractId" : 1241,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
@@ -127,7 +127,7 @@ const exampleData: AlarmList = {
         "status" : "REJECT",
         "userName" : "이정선",
         "memberStatus" : "LEND",
-        "contractId" : 1236,
+        "contractId" : 1242,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
@@ -136,33 +136,16 @@ const exampleData: AlarmList = {
         "status" : "REJECT",
         "userName" : "이정선",
         "memberStatus" : "BORROW",
-        "contractId" : 1237,
+        "contractId" : 1243,
         "itemName": "초고속 멀티 충전기",
         "image" : "/img/item-image.png",
         "time": new Date("2024-05-05"),
-      },
-      {
-        "status" : "COMPLETE",
-        "userName" : "이정선",
-        "memberStatus" : "LEND",
-        "contractId" : 1236,
-        "itemName": "초고속 멀티 충전기",
-        "image" : "/img/item-image.png",
-        "time": new Date("2024-05-05"),
-      },
-      {
-        "status" : "COMPLETE",
-        "userName" : "이정선",
-        "memberStatus" : "BORROW",
-        "contractId" : 1237,
-        "itemName": "초고속 멀티 충전기",
-        "image" : "/img/item-image.png",
-        "time": new Date("2024-05-05"),
-      },
+      }
    ],
 };
 
 const AlarmList: React.FC<AlarmList> = () => {
+    const categories = ["전체", "대여하기", "빌려주기"];
     const [selectedCategory, setSelectedCategory] = useState("전체");
 
     const handleCategoryChange = useCallback((category: string) => {
@@ -184,12 +167,14 @@ const AlarmList: React.FC<AlarmList> = () => {
                 <Category
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleCategoryChange}
+                categories={categories}
                 />
             </CategoryContainer>
             <CategoryItemsContainer>
                 <AlarmContainer>
                     {filteredData.map((alarm, index) => (
                         <AlarmListItem key={index} alarm={alarm} category={alarm.category}/>
+                        
                     ))}
                 </AlarmContainer>
             </CategoryItemsContainer>
