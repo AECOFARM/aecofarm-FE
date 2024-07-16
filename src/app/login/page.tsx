@@ -92,7 +92,7 @@ const SignUpPage = () => {
 
     if (response.ok) {
       // Handle successful login
-      const { token } = data.data;
+      const { token } = data;
       localStorage.setItem('token', token);  
       router.push('/borrow');  
     } else {
