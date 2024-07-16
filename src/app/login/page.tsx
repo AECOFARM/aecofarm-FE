@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react';
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
@@ -18,6 +17,7 @@ const Wrapper = styled.div`
 const HeaderLogo = styled.img`
   padding: 35px 20px;
 `;
+
 
 const ButtonContainer = styled.div`
   gap: 13px;
@@ -38,12 +38,14 @@ const Button = styled.input`
   text-align: left;
 `;
 
+
 const PasswordInputContainer = styled.div`
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
 `;
+
 
 const PasswordIcon = styled.img`
   position: absolute;
@@ -71,36 +73,13 @@ const SignUpButton = styled.button`
 `;
 
 const SignUpPage = () => {
+
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  const login = async () => {
-    const response = await fetch('/api/member/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      // Handle successful login
-      const { token } = data.data;
-      localStorage.setItem('token', token);  
-      router.push('/borrow');  
-    } else {
-      // Handle login failure
-      setErrorMessage(data.message || '로그인에 실패하였습니다.');
-    }
+  const login = () => {
+    router.push('/borrow');
   };
-
+  
   const handleClick = () => {
     router.push('/sign-up');
   };
@@ -113,30 +92,19 @@ const SignUpPage = () => {
     <AppLayout>
       <Wrapper>
         <HeaderLogo src='/img/aeco-logo.svg'></HeaderLogo>
-        <ButtonContainer>
-          <Button 
-            type="email" 
-            placeholder="이메일" 
-            value={email} 
-            onChange={handleEmailChange} 
-          />
-          <PasswordInputContainer>
-            <Button 
-              type="password" 
-              placeholder="비밀번호" 
-              value={password} 
-              onChange={handlePasswordChange} 
-            />
-            <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
-          </PasswordInputContainer>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-          <OrangeButton text='로그인' onClick={login}></OrangeButton>
-          <ExtraButtonContainer>
-            <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
-            <span> | </span>
-            <SignUpButton onClick={findPassword}>비밀번호 찾기</SignUpButton>
-          </ExtraButtonContainer>
-        </ButtonContainer>
+          <ButtonContainer>
+            <Button type="email" placeholder="이메일"></Button>
+              <PasswordInputContainer>
+                <Button type="password" placeholder="비밀번호"></Button>
+                <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+              </PasswordInputContainer>
+              <OrangeButton text='로그인' onClick={login}></OrangeButton>
+              <ExtraButtonContainer>
+                <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
+                <span> | </span>
+                <SignUpButton onClick={findPassword}>비밀번호 찾기</SignUpButton>
+            </ExtraButtonContainer>
+          </ButtonContainer>
       </Wrapper>
     </AppLayout>
   );
