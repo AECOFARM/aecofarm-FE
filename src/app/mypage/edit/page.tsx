@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import styled from "styled-components";
 import TopBar from "@/components/TopBar";
@@ -64,6 +64,7 @@ const EditInput = styled.input`
   box-sizing: border-box;
   color: var(--gray6);
 `;
+
 const ModifiedButton = styled(OrangeButton)`
   width: 80%;
 `;
@@ -96,24 +97,29 @@ const Example = () => {
   };
 
   const handleDeleteAccount = async () => {
+    const token = localStorage.getItem('token');
+    console.log(token)
+    if (!token) {
+      alert('로그인 토큰이 없습니다. 다시 로그인해 주세요.');
+      router.push('/login');
+      return;
+    }
+
     try {
-      const response = await axios.post(
-        '/member/signout',
-        {},
-        {
-          headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIzIiwiaWF0IjoxNzE5NTUyMzE2LCJleHAiOjE3MTk1NTU5MTZ9.1DQ0T4e8pRjZDxhjcjpg9MAjDMo2khLIuDh35HdNaQg'
-          }
+      const response = await axios.delete('/api/member/signout', {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
-      );
+      });
 
       if (response.data.code === 200) {
-        alert('회원 탈퇴에 성공하였습니다.');
+        alert(response.data.message); // Use the success message from the response
         router.push('/');
       } else {
         alert('회원 탈퇴에 실패하였습니다.');
       }
     } catch (error) {
+      console.error(error);
       alert('회원 탈퇴에 실패하였습니다.');
     } finally {
       closeModal();
@@ -130,9 +136,9 @@ const Example = () => {
     <MainLayout>
       <TopBar text="프로필 수정" />
       <Wrapper>
-        <ProfileImageContainer image="/img/profile-image.png" />
+        <ProfileImageContainer image={profileData.image} />
         <ProfileImageEditButton>
-          <p>시진 수정 및 삭제</p>
+          <p>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
         <ProfileEditContainer>
           <TextInputContainer>
@@ -151,7 +157,7 @@ const Example = () => {
             isOpen={isOpen} 
             onClose={closeModal} 
             title="정말 탈퇴하시겠습니까?" 
-            children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다" 
+            children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다." 
             button1={{ text: "예", onClick: handleDeleteAccount }} 
             button2={{ text: "아니오", onClick: closeModal }} 
           />

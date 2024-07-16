@@ -117,7 +117,7 @@ const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) =>
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 JWT 토큰을 가져옴
+      const token = localStorage.getItem('token');
 
       const response = await axios.post('/api/member/logout', {}, {
         headers: {
