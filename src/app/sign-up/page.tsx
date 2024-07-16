@@ -100,7 +100,6 @@ const DeleteImage = styled.div`
   }
 `;
 
-
 const ButtonContainer = styled.div`
   position: absolute;
   top: 420px;
@@ -159,7 +158,7 @@ const SignUpPage = () => {
   const handleRemoveImage = () => {
     setProfileImage(null);
   };
-  
+
   const handleImageChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
@@ -169,17 +168,20 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     const formData = new FormData();
-    formData.append('file', profileImage);
+    if (profileImage) {
+      formData.append('file', profileImage);
+    }
     formData.append('signupData', JSON.stringify(userData));
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/member/signup`, formData, {
+      const response = await axios.post('https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/member/signup', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
       if (response.data.code === 200) {
+        // 회원가입 성공 후 팝업 표시
         handleOpenPopup();
       } else {
         alert('회원가입에 실패하였습니다.');
