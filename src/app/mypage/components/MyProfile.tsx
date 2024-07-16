@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -103,9 +104,31 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
     router.push('/mypage/edit');
   }
 
+  const handleLogout = async () => {
+    try {
+      const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIzIiwiaWF0IjoxNzE5NTUyMzE2LCJleHAiOjE3MTk1NTU5MTZ9.1DQ0T4e8pRjZDxhjcjpg9MAjDMo2khLIuDh35HdNaQg'; // JWT 토큰
+
+      const response = await axios.post('/api/member/logout', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.data.code === 200) {
+        alert(response.data.data); // 로그아웃 성공 메시지
+        router.push('/login'); // 로그인 페이지로 리디렉션
+      } else {
+        alert('로그아웃에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+      alert('로그아웃에 실패하였습니다.');
+    }
+  };
+
   return (
     <ProfileContainer>
-        <ProfileImageContainer src = {image} />
+        <ProfileImageContainer src={image} />
         <ProfileContentContainer>
           <ProfileNameContainer>{userName}</ProfileNameContainer>
           <ProfileEmailContainer>
@@ -120,7 +143,7 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
         <ButtonContainer>
             <p onClick={profileEdit} className='edit'>프로필 수정</p>
             <p>|</p>
-            <p className='logout'>로그아웃</p>
+            <p onClick={handleLogout} className='logout'>로그아웃</p>
         </ButtonContainer>
     </ProfileContainer>
   );

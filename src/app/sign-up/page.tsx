@@ -168,29 +168,50 @@ const SignUpPage = () => {
 
   const handleSignUp = async () => {
     const formData = new FormData();
+    
     if (profileImage) {
-      formData.append('file', profileImage);
+      formData.append('file', profileImage, profileImage.name);
     }
+  
+    // signupData를 JSON 문자열로 변환하여 FormData에 추가
     formData.append('signupData', JSON.stringify(userData));
-
+    
+    console.log('FormData content:');
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
+  
     try {
       const response = await axios.post('https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/member/signup', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
       });
-
+  
       if (response.data.code === 200) {
         // 회원가입 성공 후 팝업 표시
         handleOpenPopup();
       } else {
+        console.log('서버 응답:', response.data);
         alert('회원가입에 실패하였습니다.');
       }
     } catch (error) {
-      console.error('회원가입 오류:', error);
-      alert('회원가입에 실패하였습니다.');
+      if (error.response) {
+        // 서버가 응답을 반환했지만 2xx 범위에 있지 않은 경우
+        console.error('회원가입 오류:', error.response.data);
+        alert(`회원가입에 실패하였습니다: ${error.response.data.message}`);
+      } else if (error.request) {
+        // 요청이 만들어졌으나 응답을 받지 못한 경우
+        console.error('회원가입 오류: 서버가 응답하지 않음');
+        alert('회원가입에 실패하였습니다: 서버가 응답하지 않습니다.');
+      } else {
+        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생한 경우
+        console.error('회원가입 오류:', error.message);
+        alert(`회원가입에 실패하였습니다: ${error.message}`);
+      }
     }
   };
+  
 
   return (
     <AppLayout>
