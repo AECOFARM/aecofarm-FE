@@ -51,6 +51,10 @@ const Header = () => {
   const moveSearchPage = () => {
     router.push('/search');
   };
+
+  const moveAlarmPage = () => {
+    router.push('/alarm');
+  }
   
     return (
         <HeaderContainer>
@@ -60,8 +64,8 @@ const Header = () => {
             <Logo>
                 <img src="/aecofarm-logo.svg" alt="logo" />
             </Logo>
-            <IconContainer>
-                <img src = "/bell.svg" alt="alarm" />
+            <IconContainer onClick={moveAlarmPage}>
+                <img src = "/bell.svg" alt="alarm"/>
             </IconContainer>
         </HeaderContainer>
         

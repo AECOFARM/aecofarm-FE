@@ -87,7 +87,6 @@ const Reserve = () => {
     const item = exampleData.find((item) => item.contractId === Number(contractId));
     setItemDetail(item || null);
   };
-
   fetchItemDetail();
 }, [contractId]);
 

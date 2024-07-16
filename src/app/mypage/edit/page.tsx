@@ -1,11 +1,12 @@
 "use client"
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import TopBar from "@/components/TopBar";
 import { Wrapper } from "@/components/CommonStyles";
 import MainLayout from "@/components/layout/MainLayout";
 import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
+import Popup from "@/components/Popup";
 
 const ProfileImageContainer = styled.div<{ image? : string}>`
   background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
@@ -57,7 +58,7 @@ const EditTitle = styled.p`
 const EditInput = styled.input`
   outline: 0;
   border: none;
-  background-color: #FFFFFF;
+  background-color: var(--white);
   width: 100%;
   box-sizing: border-box;
   color: var(--gray6);
@@ -66,8 +67,28 @@ const ModifiedButton = styled(OrangeButton)`
   width: 80%;
 `;
 
+const LeaveButton = styled.div`
+  font-size: 0.9rem;
+  underline: 1px solid var(--black);
+  color: var(--gray8);
+  margin: 20px;
+  cursor: pointer;
+  p {
+    text-decoration: underline;
+  }
+`;
+
 const Example = () =>{ 
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
 
   const handleClick = () => {
     router.push("/mypage");
@@ -98,6 +119,10 @@ const Example = () =>{
         </TextInputContainer>
       </ProfileEditContainer>
       <ModifiedButton text="수정하기" onClick={handleClick} />
+      <LeaveButton> 
+        <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
+        <Popup isOpen={isOpen} onClose={closeModal} title="정말 탈퇴하시겠습니까?" children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다" button1="예" button2="아니오" />
+      </LeaveButton>
     </Wrapper>
     </MainLayout>
   )

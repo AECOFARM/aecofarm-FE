@@ -101,6 +101,8 @@ const exampleData: ExampleData = {
 };
 
 const MyItemList: NextPage = () => {
+  const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
+
   const router = useRouter();
 
   const moveBorrowDetail = (contractId: number) => {
@@ -155,6 +157,7 @@ const MyItemList: NextPage = () => {
     <Category
       selectedCategory={selectedCategory}
       onSelectCategory={handleCategoryChange}
+      categories={categories}
     />
     </CategoryContainer>
     <CategoryItemsContainer>

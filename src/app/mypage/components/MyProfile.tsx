@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Popup from '@/components/Popup';
 import axios from 'axios';
 
 const ProfileContainer = styled.div`
@@ -27,6 +28,7 @@ const ProfileImageContainer = styled.img`
     height: 90px;
   }
 `;
+
 const ProfileContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,8 +99,17 @@ interface ProfileProps {
   point: number;
 }
 
-const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
+const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+  }
 
   const profileEdit = () => {
     router.push('/mypage/edit');
@@ -106,7 +117,7 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
 
   const handleLogout = async () => {
     try {
-      const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIzIiwiaWF0IjoxNzE5NTUyMzE2LCJleHAiOjE3MTk1NTU5MTZ9.1DQ0T4e8pRjZDxhjcjpg9MAjDMo2khLIuDh35HdNaQg'; // JWT 토큰
+      const token = localStorage.getItem('token'); // 로컬 스토리지에서 JWT 토큰을 가져옴
 
       const response = await axios.post('/api/member/logout', {}, {
         headers: {
@@ -116,6 +127,7 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
 
       if (response.data.code === 200) {
         alert(response.data.data); // 로그아웃 성공 메시지
+        localStorage.removeItem('token'); // 로그아웃 시 토큰 삭제
         router.push('/login'); // 로그인 페이지로 리디렉션
       } else {
         alert('로그아웃에 실패하였습니다.');
@@ -128,23 +140,32 @@ const MyProfile: React.FC<ProfileProps> = ({userName, email, image, point}) => {
 
   return (
     <ProfileContainer>
-        <ProfileImageContainer src={image} />
-        <ProfileContentContainer>
-          <ProfileNameContainer>{userName}</ProfileNameContainer>
-          <ProfileEmailContainer>
-            <p>Email</p>
-            <p className='email'>{email}</p>
-          </ProfileEmailContainer>
-          <ProfilePointContainer>
-            <p>Point</p>
-            <p className="point">{point}P</p>
-          </ProfilePointContainer>
-        </ProfileContentContainer>
-        <ButtonContainer>
-            <p onClick={profileEdit} className='edit'>프로필 수정</p>
-            <p>|</p>
-            <p onClick={handleLogout} className='logout'>로그아웃</p>
-        </ButtonContainer>
+      <ProfileImageContainer src={image} />
+      <ProfileContentContainer>
+        <ProfileNameContainer>{userName}</ProfileNameContainer>
+        <ProfileEmailContainer>
+          <p>Email</p>
+          <p className='email'>{email}</p>
+        </ProfileEmailContainer>
+        <ProfilePointContainer>
+          <p>Point</p>
+          <p className="point">{point}P</p>
+        </ProfilePointContainer>
+      </ProfileContentContainer>
+      <ButtonContainer>
+        <p onClick={profileEdit} className='edit'>프로필 수정</p>
+        <p>|</p>
+        <p onClick={openModal} className='logout'>로그아웃</p>
+      </ButtonContainer>
+      <Popup 
+        isOpen={isOpen} 
+        onClose={closeModal} 
+        title="로그아웃 하시겠습니까?" 
+        children="" 
+        button1="예" 
+        button2="아니오" 
+        isTrue={handleLogout} 
+      />
     </ProfileContainer>
   );
 }
