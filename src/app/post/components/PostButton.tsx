@@ -4,22 +4,19 @@ import { useRouter } from "next/navigation";
 
 interface PostButtonProps {
     text: string;
+    onClick: () => void;
 }
 
-const PostButton: React.FC<PostButtonProps> = ({text}) => {
+const PostButton: React.FC<PostButtonProps> = ({text, onClick}) => {
   const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/borrow');
-    // 실제 글쓰기 시 생성된 글의 상세페이지로 가도록 수정
-  };
 
   return (
     <PostButtonContainer>
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <Button onClick={handleClick}>
+        <Button onClick={onClick} type="submit">
           {text}
         </Button>
+        
       </PostButtonContainer>
   );
 };
@@ -47,7 +44,7 @@ const NoticeButton = styled.p`
   cursor: pointer;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
   background-color: #FF9B3F;
   width: 30%;
   height: 40px;

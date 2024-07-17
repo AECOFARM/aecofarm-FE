@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import styled from 'styled-components';
 import TagInput from "./components/TagInput";
 import TextInput from "./components/TextInput";
@@ -8,6 +8,8 @@ import TopBar from "@/components/TopBar";
 import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
+import axios from "axios";
+
 const SelectContainer = styled.div`
   height: 30px;
   mas-width: 500px;
@@ -29,7 +31,7 @@ const SelectContainer = styled.div`
   }
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.form`
   width: 100%;
   padding: 25px;
   display: flex;
@@ -40,19 +42,44 @@ const InputContainer = styled.div`
 `;
 
 const ImageInputContainer = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100%;
-  .image {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 5px;
-    background-color: #999999;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+`;
+
+const ImagePreview = styled.div`
+  display: flex;
+  width: 200px;
+  height: 200px;
+  align-items: center;
+  background-color: var(--gray5);
+  overflow: hidden;
+  border-radius: 10px;
+  p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 auto;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
+
+const RemoveButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  img { 
+    width: 30px;
+    height: 30px;
+  }
+`;
+
 
 const ItemInfoContainer = styled.div`
   width: 100%;
@@ -103,32 +130,146 @@ const NoticeButton = styled.p`
   cursor: pointer;
 `;
 
+interface ItemDetail {
+  category: string;
+  itemName: string;
+  kakao: string;
+  itemHash: string[];
+  time: number;
+  contractTime: number;
+  price: number;
+  itemPlace: string;
+  itemContents: string;
+  file?: File;
+  imagePreviewUrl?: string;
+}
+
 const Post = () => {
   const router = useRouter();
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [category, setCategory] = useState("BORROW");
   const [tags, setTags] = useState<{ value: string }[]>([]);
-  const [itemName, setItemName] = useState("");
-  const [kakao, setKakao] = useState("");
-  const [price, setPrice] = useState("");
-  const [place, setPlace] = useState("");
-  const [contractTime, setContractTime] = useState("");
-  const [time, setTime] = useState("");
-  const [itemContents, setItemContents] = useState("");
+  const [itemDetail, setItemDetail] = useState<ItemDetail>({
+    category: "BORROW",
+    itemName: "",
+    kakao: "",
+    itemHash: [],
+    time: 0,
+    contractTime: 0,
+    price: 0,
+    itemPlace: "",
+    itemContents: "",
+    file: undefined,
+    imagePreviewUrl: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(event.target.value);
+  const fetchPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    const json = JSON.stringify({
+      category: itemDetail.category,
+      itemName: itemDetail.itemName,
+      kakao: itemDetail.kakao,
+      itemHash: itemDetail.itemHash,
+      time: itemDetail.time,
+      contractTime: itemDetail.contractTime,
+      price: itemDetail.price,
+      itemPlace: itemDetail.itemPlace,
+      itemContents: itemDetail.itemContents
+    });
+    const blob = new Blob([json], {
+      type: 'application/json'
+    });
+
+    formData.append('createContract', blob);
+
+    if (itemDetail.file) {
+      formData.append('file', itemDetail.file);
+    } else {
+      const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
+      formData.append('file', emptyFile);
+      // formData.append('file', ''); 로 수정
+    }
+      
+    try {
+      setError(null);
+      setLoading(true);
+
+      const response = await axios.post(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/post`,
+        formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log(response);
+      router.push("/borrow");
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleClick = () => {
-    router.push('/borrow');
-    // 실제 글쓰기 시 생성된 글의 상세페이지로 가도록 수정
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setCategory(event.target.value);
+    setItemDetail(prevState => ({
+      ...prevState,
+      category: value
+    }));
   };
 
   const handleTagsChange = (e: CustomEvent) => {
-    setTags(e.detail.value);
+    const newTags = e.detail.value;
+    setTags(newTags);
+    setItemDetail(prevState => ({
+      ...prevState,
+      itemHash: newTags.map((tag: {value: string }) => tag.value)
+    }));
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    setItemDetail(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : undefined;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setItemDetail(prevState => ({
+          ...prevState,
+          file: file,
+          imagePreviewUrl: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageInput = () => {
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
+    }
+  };
+
+  const removeImage = (e:CustomEvent) => {
+    setItemDetail(prevState => ({
+      ...prevState,
+      file: null,
+      imagePreviewUrl: ""
+    }));
+  };
 
   return(
     <MainLayout>
@@ -140,57 +281,71 @@ const Post = () => {
           <option key="대여하고 싶어요" value="LEND">대여하고 싶어요</option>
         </select>
       </SelectContainer>
-      <InputContainer>
+      <InputContainer onSubmit={fetchPost} method="post">
         {category === "BORROW" && (
           <ImageInputContainer>
-            <div className="image" />
+            <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }}/>
+            <label htmlFor="file" onClick={handleImageInput}>
+              <ImagePreview>
+                  {itemDetail.imagePreviewUrl ? (
+                    <img src={itemDetail.imagePreviewUrl} alt="Image Preview" />
+                  ) : (
+                    <p>이미지 선택</p>
+                  )}
+              </ImagePreview>
+              {itemDetail.imagePreviewUrl && (
+                <RemoveButton onClick={removeImage}>
+                  <img src="/remove-icon.svg" alt="remove" />
+                </RemoveButton>
+              )}
+            </label>
           </ImageInputContainer>
         )}
         <TextInput
           placeholder="상품명"
           name="itemName"
-          value={itemName}
-          onChange={(e) => setItemName(e.target.value)}
+          value={itemDetail?.itemName}
+          onChange={handleInputChange}
         />
         <TextInput
           placeholder="오픈채팅방 링크"
           name="kakao"
-          value={kakao}
-          onChange={(e) => setKakao(e.target.value)}
+          value={itemDetail?.kakao}
+          onChange={handleInputChange}
         />
         <TagInput value={tags} onChange={handleTagsChange} placeholder="해시태그 입력"/>
         <TextInput
           placeholder="가격"
           name="price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          value={String(itemDetail.price)}
+          onChange={handleInputChange}
         />
         <TextInput
           placeholder="거래 가능 장소"
-          name="place"
-          value={place}
-          onChange={(e) => setPlace(e.target.value)}
+          name="itemPlace"
+          value={itemDetail?.itemPlace}
+          onChange={handleInputChange}
         />
         <TextInput
           placeholder="거래 가능 시간"
-          name="time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
+          name="contractTime"
+          value={String(itemDetail.contractTime)}
+          onChange={handleInputChange}
         />
         <TextInput
           placeholder="대여 가능 시간"
-          name="contractTime"
-          value={contractTime}
-          onChange={(e) => setContractTime(e.target.value)}
+          name="time"
+          value={String(itemDetail.time)}
+          onChange={handleInputChange}
         />
         <ItemInfoContainer>
           <p>설명</p>
-          <textarea placeholder="상품의 상태를 자세히 적어주세요." value={itemContents}/>
+          <textarea placeholder="상품의 상태를 자세히 적어주세요." name="itemContents" value={itemDetail?.itemContents} onChange={handleInputChange}/>
         </ItemInfoContainer>
       </InputContainer>
       <PostButtonContainer>
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <PostButton text="등록하기" />
+        <PostButton text="등록하기" onClick={fetchPost}/>
       </PostButtonContainer>
     </Wrapper>
     </MainLayout>

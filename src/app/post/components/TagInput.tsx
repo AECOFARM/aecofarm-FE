@@ -13,6 +13,12 @@ const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }
   const inputRef = useRef<HTMLInputElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
 
+  const handleTagInput = () => {
+    if(inputRef.current) {
+      inputRef.current.focus();
+    }
+  }
+
   const onChangeHashtag = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setHashTag(e.target.value);
   }, []);
@@ -87,7 +93,7 @@ const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }
             #{tag}
           </HashWrapInner>
         ))}
-        <InputLabel ref={labelRef}>{placeholder}</InputLabel>
+        <InputLabel ref={labelRef} onClick={handleTagInput}>{placeholder}</InputLabel>
     </HashWrapOuter>
   );
 };
@@ -153,7 +159,7 @@ const InputLabel = styled.label`
   font-size: 1rem;
   top: 20px;
   transition: all 0.2s;
-  cursor: text;
+  cursor: pointer;
 `;
 
 

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useRef } from "react";
+import { text } from "stream/consumers";
 
 const InputContainer = styled.div`
   position: relative;
@@ -39,7 +40,7 @@ const InputLabel = styled.label`
   font-size: 1rem;
   top: 20px;
   transition: all 0.2s;
-  cursor: text;
+  cursor: pointer;
 `;
 
 interface TextInputProps {
@@ -50,10 +51,16 @@ interface TextInputProps {
 }
 
 const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name }) => {
+  const textInputRef = useRef<HTMLInputElement>(null);
+  const handleTextInput = () => {
+    if(textInputRef.current) {
+      textInputRef.current.focus();
+    }
+  }
   return (
     <InputContainer>
-      <Input type="text" value={value} onChange={onChange} name={name} required/>
-      <InputLabel>{placeholder}</InputLabel>
+      <Input type="text" value={value} onChange={onChange} name={name} ref={textInputRef}  required/>
+      <InputLabel htmlFor={value} onClick={handleTextInput}>{placeholder}</InputLabel>
     </InputContainer>
   );
 };
