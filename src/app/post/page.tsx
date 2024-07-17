@@ -42,22 +42,26 @@ const InputContainer = styled.form`
 `;
 
 const ImageInputContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 200px;
   height: 200px;
-  background-color: var(--gray5);
-  border-radius: 10px;
-  overflow: hidden;
 `;
 
 const ImagePreview = styled.div`
   display: flex;
+  width: 200px;
+  height: 200px;
   align-items: center;
+  background-color: var(--gray5);
+  overflow: hidden;
+  border-radius: 10px;
   p {
     font-size: 1.1rem;
     font-weight: 600;
+    margin: 0 auto;
   }
   img {
     width: 100%;
@@ -67,8 +71,15 @@ const ImagePreview = styled.div`
 `;
 
 const RemoveButton = styled.div`
-  
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  img { 
+    width: 30px;
+    height: 30px;
+  }
 `;
+
 
 const ItemInfoContainer = styled.div`
   width: 100%;
@@ -252,6 +263,14 @@ const Post = () => {
     }
   };
 
+  const removeImage = (e:CustomEvent) => {
+    setItemDetail(prevState => ({
+      ...prevState,
+      file: null,
+      imagePreviewUrl: ""
+    }));
+  };
+
   return(
     <MainLayout>
       <TopBar text="글쓰기" />
@@ -274,9 +293,11 @@ const Post = () => {
                     <p>이미지 선택</p>
                   )}
               </ImagePreview>
-              <RemoveButton>
-
-              </RemoveButton>
+              {itemDetail.imagePreviewUrl && (
+                <RemoveButton onClick={removeImage}>
+                  <img src="/remove-icon.svg" alt="remove" />
+                </RemoveButton>
+              )}
             </label>
           </ImageInputContainer>
         )}
