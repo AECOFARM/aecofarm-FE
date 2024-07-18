@@ -3,6 +3,8 @@ import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import {NextPage} from "next";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -21,50 +23,45 @@ interface Item {
     likeStatus: boolean;
 }
 
-const exampleData: Item[] = [
-    {
-        "contractId" : 1234,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "time" : 5,
-        "price" : 3000,
-        "likeStatus" : false // 좋아요 여부
-    },
-    {
-        "contractId" : 1235,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "",
-        "time" : 5,
-        "price" : 3000,
-        "likeStatus" : true // 좋아요 여부
-    },
-    {
-        "contractId" : 1236,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "time" : 5,
-        "price" : 3000,
-        "likeStatus" : false // 좋아요 여부
-    },
-    {
-        "contractId" : 1237,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "time" : 5,
-        "price" : 3000,
-        "likeStatus" : true // 좋아요 여부
-    }
-]
+interface itemList {
+    itemList: Item[];
+}
 
 const MyItemList = () => {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const token = localStorage.getItem('token');
+    const [itemList, setItemList] = useState<itemList>([]);
 
     const moveDetail = (contractId: number) => {
         router.push(`/borrow-detail/${contractId}`);
     }
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            setError(null);
+            setLoading(true);
+            try {
+              const response = await axios.get(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/mypage/get`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
+              const history = response.data.data.history;
+              setItemList(history);
+            } catch (err) {
+              setError(err.message || 'Something went wrong');
+            } finally {
+              setLoading(false);
+            }
+          };
+          fetchHistory();
+    }, [token])
+
     return (
         <Container>
-            {exampleData.map((item) => (
+            {itemList.map((item) => (
                 <MyItemListItem 
                     key={item.contractId} item={item} imageHeight="100px" imageWidth="100px" onClick={() => moveDetail(item.contractId)}
                 />
