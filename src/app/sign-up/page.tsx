@@ -174,6 +174,11 @@ const SignUpPage: React.FC = () => {
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
 
+
+  const handleClick = () => {
+    router.push('/login');
+  };
+
   const handleSignUp = async () => {
     const formData = new FormData();
 
@@ -248,7 +253,7 @@ const SignUpPage: React.FC = () => {
               button1={{
                 text: '확인',
                 onClick: () => {
-                  handleClosePopup();
+                  handleClick();
                 },
               }}
               button2={{
