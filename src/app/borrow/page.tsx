@@ -1,7 +1,9 @@
 "use client";
 
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import SelectBox from './components/SelectBox';
 import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
@@ -33,109 +35,53 @@ const PostContainer = styled.div`
 
 const BorrowPage = () => {
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
+  const [sortType, setSortType] = useState('NEWEST'); // Default sort type
 
   const login = () => {
     router.push('/lend');
   };
 
-  const moveDetail = (contractId: number) => {
+  const moveDetail = (contractId) => {
     router.push(`/borrow-detail/${contractId}`);
   };
 
-  // 예시 데이터
-  const exampleData = [
-    {
-      "contractId": 123456,
-      "itemId": 1,
-      "itemName": "맥북 맥세이프 충전기",
-      "itemImage": "",
-      "price": 0,
-      "itemPlace": "경영관",
-      "time": 5,
-      "contractTime": 10,
-      "itemHash": ["eunjeong", "맥북프로", "충전기"],
-      "likeStatus": true,
-      "donateStatus": true,
-      "distance": 10,
-      "lowPrice": 2,
-      "highPrice": 25
-    },
-    {
-      "contractId": 789012,
-      "itemId": 2,
-      "itemName": "아이패드 에어 4",
-      "itemImage": "/img/item-image.png",
-      "price": 5000,
-      "itemPlace": "신공학관",
-      "time": 3,
-      "contractTime": 10,
-      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      "likeStatus": false,
-      "donateStatus": false,
-      "distance": 15,
-      "lowPrice": 5,
-      "highPrice": 30
-    },
-    {
-      "contractId": 789013,
-      "itemId": 3,
-      "itemName": "아이패드 에어 4",
-      "itemImage": "/img/item-image.png",
-      "price": 5000,
-      "itemPlace": "신공학관",
-      "time": 3,
-      "contractTime": 10,
-      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      "likeStatus": false,
-      "donateStatus": false,
-      "distance": 15,
-      "lowPrice": 5,
-      "highPrice": 30
-    },
-    {
-      "contractId": 789014,
-      "itemId": 4,
-      "itemName": "아이패드 에어 4",
-      "itemImage": "/img/item-image.png",
-      "price": 0,
-      "itemPlace": "신공학관",
-      "time": 3,
-      "contractTime": 10,
-      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      "likeStatus": false,
-      "donateStatus": true,
-      "distance": 15,
-      "lowPrice": 5,
-      "highPrice": 30
-    },
-    {
-      "contractId": 789015,
-      "itemId": 5,
-      "itemName": "아이패드 에어 4",
-      "itemImage": "",
-      "price": 0,
-      "itemPlace": "신공학관",
-      "time": 3,
-      "contractTime": 10,
-      "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      "likeStatus": false,
-      "donateStatus": true,
-      "distance": 15,
-      "lowPrice": 5,
-      "highPrice": 30
-    }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+
+    const token = localStorage.getItem('token');
+    console.log(token)
+
+      try {
+        const response = await axios.get(`/api/borrow/list`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.data.code === 200) {
+          setPosts(response.data.data);
+        } else {
+          console.error('Failed to fetch data:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [sortType]); // Fetch data whenever sortType changes
 
   return (
     <AppLayout>
       <Header/>
       <MainLayout>
         <ButtonContainer>
-          <SelectBox/>
+          <SelectBox setSortType={setSortType}/>
           <SeeDonate/>
         </ButtonContainer>
         <PostContainer>
-          {exampleData.map((post) => (
+          {posts.map((post) => (
             <ItemPost key={post.contractId} post={post} onClick={() => moveDetail(post.contractId)}/>
           ))}
         </PostContainer>

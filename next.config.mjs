@@ -14,10 +14,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/:path*',
+        destination: 'https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/:path*',
       },
     ]
   },
+
 };
 
 export default nextConfig;
