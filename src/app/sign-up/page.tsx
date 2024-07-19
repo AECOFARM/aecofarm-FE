@@ -246,22 +246,20 @@ const SignUpPage: React.FC = () => {
               onChange={handleInputChange}
             />
             <OrangeButton text='등록' onClick={handleSignUp} />
-            <Popup
-              isOpen={isPopupOpen}
-              onClose={handleClosePopup}
-              title="회원가입 완료"
-              button1={{
-                text: '확인',
-                onClick: () => {
-                  handleClick();
-                },
-              }}
-              button2={{
-                text: '닫기',
-                onClick: handleClosePopup,
-              }}
+            <Popup isOpen={isPopupOpen} onClose={handleClosePopup} title="회원가입 완료! "
+             button1={{
+              text: '확인',
+              onClick: () => {
+                handleClick();
+              },
+            }}
+            button2={{
+              text: '닫기',
+              onClick: handleClosePopup,
+            }}
+
             >
-              <p>아코팜의 회원이 되어주셔서 감사해요!</p>
+             <p>3000P가 지급 되었어요!</p>
             </Popup>
           </ButtonContainer>
         </Container>
