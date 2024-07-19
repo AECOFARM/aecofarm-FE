@@ -2,7 +2,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
-import Header from '@/components/Header';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import OrangeButton from '@/components/OrangeButton';
@@ -129,7 +128,6 @@ const FindPassword: React.FC = () => {
 
   return (
     <AppLayout>
-      <Header />
       <MainLayout>
         <Wrapper>
           <NoFixedTopBar text='비밀번호 변경' />
