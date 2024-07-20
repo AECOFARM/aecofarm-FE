@@ -68,7 +68,7 @@ const Mypage = () => {
       setError(null);
       setLoading(true);
       try {
-        const response = await axios.get(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/mypage/get`, {
+        const response = await axios.get(`/api/mypage/get`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

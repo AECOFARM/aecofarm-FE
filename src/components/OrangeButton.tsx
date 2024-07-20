@@ -18,7 +18,7 @@ interface ButtonProps {
 }
 
 const OrangeButton: NextPage<ButtonProps> = ({ text, onClick, className }) => {
-  return <Button onClick={onClick} className={className}>{text}</Button>;
+  return <Button onClick={onClick} className={className} type='submit'>{text}</Button>;
 };
 
 export default OrangeButton;

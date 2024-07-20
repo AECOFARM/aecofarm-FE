@@ -190,16 +190,14 @@ const Post = () => {
     if (itemDetail.file) {
       formData.append('file', itemDetail.file);
     } else {
-      const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
-      formData.append('file', emptyFile);
-      // formData.append('file', ''); 로 수정
+      formData.append('file', '');
     }
       
     try {
       setError(null);
       setLoading(true);
 
-      const response = await axios.post(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/post`,
+      const response = await axios.post(`/api/contract/post`,
         formData,{
         headers: {
           'Content-Type': 'multipart/form-data',
