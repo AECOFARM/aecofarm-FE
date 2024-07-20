@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Popup from "@/components/Popup";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -78,6 +79,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   const formattedTime = time.toLocaleDateString();  // Date 객체를 문자열로 변환
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const token = localStorage.getItem('token');
 
   const openModal = () => {
     setIsOpen(true);
@@ -85,6 +87,19 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const handleRequest = async(bool) => {
+    try {
+      const response = await axios.patch(`/api/borrow/success`, 
+      {success: bool, contractId: alarm.contractId}, {
+        headers: {
+          'Authorization' : `Bearer ${token}`
+        }
+      });
+    } catch (err: any) {
+      console.log(err.message);
+    } 
   };
 
   let icon: string = "";
@@ -183,6 +198,15 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
     }
   }
 
+  const approveButton = {
+    text: "승인",
+    onClick:() => handleRequest(true)
+  }
+  const rejectButton = {
+    text: "거절",
+    onClick:() => handleRequest(false)
+  }
+
     return (
       <Container onClick={onClick}>
         <IconContainer>
@@ -203,7 +227,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
         </AlarmContentContainer>
         {alarm.image && <AlarmItemImage src={alarm.image} />}
         {category === ""}
-        <Popup isOpen={isOpen} onClose={closeModal} title = "거래 승인하시겠습니까?" children="예약 내역 띄우기" button1="예" button2="아니오" />
+        <Popup isOpen={isOpen} onClose={closeModal} title = "거래 승인하시겠습니까?" children="예약 내역 띄우기" button1={approveButton} button2={rejectButton} />
       </Container>
     );
 }

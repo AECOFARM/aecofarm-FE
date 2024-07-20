@@ -9,6 +9,16 @@ import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface ItemDetail {
+  itemName: string;
+  image: string;
+  price: number;
+  itemPlace: string;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+}
+
 const Reserve = () => {
   const { contractId } = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
@@ -18,19 +28,28 @@ const Reserve = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleClick = () => {
-    router.push('/reserve/complete');
-  };
+  const handleRequest = async () => {
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+    try {
+      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-  interface ItemDetail {
-    itemName: string;
-    image: string;
-    price: number;
-    itemPlace: string;
-    time: number;
-    contractTime: number;
-    itemHash: string[];
-  }
+      if (response.data.code === 200) {
+        router.push('/reserve/complete');
+      } else {
+        alert(response.data.message || '대여 요청에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to request item:', error);
+      alert('대여 요청에 실패하였습니다.');
+    }
+  };
 
   useEffect(() => {
     const fetchItemDetail = async() => {
@@ -68,7 +87,7 @@ const Reserve = () => {
       </Container>
       <ExtendedOrangeButton 
         text = "예약하기" 
-        onClick={handleClick} 
+        onClick={handleRequest} 
         checked={checkStatus}
         disabled={!checkStatus} 
       />

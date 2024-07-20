@@ -336,24 +336,7 @@ const BorrowDetailPage = () => {
       console.error('No token found in localStorage');
       return;
     }
-
-    try {
-      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.data.code === 200) {
-        closeRequestPopup();
-        router.push(`/reserve/${contractId}`);
-      } else {
-        alert(response.data.message || '대여 요청에 실패하였습니다.');
-      }
-    } catch (error) {
-      console.error('Failed to request item:', error);
-      alert('대여 요청에 실패하였습니다.');
-    }
+    router.push(`/reserve/${contractId}`);
   };
 
   if (!itemDetail) {
