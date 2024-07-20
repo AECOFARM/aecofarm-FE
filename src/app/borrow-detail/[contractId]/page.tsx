@@ -1,6 +1,7 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
@@ -208,110 +209,71 @@ const DeleteButton = styled.button`
   }
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+`;
+
+const ModalButton = styled.button`
+  background-color: var(--orange2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--orange3);
+  }
+`;
+
 const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!contractId) {
-      return; // Exit if itemId is not yet defined
+      return;
     }
 
-    // Fetch the item detail using itemId
     const fetchItemDetail = async () => {
-      // Replace with your API call
-      const exampleData: ItemDetail[] = [
-        {
-          owner: true,
-          contractId: 123456,
-          itemId: 1,
-          userName: "이정선",
-          itemName: "맥북 맥세이프 충전기",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          itemImage: "",
-          price: 0,
-          itemPlace: "경영관",
-          time: 5,
-          contractTime: 10,
-          itemHash: ["eunjeong", "맥북프로", "충전기"],
-          likeStatus: true,
-          donateStatus: true
-        },
-        {
-          owner: false,
-          contractId: 789012,
-          itemId: 2,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 5000,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: false,
-        },
-        {
-          owner: true,
-          contractId: 789013,
-          itemId: 3,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 5000,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: false,
-        },
-        {
-          owner: true,
-          contractId: 789014,
-          itemId: 4,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 0,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: true,
-        },
-        {
-          owner: true,
-          contractId: 789015,
-          itemId: 5,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          itemImage: "",
-          price: 0,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: true,
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get(`/api/contract/detail/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`        
+            }
+        });
+
+        if (response.data.code === 200) {
+          const item = response.data.data;
+          setItemDetail(item);
+          setLikeStatus(item.likeStatus);
         }
-      ];
-      const item = exampleData.find((item) => item.contractId === Number(contractId));
-      setItemDetail(item || null);
-      if (item) {
-        setLikeStatus(item.likeStatus);
+      } catch (error) {
+        console.error('Failed to fetch item detail:', error);
       }
     };
 
@@ -320,6 +282,53 @@ const BorrowDetailPage = () => {
 
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
+  };
+
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token');
+    
+    try {
+      const response = await axios.delete(`/api/contract/delete/${contractId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`        
+          }
+      });
+
+      if (response.data.code === 200) {
+        setShowModal(true);
+      } else {
+        alert('삭제에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+      setErrorMessage('삭제에 실패하였습니다.');
+    }
+  };
+
+  const closeModalAndRedirect = () => {
+    setShowModal(false);
+    router.push('/borrow');
+  };
+
+  const handleReserveRequest = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`        
+        }
+      });
+
+      if (response.data.code === 200) {
+        alert('대여하기 요청에 성공하였습니다.');
+        router.push('/borrow');
+      } else {
+        alert('대여하기 요청에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to request borrow:', error);
+      setErrorMessage('대여하기 요청에 실패하였습니다.');
+    }
   };
 
   if (!itemDetail) {
@@ -351,18 +360,13 @@ const BorrowDetailPage = () => {
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
-  const router = useRouter();
-
-  const moveReserve = () => {
-    router.push(`/reserve/${contractId}`);
-  };
-
   return (
     <AppLayout>
       <Header/>
       <MainLayout>
         <NoFixedTopBar text=''/>
         <Container>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
           <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
           <ItemInfo>
             <TitleContainer>
@@ -391,7 +395,7 @@ const BorrowDetailPage = () => {
             {owner && (
               <EditDeleteContainer>
                 <EditButton>수정</EditButton>
-                <DeleteButton>삭제</DeleteButton>
+                <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
               </EditDeleteContainer>
             )}
           </UserContainer>
@@ -399,13 +403,21 @@ const BorrowDetailPage = () => {
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
-            <LendButton onClick={moveReserve}>
+            <LendButton onClick={handleReserveRequest}>
               대여 요청하기
             </LendButton>
           </ButtonContainer>
         </Container>
       </MainLayout>
       <Navigation />
+      {showModal && (
+        <ModalBackground>
+          <ModalContainer>
+            <p>게시글이 삭제되었습니다.</p>
+            <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
+          </ModalContainer>
+        </ModalBackground>
+      )}
     </AppLayout>
   );
 };
