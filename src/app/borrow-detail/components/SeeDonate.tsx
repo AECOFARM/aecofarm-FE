@@ -22,19 +22,18 @@ const CheckIcon = styled.img`
   padding: 0 2px;
 `;
 
-// 타입 명시적으로 지정
 interface SeeDonateProps {
   setSeeDonateStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
-  const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
+  const [seeDonateStatus, setLocalSeeDonateStatus] = useState<boolean>(false);
 
   const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
 
   const checkSeeDonateStatus = () => {
     setLocalSeeDonateStatus(prevStatus => !prevStatus);
-    setSeeDonateStatus(prevStatus => !prevStatus); // 부모 컴포넌트의 상태 업데이트
+    setSeeDonateStatus(prevStatus => !prevStatus); // Update parent component's state
   };
 
   return (
