@@ -79,7 +79,7 @@ const OptionList = styled.li`
   color: black;
 `;
 
-const SelectBox = () => {
+const SelectBox: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [showOptions, setShowOptions] = useState(false);
 
