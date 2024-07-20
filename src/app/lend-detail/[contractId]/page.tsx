@@ -285,9 +285,11 @@ const LendDetailPage = () => {
         setShowModal(true);
       } else {
         console.error('삭제에 실패하였습니다:', response.data.message);
+        alert('삭제에 실패하였습니다.');
       }
     } catch (error) {
       console.error('Failed to delete item:', error);
+      alert('삭제에 실패하였습니다.');
     }
   };
 
@@ -307,7 +309,7 @@ const LendDetailPage = () => {
   const confirmLendRequest = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`/api/lend/request/${contractId}`, {}, {
+      const response = await axios.patch(`/api/lend/request/${contractId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -317,9 +319,11 @@ const LendDetailPage = () => {
         alert('빌려주기 요청에 성공하였습니다.');
         closeRequestPopup();
       } else {
+        alert('빌려주기 요청에 실패하였습니다.');
         console.error('빌려주기 요청에 실패하였습니다:', response.data.message);
       }
     } catch (error) {
+      alert('빌려주기 요청에 실패하였습니다.');
       console.error('Failed to send lend request:', error);
     }
   };
