@@ -22,14 +22,18 @@ const CheckIcon = styled.img`
   padding: 0 2px;
 `;
 
-const SeeDonate = ({ setSeeDonateStatus }) => {
-  const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
+interface SeeDonateProps {
+  setSeeDonateStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const SeeDonateSrc = seeDonateStatus ? '/img/donate-check.svg' : '/img/not-checked.svg';
+const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
+  const [seeDonateStatus, setLocalSeeDonateStatus] = useState<boolean>(false);
+
+  const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
 
   const checkSeeDonateStatus = () => {
     setLocalSeeDonateStatus(prevStatus => !prevStatus);
-    setSeeDonateStatus(prevStatus => !prevStatus); // Update parent state
+    setSeeDonateStatus(prevStatus => !prevStatus); 
   };
 
   return (
