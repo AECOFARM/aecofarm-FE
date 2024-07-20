@@ -209,26 +209,62 @@ const DeleteButton = styled.button`
   }
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+`;
+
+const ModalButton = styled.button`
+  background-color: var(--orange2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--orange3);
+  }
+`;
+
 const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!contractId) {
-      return; // Exit if contractId is not yet defined
+      return;
     }
 
-    // Fetch the item detail using contractId
     const fetchItemDetail = async () => {
-
       const token = localStorage.getItem('token');
-
       try {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            'Authorization': `Bearer ${token}`        
+            }
         });
 
         if (response.data.code === 200) {
@@ -247,6 +283,34 @@ const BorrowDetailPage = () => {
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
   };
+
+  const handleDelete = async () => {
+    const token = localStorage.getItem('token');
+    
+    try {
+      const response = await axios.delete(`/api/contract/delete/${contractId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`        
+          }
+      });
+
+      if (response.data.code === 200) {
+        setShowModal(true);
+      } else {
+        alert('삭제에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+      setErrorMessage('삭제에 실패하였습니다.');
+    }
+  };
+
+
+  const closeModalAndRedirect = () => {
+    setShowModal(false);
+    router.push('/borrow');
+  };
+
 
   if (!itemDetail) {
     return (
@@ -277,8 +341,6 @@ const BorrowDetailPage = () => {
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
-  const router = useRouter();
-
   const moveReserve = () => {
     router.push(`/reserve/${contractId}`);
   };
@@ -289,6 +351,7 @@ const BorrowDetailPage = () => {
       <MainLayout>
         <NoFixedTopBar text=''/>
         <Container>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
           <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
           <ItemInfo>
             <TitleContainer>
@@ -317,7 +380,7 @@ const BorrowDetailPage = () => {
             {owner && (
               <EditDeleteContainer>
                 <EditButton>수정</EditButton>
-                <DeleteButton>삭제</DeleteButton>
+                <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
               </EditDeleteContainer>
             )}
           </UserContainer>
@@ -332,6 +395,14 @@ const BorrowDetailPage = () => {
         </Container>
       </MainLayout>
       <Navigation />
+      {showModal && (
+        <ModalBackground>
+          <ModalContainer>
+            <p>게시글이 삭제되었습니다.</p>
+            <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
+          </ModalContainer>
+        </ModalBackground>
+      )}
     </AppLayout>
   );
 };
