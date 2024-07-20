@@ -90,15 +90,13 @@ const SignUpPage = () => {
 
     const data = await response.json();
 
-    if (response.ok) {
-      // Handle successful login
+    if (data.code == 200) {
       console.log(data.data.token)
       const { token } = data.data;
       localStorage.setItem('token', token);  
       router.push('/borrow');  
     } else {
-      // Handle login failure
-      setErrorMessage(data.message || '로그인에 실패하였습니다.');
+      setErrorMessage(data.message || '로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!');
     }
   };
 
