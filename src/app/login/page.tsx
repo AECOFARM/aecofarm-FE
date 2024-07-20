@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from 'react';
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
@@ -49,6 +49,7 @@ const PasswordIcon = styled.img`
   position: absolute;
   right: 15px; 
   width: 23px;
+  cursor: pointer;
 `;
 
 const ExtraButtonContainer = styled.div`
@@ -75,6 +76,7 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -108,6 +110,10 @@ const SignUpPage = () => {
     router.push('/find-password');
   };
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevVisibility) => !prevVisibility);
+  };
+
   return (
     <AppLayout>
       <Wrapper>
@@ -121,12 +127,16 @@ const SignUpPage = () => {
           />
           <PasswordInputContainer>
             <Button 
-              type="password" 
+              type={isPasswordVisible ? 'text' : 'password'} 
               placeholder="비밀번호" 
               value={password} 
               onChange={handlePasswordChange} 
             />
-            <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+            <PasswordIcon 
+              src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'} 
+              alt="Password Icon" 
+              onClick={togglePasswordVisibility} 
+            />
           </PasswordInputContainer>
           {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
           <OrangeButton text='로그인' onClick={login}></OrangeButton>

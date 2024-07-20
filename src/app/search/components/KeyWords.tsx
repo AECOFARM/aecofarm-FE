@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation'; // useRouter 추가
 
 const Wrapper = styled.div`
   padding: 15px 35px;
@@ -26,10 +27,12 @@ const KeyWord = styled.div`
   margin-bottom: 10px;
   font-size: 17px;
   font-weight: 600;
+  cursor: pointer; 
 `;
 
 const KeyWords = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
+  const router = useRouter(); // useRouter 훅 사용
 
   useEffect(() => {
     const fetchKeywords = async () => {
@@ -41,18 +44,24 @@ const KeyWords = () => {
         }
       });
       const result = await response.json();
-      setKeywords(result.data.recommendedKeywords);
+      setKeywords(result.data.recommendedKeywords.slice(0, 6));
     };
 
     fetchKeywords();
   }, []);
+
+  const handleKeywordClick = (keyword: string) => {
+    router.push(`/search/${encodeURIComponent(keyword)}`); 
+  };
 
   return (
     <Wrapper>
       <Title>아코팜 추천 키워드</Title>
       <KeyWordContainer>
         {keywords.map((keyword, index) => (
-          <KeyWord key={index}>{keyword}</KeyWord>
+          <KeyWord key={index} onClick={() => handleKeywordClick(keyword)}>
+            {keyword}
+          </KeyWord>
         ))}
       </KeyWordContainer>
     </Wrapper>

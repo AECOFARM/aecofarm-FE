@@ -64,6 +64,7 @@ const PasswordIcon = styled.img`
   position: absolute;
   right: 15px;
   width: 23px;
+  cursor: pointer;
 `;
 
 const FindPassword: React.FC = () => {
@@ -71,9 +72,9 @@ const FindPassword: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
   const [schoolNum, setSchoolNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
-
     const token = localStorage.getItem('token'); // 로컬 스토리지에서 JWT 토큰을 가져옴
 
     try {
@@ -81,7 +82,7 @@ const FindPassword: React.FC = () => {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json', // Changed to application/json
         },
         body: JSON.stringify({
           email,
@@ -126,6 +127,10 @@ const FindPassword: React.FC = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevVisibility) => !prevVisibility);
+  };
+
   return (
     <AppLayout>
       <MainLayout>
@@ -159,13 +164,17 @@ const FindPassword: React.FC = () => {
             />
             <PasswordInputContainer>
               <Button
-                type='password'
+                type={isPasswordVisible ? 'text' : 'password'}
                 placeholder='새로운 비밀번호'
                 name='password'
                 value={password}
                 onChange={handleInputChange}
               />
-              <PasswordIcon src='/img/pw-eye.svg' alt='Password Icon' />
+              <PasswordIcon
+                src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
+                alt='Password Icon'
+                onClick={togglePasswordVisibility}
+              />
             </PasswordInputContainer>
             <OrangeButton text='비밀번호 변경' onClick={handleClick} />
           </ButtonContainer>
