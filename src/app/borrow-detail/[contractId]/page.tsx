@@ -210,6 +210,42 @@ const DeleteButton = styled.button`
   }
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  text-align: center;
+`;
+
+const ModalButton = styled.button`
+  background-color: var(--orange2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--orange3);
+  }
+`;
+
 const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
@@ -226,6 +262,11 @@ const BorrowDetailPage = () => {
 
     const fetchItemDetail = async () => {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found in localStorage');
+        return;
+      }
+      console.log('Token:', token); // Debugging token
       try {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
@@ -237,6 +278,8 @@ const BorrowDetailPage = () => {
           const item = response.data.data;
           setItemDetail(item);
           setLikeStatus(item.likeStatus);
+        } else {
+          console.error('Error fetching item details:', response.data.message);
         }
       } catch (error) {
         console.error('Failed to fetch item detail:', error);
@@ -252,7 +295,10 @@ const BorrowDetailPage = () => {
 
   const handleDelete = async () => {
     const token = localStorage.getItem('token');
-    
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
     try {
       const response = await axios.delete(`/api/contract/delete/${contractId}`, {
         headers: {
@@ -282,6 +328,32 @@ const BorrowDetailPage = () => {
   const closeModalAndRedirect = () => {
     setShowModal(false);
     router.push('/borrow');
+  };
+
+  const handleRequest = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+
+    try {
+      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.data.code === 200) {
+        alert(response.data.message);
+        closeRequestPopup();
+      } else {
+        setErrorMessage(response.data.message || '대여 요청에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to request item:', error);
+      setErrorMessage('대여 요청에 실패하였습니다.');
+    }
   };
 
   if (!itemDetail) {
@@ -376,10 +448,7 @@ const BorrowDetailPage = () => {
           title="대여 요청을 하시겠습니까?"
           button1={{
             text: '요청하기',
-            onClick: () => {
-
-              closeRequestPopup();
-            }
+            onClick: handleRequest
           }}
           button2={{
             text: '취소',
