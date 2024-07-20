@@ -30,6 +30,7 @@ const SearchInput = styled.input`
   font-size: 16px;
   color: var(--gray6);
   flex: 1;
+  background-color:white;
 `;
 
 const SearchButton = styled.button`

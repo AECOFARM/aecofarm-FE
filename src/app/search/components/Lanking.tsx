@@ -2,16 +2,14 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
-// 초기 JSON 데이터
 const initialData = {
   "code": 200,
   "message": "SUCCESS",
   "data": {
-    "hotSearchRankings": ["충전기", "마우스", "우산", "물티슈", "키보드", "A4 용지", "미적분책", "보조배터리"]
+    "hotSearchRankings": []
   }
 };
 
-// 스타일 컴포넌트
 const Wrapper = styled.div`
   padding: 15px 35px;
 `;
@@ -63,7 +61,6 @@ const RankChangeIcon = styled.div`
   color: ${props => props.change === '▲' ? 'var(--orange3)' : props.change === '▼' ? 'var(--blue)' : 'black'};
 `;
 
-// 시간 포맷팅 함수
 const getCurrentDateTime = () => {
   const now = new Date();
   const date = now.toLocaleDateString();
@@ -88,13 +85,26 @@ const Lanking = () => {
   const [previousRankings, setPreviousRankings] = useState([]);
 
   useEffect(() => {
+    const fetchRankings = async () => {
+      const token = localStorage.getItem('token')
+      const response = await fetch('/api/member/recommand', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const result = await response.json();
+      setCurrentRankings(result.data.hotSearchRankings);
+    };
+
+    fetchRankings();
+
     const intervalId = setInterval(() => {
       setPreviousRankings(currentRankings);
-      setCurrentRankings(shuffleArray(initialData.data.hotSearchRankings));
+      setCurrentRankings(shuffleArray(currentRankings));
       setDateTime(getCurrentDateTime());
-    }, 10000); // 10초마다 업데이트
+    }, 10000);
 
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, [currentRankings]);
 
   const getRankChange = (item, index) => {
@@ -103,9 +113,9 @@ const Lanking = () => {
     const previousIndex = previousRankings.indexOf(item);
     if (previousIndex === -1) return null;
 
-    if (previousIndex > index) return '▲'; // 순위 상승
-    if (previousIndex < index) return '▼'; // 순위 하락
-    return '-'; // 순위 동일
+    if (previousIndex > index) return '▲';
+    if (previousIndex < index) return '▼';
+    return '-';
   };
 
   return (

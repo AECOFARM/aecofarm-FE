@@ -305,12 +305,31 @@ const BorrowDetailPage = () => {
     }
   };
 
-
   const closeModalAndRedirect = () => {
     setShowModal(false);
     router.push('/borrow');
   };
 
+  const handleReserveRequest = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`        
+        }
+      });
+
+      if (response.data.code === 200) {
+        alert('대여하기 요청에 성공하였습니다.');
+        router.push('/borrow');
+      } else {
+        alert('대여하기 요청에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to request borrow:', error);
+      setErrorMessage('대여하기 요청에 실패하였습니다.');
+    }
+  };
 
   if (!itemDetail) {
     return (
@@ -340,10 +359,6 @@ const BorrowDetailPage = () => {
   } = itemDetail;
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
-
-  const moveReserve = () => {
-    router.push(`/reserve/${contractId}`);
-  };
 
   return (
     <AppLayout>
@@ -388,7 +403,7 @@ const BorrowDetailPage = () => {
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
-            <LendButton onClick={moveReserve}>
+            <LendButton onClick={handleReserveRequest}>
               대여 요청하기
             </LendButton>
           </ButtonContainer>

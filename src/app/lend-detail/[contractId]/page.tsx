@@ -295,6 +295,25 @@ const LendDetailPage = () => {
     router.push('/lend');
   };
 
+  const handleLendRequest = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`/api/lend/request/${contractId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.code === 200) {
+        alert('빌려주기 요청에 성공하였습니다.');
+      } else {
+        console.error('빌려주기 요청에 실패하였습니다:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Failed to send lend request:', error);
+    }
+  };
+
   if (!itemDetail) {
     return (
       <AppLayout>
@@ -362,7 +381,7 @@ const LendDetailPage = () => {
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
-            <LendButton onClick={() => console.log('Lend item')}>
+            <LendButton onClick={handleLendRequest}>
               빌려주기
             </LendButton>
           </ButtonContainer>
