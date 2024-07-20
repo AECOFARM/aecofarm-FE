@@ -1,5 +1,5 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -33,9 +33,8 @@ const Container = styled.div`
   max-width: 440px;
   width: 90%;
   border-radius: 10px;
-  margin: 20px;
+  margin: 20px auto;
   max-height: 700px;
-  margin: auto;
 `;
 
 const ItemInfo = styled.div`
@@ -197,14 +196,52 @@ const DetailContainer = styled.div`
   padding: 20px;
 `;
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+`;
+
+const ModalButton = styled.button`
+  background-color: var(--orange2);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--orange3);
+  }
+`;
+
 const LendDetailPage = () => {
   const { contractId } = useParams();
+  const router = useRouter();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!contractId) {
-      return; // Exit if itemId is not yet defined
+      return; // Exit if contractId is not yet defined
     }
 
     // Fetch the item detail using contractId
@@ -232,6 +269,30 @@ const LendDetailPage = () => {
 
   const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.delete(`/api/contract/delete/${contractId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.data.code === 200) {
+        setShowModal(true);
+      } else {
+        console.error('삭제에 실패하였습니다:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+    }
+  };
+
+  const closeModalAndRedirect = () => {
+    setShowModal(false);
+    router.push('/lend');
   };
 
   if (!itemDetail) {
@@ -279,7 +340,7 @@ const LendDetailPage = () => {
               {owner && (
                 <EditDeleteContainer>
                   <EditButton>수정</EditButton>
-                  <DeleteButton>삭제</DeleteButton>
+                  <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
                 </EditDeleteContainer>
               )}
             </UserContainer>
@@ -308,6 +369,14 @@ const LendDetailPage = () => {
         </Container>
       </MainLayout>
       <Navigation />
+      {showModal && (
+        <ModalBackground>
+          <ModalContainer>
+            <p>게시글이 삭제되었습니다.</p>
+            <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
+          </ModalContainer>
+        </ModalBackground>
+      )}
     </AppLayout>
   );
 };
