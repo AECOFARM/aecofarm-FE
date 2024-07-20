@@ -89,7 +89,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   let icon: string = "";
   let title: string = "";
   let content: string = "";
-  let onClick: (() => void) | undefined;
+  let onClick: (() => void) | undefined = () => {};
 
   if (category === "lending") {
     if (alarm.status === "REQUEST") {

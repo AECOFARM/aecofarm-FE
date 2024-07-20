@@ -9,7 +9,7 @@ import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
-import Popup from '@/components/Popup'; // Popup 컴포넌트 import
+import Popup from '@/components/Popup'; 
 
 interface ItemDetail {
   owner: boolean;
@@ -345,14 +345,14 @@ const BorrowDetailPage = () => {
       });
 
       if (response.data.code === 200) {
-        alert(response.data.message);
         closeRequestPopup();
+        router.push(`/reserve/${contractId}`);
       } else {
-        setErrorMessage(response.data.message || '대여 요청에 실패하였습니다.');
+        alert(response.data.message || '대여 요청에 실패하였습니다.');
       }
     } catch (error) {
       console.error('Failed to request item:', error);
-      setErrorMessage('대여 요청에 실패하였습니다.');
+      alert('대여 요청에 실패하였습니다.');
     }
   };
 
