@@ -1,10 +1,11 @@
-import React, {useState, useCallback, useMemo} from "react";
+import React, {useState, useCallback, useMemo, useEffect} from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import { NextPage } from "next";
 import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles";
 import Category from "@/components/Category";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -29,81 +30,30 @@ const CategoryContainer = styled.div`
 interface LendingItem {
   contractId: number;
   itemName: string;
-  time: number;
   price: number;
+  time: number;
 }
 
 interface BorrowingItem {
   contractId: number;
   itemName: string;
   itemImage: string;
-  time: number;
   price: number;
+  time: number;
 }
 
-interface ExampleData {
+interface Data {
   lendingItems: LendingItem[];
   borrowingItems: BorrowingItem[];
 }
 
-const exampleData: ExampleData = {
-  lendingItems: [
-    {
-      "contractId": 1234,
-      "itemName": "초고속 멀티 충전기",
-      "time": 5,
-      "price": 3000,
-    },
-    {
-      "contractId": 1235,
-      "itemName": "초고속 멀티 충전기",
-      "time": 5,
-      "price": 3000,
-    },
-  ],
-  borrowingItems: [
-    {
-      "contractId": 1236,
-      "itemName": "초고속 멀티 충전기",
-      "itemImage": "/img/Item-image.png",
-      "time": 5,
-      "price": 0,
-    },
-    {
-      "contractId": 1237,
-      "itemName": "초고속 멀티 충전기",
-      "itemImage": "/img/Item-image.png",
-      "time": 5,
-      "price": 3000,
-    },
-    {
-      "contractId": 1238,
-      "itemName": "초고속 멀티 충전기",
-      "itemImage": "/img/Item-image.png",
-      "time": 5,
-      "price": 3000,
-    },
-    {
-      "contractId": 1239,
-      "itemName": "초고속 멀티 충전기",
-      "itemImage": "/img/Item-image.png",
-      "time": 5,
-      "price": 0,
-    },
-    {
-      "contractId": 1240,
-      "itemName": "초고속 멀티 충전기",
-      "itemImage": "/img/Item-image.png",
-      "time": 5,
-      "price": 3000,
-    }
-  ]
-};
-
 const MyItemList: NextPage = () => {
-  const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
-
+  const categories = ["대여하기", "기부하기", "빌려주기"];
+  const [myHeartList, setMyHeartList] = useState<Data>({lendingItems: [], borrowingItems: []});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const token = localStorage.getItem('token');
 
   const moveBorrowDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
@@ -112,43 +62,53 @@ const MyItemList: NextPage = () => {
   const moveLendDetail = (contractId: number) => {
     router.push(`lend-detail/${contractId}`);
   }
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [selectedCategory, setSelectedCategory] = useState("대여하기");
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
   }, []);
 
+  useEffect(() => {
+    const fetchItems = async() => {
+      setError(null);
+      setLoading(true);
+      try{
+        const response = await axios.get(`/api/likes/list`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = response.data.data;
+        setMyHeartList(data);
+      } catch(err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, [token]);
+
   const imageSize = "100%";
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return exampleData.borrowingItems.map((item) => ({
+      return myHeartList.borrowingItems.map((item) => ({
         ...item,
         type: "borrowing",
       }));
     } else if (selectedCategory === "빌려주기") {
-      return exampleData.lendingItems.map((item) => ({
+      return myHeartList.lendingItems.map((item) => ({
         ...item,
         type: "lending",
       }));
     } else if (selectedCategory === "기부하기") {
-      return exampleData.borrowingItems.filter((item) => item.price === 0)
+      return myHeartList.borrowingItems.filter((item) => item.price === 0)
       .map((item) => ({
         ...item,
         type: "borrowing",
       }));
-    } else {
-      return [
-        ...exampleData.borrowingItems.map((item) => ({
-          ...item,
-          type: "borrowing",
-        })),
-        ...exampleData.lendingItems.map((item) => ({
-          ...item,
-          type: "lending",
-        })),
-      ];
-    }
+    } 
   }, [selectedCategory]);
 
   return (

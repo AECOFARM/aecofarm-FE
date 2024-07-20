@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import {NextPage} from "next";
 import { ListContainer } from "@/components/CommonStyles";
@@ -7,6 +7,7 @@ import BorrowItemPost from "@/components/BorrowItemPost";
 import Category from "@/components/Category";
 import { CategoryItemsContainer } from "@/components/CommonStyles";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Container = styled.div`
   display: block;
@@ -60,137 +61,64 @@ interface BorrowingItem {
   donateStatus: boolean;
 }
 
-interface ExampleData {
+interface Data {
   lendingItems: LendingItem[];
   borrowingItems: BorrowingItem[];
 }
-  
-  const exampleData: ExampleData = {
-    lendingItems: [
-      {
-        "contractId": 1,
-        "itemName" : "충전기",
-        "price" : 1000,
-        "itemPlace" : "신공학관",
-        "time" : 2, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "빠른거래", "급해요", "신공"
-        ],
-        "likeStatus" : true, // 좋아요 여부
-        "donateStatus" : false // 기부하기 여부
-     },
-     {
-        "contractId": 2,
-        "itemName" : "키보드",
-        "price" : 5000,
-        "itemPlace" : "학생회관",
-        "time" : 4, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "빠른거래", "급해요", "키보드"
-        ],
-        "likeStatus" : false, // 좋아요 여부
-        "donateStatus" : false // 기부하기 여부
-     }
-    ],
-    borrowingItems: [
-      {
-        "contractId" : 3,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "price" : 3000,
-        "itemPlace" : "중앙도서관",
-        "time" : 5, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "중도지킴이", "빠른거래가능", "초고속"
-        ],
-        "likeStatus" : true, // 좋아요 여부
-        "donateStatus" : false // 기부하기 여부
-      },
-      {
-        "contractId" : 4,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "price" : 0,
-        "itemPlace" : "중앙도서관",
-        "time" : 5, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "중도지킴이", "빠른거래가능", "초고속"
-        ],
-        "likeStatus" : false, // 좋아요 여부
-        "donateStatus" : true // 기부하기 여부
-      },
-      {
-        "contractId" : 5,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "price" : 0,
-        "itemPlace" : "중앙도서관",
-        "time" : 5, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "중도지킴이", "빠른거래가능", "초고속"
-        ],
-        "likeStatus" : true, // 좋아요 여부
-        "donateStatus" : true // 기부하기 여부
-      },
-      {
-        "contractId" : 6,
-        "itemName" : "초고속 멀티 충전기",
-        "itemImage" : "/img/item-image.png",
-        "price" : 3000,
-        "itemPlace" : "중앙도서관",
-        "time" : 5, // 대여 가능 시간 (ex. 3시간)
-        "contractTime" : 10, // 거래 가능 시간 (ex. 10분 이내)
-        "itemHash" : [
-         "중도지킴이", "빠른거래가능", "초고속"
-        ],
-        "likeStatus" : true, // 좋아요 여부
-        "donateStatus" : false // 기부하기 여부
-      }
-    ]
-  };
+
+
 
 const MyItemList: NextPage = () => {
-  const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const categories = ["대여하기", "기부하기", "빌려주기"];
+  const [selectedCategory, setSelectedCategory] = useState("대여하기");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [myPostList, setMyPostList] = useState<Data>({ lendingItems: [], borrowingItems: []});
+  const token = localStorage.getItem('token');
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
   }, []);
 
+  useEffect(() => {
+    const fetchItems = async() => {
+      setError(null);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/mypage/contract/list`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = response.data.data;
+        setMyPostList(data);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, [token])
+
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return exampleData.borrowingItems.map((item) => ({
+      return myPostList.borrowingItems.map((item) => ({
         ...item,
         type: "borrowing",
       }));
     } else if (selectedCategory === "빌려주기") {
-      return exampleData.lendingItems.map((item) => ({
+      return myPostList.lendingItems.map((item) => ({
         ...item,
         type: "lending",
       }));
     } else if (selectedCategory === "기부하기") {
-      return exampleData.borrowingItems.filter((item) => item.donateStatus === true)
+      return myPostList.borrowingItems.filter((item) => item.donateStatus === true)
       .map((item) => ({
         ...item,
         type: "borrowing",
       }));
-    } else {
-      return [
-        ...exampleData.borrowingItems.map((item) => ({
-          ...item,
-          type: "borrowing",
-        })),
-        ...exampleData.lendingItems.map((item) => ({
-          ...item,
-          type: "lending",
-        })),
-      ];
-    }
+    } 
   }, [selectedCategory]);
 
     return (
