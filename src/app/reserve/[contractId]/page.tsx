@@ -7,20 +7,22 @@ import Agreement from "@/components/Agreement";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
 import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Reserve = () => {
   const { contractId } = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
-  const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
-
+  const [itemDetail, setItemDetail] = useState<ItemDetail>();
+  const token = localStorage.getItem('token');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleClick = () => {
     router.push('/reserve/complete');
   };
 
   interface ItemDetail {
-    contractId: number;
     itemName: string;
     image: string;
     price: number;
@@ -29,66 +31,27 @@ const Reserve = () => {
     contractTime: number;
     itemHash: string[];
   }
+
   useEffect(() => {
-  const fetchItemDetail = async () => {
-    // Replace with your API call
-    const exampleData: ItemDetail[] = [
-      {
-        "contractId": 123456,
-        "itemName": "맥북 맥세이프 충전기",
-        "image": "",
-        "price": 0,
-        "itemPlace": "경영관",
-        "time": 5,
-        "contractTime": 10,
-        "itemHash": ["eunjeong", "맥북프로", "충전기"],
-      },
-      {
-        "contractId": 789012,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 5000,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789013,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 5000,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789014,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 0,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789015,
-        "itemName": "아이패드 에어 4",
-        "image": "",
-        "price": 0,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
+    const fetchItemDetail = async() => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`/api/contract/get/reserve/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = response.data.data;
+        setItemDetail(data);
+      } catch(err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    ];
-    const item = exampleData.find((item) => item.contractId === Number(contractId));
-    setItemDetail(item || null);
-  };
-  fetchItemDetail();
-}, [contractId]);
+    };
+    fetchItemDetail();
+  }, [contractId]);
 
   return (
     <Wrapper>
