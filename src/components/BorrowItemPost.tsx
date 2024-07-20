@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DonateLabel from './DonateLabel';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { headers } from 'next/headers';
 
 const Container = styled.div`
   background-color: white;
@@ -126,17 +128,34 @@ const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   } = post;
 
   const router = useRouter();
+  const token = localStorage.getItem('token');
 
   const moveDetail = () => {
-    router.push(`/borrow-detail/${contractId}`);
+    router.push(`/borrow-detail/${contractId}?itemId=${itemId}`);
   }
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
-  const toggleLikeStatus = () => {
-    setLikeStatus(prevStatus => !prevStatus);
+  const toggleLikeStatus = async () => {
+      if (likeStatus) {
+        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          data: { itemId: itemId }
+        });
+        console.log(response);
+      } else {
+        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+      } 
+      setLikeStatus(prevStatus => !prevStatus);
   };
 
   let imageSrc = itemImage;
