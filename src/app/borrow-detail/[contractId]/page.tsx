@@ -1,6 +1,7 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
@@ -218,100 +219,22 @@ const BorrowDetailPage = () => {
       return; // Exit if itemId is not yet defined
     }
 
-    // Fetch the item detail using itemId
+    // Fetch the item detail using contractId
     const fetchItemDetail = async () => {
-      // Replace with your API call
-      const exampleData: ItemDetail[] = [
-        {
-          owner: true,
-          contractId: 123456,
-          itemId: 1,
-          userName: "이정선",
-          itemName: "맥북 맥세이프 충전기",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          itemImage: "",
-          price: 0,
-          itemPlace: "경영관",
-          time: 5,
-          contractTime: 10,
-          itemHash: ["eunjeong", "맥북프로", "충전기"],
-          likeStatus: true,
-          donateStatus: true
-        },
-        {
-          owner: false,
-          contractId: 789012,
-          itemId: 2,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 5000,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: false,
-        },
-        {
-          owner: true,
-          contractId: 789013,
-          itemId: 3,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 5000,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: false,
-        },
-        {
-          owner: true,
-          contractId: 789014,
-          itemId: 4,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemImage: "/img/item-image.png",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          price: 0,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: true,
-        },
-        {
-          owner: true,
-          contractId: 789015,
-          itemId: 5,
-          userName: "이정선",
-          itemName: "아이패드 에어 4",
-          itemContents: "상태 최상. 아이폰, 갤럭시 동시에 충전 가능!",
-          kakao: "https://open.kakao.com/o/s37YOrBg",
-          itemImage: "",
-          price: 0,
-          itemPlace: "신공학관",
-          time: 3,
-          contractTime: 10,
-          itemHash: ["jeongseon", "네고가능", "상태좋음"],
-          likeStatus: false,
-          donateStatus: true,
+      try {
+        const response = await axios.get(`/api/contract/detail/${contractId}`, {
+          headers: {
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIzIiwiaWF0IjoxNzE5NTUyMzE2LCJleHAiOjE3MTk1NTU5MTZ9.1DQ0T4e8pRjZDxhjcjpg9MAjDMo2khLIuDh35HdNaQg'
+          }
+        });
+
+        if (response.data.code === 200) {
+          const item = response.data.data;
+          setItemDetail(item);
+          setLikeStatus(item.likeStatus);
         }
-      ];
-      const item = exampleData.find((item) => item.contractId === Number(contractId));
-      setItemDetail(item || null);
-      if (item) {
-        setLikeStatus(item.likeStatus);
+      } catch (error) {
+        console.error('Failed to fetch item detail:', error);
       }
     };
 

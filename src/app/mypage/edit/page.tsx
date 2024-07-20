@@ -99,6 +99,7 @@ const Example = () => {
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem('token');
     console.log(token)
+
     if (!token) {
       alert('로그인 토큰이 없습니다. 다시 로그인해 주세요.');
       router.push('/login');

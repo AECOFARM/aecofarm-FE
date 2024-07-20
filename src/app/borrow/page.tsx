@@ -45,9 +45,14 @@ const BorrowPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
 
       try {
-        const response = await axios.get(`/api/borrow/list`, {
+        const response = await axios.get('/api/borrow/list', {
+          
           headers: {
             'Authorization': `Bearer ${token}`
           },
