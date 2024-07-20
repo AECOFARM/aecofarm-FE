@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TopBar from "@/components/TopBar";
 import { Wrapper } from "@/components/CommonStyles";
@@ -8,6 +8,7 @@ import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
 import axios from 'axios';
+import { headers } from "next/headers";
 
 const ProfileImageContainer = styled.div<{ image?: string }>`
   background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
@@ -22,7 +23,7 @@ const ProfileImageContainer = styled.div<{ image?: string }>`
   margin: 20px;
 `;
 
-const ProfileImageEditButton = styled.div`
+const ProfileImageEditButton = styled.form`
   p {
     font-size: 1rem;
     color: var(--blue);
@@ -80,9 +81,41 @@ const LeaveButton = styled.div`
   }
 `;
 
+interface myProfile {
+  userName: string;
+  email: string;
+  image: string;
+  point: number;
+}
+
 const Example = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [myProfile, setMyProfile] = useState<myProfile | null>([]);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setError(null);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/mypage/get`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const profile = response.data.data.profile;
+        setMyProfile(profile);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [token]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -97,7 +130,6 @@ const Example = () => {
   };
 
   const handleDeleteAccount = async () => {
-    const token = localStorage.getItem('token');
     console.log(token)
     if (!token) {
       alert('로그인 토큰이 없습니다. 다시 로그인해 주세요.');
@@ -126,28 +158,57 @@ const Example = () => {
     }
   };
 
-  const profileData = {
-    userName: "이아코",
-    email: "aeco@naver.com",
-    image: "/img/profile-image.png"
+  const editProfile = async(e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const updateProfileData = JSON.stringify(myProfile);
+    const blob = new Blob([updateProfileData], {
+      type: 'application/json'
+    });
+
+    formData.append('updateProfileData', blob);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await axios.put(`/api/mypage/update`, 
+        formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    setMyProfile(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   return (
     <MainLayout>
       <TopBar text="프로필 수정" />
       <Wrapper>
-        <ProfileImageContainer image={profileData.image} />
+        <ProfileImageContainer image={myProfile.image} />
         <ProfileImageEditButton>
           <p>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
-        <ProfileEditContainer>
+        <ProfileEditContainer onSubmit={editProfile}>
           <TextInputContainer>
             <EditTitle>이름</EditTitle>
-            <EditInput type="text" defaultValue={profileData.userName} />
+            <EditInput type="text" defaultValue={myProfile.userName} value={myProfile?.userName} name="userName" onChange={handleInputChange}/>
           </TextInputContainer>
           <TextInputContainer>
             <EditTitle>이메일</EditTitle>
-            <EditInput type="text" defaultValue={profileData.email} />
+            <EditInput type="text" defaultValue={myProfile.email} value={myProfile?.email} name="email" onChange={handleInputChange}/>
           </TextInputContainer>
         </ProfileEditContainer>
         <ModifiedButton text="수정하기" onClick={handleClick} />

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import {NextPage} from "next";
 import { ListContainer } from "@/components/CommonStyles";
@@ -7,6 +7,7 @@ import BorrowItemPost from "@/components/BorrowItemPost";
 import Category from "@/components/Category";
 import { CategoryItemsContainer } from "@/components/CommonStyles";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Container = styled.div`
   display: block;
@@ -60,12 +61,12 @@ interface BorrowingItem {
   donateStatus: boolean;
 }
 
-interface ExampleData {
+interface Data {
   lendingItems: LendingItem[];
   borrowingItems: BorrowingItem[];
 }
   
-  const exampleData: ExampleData = {
+  const exampleData: Data = {
     lendingItems: [
       {
         "contractId": 1,
@@ -157,10 +158,15 @@ interface ExampleData {
 const MyItemList: NextPage = () => {
   const categories = ["전체", "대여하기", "기부하기", "빌려주기"];
   const [selectedCategory, setSelectedCategory] = useState("전체");
+  const token = localStorage.getItem('token');
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
   }, []);
+
+  useEffect(() => {
+
+  }, [])
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
