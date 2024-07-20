@@ -132,6 +132,7 @@ const PasswordIcon = styled.img`
   position: absolute;
   right: 15px; 
   width: 23px;
+  cursor: pointer;
 `;
 
 interface UserData {
@@ -153,6 +154,7 @@ const SignUpPage: React.FC = () => {
     schoolNum: ''
   });
   const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -173,7 +175,6 @@ const SignUpPage: React.FC = () => {
 
   const handleOpenPopup = () => setIsPopupOpen(true);
   const handleClosePopup = () => setIsPopupOpen(false);
-
 
   const handleClick = () => {
     router.push('/login');
@@ -200,8 +201,11 @@ const SignUpPage: React.FC = () => {
     } catch (error) {
         alert(`회원가입에 실패하였습니다: ${error.response?.data?.message || error.message}`);
     }
-};
+  };
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevVisibility) => !prevVisibility);
+  };
 
   return (
     <AppLayout>
@@ -231,8 +235,17 @@ const SignUpPage: React.FC = () => {
             <Button type='tel' placeholder="전화번호" name="phone" onChange={handleInputChange} />
             <Button type='email' placeholder="이메일" name="email" onChange={handleInputChange} />
             <PasswordInputContainer>
-              <Button type="password" placeholder="비밀번호" name="password" onChange={handleInputChange} />
-              <PasswordIcon src="/img/pw-eye.svg" alt="Password Icon" />
+              <Button
+                type={isPasswordVisible ? 'text' : 'password'}
+                placeholder="비밀번호"
+                name="password"
+                onChange={handleInputChange}
+              />
+              <PasswordIcon
+                src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
+                alt="Password Icon"
+                onClick={togglePasswordVisibility}
+              />
             </PasswordInputContainer>
             <Button
               type="number"
