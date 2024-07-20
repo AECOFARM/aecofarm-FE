@@ -74,7 +74,7 @@ const OptionList = styled.li`
   color: black;
 `;
 
-const SelectBox = () => {
+const SelectBox = ({ onChange }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [showOptions, setShowOptions] = useState(false);
 
@@ -82,9 +82,10 @@ const SelectBox = () => {
     setShowOptions(prevShowOptions => !prevShowOptions);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option, sortType) => {
     setSelectedOption(option);
     setShowOptions(false);
+    onChange(sortType);
   };
 
   return (
@@ -94,13 +95,13 @@ const SelectBox = () => {
       </SelectButton>
       <SelectList className="list-member" show={showOptions}>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('최신순')}>최신순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('최신순', 'NEWEST')}>최신순</OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('낮은 가격순')}>낮은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('낮은 가격순', 'PRICE_ASC')}>낮은 가격순</OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('높은 가격순')}>높은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('높은 가격순', 'PRICE_DESC')}>높은 가격순</OptionButton>
         </OptionList>
       </SelectList>
     </Container>
@@ -108,3 +109,4 @@ const SelectBox = () => {
 };
 
 export default SelectBox;
+
