@@ -25,7 +25,7 @@ const CheckIcon = styled.img`
 const SeeDonate = ({ setSeeDonateStatus }) => {
   const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
 
-  const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
+  const SeeDonateSrc = seeDonateStatus ? '/img/donate-check.svg' : '/img/not-checked.svg';
 
   const checkSeeDonateStatus = () => {
     setLocalSeeDonateStatus(prevStatus => !prevStatus);
