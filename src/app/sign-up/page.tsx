@@ -164,10 +164,25 @@ const SignUpPage: React.FC = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
+  const formatPhoneNumber = (value: string): string => {
+    const cleaned = value.replace(/\D+/g, '');
+    const match = cleaned.match(/^(\d{0,3})(\d{0,4})(\d{0,4})$/);
+    if (match) {
+      const [, part1, part2, part3] = match;
+      return [part1, part2, part3].filter(Boolean).join('-');
+    }
+    return value;
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const updatedValue = name === 'schoolNum' ? parseInt(value) : value; // schoolNum을 정수로 변환
-    setUserData({ ...userData, [name]: updatedValue });
+    if (name === 'phone') {
+      // 전화번호 포맷팅
+      const formattedPhoneNumber = formatPhoneNumber(value);
+      setUserData({ ...userData, [name]: formattedPhoneNumber });
+    } else {
+      setUserData({ ...userData, [name]: value });
+    }
   };
 
   const handleRemoveImage = () => {
@@ -195,7 +210,7 @@ const SignUpPage: React.FC = () => {
 
   const handleSignUp = async () => {
     const { email, userName, password, phone, schoolNum } = userData;
-    
+
     if (!email || !userName || !password || !phone || !schoolNum) {
       alert('모든 필수 정보를 입력해주세요.');
       return;
@@ -254,51 +269,31 @@ const SignUpPage: React.FC = () => {
           <TextContainer>정보를 입력해주세요</TextContainer>
           <ButtonContainer>
             <Button type='text' placeholder="이름" name="userName" required onChange={handleInputChange} />
-            <Button type='tel' placeholder="전화번호" name="phone" required onChange={handleInputChange} />
+            <Button type='tel' placeholder="전화번호" name="phone" required value={userData.phone} onChange={handleInputChange} />
             <Button type='email' placeholder="이메일" name="email" required onChange={handleInputChange} />
             <PasswordInputContainer>
               <Button
-                type={isPasswordVisible ? 'text' : 'password'}
+                type='password'
                 placeholder="비밀번호"
                 name="password"
                 required
+                value={userData.password}
                 onChange={handleInputChange}
+                type={isPasswordVisible ? 'text' : 'password'}
               />
               <PasswordIcon
-                src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
-                alt="Password Icon"
+                src={isPasswordVisible ? '/img/eye-open.svg' : '/img/eye-closed.svg'}
+                alt="Toggle Password Visibility"
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>
-            <Button
-              type="number"
-              placeholder="학번"
-              name="schoolNum"
-              required
-              onKeyDown={(e) => {
-                if (['.', '-', '+', 'e'].includes(e.key)) {
-                  e.preventDefault();
-                }
-              }}
-              onChange={handleInputChange}
-            />
-            <OrangeButton text='등록' onClick={handleSignUp} />
-            <Popup isOpen={isPopupOpen} onClose={handleClosePopup} title="회원가입 완료! "
-              button1={{
-                text: '확인',
-                onClick: () => {
-                  handleClick();
-                },
-              }}
-              button2={{
-                text: '닫기',
-                onClick: handleClosePopup,
-              }}
-            >
-              <p>3000P가 지급 되었어요!</p>
-            </Popup>
+            <Button type='text' placeholder="학교번호" name="schoolNum" required onChange={handleInputChange} />
+            <OrangeButton text="회원가입" onClick={handleSignUp} />
           </ButtonContainer>
         </Container>
+        {isPopupOpen && (
+          <Popup text="회원가입이 완료되었습니다!" onClose={handleClosePopup} />
+        )}
       </Wrapper>
     </AppLayout>
   );
