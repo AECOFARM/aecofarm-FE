@@ -216,15 +216,18 @@ const BorrowDetailPage = () => {
 
   useEffect(() => {
     if (!contractId) {
-      return; // Exit if itemId is not yet defined
+      return; // Exit if contractId is not yet defined
     }
 
     // Fetch the item detail using contractId
     const fetchItemDetail = async () => {
+
+      const token = localStorage.getItem('token');
+
       try {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyaWQiOiIzIiwiaWF0IjoxNzE5NTUyMzE2LCJleHAiOjE3MTk1NTU5MTZ9.1DQ0T4e8pRjZDxhjcjpg9MAjDMo2khLIuDh35HdNaQg'
+            'Authorization': `Bearer ${token}`
           }
         });
 
