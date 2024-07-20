@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import TopBar from "@/components/TopBar";
 import { Wrapper } from "@/components/CommonStyles";
@@ -8,6 +8,7 @@ import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
 import axios from 'axios';
+import { headers } from "next/headers";
 
 const ProfileImageContainer = styled.div<{ image?: string }>`
   background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
@@ -30,9 +31,12 @@ const ProfileImageEditButton = styled.div`
   display: flex;
   justify-content: center;
   cursor: pointer;
+  input {
+    display: none;
+  }
 `;
 
-const ProfileEditContainer = styled.div`
+const ProfileEditContainer = styled.form`
   display: flex;
   flex-direction: column;
   margin: 40px auto;
@@ -66,7 +70,7 @@ const EditInput = styled.input`
 `;
 
 const ModifiedButton = styled(OrangeButton)`
-  width: 80%;
+  width: 100%;
 `;
 
 const LeaveButton = styled.div`
@@ -80,9 +84,43 @@ const LeaveButton = styled.div`
   }
 `;
 
+interface myProfile {
+  userName: string;
+  email: string;
+  image: string;
+  point: number;
+}
+
 const Example = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [myProfile, setMyProfile] = useState<myProfile | null>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setError(null);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/mypage/get`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const profile = response.data.data.profile;
+        setMyProfile(profile);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [token]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -92,12 +130,7 @@ const Example = () => {
     setIsOpen(false);
   };
 
-  const handleClick = () => {
-    router.push("/mypage");
-  };
-
   const handleDeleteAccount = async () => {
-    const token = localStorage.getItem('token');
     console.log(token)
 
     if (!token) {
@@ -127,31 +160,89 @@ const Example = () => {
     }
   };
 
-  const profileData = {
-    userName: "이아코",
-    email: "aeco@naver.com",
-    image: "/img/profile-image.png"
+  const editProfile = async(e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const updateProfileData = JSON.stringify({
+      userName: myProfile.userName,
+      email: myProfile.email
+    });
+    const blob = new Blob([updateProfileData], {
+      type: 'application/json'
+    });
+
+    formData.append('updateProfileData', blob);
+
+    if(file) {
+      formData.append('file', file);
+    }
+    
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await axios.patch(`/api/mypage/update`, 
+        formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      router.push("/mypage");
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    setMyProfile(prevState => prevState ? {
+      ...prevState,
+      [name]: value
+    } : null);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0] || null;
+    setFile(selectedFile);
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMyProfile(prevState => prevState ? {
+          ...prevState,
+          image: reader.result as string
+        } : null);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const fileInputClick = (e: React.MouseEvent) => {
+    if(fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
   return (
     <MainLayout>
       <TopBar text="프로필 수정" />
       <Wrapper>
-        <ProfileImageContainer image={profileData.image} />
+        <ProfileImageContainer image={myProfile?.image} />
         <ProfileImageEditButton>
-          <p>사진 수정 및 삭제</p>
+          <input type="file" onChange={handleFileChange} ref={fileInputRef} accept=".jpg"/>
+          <p onClick={fileInputClick}>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
-        <ProfileEditContainer>
+        <ProfileEditContainer onSubmit={editProfile}>
           <TextInputContainer>
             <EditTitle>이름</EditTitle>
-            <EditInput type="text" defaultValue={profileData.userName} />
+            <EditInput type="text" defaultValue={myProfile?.userName} value={myProfile?.userName} name="userName" onChange={handleInputChange}/>
           </TextInputContainer>
           <TextInputContainer>
             <EditTitle>이메일</EditTitle>
-            <EditInput type="text" defaultValue={profileData.email} />
+            <EditInput type="text" defaultValue={myProfile?.email} value={myProfile?.email} name="email" onChange={handleInputChange}/>
           </TextInputContainer>
+          <ModifiedButton text="수정하기" />
         </ProfileEditContainer>
-        <ModifiedButton text="수정하기" onClick={handleClick} />
         <LeaveButton>
           <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
           <Popup 
