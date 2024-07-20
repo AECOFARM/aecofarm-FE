@@ -7,7 +7,7 @@ import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/
 import {useRouter} from "next/navigation";
 import { useState, useEffect } from "react";
 import Agreement from "@/components/Agreement";
-import { useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
 
 const Pay = () => {
   const {contractId} = useParams();

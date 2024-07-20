@@ -76,7 +76,7 @@ const BorrowPage = () => {
     };
 
     fetchData();
-  }, [sortType, seeDonateStatus]); // Update dependency array
+  }, [sortType, seeDonateStatus]); 
 
   return (
     <AppLayout>

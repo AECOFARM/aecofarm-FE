@@ -177,7 +177,7 @@ const SignUpPage: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      // 전화번호 포맷팅
+
       const formattedPhoneNumber = formatPhoneNumber(value);
       setUserData({ ...userData, [name]: formattedPhoneNumber });
     } else {

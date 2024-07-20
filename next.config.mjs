@@ -14,7 +14,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://port-0-aecofarm-be2-lytx9n86c2df9578.sel4.cloudtype.app/:path*',
+        destination: 'https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/:path*',
       },
     ]
   },
