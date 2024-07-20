@@ -29,6 +29,7 @@ const AlarmContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-grow: 1;
 `;
 
 const AlarmTitleContainer = styled.div`
@@ -36,6 +37,7 @@ const AlarmTitleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const AlarmTitle = styled.p`
@@ -95,11 +97,19 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
       {success: bool, contractId: alarm.contractId}, {
         headers: {
           'Authorization' : `Bearer ${token}`
-        }
-      });
+        }});
     } catch (err: any) {
       console.log(err.message);
-    } 
+    } finally {
+      let message = "";
+      if (bool === true) {
+        message = "승인 완료!";
+      } else {
+        message = "거절 완료!";
+      }
+      alert(message);
+      closeModal();
+    }
   };
 
   let icon: string = "";
@@ -206,6 +216,13 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
     text: "거절",
     onClick:() => handleRequest(false)
   }
+  const modalContent = (
+    <div>
+      <AlarmTime>{formattedTime}</AlarmTime>
+      <AlarmTitle>{alarm.itemName}</AlarmTitle>
+      <AlarmItemImage src={alarm.image} />
+    </div>
+  );
 
     return (
       <Container onClick={onClick}>
@@ -227,7 +244,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
         </AlarmContentContainer>
         {alarm.image && <AlarmItemImage src={alarm.image} />}
         {category === ""}
-        <Popup isOpen={isOpen} onClose={closeModal} title = "거래 승인하시겠습니까?" children="예약 내역 띄우기" button1={approveButton} button2={rejectButton} />
+        <Popup isOpen={isOpen} onClose={closeModal} title = "예약 내역" children={modalContent} button1={approveButton} button2={rejectButton} />
       </Container>
     );
 }

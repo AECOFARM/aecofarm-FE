@@ -87,7 +87,7 @@ const MyItemList: NextPage = () => {
       }
     };
     fetchItems();
-  }, [token]);
+  }, [myHeartList]);
 
   const imageSize = "100%";
 

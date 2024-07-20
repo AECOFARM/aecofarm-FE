@@ -99,7 +99,7 @@ const MyItemList: NextPage = () => {
       }
     };
     fetchItems();
-  }, [token])
+  }, [token, myPostList])
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
