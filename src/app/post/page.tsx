@@ -206,7 +206,7 @@ const Post = () => {
         }
       });
       console.log(response);
-      router.push("/borrow");
+      router.push("/post/complete");
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {
