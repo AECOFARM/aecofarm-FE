@@ -37,7 +37,7 @@ const BorrowPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [sortType, setSortType] = useState('NEWEST');
-  const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
+  const [seeDonateStatus, setSeeDonateStatus] = useState<boolean>(false);
 
   const moveDetail = (contractId) => {
     router.push(`/borrow-detail/${contractId}`);
