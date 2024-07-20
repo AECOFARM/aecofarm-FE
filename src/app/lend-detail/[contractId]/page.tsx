@@ -1,5 +1,5 @@
 'use client';
-import { useParams, useRouter, usePathname } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
+import Popup from '@/components/Popup'; // Popup 컴포넌트 import
 
 interface ItemDetail {
   contractId: number;
@@ -238,19 +239,16 @@ const LendDetailPage = () => {
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const pathname = usePathname();
-  const decodedPathname = decodeURIComponent(pathname);
-  const itemId = decodedPathname.split('/').pop();
-  const token = localStorage.getItem('token');
+  const [showRequestPopup, setShowRequestPopup] = useState(false); 
 
   useEffect(() => {
     if (!contractId) {
-      return; // Exit if contractId is not yet defined
+      return;
     }
 
-    // Fetch the item detail using contractId
     const fetchItemDetail = async () => {
       try {
+        const token = localStorage.getItem('token');
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -270,23 +268,7 @@ const LendDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = async () => {
-    if (likeStatus) {
-      const response = await axios.delete(`/api/likes/delete/${contractId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        data: { itemId: itemId }
-      });
-      console.log(response);
-    } else {
-      const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      console.log(response);
-    } 
+  const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
   };
 
@@ -303,9 +285,11 @@ const LendDetailPage = () => {
         setShowModal(true);
       } else {
         console.error('삭제에 실패하였습니다:', response.data.message);
+        alert('삭제에 실패하였습니다.');
       }
     } catch (error) {
       console.error('Failed to delete item:', error);
+      alert('삭제에 실패하였습니다.');
     }
   };
 
@@ -314,10 +298,18 @@ const LendDetailPage = () => {
     router.push('/lend');
   };
 
-  const handleLendRequest = async () => {
+  const handleLendRequest = () => {
+    setShowRequestPopup(true);
+  };
+
+  const closeRequestPopup = () => {
+    setShowRequestPopup(false);
+  };
+
+  const confirmLendRequest = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`/api/lend/request/${contractId}`, {}, {
+      const response = await axios.patch(`/api/lend/request/${contractId}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -325,10 +317,13 @@ const LendDetailPage = () => {
 
       if (response.data.code === 200) {
         alert('빌려주기 요청에 성공하였습니다.');
+        closeRequestPopup();
       } else {
+        alert('빌려주기 요청에 실패하였습니다.');
         console.error('빌려주기 요청에 실패하였습니다:', response.data.message);
       }
     } catch (error) {
+      alert('빌려주기 요청에 실패하였습니다.');
       console.error('Failed to send lend request:', error);
     }
   };
@@ -414,6 +409,23 @@ const LendDetailPage = () => {
             <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
           </ModalContainer>
         </ModalBackground>
+      )}
+      {showRequestPopup && (
+        <Popup
+          isOpen={showRequestPopup}
+          onClose={closeRequestPopup}
+          title="빌려주시겠습니까?"
+          button1={{
+            text: '예',
+            onClick: confirmLendRequest
+          }}
+          button2={{
+            text: '아니오',
+            onClick: closeRequestPopup
+          }}
+        >
+          *요청 시 상대방에게 알림이 전송됩니다.
+        </Popup>
       )}
     </AppLayout>
   );

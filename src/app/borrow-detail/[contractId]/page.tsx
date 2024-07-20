@@ -1,5 +1,5 @@
 'use client';
-import { useParams, useRouter, usePathname } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
+import Popup from '@/components/Popup'; 
 
 interface ItemDetail {
   owner: boolean;
@@ -213,20 +214,20 @@ const ModalBackground = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
 const ModalContainer = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  max-width: 380px;
-  width: 90%;
+  max-width: 400px;
   text-align: center;
 `;
 
@@ -251,11 +252,8 @@ const BorrowDetailPage = () => {
   const [likeStatus, setLikeStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showRequestPopup, setShowRequestPopup] = useState(false); 
   const router = useRouter();
-  const token = localStorage.getItem('token');
-  const pathname = usePathname();
-  const decodedPathname = decodeURIComponent(pathname);
-  const itemId = decodedPathname.split('/').pop();
 
   useEffect(() => {
     if (!contractId) {
@@ -263,17 +261,25 @@ const BorrowDetailPage = () => {
     }
 
     const fetchItemDetail = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found in localStorage');
+        return;
+      }
+      console.log('Token:', token); // Debugging token
       try {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`        
-            }
+          }
         });
-        
+
         if (response.data.code === 200) {
           const item = response.data.data;
           setItemDetail(item);
           setLikeStatus(item.likeStatus);
+        } else {
+          console.error('Error fetching item details:', response.data.message);
         }
       } catch (error) {
         console.error('Failed to fetch item detail:', error);
@@ -283,34 +289,21 @@ const BorrowDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = async () => {
-    if (likeStatus) {
-      const response = await axios.delete(`/api/likes/delete/${contractId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        data: { itemId: itemId }
-      });
-      console.log(response);
-    } else {
-      const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      console.log(response);
-    } 
+  const toggleLikeStatus = () => {
     setLikeStatus(prevStatus => !prevStatus);
-};
+  };
 
   const handleDelete = async () => {
     const token = localStorage.getItem('token');
-    
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
     try {
       const response = await axios.delete(`/api/contract/delete/${contractId}`, {
         headers: {
           'Authorization': `Bearer ${token}`        
-          }
+        }
       });
 
       if (response.data.code === 200) {
@@ -324,29 +317,42 @@ const BorrowDetailPage = () => {
     }
   };
 
+  const handleRequestClick = () => {
+    setShowRequestPopup(true);
+  };
+
+  const closeRequestPopup = () => {
+    setShowRequestPopup(false);
+  };
+
   const closeModalAndRedirect = () => {
     setShowModal(false);
     router.push('/borrow');
   };
 
-  const handleReserveRequest = async () => {
+  const handleRequest = async () => {
     const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+
     try {
       const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
         headers: {
-          'Authorization': `Bearer ${token}`        
+          'Authorization': `Bearer ${token}`
         }
       });
 
       if (response.data.code === 200) {
-        alert('대여하기 요청에 성공하였습니다.');
-        router.push('/borrow');
+        closeRequestPopup();
+        router.push(`/reserve/${contractId}`);
       } else {
-        alert('대여하기 요청에 실패하였습니다.');
+        alert(response.data.message || '대여 요청에 실패하였습니다.');
       }
     } catch (error) {
-      console.error('Failed to request borrow:', error);
-      setErrorMessage('대여하기 요청에 실패하였습니다.');
+      console.error('Failed to request item:', error);
+      alert('대여 요청에 실패하였습니다.');
     }
   };
 
@@ -422,9 +428,7 @@ const BorrowDetailPage = () => {
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
-            <LendButton onClick={handleReserveRequest}>
-              대여 요청하기
-            </LendButton>
+            <LendButton onClick={handleRequestClick}>대여 요청하기</LendButton>
           </ButtonContainer>
         </Container>
       </MainLayout>
@@ -436,6 +440,23 @@ const BorrowDetailPage = () => {
             <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
           </ModalContainer>
         </ModalBackground>
+      )}
+      {showRequestPopup && (
+        <Popup
+          isOpen={showRequestPopup}
+          onClose={closeRequestPopup}
+          title="대여 요청을 하시겠습니까?"
+          button1={{
+            text: '요청하기',
+            onClick: handleRequest
+          }}
+          button2={{
+            text: '취소',
+            onClick: closeRequestPopup
+          }}
+        >
+         *요청 시 상대방에게 알림이 전송됩니다.
+        </Popup>
       )}
     </AppLayout>
   );
