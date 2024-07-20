@@ -9,6 +9,7 @@ import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
+import Popup from '@/components/Popup'; // Popup 컴포넌트 import
 
 interface ItemDetail {
   owner: boolean;
@@ -209,48 +210,13 @@ const DeleteButton = styled.button`
   }
 `;
 
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalContainer = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 380px;
-  width: 90%;
-  text-align: center;
-`;
-
-const ModalButton = styled.button`
-  background-color: var(--orange2);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 10px;
-
-  &:hover {
-    background-color: var(--orange3);
-  }
-`;
-
 const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showRequestPopup, setShowRequestPopup] = useState(false); 
   const router = useRouter();
 
   useEffect(() => {
@@ -264,7 +230,7 @@ const BorrowDetailPage = () => {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`        
-            }
+          }
         });
 
         if (response.data.code === 200) {
@@ -291,7 +257,7 @@ const BorrowDetailPage = () => {
       const response = await axios.delete(`/api/contract/delete/${contractId}`, {
         headers: {
           'Authorization': `Bearer ${token}`        
-          }
+        }
       });
 
       if (response.data.code === 200) {
@@ -305,30 +271,17 @@ const BorrowDetailPage = () => {
     }
   };
 
+  const handleRequestClick = () => {
+    setShowRequestPopup(true);
+  };
+
+  const closeRequestPopup = () => {
+    setShowRequestPopup(false);
+  };
+
   const closeModalAndRedirect = () => {
     setShowModal(false);
     router.push('/borrow');
-  };
-
-  const handleReserveRequest = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`        
-        }
-      });
-
-      if (response.data.code === 200) {
-        alert('대여하기 요청에 성공하였습니다.');
-        router.push('/borrow');
-      } else {
-        alert('대여하기 요청에 실패하였습니다.');
-      }
-    } catch (error) {
-      console.error('Failed to request borrow:', error);
-      setErrorMessage('대여하기 요청에 실패하였습니다.');
-    }
   };
 
   if (!itemDetail) {
@@ -403,9 +356,7 @@ const BorrowDetailPage = () => {
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
-            <LendButton onClick={handleReserveRequest}>
-              대여 요청하기
-            </LendButton>
+            <LendButton onClick={handleRequestClick}>대여 요청하기</LendButton>
           </ButtonContainer>
         </Container>
       </MainLayout>
@@ -417,6 +368,26 @@ const BorrowDetailPage = () => {
             <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
           </ModalContainer>
         </ModalBackground>
+      )}
+      {showRequestPopup && (
+        <Popup
+          isOpen={showRequestPopup}
+          onClose={closeRequestPopup}
+          title="대여 요청을 하시겠습니까?"
+          button1={{
+            text: '요청하기',
+            onClick: () => {
+
+              closeRequestPopup();
+            }
+          }}
+          button2={{
+            text: '취소',
+            onClick: closeRequestPopup
+          }}
+        >
+         *요청 시 상대방에게 알림이 전송됩니다.
+        </Popup>
       )}
     </AppLayout>
   );
