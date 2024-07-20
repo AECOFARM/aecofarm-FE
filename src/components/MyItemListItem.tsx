@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import {useRouter} from 'next/navigation';
+import axios from 'axios';
 
 const ItemContainer = styled.div`
   display: flex;
@@ -88,14 +89,6 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
     likeStatus: initialLikeStatus,
   } = item;
 
-  const [likeStatus, setLikeStatus] = useState(initialLikeStatus || false);
-  
-  const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
-
-  const toggleLikeStatus = () => {
-    setLikeStatus(prevStatus => !prevStatus);
-  };
-
   let imageSrc = itemImage;
   if (!imageSrc) {
     imageSrc = "/img/default-image.png";
@@ -110,9 +103,6 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
         <p>|</p>
         <p className='time'>{time}시간</p>
       </ItemInfoContainer>
-      <IconContainer visible={initialLikeStatus !== undefined}>
-        <img src = {likeIconSrc} alt = "like" onClick={toggleLikeStatus} />
-      </IconContainer>
     </ItemContainer>
   )
 });

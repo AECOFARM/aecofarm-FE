@@ -190,7 +190,8 @@ const Post = () => {
     if (itemDetail.file) {
       formData.append('file', itemDetail.file);
     } else {
-      formData.append('file', '');
+      const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
+      formData.append('file', emptyFile);
     }
       
     try {

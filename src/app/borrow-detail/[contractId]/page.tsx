@@ -1,5 +1,5 @@
 'use client';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -252,6 +252,10 @@ const BorrowDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const token = localStorage.getItem('token');
+  const pathname = usePathname();
+  const decodedPathname = decodeURIComponent(pathname);
+  const itemId = decodedPathname.split('/').pop();
 
   useEffect(() => {
     if (!contractId) {
@@ -259,14 +263,13 @@ const BorrowDetailPage = () => {
     }
 
     const fetchItemDetail = async () => {
-      const token = localStorage.getItem('token');
       try {
         const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`        
             }
         });
-
+        
         if (response.data.code === 200) {
           const item = response.data.data;
           setItemDetail(item);
@@ -280,9 +283,25 @@ const BorrowDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = () => {
+  const toggleLikeStatus = async () => {
+    if (likeStatus) {
+      const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        data: { itemId: itemId }
+      });
+      console.log(response);
+    } else {
+      const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log(response);
+    } 
     setLikeStatus(prevStatus => !prevStatus);
-  };
+};
 
   const handleDelete = async () => {
     const token = localStorage.getItem('token');

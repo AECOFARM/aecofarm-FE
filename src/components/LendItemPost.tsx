@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const Container = styled.div`
   background-color: white;
@@ -70,26 +71,6 @@ const LikeIcon = styled.img`
   cursor: pointer;
 `;
 
-// const LendButton = styled.button`
-//   display: flex;
-//   position: absolute;
-//   bottom: 10px;
-//   right: 20px;
-//   background-color: white;
-//   color: var(--oragne2);
-//   padding: 10px 15px;
-//   border: 1px solid var(--gray2);
-//   border-radius: 24px;
-//   cursor: pointer;
-//   font-size: 14px;
-//   padding: 8px 12px;
-
-//   &:hover {
-//     background-color: var(--oragne2);
-//     color: white;
-//   }
-// `;
-
 interface Post {
   contractId: number;
   itemId: number;
@@ -112,6 +93,8 @@ interface LendItemPostProps {
 
 const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const {
+    contractId,
+    itemId,
     itemName,
     itemPlace,
     price,
@@ -122,6 +105,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   } = post;
 
   const router = useRouter();
+  const token = localStorage.getItem('token');
 
   const moveDetail = () => {
     router.push(`/lend-detail/${post.contractId}`);
@@ -131,9 +115,25 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
-  const toggleLikeStatus = () => {
+  const toggleLikeStatus = async () => {
+    if (likeStatus) {
+      const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        data: { itemId: itemId }
+      });
+      console.log(response);
+    } else {
+      const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log(response);
+    } 
     setLikeStatus(prevStatus => !prevStatus);
-  };
+};
 
   const handleLendClick = () => {
     // Handle lend button click
