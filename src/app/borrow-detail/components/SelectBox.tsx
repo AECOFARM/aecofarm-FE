@@ -1,6 +1,11 @@
-// components/SelectBox.js
+// components/SelectBox.tsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
+// Define the type for the show property
+interface SelectListProps {
+  show: boolean;
+}
 
 const Container = styled.div`
   position: relative;
@@ -32,7 +37,7 @@ const SelectButton = styled.button`
   }
 `;
 
-const SelectList = styled.ul`
+const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
   display: ${props => (props.show ? 'block' : 'none')};
   position: absolute;
@@ -82,7 +87,7 @@ const SelectBox = () => {
     setShowOptions(prevShowOptions => !prevShowOptions);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setShowOptions(false);
   };
