@@ -63,11 +63,19 @@ const CustomProfileInputLabel = styled.label`
 const DefaultProfile = styled.div`
   width: 200px;
   height: 200px;
-  background-color: var(--gray3);
+  background-color: white;
+  border: 1px solid var(--gray3);
   border-radius: 11px;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; 
+`;
+
+const DefaultProfileImage = styled.img`
+  width: 100%;
+  height: 50%;
+  object-fit: cover; 
 `;
 
 const ProfileImage = styled.img`
@@ -161,7 +169,6 @@ const SignUpPage: React.FC = () => {
     const updatedValue = name === 'schoolNum' ? parseInt(value) : value; // schoolNum을 정수로 변환
     setUserData({ ...userData, [name]: updatedValue });
   };
-  
 
   const handleRemoveImage = () => {
     setProfileImage(null);
@@ -180,26 +187,41 @@ const SignUpPage: React.FC = () => {
     router.push('/login');
   };
 
+  const urlToBlob = async (url: string): Promise<Blob> => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+  };
+
   const handleSignUp = async () => {
+    const { email, userName, password, phone, schoolNum } = userData;
+    
+    if (!email || !userName || !password || !phone || !schoolNum) {
+      alert('모든 필수 정보를 입력해주세요.');
+      return;
+    }
+
     const formData = new FormData();
 
     if (profileImage) {
-        formData.append('file', profileImage, profileImage.name);
+      formData.append('file', profileImage, profileImage.name);
+    } else {
+      const defaultImageBlob = await urlToBlob('/img/aeco-logo.svg');
+      formData.append('file', defaultImageBlob, 'defaultProfileImage.jpg');
     }
 
-    // Ensure the user data is sent correctly
     formData.append('signupData', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
 
     try {
-        const response = await axios.post('/api/member/signup', formData);
+      const response = await axios.post('/api/member/signup', formData);
 
-        if (response.data.code === 200) {
-            handleOpenPopup();
-        } else {
-            alert('회원가입에 실패하였습니다.');
-        }
+      if (response.data.code === 200) {
+        handleOpenPopup();
+      } else {
+        alert(`회원가입에 실패하였습니다. ${response.data.message}`);
+      }
     } catch (error) {
-        alert(`회원가입에 실패하였습니다: ${error.response?.data?.message || error.message}`);
+      alert('회원가입에 실패하였습니다.');
     }
   };
 
@@ -213,12 +235,12 @@ const SignUpPage: React.FC = () => {
       <Wrapper>
         <Container>
           <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
-          <ProfileContainer> 
+          <ProfileContainer>
             {profileImage ? (
               <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image" />
             ) : (
               <DefaultProfile>
-                <span></span>
+                <DefaultProfileImage src="/img/aeco-logo.svg" alt="Default Profile Image" />
               </DefaultProfile>
             )}
             <HiddenProfileInput type="file" accept=".jpg" id="profileImage" onChange={handleImageChange} />
@@ -231,14 +253,15 @@ const SignUpPage: React.FC = () => {
         <Container>
           <TextContainer>정보를 입력해주세요</TextContainer>
           <ButtonContainer>
-            <Button type='text' placeholder="이름" name="userName" onChange={handleInputChange} />
-            <Button type='tel' placeholder="전화번호" name="phone" onChange={handleInputChange} />
-            <Button type='email' placeholder="이메일" name="email" onChange={handleInputChange} />
+            <Button type='text' placeholder="이름" name="userName" required onChange={handleInputChange} />
+            <Button type='tel' placeholder="전화번호" name="phone" required onChange={handleInputChange} />
+            <Button type='email' placeholder="이메일" name="email" required onChange={handleInputChange} />
             <PasswordInputContainer>
               <Button
                 type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="비밀번호"
                 name="password"
+                required
                 onChange={handleInputChange}
               />
               <PasswordIcon
@@ -251,6 +274,7 @@ const SignUpPage: React.FC = () => {
               type="number"
               placeholder="학번"
               name="schoolNum"
+              required
               onKeyDown={(e) => {
                 if (['.', '-', '+', 'e'].includes(e.key)) {
                   e.preventDefault();
@@ -260,19 +284,18 @@ const SignUpPage: React.FC = () => {
             />
             <OrangeButton text='등록' onClick={handleSignUp} />
             <Popup isOpen={isPopupOpen} onClose={handleClosePopup} title="회원가입 완료! "
-             button1={{
-              text: '확인',
-              onClick: () => {
-                handleClick();
-              },
-            }}
-            button2={{
-              text: '닫기',
-              onClick: handleClosePopup,
-            }}
-
+              button1={{
+                text: '확인',
+                onClick: () => {
+                  handleClick();
+                },
+              }}
+              button2={{
+                text: '닫기',
+                onClick: handleClosePopup,
+              }}
             >
-             <p>3000P가 지급 되었어요!</p>
+              <p>3000P가 지급 되었어요!</p>
             </Popup>
           </ButtonContainer>
         </Container>
