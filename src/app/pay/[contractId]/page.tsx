@@ -8,23 +8,47 @@ import {useRouter} from "next/navigation";
 import { useState, useEffect } from "react";
 import Agreement from "@/components/Agreement";
 import { useParams } from "next/navigation";
+import axios from "axios";
 
 const Pay = () => {
   const {contractId} = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const router = useRouter();
+  const token = localStorage.getItem('token');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleClick = () => {
-    router.push('/pay/complete');
+  const handleRequest = async () => {
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+    try {
+      const response = await axios.post('/api/contract/pay', 
+      {contractId: contractId , point: itemDetail?.price}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.data.code === 200) {
+        router.push('/pay/complete');
+      } else {
+        alert(response.data.message || '결제에 실패하였습니다.');
+      }
+    } catch (error) {
+      console.error('Failed to request item:', error);
+      alert('결제에 실패하였습니다.');
+    }
   };
 
   interface ItemDetail {
-    contractId: number;
     itemName: string;
     image: string;
     price: number;
     itemPlace: string;
+    myPoint: number;
     time: number;
     contractTime: number;
     itemHash: string[];
@@ -32,75 +56,24 @@ const Pay = () => {
 
   useEffect(() => {
     const fetchItemDetail = async () => {
-      // Replace with your API call
-      const exampleData: ItemDetail[] = [
-        {
-          "contractId": 1234,
-          "itemName": "맥북 맥세이프 충전기",
-          "image": "",
-          "price": 0,
-          "itemPlace": "경영관",
-          "time": 5,
-          "contractTime": 10,
-          "itemHash": ["eunjeong", "맥북프로", "충전기"],
-        },
-        {
-          "contractId": 1235,
-          "itemName": "아이패드 에어 4",
-          "image": "/img/item-image.png",
-          "price": 5000,
-          "itemPlace": "신공학관",
-          "time": 3,
-          "contractTime": 10,
-          "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-        },
-        {
-          "contractId": 1236,
-          "itemName": "아이패드 에어 4",
-          "image": "/img/item-image.png",
-          "price": 5000,
-          "itemPlace": "신공학관",
-          "time": 3,
-          "contractTime": 10,
-          "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-        },
-        {
-          "contractId": 1237,
-          "itemName": "아이패드 에어 4",
-          "image": "/img/item-image.png",
-          "price": 0,
-          "itemPlace": "신공학관",
-          "time": 3,
-          "contractTime": 10,
-          "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-        },
-        {
-          "contractId": 1238,
-          "itemName": "아이패드 에어 4",
-          "image": "",
-          "price": 0,
-          "itemPlace": "신공학관",
-          "time": 3,
-          "contractTime": 10,
-          "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-        }
-      ];
-      const item = exampleData.find((item) => item.contractId === Number(contractId));
-      setItemDetail(item || null);
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`/api/contract/get/pay/${contractId}`, {
+          headers: {
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+        const data = response.data.data;
+        setItemDetail(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchItemDetail();
   }, [contractId]);
-
-
-  const exampleData = {
-    itemName : "초고속 멀티 충전기",
-    image : "/img/item-image.png",
-    price : 3000,
-    itemPlace : "신공학관",
-    time : 3,
-    contractTime : 10,
-    itemHash : ["haeun", "상태최상", "아이폰", "갤럭시"],
-  };
 
   return (
     <Wrapper>
@@ -117,7 +90,7 @@ const Pay = () => {
       </Container>
       <ExtendedOrangeButton 
         text = {`${itemDetail?.price} P 결제하기`} 
-        onClick={handleClick} 
+        onClick={handleRequest} 
         checked={checkStatus}
         disabled={!checkStatus} 
       />

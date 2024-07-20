@@ -7,88 +7,70 @@ import Agreement from "@/components/Agreement";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
 import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface ItemDetail {
+  itemName: string;
+  image: string;
+  price: number;
+  itemPlace: string;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+}
 
 const Reserve = () => {
   const { contractId } = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
-  const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
-
+  const [itemDetail, setItemDetail] = useState<ItemDetail>();
+  const token = localStorage.getItem('token');
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleClick = () => {
-    router.push('/reserve/complete');
-  };
+  const handleRequest = async () => {
+    if (!token) {
+      console.error('No token found in localStorage');
+      return;
+    }
+    try {
+      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-  interface ItemDetail {
-    contractId: number;
-    itemName: string;
-    image: string;
-    price: number;
-    itemPlace: string;
-    time: number;
-    contractTime: number;
-    itemHash: string[];
-  }
-  useEffect(() => {
-  const fetchItemDetail = async () => {
-    // Replace with your API call
-    const exampleData: ItemDetail[] = [
-      {
-        "contractId": 123456,
-        "itemName": "맥북 맥세이프 충전기",
-        "image": "",
-        "price": 0,
-        "itemPlace": "경영관",
-        "time": 5,
-        "contractTime": 10,
-        "itemHash": ["eunjeong", "맥북프로", "충전기"],
-      },
-      {
-        "contractId": 789012,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 5000,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789013,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 5000,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789014,
-        "itemName": "아이패드 에어 4",
-        "image": "/img/item-image.png",
-        "price": 0,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
-      },
-      {
-        "contractId": 789015,
-        "itemName": "아이패드 에어 4",
-        "image": "",
-        "price": 0,
-        "itemPlace": "신공학관",
-        "time": 3,
-        "contractTime": 10,
-        "itemHash": ["jeongseon", "네고가능", "상태좋음"],
+      if (response.data.code === 200) {
+        router.push('/reserve/complete');
+      } else {
+        alert(response.data.message || '대여 요청에 실패하였습니다.');
       }
-    ];
-    const item = exampleData.find((item) => item.contractId === Number(contractId));
-    setItemDetail(item || null);
+    } catch (error) {
+      console.error('Failed to request item:', error);
+      alert('대여 요청에 실패하였습니다.');
+    }
   };
-  fetchItemDetail();
-}, [contractId]);
+
+  useEffect(() => {
+    const fetchItemDetail = async() => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`/api/contract/get/reserve/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = response.data.data;
+        setItemDetail(data);
+      } catch(err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItemDetail();
+  }, [contractId]);
 
   return (
     <Wrapper>
@@ -105,7 +87,7 @@ const Reserve = () => {
       </Container>
       <ExtendedOrangeButton 
         text = "예약하기" 
-        onClick={handleClick} 
+        onClick={handleRequest} 
         checked={checkStatus}
         disabled={!checkStatus} 
       />
