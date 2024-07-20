@@ -38,27 +38,24 @@ const BorrowPage = () => {
   const [posts, setPosts] = useState([]);
   const [sortType, setSortType] = useState('NEWEST'); // Default sort type
 
-  const login = () => {
-    router.push('/lend');
-  };
-
   const moveDetail = (contractId) => {
     router.push(`/borrow-detail/${contractId}`);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-
-    const token = localStorage.getItem('token');
-    console.log(token)
+      const token = localStorage.getItem('token');
 
       try {
         const response = await axios.get(`/api/borrow/list`, {
           headers: {
             'Authorization': `Bearer ${token}`
+          },
+          params: {
+            sortType: sortType
           }
         });
-        
+
         if (response.data.code === 200) {
           setPosts(response.data.data);
         } else {
