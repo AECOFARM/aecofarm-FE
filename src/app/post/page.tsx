@@ -199,7 +199,7 @@ const Post = () => {
       setError(null);
       setLoading(true);
 
-      const response = await axios.post(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/post`,
+      const response = await axios.post(`/api/contract/post`,
         formData,{
         headers: {
           'Content-Type': 'multipart/form-data',

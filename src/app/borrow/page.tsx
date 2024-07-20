@@ -36,7 +36,8 @@ const PostContainer = styled.div`
 const BorrowPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
-  const [sortType, setSortType] = useState('NEWEST'); // Default sort type
+  const [sortType, setSortType] = useState('NEWEST');
+  const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
   const moveDetail = (contractId) => {
     router.push(`/borrow-detail/${contractId}`);
@@ -45,9 +46,13 @@ const BorrowPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
 
       try {
-        const response = await axios.get(`/api/borrow/list`, {
+        const response = await axios.get('/api/borrow/list', {
           headers: {
             'Authorization': `Bearer ${token}`
           },
@@ -57,7 +62,11 @@ const BorrowPage = () => {
         });
 
         if (response.data.code === 200) {
-          setPosts(response.data.data);
+          let fetchedPosts = response.data.data;
+          if (seeDonateStatus) {
+            fetchedPosts = fetchedPosts.filter(post => post.price === 0); 
+          }
+          setPosts(fetchedPosts);
         } else {
           console.error('Failed to fetch data:', response.data.message);
         }
@@ -67,7 +76,7 @@ const BorrowPage = () => {
     };
 
     fetchData();
-  }, [sortType]); // Fetch data whenever sortType changes
+  }, [sortType, seeDonateStatus]); // Update dependency array
 
   return (
     <AppLayout>
@@ -75,7 +84,7 @@ const BorrowPage = () => {
       <MainLayout>
         <ButtonContainer>
           <SelectBox setSortType={setSortType}/>
-          <SeeDonate/>
+          <SeeDonate setSeeDonateStatus={setSeeDonateStatus}/>
         </ButtonContainer>
         <PostContainer>
           {posts.map((post) => (

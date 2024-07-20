@@ -22,24 +22,22 @@ const CheckIcon = styled.img`
   padding: 0 2px;
 `;
 
-const SeeDonate = () => {
-
-  const [seeDonateStatus, setSeeDonateStatus] = useState(false);
+const SeeDonate = ({ setSeeDonateStatus }) => {
+  const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
 
   const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
 
   const checkSeeDonateStatus = () => {
-    setSeeDonateStatus(prevStatus => !prevStatus);
+    setLocalSeeDonateStatus(prevStatus => !prevStatus);
+    setSeeDonateStatus(prevStatus => !prevStatus); // Update parent state
   };
-
 
   return (
     <DonateContainer onClick={checkSeeDonateStatus}>
       <CheckDonateButton>기부 모아보기</CheckDonateButton>
       <CheckIcon src={SeeDonateSrc} alt='check' />
     </DonateContainer>
-  )
-  
+  );
 };
 
 export default SeeDonate;

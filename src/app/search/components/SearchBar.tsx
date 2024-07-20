@@ -1,3 +1,4 @@
+// components/SearchBar.tsx
 'use client'
 import React, { useState } from "react";
 import styled from 'styled-components';
@@ -30,6 +31,7 @@ const SearchInput = styled.input`
   font-size: 16px;
   color: var(--gray6);
   flex: 1;
+  background-color:white;
 `;
 
 const SearchButton = styled.button`
@@ -52,7 +54,7 @@ interface SearchBarProps {
   initialData: string;
 }
 
-const SearchBar: React.FC = ({ initialData = '' }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ initialData = '' }) => {
   const [query, setQuery] = useState<string>(initialData);
   const router = useRouter();
 
