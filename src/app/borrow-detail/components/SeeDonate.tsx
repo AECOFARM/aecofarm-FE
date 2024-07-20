@@ -33,7 +33,7 @@ const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
 
   const checkSeeDonateStatus = () => {
     setLocalSeeDonateStatus(prevStatus => !prevStatus);
-    setSeeDonateStatus(prevStatus => !prevStatus); // Update parent component's state
+    setSeeDonateStatus(prevStatus => !prevStatus); // 부모 컴포넌트의 상태 업데이트
   };
 
   return (
