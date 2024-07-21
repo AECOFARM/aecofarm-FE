@@ -41,7 +41,7 @@ const GoToMain: React.FC<Props> = ({text}) => {
     const router = useRouter();
   
     const handleClick = () => {
-      router.push("/lend");
+      router.push("/borrow");
     }
   
     return (

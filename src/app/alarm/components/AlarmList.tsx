@@ -79,7 +79,7 @@ const AlarmList: React.FC<AlarmList> = () => {
         }
       };
       fetchAlarm();
-    }, [token]);
+    }, [alarmList]);
 
     const filteredData = selectedCategory === "전체"
       ? [
