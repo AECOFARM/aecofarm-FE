@@ -12,11 +12,6 @@ import MainLayout from '@/components/layout/MainLayout';
 import ItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
 
-interface Post {
-  contractId: string;
-  price: number;
-}
-
 const ButtonContainer = styled.div`
   position: fixed;
   display: flex;
@@ -37,6 +32,15 @@ const PostContainer = styled.div`
   overflow-y: auto;
   width: 100%;
 `;
+
+interface Post {
+  contractId: string;
+  itemName: string;
+  itemImage: string;
+  itemPlace: string;
+  price: number;
+  // Add other properties if needed
+}
 
 const BorrowPage = () => {
   const router = useRouter();
