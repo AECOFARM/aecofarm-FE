@@ -91,7 +91,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
     setIsOpen(false);
   };
 
-  const handleRequest = async(bool) => {
+  const handleRequest = async(bool: boolean) => {
     try {
       const response = await axios.patch(`/api/borrow/success`, 
       {success: bool, contractId: alarm.contractId}, {
