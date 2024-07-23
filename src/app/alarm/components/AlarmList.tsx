@@ -43,18 +43,19 @@ interface Alarm {
     time: Date;
 }
 
-interface AlarmList {
-    lending: Alarm[];
-    borrowing: Alarm[];
+interface AlarmListProps {
+    alarmList: {
+        lending: Alarm[];
+        borrowing: Alarm[];
+    };
 }
 
-const AlarmList: React.FC<AlarmList> = () => {
+const AlarmList: React.FC<AlarmListProps> = ({ alarmList }) => {
     const categories = ["전체", "대여하기", "빌려주기"];
     const [selectedCategory, setSelectedCategory] = useState("전체");
     const token = localStorage.getItem('token');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [alarmList, setAlarmList] = useState<AlarmList>({lending: [], borrowing: []});
 
     const handleCategoryChange = useCallback((category: string) => {
         setSelectedCategory(category);
@@ -73,14 +74,13 @@ const AlarmList: React.FC<AlarmList> = () => {
           const data = response.data.data;
           setAlarmList(data);
         } catch (err) {
-          const errorMessage = (err as Error).message || 'Something went wrong';
-          setError(errorMessage);
+          setError(err.message || 'Something went wrong');
         } finally {
           setLoading(false);
         }
       };
       fetchAlarm();
-    }, [alarmList]);
+    }, []);
 
     const filteredData = selectedCategory === "전체"
       ? [
