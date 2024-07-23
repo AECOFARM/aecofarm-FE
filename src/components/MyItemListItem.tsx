@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import {useRouter} from 'next/navigation';
-import axios from 'axios';
 
-const ItemContainer = styled.div`
-  display: flex;
+const ItemContainer = styled.div<{ width: number}>`
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -17,13 +16,14 @@ const ItemContainer = styled.div`
     background-color: #EBEBEB;
   }
   position: relative;
-  width: 100%;
+  width:  ${({ width }) => width}px;
+  height: auto;
 `;
 
-const ProfileImage = styled.img<{ width: string, height: string }>`
+const ItemImage = styled.img<{ width: number, height: number }>`
   border-radius: 10px;
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   aspect-ratio: 1 / 1; /* Width와 Height를 동일하게 유지 */
 `;
 
@@ -38,8 +38,8 @@ const IconContainer = styled.div<{ visible: boolean }>`
   left: 80px;
 `;
 
-const ItemInfoContainer = styled.div`
-  display: flex;
+const ItemInfoContainer = styled.div<{ width: number}>`
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
@@ -55,12 +55,22 @@ const ItemInfoContainer = styled.div`
     color: #DF5532;
     font-weight: 700;
   }
+  width: ${({width}) => width}px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
-const ItemTitle = styled.p`
+const ItemTitle = styled.p<{width: number}>`
   font-size: 0.8rem;
   font-weight: 700;
   color: #000000;
+  width: ${({width}) => width}px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 interface Item {
@@ -75,8 +85,8 @@ interface Item {
 interface ItemProps {
   item: Item;
   onClick: () => void;
-  imageWidth: string;
-  imageHeight: string;
+  imageWidth: number;
+  imageHeight: number;
 }
 
 const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHeight, imageWidth }) => {
@@ -95,10 +105,10 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
   }
 
   return (
-    <ItemContainer onClick={onClick}>
-      <ProfileImage src={imageSrc} alt="item" width={imageWidth} height={imageHeight} />
-      <ItemTitle>{itemName}</ItemTitle>
-      <ItemInfoContainer>
+    <ItemContainer onClick={onClick} width={imageWidth+10} >
+      <ItemImage src={imageSrc} alt="item" width={imageWidth} height={imageHeight} />
+      <ItemTitle width={imageWidth}>{itemName}</ItemTitle>
+      <ItemInfoContainer width={imageWidth}>
         <p className='price'>{price} P</p>
         <p>|</p>
         <p className='time'>{time}시간</p>

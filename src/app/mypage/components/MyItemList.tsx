@@ -63,7 +63,7 @@ const MyItemList = () => {
         <Container>
             {itemList.map((item) => (
                 <MyItemListItem 
-                    key={item.contractId} item={item} imageHeight="100px" imageWidth="100px" onClick={() => moveDetail(item.contractId)}
+                    key={item.contractId} item={item} imageHeight={100} imageWidth={100} onClick={() => moveDetail(item.contractId)}
                 />
             ))}
         </Container>
