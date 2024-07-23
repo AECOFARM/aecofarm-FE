@@ -22,8 +22,7 @@ const CheckIcon = styled.img`
   padding: 0 2px;
 `;
 
-const SeeDonate = () => {
-
+const SeeDonate: React.FC = () => {
   const [seeDonateStatus, setSeeDonateStatus] = useState(false);
 
   const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
@@ -32,14 +31,12 @@ const SeeDonate = () => {
     setSeeDonateStatus(prevStatus => !prevStatus);
   };
 
-
   return (
     <DonateContainer onClick={checkSeeDonateStatus}>
       <CheckDonateButton>기부 모아보기</CheckDonateButton>
       <CheckIcon src={SeeDonateSrc} alt='check' />
     </DonateContainer>
-  )
-  
+  );
 };
 
 export default SeeDonate;

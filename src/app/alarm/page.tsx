@@ -1,11 +1,9 @@
 'use client'
-import React, {useState, useCallback} from "react"
-import styled from "styled-components"
+import React from "react";
 import { Wrapper } from "@/components/CommonStyles";
 import AlarmList from "./components/AlarmList";
 
-const Alarm = () => {
-
+const Alarm: React.FC = () => {
     return (
         <Wrapper>
             <AlarmList />

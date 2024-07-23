@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import AlarmListItem from "./AlarmListItem";
 import Category from "@/components/Category";
@@ -43,67 +43,66 @@ interface Alarm {
     time: Date;
 }
 
-interface AlarmList {
+interface AlarmListData {
     lending: Alarm[];
     borrowing: Alarm[];
 }
 
-const AlarmList: React.FC<AlarmList> = () => {
+const AlarmList: React.FC = () => {
     const categories = ["전체", "대여하기", "빌려주기"];
     const [selectedCategory, setSelectedCategory] = useState("전체");
     const token = localStorage.getItem('token');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [alarmList, setAlarmList] = useState<AlarmList>({lending: [], borrowing: []});
+    const [alarmList, setAlarmList] = useState<AlarmListData>({ lending: [], borrowing: [] });
 
     const handleCategoryChange = useCallback((category: string) => {
         setSelectedCategory(category);
     }, []);
 
     useEffect(() => {
-      const fetchAlarm = async() => {
-        setError(null);
-        setLoading(true);
-        try {
-          const response = await axios.get('/api/alarm/list', {
-            headers: {
-              'Authorization': `Bearer ${token}`
+        const fetchAlarm = async () => {
+            setError(null);
+            setLoading(true);
+            try {
+                const response = await axios.get('/api/alarm/list', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = response.data.data;
+                setAlarmList(data);
+            } catch (err: any) {
+                setError(err.message || 'Something went wrong');
+            } finally {
+                setLoading(false);
             }
-          });
-          const data = response.data.data;
-          setAlarmList(data);
-        } catch (err) {
-          setError(err.message || 'Something went wrong');
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchAlarm();
-    }, [alarmList]);
+        };
+        fetchAlarm();
+    }, []);
 
     const filteredData = selectedCategory === "전체"
-      ? [
-        ...alarmList.lending.map((item) => ({ ...item, category: "lending" })),
-        ...alarmList.borrowing.map((item) => ({ ...item, category: "borrowing" }))
-      ]
-      : selectedCategory === "빌려주기"
-      ? alarmList.lending.map((item) => ({ ...item, category: "lending" }))
-      : alarmList.borrowing.map((item) => ({ ...item, category: "borrowing" }));
+        ? [
+            ...alarmList.lending.map((item) => ({ ...item, category: "lending" })),
+            ...alarmList.borrowing.map((item) => ({ ...item, category: "borrowing" }))
+        ]
+        : selectedCategory === "빌려주기"
+            ? alarmList.lending.map((item) => ({ ...item, category: "lending" }))
+            : alarmList.borrowing.map((item) => ({ ...item, category: "borrowing" }));
 
     return (
         <Container>
             <CategoryContainer>
                 <Category
-                selectedCategory={selectedCategory}
-                onSelectCategory={handleCategoryChange}
-                categories={categories}
+                    selectedCategory={selectedCategory}
+                    onSelectCategory={handleCategoryChange}
+                    categories={categories}
                 />
             </CategoryContainer>
             <CategoryItemsContainer>
                 <AlarmContainer>
                     {filteredData.map((alarm, index) => (
-                        <AlarmListItem key={index} alarm={alarm} category={alarm.category}/>
-                        
+                        <AlarmListItem key={index} alarm={alarm} category={alarm.category} />
                     ))}
                 </AlarmContainer>
             </CategoryItemsContainer>
