@@ -9,7 +9,7 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
-import ItemPost from '../../components/BorrowItemPost'; 
+import BorrowItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
 
 const ButtonContainer = styled.div`
@@ -33,22 +33,13 @@ const PostContainer = styled.div`
   width: 100%;
 `;
 
-interface Post {
-  contractId: string;
-  itemName: string;
-  itemImage: string;
-  itemPlace: string;
-  price: number;
-  // Add other properties if needed
-}
-
 const BorrowPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
-  const moveDetail = (contractId: string) => {
+  const moveDetail = (contractId: number) => { // Adjusted type to number
     router.push(`/borrow-detail/${contractId}`);
   };
 
@@ -97,7 +88,7 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {posts.map((post) => (
-            <ItemPost key={post.contractId} post={post} onClick={() => moveDetail(post.contractId)}/>
+            <BorrowItemPost key={post.contractId} post={post} />
           ))}
         </PostContainer>
       </MainLayout>
