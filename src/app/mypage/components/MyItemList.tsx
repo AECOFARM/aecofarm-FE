@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
-import {NextPage} from "next";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 const Container = styled.div`
@@ -22,12 +21,12 @@ const Empty = styled.div`
 `;
 
 interface Item {
-    contractId: number;
-    itemName: string;
-    itemImage: string;
-    time: number;
-    price: number;
-    likeStatus: boolean;
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus: boolean;
 }
 
 const MyItemList = () => {
@@ -37,9 +36,9 @@ const MyItemList = () => {
     const token = localStorage.getItem('token');
     const [itemList, setItemList] = useState<Item[]>([]);
 
-    const moveDetail = (contractId: number) => {
-        router.push(`/borrow-detail/${contractId}`);
-    }
+  const moveDetail = (contractId: number) => {
+    router.push(`/borrow-detail/${contractId}`);
+  }
 
     useEffect(() => {
         const fetchHistory = async () => {

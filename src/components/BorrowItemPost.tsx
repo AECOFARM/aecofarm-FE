@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import DonateLabel from './DonateLabel';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { headers } from 'next/headers';
 
 const Container = styled.div`
   background-color: white;

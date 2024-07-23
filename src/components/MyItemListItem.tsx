@@ -2,6 +2,16 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import {useRouter} from 'next/navigation';
 
+interface Item {
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus?: boolean;
+}
+
+
 const ItemContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
@@ -101,7 +111,8 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
 
   let imageSrc = itemImage;
   if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
+    imageSrc = item.itemImage || "/img/default-image.png";
+
   }
 
   const heightStyle = typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight;

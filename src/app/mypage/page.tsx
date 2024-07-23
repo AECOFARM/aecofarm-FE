@@ -1,8 +1,8 @@
 'use client'
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import MypageList from "./components/MypageListItem";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import MyItemList from "./components/MyItemList";
 import MainLayout from "@/components/layout/MainLayout";
 import MyProfile from "./components/MyProfile";
@@ -48,17 +48,16 @@ const TextContainer = styled.p`
   color: #686868;
 `;
 
-interface myProfile {
+interface MyProfile {
   userName: string;
   email: string;
   image: string;
   point: number;
 }
 
-
 const Mypage = () => {
   const router = useRouter();
-  const [myProfile, setMyProfile] = useState<myProfile | null>(null);
+  const [myProfile, setMyProfile] = useState<MyProfile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const token = localStorage.getItem('token');
@@ -100,27 +99,27 @@ const Mypage = () => {
     <MainLayout>
       {myProfile ? (
         <MyProfile 
-        userName={myProfile.userName}
-        point={myProfile.point}
-        image={myProfile.image}
-        email={myProfile.email}
+          userName={myProfile.userName}
+          point={myProfile.point}
+          image={myProfile.image}
+          email={myProfile.email}
         />
       ) : (
         <div>Profile not found</div>
       )}
       
       <ListContainer>
-        <MypageList img = "/heart-list.svg" text="내가 좋아요한 게시물" onClick={heartList}></MypageList>
+        <MypageList img="/heart-list.svg" text="내가 좋아요한 게시물" onClick={heartList}></MypageList>
         <hr/>
-        <MypageList img = "/post-list.svg" text="내가 쓴 게시물" onClick={postList}></MypageList>
+        <MypageList img="/post-list.svg" text="내가 쓴 게시물" onClick={postList}></MypageList>
       </ListContainer>
       <RecentlyViewedListContainer>
         <TextContainer>최근 본 대여 물품</TextContainer>
         <hr/>
         <MyItemList/>
       </RecentlyViewedListContainer>
-      </MainLayout>
+    </MainLayout>
   );
 };
-  
+
 export default Mypage;

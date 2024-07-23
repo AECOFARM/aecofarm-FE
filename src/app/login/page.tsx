@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
@@ -78,8 +78,8 @@ const SignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
   const login = async () => {
     const response = await fetch('/api/member/login', {

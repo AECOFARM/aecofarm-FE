@@ -1,17 +1,14 @@
 "use client"
-import React from "react";
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import Agreement from "@/components/Agreement";
 import ItemPreview from "@/components/ItemPreview";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
 import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
-import {useRouter} from "next/navigation";
-import { useState, useEffect } from "react";
-import Agreement from "@/components/Agreement";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 
 const Pay = () => {
-  const {contractId} = useParams();
+  const { contractId } = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const router = useRouter();
@@ -26,7 +23,7 @@ const Pay = () => {
     }
     try {
       const response = await axios.post('/api/contract/pay', 
-      {contractId: contractId , point: itemDetail?.price}, {
+      { contractId: contractId, point: itemDetail?.price }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -61,7 +58,7 @@ const Pay = () => {
       try {
         const response = await axios.get(`/api/contract/get/pay/${contractId}`, {
           headers: {
-            'Authorization' : `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
           }
         });
         const data = response.data.data;
@@ -74,7 +71,7 @@ const Pay = () => {
       }
     };
     fetchItemDetail();
-  }, [contractId]);
+  }, [contractId, token]);
 
   return (
     <Wrapper>
@@ -90,7 +87,7 @@ const Pay = () => {
         </PaymentContainer>
       </Container>
       <ExtendedOrangeButton 
-        text = {`${itemDetail?.price} P 결제하기`} 
+        text={`${itemDetail?.price} P 결제하기`} 
         onClick={handleRequest} 
         checked={checkStatus}
         disabled={!checkStatus} 

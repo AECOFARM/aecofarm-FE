@@ -89,9 +89,11 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
+  buttonVisible: boolean;
+  onClick: () => void;
 }
 
-const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
+const LendItemPost: React.FC<LendItemPostProps> = ({ post, buttonVisible, onClick }) => {
   const {
     contractId,
     itemId,
@@ -106,10 +108,6 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
 
   const router = useRouter();
   const token = localStorage.getItem('token');
-
-  const moveDetail = () => {
-    router.push(`/lend-detail/${post.contractId}`);
-  }
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
@@ -131,18 +129,13 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
         }
       });
       console.log(response);
-    } 
+    }
     setLikeStatus(prevStatus => !prevStatus);
-};
-
-  const handleLendClick = () => {
-    // Handle lend button click
-    console.log('Lend button clicked');
   };
 
   return (
-    <Container>
-      <ItemInfo onClick={moveDetail}>
+    <Container onClick={onClick}>
+      <ItemInfo>
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>

@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo, useEffect} from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import { NextPage } from "next";
@@ -6,6 +6,15 @@ import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles
 import Category from "@/components/Category";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+
+interface Item {
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus?: boolean;
+}
 
 const Container = styled.div`
   display: flex;
@@ -58,7 +67,7 @@ interface Data {
 
 const MyItemList: NextPage = () => {
   const categories = ["대여하기", "기부하기", "빌려주기"];
-  const [myHeartList, setMyHeartList] = useState<Data>({lendingItems: [], borrowingItems: []});
+  const [myHeartList, setMyHeartList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -66,11 +75,12 @@ const MyItemList: NextPage = () => {
 
   const moveBorrowDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
-  }
+  };
 
   const moveLendDetail = (contractId: number) => {
     router.push(`lend-detail/${contractId}`);
-  }
+  };
+
   const [selectedCategory, setSelectedCategory] = useState("대여하기");
 
   const handleCategoryChange = useCallback((category: string) => {
@@ -78,10 +88,10 @@ const MyItemList: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchItems = async() => {
+    const fetchItems = async () => {
       setError(null);
       setLoading(true);
-      try{
+      try {
         const response = await axios.get(`/api/likes/list`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -97,21 +107,17 @@ const MyItemList: NextPage = () => {
       }
     };
     fetchItems();
-  }, [myHeartList]);
+  }, [token]);
 
   const imageSize = "100%";
 
   const filteredItems = useMemo(() => {
+    let items: Item[] = [];
+    
     if (selectedCategory === "대여하기") {
-      return myHeartList.borrowingItems.map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
+      items = myHeartList.borrowingItems;
     } else if (selectedCategory === "빌려주기") {
-      return myHeartList.lendingItems.map((item) => ({
-        ...item,
-        type: "lending",
-      }));
+      items = myHeartList.lendingItems as Item[]; // Type assertion
     } else if (selectedCategory === "기부하기") {
       return myHeartList.borrowingItems.filter((item) => item.price === 0)
       .map((item) => ({
