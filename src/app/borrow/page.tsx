@@ -12,6 +12,11 @@ import MainLayout from '@/components/layout/MainLayout';
 import ItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
 
+interface Post {
+  contractId: string;
+  price: number;
+}
+
 const ButtonContainer = styled.div`
   position: fixed;
   display: flex;
@@ -35,11 +40,11 @@ const PostContainer = styled.div`
 
 const BorrowPage = () => {
   const router = useRouter();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
-  const moveDetail = (contractId) => {
+  const moveDetail = (contractId: string) => {
     router.push(`/borrow-detail/${contractId}`);
   };
 
@@ -64,7 +69,7 @@ const BorrowPage = () => {
         if (response.data.code === 200) {
           let fetchedPosts = response.data.data;
           if (seeDonateStatus) {
-            fetchedPosts = fetchedPosts.filter(post => post.price === 0); 
+            fetchedPosts = fetchedPosts.filter((post: Post) => post.price === 0); 
           }
           setPosts(fetchedPosts);
         } else {
