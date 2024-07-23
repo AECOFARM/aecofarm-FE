@@ -73,7 +73,8 @@ const AlarmList: React.FC<AlarmList> = () => {
           const data = response.data.data;
           setAlarmList(data);
         } catch (err) {
-          setError(err.message || 'Something went wrong');
+          const errorMessage = (err as Error).message || 'Something went wrong';
+          setError(errorMessage);
         } finally {
           setLoading(false);
         }
@@ -103,7 +104,6 @@ const AlarmList: React.FC<AlarmList> = () => {
                 <AlarmContainer>
                     {filteredData.map((alarm, index) => (
                         <AlarmListItem key={index} alarm={alarm} category={alarm.category}/>
-                        
                     ))}
                 </AlarmContainer>
             </CategoryItemsContainer>
