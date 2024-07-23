@@ -13,7 +13,7 @@ const Button = styled.button`
 
 interface ButtonProps {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
 }
 

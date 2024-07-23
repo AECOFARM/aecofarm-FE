@@ -76,7 +76,8 @@ const Mypage = () => {
         const profile = response.data.data.profile;
         setMyProfile(profile);
       } catch (err) {
-        setError(err.message || 'Something went wrong');
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }

@@ -1,12 +1,10 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import {NextPage} from "next";
-import { ListContainer } from "@/components/CommonStyles";
 import LendItemPost from "@/components/LendItemPost";
 import BorrowItemPost from "@/components/BorrowItemPost";
 import Category from "@/components/Category";
 import { CategoryItemsContainer } from "@/components/CommonStyles";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const Container = styled.div`
@@ -36,9 +34,18 @@ const CategoryContainer = styled.div`
   align-items: flex-start;
 `;
 
+const Empty = styled.div`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black);
+  margin: 10px auto;
+  width: 100%;
+`;
+
 interface LendingItem {
   contractId: number;
   itemName: string;
+  itemImage: string;
   price: number;
   itemPlace: string;
   time: number;
@@ -93,7 +100,8 @@ const MyItemList: NextPage = () => {
         const data = response.data.data;
         setMyPostList(data);
       } catch (err) {
-        setError(err.message || 'Something went wrong');
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -119,6 +127,7 @@ const MyItemList: NextPage = () => {
         type: "borrowing",
       }));
     } 
+    return [];
   }, [selectedCategory]);
 
     return (
@@ -132,13 +141,17 @@ const MyItemList: NextPage = () => {
         </CategoryContainer>
         <CategoryItemsContainer>
         <PostContainer>
-          {filteredItems.map((item) => (
-            item.type === "lending" ? (
-              <LendItemPost key={item.contractId} post={item as LendingItem} />
-            ) : (
-              <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
-            )
-          ))}
+          {filteredItems?.length > 0 ? (
+            filteredItems.map((item) => (
+              item.type === "lending" ? (
+                <LendItemPost key={item.contractId} post={item as LendingItem} />
+              ) : (
+                <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
+              )
+            ))
+          ) : (
+            <Empty>아직 작성한 게시물이 없습니다.</Empty>
+          )}
         </PostContainer>
         </CategoryItemsContainer>
       </Container>

@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 
 interface TagInputProps {
-  value: { value: string }[];
+  value: string[];
   onChange: (e: CustomEvent) => void;
   placeholder?: string;
 }
 
-const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }) => {
+const TagInput: React.FC<TagInputProps> = ({ value, onChange, placeholder }) => {
   const [hashTag, setHashTag] = useState<string>('');
-  const [hashArr, setHashArr] = useState<string[]>(value.map(tag => tag.value));
+  const [hashArr, setHashArr] = useState<string[]>(value);
   const inputRef = useRef<HTMLInputElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
 

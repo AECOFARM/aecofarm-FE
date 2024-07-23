@@ -67,7 +67,8 @@ const Pay = () => {
         const data = response.data.data;
         setItemDetail(data);
       } catch (err) {
-        setError(err.message);
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }

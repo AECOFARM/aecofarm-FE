@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import {useRouter} from 'next/navigation';
 
-const ItemContainer = styled.div<{ width: number}>`
+const ItemContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -16,11 +16,11 @@ const ItemContainer = styled.div<{ width: number}>`
     background-color: #EBEBEB;
   }
   position: relative;
-  width:  ${({ width }) => width}px;
+  width: auto;
   height: auto;
 `;
 
-const ItemImage = styled.img<{ width: number, height: number }>`
+const ItemImage = styled.img<{ width: string, height: string }>`
   border-radius: 10px;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
@@ -38,7 +38,7 @@ const IconContainer = styled.div<{ visible: boolean }>`
   left: 80px;
 `;
 
-const ItemInfoContainer = styled.div<{ width: number}>`
+const ItemInfoContainer = styled.div<{ width: string}>`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -62,7 +62,7 @@ const ItemInfoContainer = styled.div<{ width: number}>`
   word-break: break-all;
 `;
 
-const ItemTitle = styled.p<{width: number}>`
+const ItemTitle = styled.p<{width: string}>`
   font-size: 0.8rem;
   font-weight: 700;
   color: #000000;
@@ -85,8 +85,8 @@ interface Item {
 interface ItemProps {
   item: Item;
   onClick: () => void;
-  imageWidth: number;
-  imageHeight: number;
+  imageHeight: number | '100%';
+  imageWidth: number | '100%';
 }
 
 const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHeight, imageWidth }) => {
@@ -104,11 +104,14 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
     imageSrc = "/img/default-image.png";
   }
 
+  const heightStyle = typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight;
+  const widthStyle = typeof imageWidth === 'number' ? `${imageWidth}px` : imageWidth;
+
   return (
-    <ItemContainer onClick={onClick} width={imageWidth+10} >
-      <ItemImage src={imageSrc} alt="item" width={imageWidth} height={imageHeight} />
-      <ItemTitle width={imageWidth}>{itemName}</ItemTitle>
-      <ItemInfoContainer width={imageWidth}>
+    <ItemContainer onClick={onClick} >
+      <ItemImage src={imageSrc} alt="item" width={widthStyle} height={heightStyle} />
+      <ItemTitle width={widthStyle}>{itemName}</ItemTitle>
+      <ItemInfoContainer width={widthStyle}>
         <p className='price'>{price} P</p>
         <p>|</p>
         <p className='time'>{time}시간</p>

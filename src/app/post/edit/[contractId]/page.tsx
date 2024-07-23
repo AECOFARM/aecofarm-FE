@@ -91,7 +91,7 @@ const UpdatePost = () => {
       setError(null);
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.put(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/update/${contractId}`, formData, {
+      const response = await axios.put(`/api/contract/update/${contractId}`, formData, {
         headers : {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
@@ -100,7 +100,8 @@ const UpdatePost = () => {
       console.log(response);
       router.push("/borrow"); // 디테일 페이지로 수정
     } catch(err) {
-      setError(err.message || 'Something went wrong');
+      const errorMessage = (err as Error).message || 'Something went wrong';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -142,7 +143,8 @@ const UpdatePost = () => {
           setTags(currentItem.itemHash.map((tag: string) => ({ value: tag })));
         }
       } catch (err) {
-        setError(err.message || 'Something went wrong');
+        const errorMessage = (err as Error).message || 'Something went wrong';
+          setError(errorMessage);
       }
     };
     fetchItemInfo();
@@ -209,7 +211,7 @@ const UpdatePost = () => {
           <textarea placeholder="상품의 상태를 자세히 적어주세요." value={itemDetail?.itemContents} name="itemContents" onChange={handleInputChange}/>
         </ItemInfoContainer>
         </InputContainer>
-      <PostButton text="수정하기" onClick={updatePost}/>
+      <PostButton text="수정하기"/>
       </Wrapper>
     </MainLayout>
   );

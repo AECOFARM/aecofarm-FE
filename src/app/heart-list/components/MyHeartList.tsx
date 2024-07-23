@@ -27,11 +27,20 @@ const CategoryContainer = styled.div`
   align-items: flex-start;
 `;
 
+const Empty = styled.div`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black);
+  margin: 10px auto;
+  width: 100%;
+`;
+
 interface LendingItem {
   contractId: number;
   itemName: string;
   price: number;
   time: number;
+  itemImage: string;
 }
 
 interface BorrowingItem {
@@ -81,7 +90,8 @@ const MyItemList: NextPage = () => {
         const data = response.data.data;
         setMyHeartList(data);
       } catch(err) {
-        setError(err.message || 'Something went wrong');
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -109,6 +119,7 @@ const MyItemList: NextPage = () => {
         type: "borrowing",
       }));
     } 
+    return [];
   }, [selectedCategory]);
 
   return (
@@ -121,19 +132,23 @@ const MyItemList: NextPage = () => {
     />
     </CategoryContainer>
     <CategoryItemsContainer>
-    <ListContainer>
-      {filteredItems.map((item) => (
-        item.type === "lending" ? (
-        <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
-        </ItemContainer>
+    {filteredItems.length > 0 ? (
+      <ListContainer>
+        {filteredItems.map((item) => (
+          item.type === "lending" ? (
+          <ItemContainer key={item.contractId}>
+            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
+          </ItemContainer>
           ) : (
-         <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
-        </ItemContainer>
+           <ItemContainer key={item.contractId}>
+            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
+          </ItemContainer>
           )
-      ))}
-    </ListContainer>
+        ))}
+      </ListContainer>
+      ) : (
+        <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
+      )}
     </CategoryItemsContainer>
     </Container>
   );
