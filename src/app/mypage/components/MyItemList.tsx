@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
-import {NextPage} from "next";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 const Container = styled.div`
@@ -15,59 +14,69 @@ const Container = styled.div`
 `;
 
 interface Item {
-    contractId: number;
-    itemName: string;
-    itemImage: string;
-    time: number;
-    price: number;
-    likeStatus: boolean;
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus: boolean;
 }
 
 interface itemList {
-    itemList: Item[];
+  itemList: Item[];
 }
 
-const MyItemList = () => {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const token = localStorage.getItem('token');
-    const [itemList, setItemList] = useState<itemList>([]);
+const MyItemList: React.FC = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const token = localStorage.getItem('token');
+  const [items, setItems] = useState<itemList>({ itemList: [] });
 
-    const moveDetail = (contractId: number) => {
-        router.push(`/borrow-detail/${contractId}`);
-    }
+  const moveDetail = (contractId: number) => {
+    router.push(`/borrow-detail/${contractId}`);
+  }
 
-    useEffect(() => {
-        const fetchHistory = async () => {
-            setError(null);
-            setLoading(true);
-            try {
-              const response = await axios.get(`/api/mypage/get`, {
-                headers: {
-                  'Authorization': `Bearer ${token}`
-                }
-              });
-              const history = response.data.data.history;
-              setItemList(history);
-            } catch (err) {
-              setError(err.message || 'Something went wrong');
-            } finally {
-              setLoading(false);
-            }
-          };
-          fetchHistory();
-    }, [token])
+  useEffect(() => {
+    const fetchHistory = async () => {
+      setError(null);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/mypage/get`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const history = response.data.data.history;
+        setItems({ itemList: history });
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          setError(new Error(err.response?.data?.message || 'Something went wrong'));
+        } else {
+          setError(new Error('Something went wrong'));
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHistory();
+  }, [token]);
 
-    return (
-        <Container>
-            {itemList.map((item) => (
-                <MyItemListItem 
-                    key={item.contractId} item={item} imageHeight="100px" imageWidth="100px" onClick={() => moveDetail(item.contractId)}
-                />
-            ))}
-        </Container>
-    );
+  return (
+    <Container>
+      {loading && <div>Loading...</div>}
+      {error && <div style={{ color: 'red' }}>{error.message}</div>}
+      {items.itemList.map((item) => (
+        <MyItemListItem 
+          key={item.contractId} 
+          item={item} 
+          imageHeight="100px" 
+          imageWidth="100px" 
+          onClick={() => moveDetail(item.contractId)} 
+        />
+      ))}
+    </Container>
+  );
 }
 
 export default MyItemList;

@@ -272,7 +272,7 @@ const Example = () => {
               onChange={handleInputChange} 
             />
           </TextInputContainer>
-          <ModifiedButton text="수정하기"/>
+          <ModifiedButton text="수정하기" onClick={editProfile} />
         </ProfileEditContainer>
         <LeaveButton>
           <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
