@@ -1,4 +1,3 @@
-// components/SelectBox.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -32,9 +31,13 @@ const SelectButton = styled.button`
   }
 `;
 
-const SelectList = styled.ul`
+interface SelectListProps {
+  show: boolean;
+}
+
+const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: absolute;
   width: 120px;
   top: 42px;
@@ -74,7 +77,11 @@ const OptionList = styled.li`
   color: black;
 `;
 
-const SelectBox = ({ setSortType }) => {
+interface SelectBoxProps {
+  setSortType: (sortType: string) => void;
+}
+
+const SelectBox: React.FC<SelectBoxProps> = ({ setSortType }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [showOptions, setShowOptions] = useState(false);
 
@@ -82,7 +89,7 @@ const SelectBox = ({ setSortType }) => {
     setShowOptions(prevShowOptions => !prevShowOptions);
   };
 
-  const handleOptionClick = (option, sortType) => {
+  const handleOptionClick = (option: string, sortType: string) => {
     setSelectedOption(option);
     setShowOptions(false);
     setSortType(sortType);
