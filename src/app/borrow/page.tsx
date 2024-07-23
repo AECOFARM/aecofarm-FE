@@ -39,7 +39,7 @@ const BorrowPage = () => {
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
-  const moveDetail = (contractId) => {
+  const moveDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
   };
 

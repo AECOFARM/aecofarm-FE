@@ -14,6 +14,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const Empty = styled.div`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black);
+  margin: 10px auto;
+`;
+
 interface Item {
     contractId: number;
     itemName: string;
@@ -23,16 +30,12 @@ interface Item {
     likeStatus: boolean;
 }
 
-interface itemList {
-    itemList: Item[];
-}
-
 const MyItemList = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const token = localStorage.getItem('token');
-    const [itemList, setItemList] = useState<itemList>([]);
+    const [itemList, setItemList] = useState<Item[]>([]);
 
     const moveDetail = (contractId: number) => {
         router.push(`/borrow-detail/${contractId}`);
@@ -51,7 +54,8 @@ const MyItemList = () => {
               const history = response.data.data.history;
               setItemList(history);
             } catch (err) {
-              setError(err.message || 'Something went wrong');
+              const errorMessage = (err as Error).message || 'Something went wrong';
+              setError(errorMessage);
             } finally {
               setLoading(false);
             }
@@ -61,11 +65,15 @@ const MyItemList = () => {
 
     return (
         <Container>
-            {itemList.map((item) => (
-                <MyItemListItem 
-                    key={item.contractId} item={item} imageHeight={100} imageWidth={100} onClick={() => moveDetail(item.contractId)}
-                />
-            ))}
+          {itemList.length > 0 ? (
+            itemList.map((item) => (
+              <MyItemListItem 
+                  key={item.contractId} item={item} imageHeight={100} imageWidth={100} onClick={() => moveDetail(item.contractId)}
+              />
+            ))
+          ) : (
+            <Empty>최근 본 물품이 없습니다.</Empty>
+          )}
         </Container>
     );
 }
