@@ -1,4 +1,4 @@
-// components/SelectBox.js
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -32,9 +32,13 @@ const SelectButton = styled.button`
   }
 `;
 
-const SelectList = styled.ul`
+interface SelectListProps {
+  show: boolean;
+}
+
+const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: absolute;
   width: 120px;
   top: 42px;
@@ -79,10 +83,10 @@ const SelectBox = () => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectClick = () => {
-    setShowOptions(prevShowOptions => !prevShowOptions);
+    setShowOptions((prevShowOptions) => !prevShowOptions);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setShowOptions(false);
   };

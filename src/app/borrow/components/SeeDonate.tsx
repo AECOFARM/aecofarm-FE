@@ -22,7 +22,11 @@ const CheckIcon = styled.img`
   padding: 0 2px;
 `;
 
-const SeeDonate = ({ setSeeDonateStatus }) => {
+interface SeeDonateProps {
+  setSeeDonateStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
   const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
 
   const SeeDonateSrc = seeDonateStatus ? '/img/donate-check.svg' : '/img/not-checked.svg';
