@@ -12,6 +12,23 @@ import MainLayout from '@/components/layout/MainLayout';
 import BorrowItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
 
+interface Post {
+  contractId: number;
+  itemId: number;
+  itemName: string;
+  itemImage: string;
+  itemPlace: string;
+  price: number;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+  likeStatus: boolean;
+  donateStatus: boolean;
+  distance: number;
+  lowPrice: number;
+  highPrice: number;
+}
+
 const ButtonContainer = styled.div`
   position: fixed;
   display: flex;

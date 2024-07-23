@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo, useEffect} from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import { NextPage } from "next";
@@ -6,6 +6,15 @@ import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles
 import Category from "@/components/Category";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+
+interface Item {
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus?: boolean;
+}
 
 const Container = styled.div`
   display: flex;
@@ -32,6 +41,7 @@ interface LendingItem {
   itemName: string;
   price: number;
   time: number;
+  itemImage?: string; // Marking itemImage as optional
 }
 
 interface BorrowingItem {
@@ -49,7 +59,7 @@ interface Data {
 
 const MyItemList: NextPage = () => {
   const categories = ["대여하기", "기부하기", "빌려주기"];
-  const [myHeartList, setMyHeartList] = useState<Data>({lendingItems: [], borrowingItems: []});
+  const [myHeartList, setMyHeartList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -57,11 +67,12 @@ const MyItemList: NextPage = () => {
 
   const moveBorrowDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
-  }
+  };
 
   const moveLendDetail = (contractId: number) => {
     router.push(`lend-detail/${contractId}`);
-  }
+  };
+
   const [selectedCategory, setSelectedCategory] = useState("대여하기");
 
   const handleCategoryChange = useCallback((category: string) => {
@@ -69,10 +80,10 @@ const MyItemList: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    const fetchItems = async() => {
+    const fetchItems = async () => {
       setError(null);
       setLoading(true);
-      try{
+      try {
         const response = await axios.get(`/api/likes/list`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -80,61 +91,62 @@ const MyItemList: NextPage = () => {
         });
         const data = response.data.data;
         setMyHeartList(data);
-      } catch(err) {
-        setError(err.message || 'Something went wrong');
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message || 'Something went wrong');
+        } else {
+          setError('Something went wrong');
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchItems();
-  }, [myHeartList]);
+  }, [token]);
 
   const imageSize = "100%";
 
   const filteredItems = useMemo(() => {
+    let items: Item[] = [];
+    
     if (selectedCategory === "대여하기") {
-      return myHeartList.borrowingItems.map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
+      items = myHeartList.borrowingItems;
     } else if (selectedCategory === "빌려주기") {
-      return myHeartList.lendingItems.map((item) => ({
-        ...item,
-        type: "lending",
-      }));
+      items = myHeartList.lendingItems as Item[]; // Type assertion
     } else if (selectedCategory === "기부하기") {
-      return myHeartList.borrowingItems.filter((item) => item.price === 0)
-      .map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
-    } 
-  }, [selectedCategory]);
+      items = myHeartList.borrowingItems.filter(item => item.price === 0);
+    }
+  
+    return items.map(item => ({
+      ...item,
+      itemImage: item.itemImage || "/img/default-image.png", // Provide default value if missing
+      type: selectedCategory === "빌려주기" ? "lending" : "borrowing",
+    }));
+  }, [selectedCategory, myHeartList]);
 
   return (
     <Container>
-    <CategoryContainer>
-    <Category
-      selectedCategory={selectedCategory}
-      onSelectCategory={handleCategoryChange}
-      categories={categories}
-    />
-    </CategoryContainer>
-    <CategoryItemsContainer>
-    <ListContainer>
-      {filteredItems.map((item) => (
-        item.type === "lending" ? (
-        <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
-        </ItemContainer>
-          ) : (
-         <ItemContainer key={item.contractId}>
-          <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
-        </ItemContainer>
-          )
-      ))}
-    </ListContainer>
-    </CategoryItemsContainer>
+      <CategoryContainer>
+        <Category
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategoryChange}
+          categories={categories}
+        />
+      </CategoryContainer>
+      <CategoryItemsContainer>
+        <ListContainer>
+          {filteredItems.map((item) => (
+            <ItemContainer key={item.contractId}>
+              <MyItemListItem
+                item={item}
+                imageHeight={imageSize}
+                imageWidth={imageSize}
+                onClick={item.type === "lending" ? () => moveLendDetail(item.contractId) : () => moveBorrowDetail(item.contractId)}
+              />
+            </ItemContainer>
+          ))}
+        </ListContainer>
+      </CategoryItemsContainer>
     </Container>
   );
 };

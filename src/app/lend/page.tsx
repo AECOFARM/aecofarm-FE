@@ -8,7 +8,7 @@ import AppLayout from '@/components/layout/MobileLayout';
 import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
-import ItemPost from '../../components/LendItemPost'; 
+import LendItemPost from '../../components/LendItemPost';
 
 const ButtonContainer = styled.div`
   position: fixed;
@@ -31,9 +31,25 @@ const PostContainer = styled.div`
   width: 100%;
 `;
 
-const BorrowPage = () => {
+interface Post {
+  contractId: number;
+  itemId: number;
+  itemName: string;
+  itemPlace: string;
+  price: number;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
+  likeStatus: boolean;
+  donateStatus: boolean;
+  distance: number;
+  lowPrice: number;
+  highPrice: number;
+}
+
+const LendPage = () => {
   const router = useRouter();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [sortType, setSortType] = useState('NEWEST');
 
   useEffect(() => {
@@ -48,7 +64,7 @@ const BorrowPage = () => {
         });
 
         const result = await response.json();
-        
+
         if (response.ok) {
           setPosts(result.data);
         } else {
@@ -75,7 +91,12 @@ const BorrowPage = () => {
         </ButtonContainer>
         <PostContainer>
           {posts.map((post) => (
-            <ItemPost key={post.contractId} post={post} buttonVisible={true} onClick={() => moveDetail(post.contractId)} />
+            <LendItemPost
+              key={post.contractId}
+              post={post}
+              buttonVisible={true}
+              onClick={() => moveDetail(post.contractId)}
+            />
           ))}
         </PostContainer>
       </MainLayout>
@@ -84,5 +105,4 @@ const BorrowPage = () => {
   );
 };
 
-export default BorrowPage;
-
+export default LendPage;

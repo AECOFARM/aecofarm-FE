@@ -3,6 +3,16 @@ import React, { useState } from 'react';
 import {useRouter} from 'next/navigation';
 import axios from 'axios';
 
+interface Item {
+  contractId: number;
+  itemName: string;
+  itemImage: string;
+  time: number;
+  price: number;
+  likeStatus?: boolean;
+}
+
+
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -91,7 +101,8 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
 
   let imageSrc = itemImage;
   if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
+    imageSrc = item.itemImage || "/img/default-image.png";
+
   }
 
   return (
