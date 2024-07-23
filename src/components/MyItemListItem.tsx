@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
-import {useRouter} from 'next/navigation';
+import React from 'react';
 
 interface Item {
   contractId: number;
@@ -13,7 +12,7 @@ interface Item {
 
 
 const ItemContainer = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -32,8 +31,8 @@ const ItemContainer = styled.div`
 
 const ItemImage = styled.img<{ width: string, height: string }>`
   border-radius: 10px;
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   aspect-ratio: 1 / 1; /* Width와 Height를 동일하게 유지 */
 `;
 
@@ -49,13 +48,16 @@ const IconContainer = styled.div<{ visible: boolean }>`
 `;
 
 const ItemInfoContainer = styled.div<{ width: string}>`
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
   p {
     color: #686868;
     font-size: 0.75rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
   }
   .time {
     color: #686868;
@@ -65,7 +67,7 @@ const ItemInfoContainer = styled.div<{ width: string}>`
     color: #DF5532;
     font-weight: 700;
   }
-  width: ${({width}) => width}px;
+  width: ${({width}) => width};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -76,7 +78,7 @@ const ItemTitle = styled.p<{width: string}>`
   font-size: 0.8rem;
   font-weight: 700;
   color: #000000;
-  width: ${({width}) => width}px;
+  width: ${({width}) => width};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
