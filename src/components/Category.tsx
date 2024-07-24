@@ -12,20 +12,24 @@ const Container = styled.div`
   background-color: #FFFFFF;
 `;
 
-const CategoryContainer = styled.div<{ isSelected: boolean }>`
+interface Props {
+  $isSelected: boolean;
+}
+
+const CategoryContainer = styled.div<Props>`
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
   padding: 5px 10px;
-  background-color: ${({ isSelected }) => (isSelected ? "#FF9C3A" : "#FFFFFF")};
-  border: ${({ isSelected }) => (isSelected ? "1px solid #FF9C3A" : "1px solid #717171")};
+  background-color: ${( props ) => (props.$isSelected ? "#FF9C3A" : "#FFFFFF")};
+  border: ${( props ) => (props.$isSelected ? "1px solid #FF9C3A" : "1px solid #717171")};
   border-radius: 10px;
   cursor: pointer;
   &:hover {
-    background-color: ${({ isSelected }) => (isSelected ? "none" : "#EBEBEB")};
+    background-color: ${( props ) => (props.$isSelected ? "none" : "#EBEBEB")};
   }
   p {
-    color: ${({ isSelected }) => (isSelected ? "#FFFFFF" : "#717171")};
+    color: ${( props ) => (props.$isSelected ? "#FFFFFF" : "#717171")};
     font-size: 0.9rem;
   }
 `;
@@ -42,7 +46,7 @@ const Category: React.FC<CategoryProps> = React.memo(({selectedCategory, onSelec
       {categories.map((category) => (
         <CategoryContainer
           key={category}
-          isSelected={selectedCategory === category}
+          $isSelected={selectedCategory === category}
           onClick={() => onSelectCategory(category)}
           >
             <p>{category}</p>
