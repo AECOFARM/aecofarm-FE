@@ -1,15 +1,15 @@
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { tagsState } from '@/state/atoms';
 import React, {useCallback, useEffect, useState, useRef} from 'react';
 
 interface TagInputProps {
-  value: { value: string }[];
-  onChange: (e: CustomEvent) => void;
   placeholder?: string;
 }
 
-const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }) => {
+const TagInput: React.FC<TagInputProps> = ({ placeholder }) => {
+  const [tags, setTags] = useRecoilState(tagsState);
   const [hashTag, setHashTag] = useState<string>('');
-  const [hashArr, setHashArr] = useState<string[]>(value.map(tag => tag.value));
   const inputRef = useRef<HTMLInputElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
 
@@ -17,33 +17,24 @@ const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }
     if(inputRef.current) {
       inputRef.current.focus();
     }
-  }
+  };
 
   const onChangeHashtag = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setHashTag(e.target.value);
   }, []);
 
   const handleTagRemove = useCallback((tagToRemove: string) => {
-    setHashArr((prevHashArr) => {
-      const updatedHashArr = prevHashArr.filter((tag) => tag !== tagToRemove);
-      onChange(new CustomEvent('change', { detail: { value: updatedHashArr.map(tag => ({ value: tag })) } }));
-      return updatedHashArr;
-    });
-  }, [onChange]);
+    setTags((prevTags) => prevTags.filter((tag) => tag.value !== tagToRemove));
+  }, [setTags]);
 
   const onKeyUp = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if ((e.key === 'Enter' || e.key === ' ') && hashTag.trim() !== '') {
-        setHashArr((prevHashArr) => {
-          const newHashArr = [...prevHashArr, hashTag];
-          onChange(new CustomEvent('change', { detail: { value: newHashArr.map(tag => ({ value: tag })) } }));
-          return newHashArr;
-        });
+        setTags((prevTags) => [...prevTags, { value: hashTag }]);
         setHashTag('');
       }
     },
-    [hashTag, onChange]
-  );
+    [hashTag, setTags]);
 
   const updateLabelStyle = useCallback(() => {
     if (labelRef.current) {
@@ -88,9 +79,9 @@ const TagInput: React.FC<TagInputProps> = ({ value = [], onChange, placeholder }
             onKeyUp={onKeyUp}
             ref={inputRef}
         />
-        {hashArr.map((tag, index) => (
-          <HashWrapInner key={index} onClick={() => handleTagRemove(tag)}>
-            #{tag}
+        {tags.map((tag, index) => (
+          <HashWrapInner key={index} onClick={() => handleTagRemove(tag.value)}>
+            #{tag.value}
           </HashWrapInner>
         ))}
         <InputLabel ref={labelRef} onClick={handleTagInput}>{placeholder}</InputLabel>
@@ -126,7 +117,7 @@ const HashWrapInner = styled.div`
   }
 `;
 
-const HashInput = styled.input.attrs({ required: true })`
+const HashInput = styled.input`
   border: none;
   border-bottom: 1px solid var(--gray6);
   width: 100%;

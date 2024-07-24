@@ -32,12 +32,12 @@ const SelectButton = styled.button`
 `;
 
 interface SelectListProps {
-  show: boolean;
+  $show: boolean;
 }
 
 const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${(props) => (props.show ? 'block' : 'none')};
+  display: ${(props) => (props.$show ? 'block' : 'none')};
   position: absolute;
   width: 120px;
   top: 42px;
@@ -100,7 +100,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ setSortType }) => {
       <SelectButton className="btn-select" onClick={handleSelectClick}>
         {selectedOption}
       </SelectButton>
-      <SelectList className="list-member" show={showOptions}>
+      <SelectList className="list-member" $show={showOptions}>
         <OptionList>
           <OptionButton onClick={() => handleOptionClick('최신순', 'NEWEST')}>최신순</OptionButton>
         </OptionList>

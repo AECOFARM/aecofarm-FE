@@ -1,5 +1,5 @@
 'use client'
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useCallback} from "react";
 import styled from 'styled-components';
 import TagInput from "./components/TagInput";
 import TextInput from "./components/TextInput";
@@ -8,7 +8,13 @@ import TopBar from "@/components/TopBar";
 import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
+import { useRecoilValue } from "recoil";
 import axios from "axios";
+import { tagsState } from "@/state/atoms";
+
+const Form = styled.form`
+  width: 100%;
+`;
 
 const SelectContainer = styled.div`
   height: 30px;
@@ -31,7 +37,7 @@ const SelectContainer = styled.div`
   }
 `;
 
-const InputContainer = styled.form`
+const InputContainer = styled.div`
   width: 100%;
   padding: 25px;
   display: flex;
@@ -147,9 +153,9 @@ interface ItemDetail {
 const Post = () => {
   const router = useRouter();
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const tags = useRecoilValue(tagsState);
 
   const [category, setCategory] = useState("BORROW");
-  const [tags, setTags] = useState<{ value: string }[]>([]);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     category: "BORROW",
     itemName: "",
@@ -168,13 +174,26 @@ const Post = () => {
 
   const fetchPost = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (
+      !itemDetail.itemName ||
+      !tags.length ||
+      !itemDetail.contractTime ||
+      !itemDetail.time ||
+      !itemDetail.price ||
+      !itemDetail.itemPlace ||
+      !itemDetail.itemContents
+    ) {
+      alert("모든 항목을 입력해주세요!");
+      return;
+    }
+
     const token = localStorage.getItem('token');
     const formData = new FormData();
     const json = JSON.stringify({
       category: itemDetail.category,
       itemName: itemDetail.itemName,
       kakao: itemDetail.kakao,
-      itemHash: itemDetail.itemHash,
+      itemHash: tags.map(tag => tag.value),
       time: itemDetail.time,
       contractTime: itemDetail.contractTime,
       price: itemDetail.price,
@@ -214,22 +233,12 @@ const Post = () => {
     }
   };
 
-
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setCategory(event.target.value);
     setItemDetail(prevState => ({
       ...prevState,
       category: value
-    }));
-  };
-
-  const handleTagsChange = (e: CustomEvent) => {
-    const newTags = e.detail.value;
-    setTags(newTags);
-    setItemDetail(prevState => ({
-      ...prevState,
-      itemHash: newTags.map((tag: {value: string }) => tag.value)
     }));
   };
 
@@ -274,13 +283,14 @@ const Post = () => {
     <MainLayout>
       <TopBar text="글쓰기" />
       <Wrapper>
+      <Form onSubmit={fetchPost} method="post">
       <SelectContainer>
         <select value={category} onChange={handleCategoryChange}>
           <option key="빌려주고 싶어요" value="BORROW">빌려주고 싶어요</option>
           <option key="대여하고 싶어요" value="LEND">대여하고 싶어요</option>
         </select>
       </SelectContainer>
-      <InputContainer onSubmit={fetchPost} method="post">
+      <InputContainer>
         {category === "BORROW" && (
           <ImageInputContainer>
             <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }}/>
@@ -305,37 +315,49 @@ const Post = () => {
           name="itemName"
           value={itemDetail?.itemName}
           onChange={handleInputChange}
+          type="text"
+          required
         />
         <TextInput
           placeholder="오픈채팅방 링크"
           name="kakao"
           value={itemDetail?.kakao}
           onChange={handleInputChange}
+          type="text"
+          required
         />
-        <TagInput value={tags} onChange={handleTagsChange} placeholder="해시태그 입력"/>
+        <TagInput placeholder="해시태그 입력"/>
         <TextInput
           placeholder="가격"
           name="price"
           value={String(itemDetail.price)}
           onChange={handleInputChange}
+          type="number"
+          required
         />
         <TextInput
           placeholder="거래 가능 장소"
           name="itemPlace"
           value={itemDetail?.itemPlace}
           onChange={handleInputChange}
+          type="text"
+          required
         />
         <TextInput
           placeholder="거래 가능 시간"
           name="contractTime"
           value={String(itemDetail.contractTime)}
           onChange={handleInputChange}
+          type="number"
+          required
         />
         <TextInput
           placeholder="대여 가능 시간"
           name="time"
           value={String(itemDetail.time)}
           onChange={handleInputChange}
+          type="number"
+          required
         />
         <ItemInfoContainer>
           <p>설명</p>
@@ -346,6 +368,7 @@ const Post = () => {
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
         <PostButton text="등록하기" />
       </PostButtonContainer>
+      </Form>
     </Wrapper>
     </MainLayout>
   );
