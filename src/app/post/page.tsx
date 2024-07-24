@@ -140,7 +140,7 @@ interface ItemDetail {
   price: number;
   itemPlace: string;
   itemContents: string;
-  file?: File;
+  file?: File | null;
   imagePreviewUrl?: string;
 }
 
@@ -149,7 +149,7 @@ const Post = () => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [category, setCategory] = useState("BORROW");
-  const [tags, setTags] = useState<{ value: string }[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     category: "BORROW",
     itemName: "",
@@ -160,7 +160,7 @@ const Post = () => {
     price: 0,
     itemPlace: "",
     itemContents: "",
-    file: undefined,
+    file: null,
     imagePreviewUrl: ""
   });
   const [loading, setLoading] = useState(false);
@@ -262,7 +262,7 @@ const Post = () => {
     }
   };
 
-  const removeImage = (e:CustomEvent) => {
+  const removeImage = () => {
     setItemDetail(prevState => ({
       ...prevState,
       file: null,
@@ -344,7 +344,7 @@ const Post = () => {
       </InputContainer>
       <PostButtonContainer>
         <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <PostButton text="등록하기" onClick={fetchPost}/>
+        <PostButton text="등록하기" />
       </PostButtonContainer>
     </Wrapper>
     </MainLayout>
