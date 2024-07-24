@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import React, { useRef } from "react";
-import { text } from "stream/consumers";
 
 const InputContainer = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const Input = styled.input.attrs({ required: true })`
+const Input = styled.input.attrs(props => ({
+  required: props.required
+}))`
   width: 100%;
   height: 60px;
   border: none;
@@ -48,18 +49,21 @@ interface TextInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
+  type: string;
+  required?: boolean;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name }) => {
+const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name, type, required }) => {
   const textInputRef = useRef<HTMLInputElement>(null);
   const handleTextInput = () => {
     if(textInputRef.current) {
       textInputRef.current.focus();
     }
   }
+
   return (
     <InputContainer>
-      <Input type="text" value={value} onChange={onChange} name={name} ref={textInputRef}  required/>
+      <Input value={value} onChange={onChange} name={name} ref={textInputRef} type={type} required={required} />
       <InputLabel htmlFor={value} onClick={handleTextInput}>{placeholder}</InputLabel>
     </InputContainer>
   );
