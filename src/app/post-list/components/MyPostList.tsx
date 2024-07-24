@@ -144,9 +144,9 @@ const MyItemList: NextPage = () => {
           {filteredItems?.length > 0 ? (
             filteredItems.map((item) => (
               item.type === "lending" ? (
-                <LendItemPost key={item.contractId} post={item as LendingItem} />
+                <LendItemPost key={item.contractId} post={item as LendingItem}/>
               ) : (
-                <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
+                <BorrowItemPost key={item.contractId} post={item as BorrowingItem}/>
               )
             ))
           ) : (
