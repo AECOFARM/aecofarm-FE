@@ -79,13 +79,22 @@ const MyItemList: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [myPostList, setMyPostList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedToken = localStorage.getItem('token');
+      setToken(storedToken);
+    }
+  }, []);
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
   }, []);
 
   useEffect(() => {
+    if (!token) return;
+
     const fetchItems = async () => {
       setError(null);
       setLoading(true);
