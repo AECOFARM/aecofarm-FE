@@ -174,18 +174,6 @@ const Post = () => {
 
   const fetchPost = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !itemDetail.itemName ||
-      !tags.length ||
-      !itemDetail.contractTime ||
-      !itemDetail.time ||
-      !itemDetail.price ||
-      !itemDetail.itemPlace ||
-      !itemDetail.itemContents
-    ) {
-      alert("모든 항목을 입력해주세요!");
-      return;
-    }
 
     const token = localStorage.getItem('token');
     const formData = new FormData();
