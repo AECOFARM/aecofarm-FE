@@ -14,6 +14,7 @@ interface Item {
   time: number;
   price: number;
   likeStatus?: boolean;
+  type?: string;
 }
 
 const Container = styled.div`
