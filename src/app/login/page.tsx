@@ -1,9 +1,11 @@
 'use client';
 import { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import AppLayout from "@/components/layout/MobileLayout";
+import AppLayout from '@/components/layout/MobileLayout';
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
+import { setToken } from '@/utils/localStorage'; // 모듈화된 로컬 스토리지 유틸리티
+import { postRequest } from '@/utils/api'; // 모듈화된 API 호출
 
 const Wrapper = styled.div`
   margin-top: 150px;
@@ -73,29 +75,21 @@ const SignUpButton = styled.button`
 
 const SignUpPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
   const login = async () => {
     try {
-      const response = await fetch('/api/member/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
+      const data = await postRequest('/api/member/login', { email, password });
 
       if (data.code === 200) {
         const { token } = data.data;
-        localStorage.setItem('token', token);
+        setToken(token); // 로컬 스토리지에 토큰 저장
         router.push('/borrow');
       } else {
         setErrorMessage(data.message || '로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!');

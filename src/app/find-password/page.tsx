@@ -5,10 +5,8 @@ import AppLayout from '@/components/layout/MobileLayout';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import OrangeButton from '@/components/OrangeButton';
-
-// 환경 변수로부터 API baseURL 가져오기
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-console.log("API Base URL:", API_BASE_URL);
+import api from '@/utils/api'; // 모듈화된 API 호출
+import { getToken } from '@/utils/localStorage'; // 모듈화된 로컬 스토리지 유틸리티
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,28 +73,24 @@ const FindPassword: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
-    const token = localStorage.getItem('token'); // 로컬 스토리지에서 JWT 토큰을 가져옴
+    const token = getToken(); // 로컬 스토리지에서 JWT 토큰을 가져옴
 
     try {
-      const response = await fetch(`api/member/update/pw`, {
-        method: 'POST',
+      const response = await api.post('/member/update/pw', {
+        email,
+        userName,
+        schoolNum: Number(schoolNum),
+        password,
+      }, {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json', // Changed to application/json
         },
-        body: JSON.stringify({
-          email,
-          userName,
-          schoolNum: Number(schoolNum),
-          password,
-        }),
       });
 
-      const data = await response.json();
-      if (data.code === 200) {
-        alert(data.message);
+      if (response.data.code === 200) {
+        alert(response.data.message);
       } else {
-        alert(data.data);
+        alert(response.data.data);
       }
     } catch (error) {
       console.error('Error occurred while updating password:', error);
