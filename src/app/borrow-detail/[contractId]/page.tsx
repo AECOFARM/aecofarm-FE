@@ -10,6 +10,8 @@ import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 import Popup from '@/components/Popup'; 
+import api from '@/utils/api';
+
 
 interface ItemDetail {
   owner: boolean;

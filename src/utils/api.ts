@@ -1,4 +1,20 @@
 // utils/api.ts
+import axios from 'axios';
+import { getToken } from './localStorage';
+
+const api = axios.create({
+  baseURL: '/api', // 기본 API URL 설정
+});
+
+api.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// utils/api.ts
 export const getRequest = async (url: string, headers: object = {}) => {
   const response = await fetch(url, {
     method: 'GET',
@@ -49,3 +65,5 @@ export const deleteRequest = async (url: string, headers: object = {}) => {
   const result = await response.json();
   return result;
 };
+
+export default api;
