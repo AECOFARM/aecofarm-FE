@@ -82,23 +82,26 @@ const SignUpPage = () => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
   const login = async () => {
-    const response = await fetch('/api/member/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch('/api/member/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.code == 200) {
-      console.log(data.data.token)
-      const { token } = data.data;
-      localStorage.setItem('token', token);  
-      router.push('/borrow');  
-    } else {
-      setErrorMessage(data.message || '로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!');
+      if (data.code === 200) {
+        const { token } = data.data;
+        localStorage.setItem('token', token);
+        router.push('/borrow');
+      } else {
+        setErrorMessage(data.message || '로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!');
+      }
+    } catch (error) {
+      setErrorMessage('서버와의 연결에 실패했습니다. 나중에 다시 시도해주세요.');
     }
   };
 
@@ -111,13 +114,13 @@ const SignUpPage = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible((prevVisibility) => !prevVisibility);
+    setIsPasswordVisible(prevVisibility => !prevVisibility);
   };
 
   return (
     <AppLayout>
       <Wrapper>
-        <HeaderLogo src='/img/aeco-logo.svg'></HeaderLogo>
+        <HeaderLogo src='/img/aeco-logo.svg' alt="Logo" />
         <ButtonContainer>
           <Button 
             type="email" 
@@ -139,7 +142,7 @@ const SignUpPage = () => {
             />
           </PasswordInputContainer>
           {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-          <OrangeButton text='로그인' onClick={login}></OrangeButton>
+          <OrangeButton text='로그인' onClick={login} />
           <ExtraButtonContainer>
             <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
             <span> | </span>
