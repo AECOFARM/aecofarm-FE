@@ -4,7 +4,7 @@ import BorrowItemPost from "@/components/BorrowItemPost";
 import LendItemPost from "@/components/LendItemPost";
 import Category from "@/components/Category";
 import { CategoryItemsContainer } from "@/components/CommonStyles";
-import axios from "axios";
+import api from "@/utils/api"; // 수정된 API import
 
 const Container = styled.div`
   display: block;
@@ -78,7 +78,6 @@ const MyContractList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contractList, setContractList] = useState<ItemList>({ lendingItems: [], borrowingItems: [] });
-  const token = localStorage.getItem('token');
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
@@ -89,13 +88,8 @@ const MyContractList = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get("/api/mypage/contract/complete/list", {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const data = response.data.data;
-        setContractList(data);
+        const { data } = await api.get("/mypage/contract/complete/list");
+        setContractList(data.data);
       } catch (err) {
         const errorMessage = (err as Error).message || 'Something went wrong';
         setError(errorMessage);
@@ -104,7 +98,7 @@ const MyContractList = () => {
       }
     };
     fetchItems();
-  }, [token, contractList]);
+  }, []);
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
@@ -125,7 +119,7 @@ const MyContractList = () => {
         }));
     }
     return [];
-  }, [selectedCategory]);
+  }, [selectedCategory, contractList]);
 
   return (
     <Container>
@@ -134,7 +128,7 @@ const MyContractList = () => {
       </CategoryContainer>
       <CategoryItemsContainer>
         <ContractContainer>
-          {filteredItems?.length > 0 ? (
+          {filteredItems.length > 0 ? (
             filteredItems.map((item) => (
               item.type === "lending" ? (
                 <LendItemPost key={item.contractId} post={item} buttonVisible={true}/>

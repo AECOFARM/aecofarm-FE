@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import MyItemList from "./components/MyItemList";
 import MainLayout from "@/components/layout/MainLayout";
 import MyProfile from "./components/MyProfile";
-import axios from "axios";
+import api from "@/utils/api";
 
 const ListContainer = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ const TextContainer = styled.p`
   color: #686868;
 `;
 
-interface MyProfile {
+interface MyProfileData {
   userName: string;
   email: string;
   image: string;
@@ -57,21 +57,14 @@ interface MyProfile {
 
 const Mypage = () => {
   const router = useRouter();
-  const [myProfile, setMyProfile] = useState<MyProfile | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [myProfile, setMyProfile] = useState<MyProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchProfile = async () => {
-      setError(null);
-      setLoading(true);
       try {
-        const response = await axios.get(`/api/mypage/get`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await api.get(`/mypage/get`);
         const profile = response.data.data.profile;
         setMyProfile(profile);
       } catch (err) {
@@ -82,7 +75,7 @@ const Mypage = () => {
       }
     };
     fetchProfile();
-  }, [token]);
+  }, []);
 
   const heartList = () => {
     router.push('/heart-list');
@@ -98,7 +91,7 @@ const Mypage = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  
+
   return (
     <MainLayout>
       {myProfile ? (
