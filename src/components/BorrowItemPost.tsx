@@ -91,7 +91,7 @@ interface Post {
   contractId: number;
   itemId?: number;
   itemName: string;
-  itemImage: string;
+  itemImage?: string;
   itemPlace: string;
   price: number;
   time: number;

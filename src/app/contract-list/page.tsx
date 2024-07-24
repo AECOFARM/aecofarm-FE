@@ -6,7 +6,7 @@ import MyContractList from "./components/MyContractList";
 const ContractList = () => {
     return (
         <Wrapper>
-            <ContractList/>
+            <MyContractList/>
         </Wrapper>
     );
 }

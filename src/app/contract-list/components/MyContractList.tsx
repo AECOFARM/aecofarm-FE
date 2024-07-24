@@ -45,7 +45,7 @@ interface LendingItem {
     contractId: number;
     itemName: string;
     price: number;
-    itmeImage?: string;
+    itemImage?: string;
     itemPlace: string;
     time: number;
     contractTime: number;
