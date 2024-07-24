@@ -89,9 +89,9 @@ const LikeIcon = styled.img`
 
 interface Post {
   contractId: number;
-  itemId: number;
+  itemId?: number;
   itemName: string;
-  itemImage: string;
+  itemImage?: string;
   itemPlace: string;
   price: number;
   time: number;
@@ -99,9 +99,9 @@ interface Post {
   itemHash: string[];
   likeStatus: boolean;
   donateStatus: boolean;
-  distance: number;
-  lowPrice: number;
-  highPrice: number;
+  distance?: number;
+  lowPrice?: number;
+  highPrice?: number;
 }
 
 interface LendItemPostProps {

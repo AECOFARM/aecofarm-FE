@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import styled from 'styled-components';
+import Agreement from "@/components/Agreement";
 import ItemPreview from "@/components/ItemPreview";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
 import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
@@ -63,12 +63,9 @@ const Pay = () => {
         });
         const data = response.data.data;
         setItemDetail(data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Something went wrong');
-        }
+      } catch (err) {
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }

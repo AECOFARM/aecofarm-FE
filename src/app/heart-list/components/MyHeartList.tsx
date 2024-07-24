@@ -36,12 +36,20 @@ const CategoryContainer = styled.div`
   align-items: flex-start;
 `;
 
+const Empty = styled.div`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black);
+  margin: 10px auto;
+  width: 100%;
+`;
+
 interface LendingItem {
   contractId: number;
   itemName: string;
   price: number;
   time: number;
-  itemImage?: string; // Marking itemImage as optional
+  itemImage: string;
 }
 
 interface BorrowingItem {
@@ -91,12 +99,9 @@ const MyItemList: NextPage = () => {
         });
         const data = response.data.data;
         setMyHeartList(data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message || 'Something went wrong');
-        } else {
-          setError('Something went wrong');
-        }
+      } catch(err) {
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -114,39 +119,43 @@ const MyItemList: NextPage = () => {
     } else if (selectedCategory === "빌려주기") {
       items = myHeartList.lendingItems as Item[]; // Type assertion
     } else if (selectedCategory === "기부하기") {
-      items = myHeartList.borrowingItems.filter(item => item.price === 0);
-    }
-  
-    return items.map(item => ({
-      ...item,
-      itemImage: item.itemImage || "/img/default-image.png", // Provide default value if missing
-      type: selectedCategory === "빌려주기" ? "lending" : "borrowing",
-    }));
-  }, [selectedCategory, myHeartList]);
+      return myHeartList.borrowingItems.filter((item) => item.price === 0)
+      .map((item) => ({
+        ...item,
+        type: "borrowing",
+      }));
+    } 
+    return [];
+  }, [selectedCategory]);
 
   return (
     <Container>
-      <CategoryContainer>
-        <Category
-          selectedCategory={selectedCategory}
-          onSelectCategory={handleCategoryChange}
-          categories={categories}
-        />
-      </CategoryContainer>
-      <CategoryItemsContainer>
-        <ListContainer>
-          {filteredItems.map((item) => (
-            <ItemContainer key={item.contractId}>
-              <MyItemListItem
-                item={item}
-                imageHeight={imageSize}
-                imageWidth={imageSize}
-                onClick={item.type === "lending" ? () => moveLendDetail(item.contractId) : () => moveBorrowDetail(item.contractId)}
-              />
-            </ItemContainer>
-          ))}
-        </ListContainer>
-      </CategoryItemsContainer>
+    <CategoryContainer>
+    <Category
+      selectedCategory={selectedCategory}
+      onSelectCategory={handleCategoryChange}
+      categories={categories}
+    />
+    </CategoryContainer>
+    <CategoryItemsContainer>
+    {filteredItems.length > 0 ? (
+      <ListContainer>
+        {filteredItems.map((item) => (
+          item.type === "lending" ? (
+          <ItemContainer key={item.contractId}>
+            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
+          </ItemContainer>
+          ) : (
+           <ItemContainer key={item.contractId}>
+            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
+          </ItemContainer>
+          )
+        ))}
+      </ListContainer>
+      ) : (
+        <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
+      )}
+    </CategoryItemsContainer>
     </Container>
   );
 };

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 interface PostButtonProps {
     text: string;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 const PostButton: React.FC<PostButtonProps> = ({text, onClick}) => {

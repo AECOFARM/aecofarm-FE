@@ -13,7 +13,7 @@ const Button = styled.button`
 
 interface ButtonProps {
   text: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: () => void;
   className?: string;
 }
 

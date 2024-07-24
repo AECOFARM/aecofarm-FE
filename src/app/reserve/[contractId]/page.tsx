@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-import styled from 'styled-components';
 import {useRouter, useParams} from "next/navigation";
 import ItemPreview from "@/components/ItemPreview";
 import Agreement from "@/components/Agreement";
@@ -64,7 +63,8 @@ const Reserve = () => {
         const data = response.data.data;
         setItemDetail(data);
       } catch(err) {
-        setError(err.message);
+        const errorMessage = (err as Error).message || 'Something went wrong';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
