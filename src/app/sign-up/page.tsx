@@ -118,17 +118,6 @@ const ButtonContainer = styled.div`
   padding-right: 40px;
 `;
 
-const Button = styled.input`
-  width: 100%;
-  padding: 15px 22px;
-  border-radius: 15px;
-  border: 0px;
-  color: var(--gray6);
-  background-color: var(--gray2);
-  font-size: 17px;
-  text-align: left;
-`;
-
 const PasswordInputContainer = styled.div`
   position: relative;
   width: 100%;
@@ -150,6 +139,20 @@ interface UserData {
   phone: string;
   schoolNum: string;
 }
+
+
+const Button = styled.input.attrs(props => ({
+  type: props.type || 'text' // Ensuring 'type' defaults to 'text' if not provided
+}))`
+  width: 100%;
+  padding: 15px 22px;
+  border-radius: 15px;
+  border: 0;
+  color: var(--gray6);
+  background-color: var(--gray2);
+  font-size: 17px;
+  text-align: left;
+`;
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
@@ -272,13 +275,12 @@ const SignUpPage: React.FC = () => {
             <Button type='email' placeholder="이메일" name="email" required onChange={handleInputChange} />
             <PasswordInputContainer>
               <Button
-                type='password'
                 placeholder="비밀번호"
                 name="password"
                 required
                 value={userData.password}
                 onChange={handleInputChange}
-                type={isPasswordVisible ? 'text' : 'password'}
+                type={isPasswordVisible ? 'text' : 'password'} // Use only this
               />
               <PasswordIcon
                 src={isPasswordVisible ? '/img/eye-open.svg' : '/img/eye-closed.svg'}
@@ -291,7 +293,15 @@ const SignUpPage: React.FC = () => {
           </ButtonContainer>
         </Container>
         {isPopupOpen && (
-          <Popup text="회원가입이 완료되었습니다!" onClose={handleClosePopup} />
+          <Popup
+            isOpen={isPopupOpen}
+            onClose={handleClosePopup}
+            title="회원가입 완료"
+            button1={{ text: "확인", onClick: handleClosePopup }}
+            button2={{ text: "취소", onClick: handleClosePopup }}
+          >
+            회원가입이 완료되었습니다!
+          </Popup>
         )}
       </Wrapper>
     </AppLayout>

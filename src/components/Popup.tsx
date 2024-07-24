@@ -9,11 +9,11 @@ interface PopupProps {
   children: React.ReactNode;
   button1: {
     text: string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   };
   button2: {
     text: string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   };
 }
 

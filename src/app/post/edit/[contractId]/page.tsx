@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import styled from "styled-components";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import TextInput from "../../components/TextInput";
 import TagInput from "../../components/TagInput";
@@ -11,28 +11,24 @@ import PostButton from "../../components/PostButton";
 import axios from "axios";
 
 interface ItemDetail {
-    owner: boolean;
-    userName: string;
-    itemName: string;
-    price: number;
-    itemImage?: string;
-    itemContents: string;
-    itemPlace: string;
-    itemHash: string[];
-    time: number;
-    contractTime: number;
-    kakao: string;
-    category?: string;
-    file?: File;
-  }
+  owner: boolean;
+  userName: string;
+  itemName: string;
+  price: number;
+  itemImage?: string;
+  itemContents: string;
+  itemPlace: string;
+  itemHash: string[];
+  time: number;
+  contractTime: number;
+  kakao: string;
+  category?: string;
+  file?: File;
+}
 
-const exampleData: ItemDetail[] = [
-    
-  ];
+const exampleData: ItemDetail[] = [];
 
 const UpdatePost = () => {
-
-
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -69,38 +65,37 @@ const UpdatePost = () => {
       contractTime: itemDetail?.contractTime,
       price: itemDetail?.price,
       itemPlace: itemDetail?.itemPlace,
-      itemContents: itemDetail?.itemContents
+      itemContents: itemDetail?.itemContents,
     });
 
     const blob = new Blob([updateContract], {
-      type: 'application/json'
+      type: "application/json",
     });
 
     const formData = new FormData();
-    formData.append('updateContract', blob);
+    formData.append("updateContract", blob);
 
     if (itemDetail?.file) {
-      formData.append('file', itemDetail.file);
+      formData.append("file", itemDetail.file);
     } else {
-      const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
-      formData.append('file', emptyFile);
-      // formData.append('file', ''); 로 수정
+      const emptyFile = new File([""], "empty.txt", { type: "text/plain" });
+      formData.append("file", emptyFile);
     }
 
     try {
       setError(null);
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await axios.put(`/api/contract/update/${contractId}`, formData, {
-        headers : {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`
-        }
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log(response);
-      router.push("/borrow"); // 디테일 페이지로 수정
-    } catch(err) {
-      const errorMessage = (err as Error).message || 'Something went wrong';
+      router.push("/borrow"); // Change to detail page if needed
+    } catch (err) {
+      const errorMessage = (err as Error).message || "Something went wrong";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -113,38 +108,45 @@ const UpdatePost = () => {
   }, [value]);
 
   const handleTagsChange = (e: CustomEvent) => {
-    setTags(e.detail.value);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = e.target;
+    const updatedTags = e.detail.value as { value: string }[];
+    
+    setTags(updatedTags);
+    
     setItemDetail(prevState => ({
       ...prevState,
-      [name]: value
+      itemHash: updatedTags.map(tag => tag.value),
     }));
   };
   
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setItemDetail(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   useEffect(() => {
-    if(!contractId)
-      return;
-    
+    if (!contractId) return;
+
     const fetchItemInfo = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const responce = await axios.get(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/detail/${contractId}`, {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/contract/detail/${contractId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-        const currentItem = responce.data;
+        const currentItem = response.data;
         setItemDetail(currentItem);
         setCategory(currentItem?.category || null);
         if (currentItem.itemHash) {
           setTags(currentItem.itemHash.map((tag: string) => ({ value: tag })));
         }
       } catch (err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
-          setError(errorMessage);
+        const errorMessage = (err as Error).message || "Something went wrong";
+        setError(errorMessage);
       }
     };
     fetchItemInfo();
@@ -152,66 +154,75 @@ const UpdatePost = () => {
 
   if (!itemDetail) return <div>contractId를 확인하세요</div>;
 
-  return(
+  return (
     <MainLayout>
       <TopBar text="글 수정하기" />
       <Wrapper>
         <Category>
           {category === "BORROW" ? (
             <p>빌려주고 싶어요</p>
-           ) : (
+          ) : (
             <p>빌리고 싶어요</p>
-           )}
+          )}
         </Category>
         <InputContainer onSubmit={updatePost}>
-        {category === "BORROW" && (
-          <ImageInputContainer>
-            <div className="image" />
-          </ImageInputContainer>
-        )}
-        <TextInput
-          placeholder="상품명"
-          name="itemName"
-          value={itemDetail.itemName}
-          onChange={handleInputChange}
-        />
-        <TextInput
-          placeholder="오픈채팅방 링크"
-          name="kakao"
-          value={itemDetail.kakao}
-          onChange={handleInputChange}
-        />
-        <TagInput value={itemDetail.itemHash} onChange={handleTagsChange} placeholder="해시태그 입력" />
-        <TextInput
-          placeholder="가격"
-          name="price"
-          value={String(itemDetail.price)}
-          onChange={handleInputChange}
-        />
-        <TextInput
-          placeholder="거래 가능 장소"
-          name="itemPlace"
-          value={itemDetail.itemPlace}
-          onChange={handleInputChange}
-        />
-        <TextInput
-          placeholder="거래 가능 시간"
-          name="contractTime"
-          value={String(itemDetail.contractTime)}
-          onChange={handleInputChange}
-        />
-        <TextInput
-          placeholder="대여 가능 시간"
-          name="contractTime"
-          value={String(itemDetail.time)}
-          onChange={handleInputChange}
-        />
-        <ItemInfoContainer>
-          <p>설명</p>
-          <textarea placeholder="상품의 상태를 자세히 적어주세요." value={itemDetail?.itemContents} name="itemContents" onChange={handleInputChange}/>
-        </ItemInfoContainer>
+          {category === "BORROW" && (
+            <ImageInputContainer>
+              <div className="image" />
+            </ImageInputContainer>
+          )}
+          <TextInput
+            placeholder="상품명"
+            name="itemName"
+            value={itemDetail.itemName}
+            onChange={handleInputChange}
+          />
+          <TextInput
+            placeholder="오픈채팅방 링크"
+            name="kakao"
+            value={itemDetail.kakao}
+            onChange={handleInputChange}
+          />
+          <TagInput
+            value={tags}
+            onChange={handleTagsChange}
+            placeholder="해시태그 입력"
+          />
+          <TextInput
+            placeholder="가격"
+            name="price"
+            value={String(itemDetail.price)}
+            onChange={handleInputChange}
+          />
+          <TextInput
+            placeholder="거래 가능 장소"
+            name="itemPlace"
+            value={itemDetail.itemPlace}
+            onChange={handleInputChange}
+          />
+          <TextInput
+            placeholder="거래 가능 시간"
+            name="contractTime"
+            value={String(itemDetail.contractTime)}
+            onChange={handleInputChange}
+          />
+          <TextInput
+            placeholder="대여 가능 시간"
+            name="time"
+            value={String(itemDetail.time)}
+            onChange={handleInputChange}
+          />
+          <ItemInfoContainer>
+            <p>설명</p>
+            <textarea
+              placeholder="상품의 상태를 자세히 적어주세요."
+              value={itemDetail.itemContents}
+              name="itemContents"
+              onChange={handleInputChange}
+            />
+          </ItemInfoContainer>
+          <PostButton text="수정하기" />
         </InputContainer>
-      <PostButton text="수정하기"/>
       </Wrapper>
     </MainLayout>
   );

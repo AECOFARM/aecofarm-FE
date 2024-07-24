@@ -35,6 +35,17 @@ const Column = styled.div`
   width: 48%;
 `;
 
+interface RankNumberProps {
+  rank: number;
+}
+
+const RankNumber = styled.div<RankNumberProps>`
+  font-weight: bold;
+  font-size: 22px;
+  margin-right: 10px;
+  color: ${props => props.rank <= 3 ? 'var(--red)' : 'black'};
+`;
+
 const RankItem = styled.div`
   display: flex;
   align-items: center;
@@ -45,18 +56,16 @@ const RankItem = styled.div`
   font-weight: 600;
 `;
 
-const RankNumber = styled.div`
-  font-weight: bold;
-  font-size: 22px;
-  margin-right: 10px;
-  color: ${props => props.rank <= 3 ? 'var(--red)' : 'black'};
-`;
 
 const RankText = styled.div`
   flex: 1;
 `;
 
-const RankChangeIcon = styled.div`
+interface RankChangeIconProps {
+  change: '▲' | '▼' | '-';
+}
+
+const RankChangeIcon = styled.div<RankChangeIconProps>`
   margin-left: 8px;
   color: ${props => props.change === '▲' ? 'var(--orange3)' : props.change === '▼' ? 'var(--blue)' : 'black'};
 `;
@@ -70,7 +79,7 @@ const getCurrentDateTime = () => {
   return `${date} ${time}`;
 };
 
-const shuffleArray = (array) => {
+const shuffleArray = (array: any[]) => {
   let shuffledArray = array.slice();
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -81,12 +90,12 @@ const shuffleArray = (array) => {
 
 const Lanking = () => {
   const [dateTime, setDateTime] = useState(getCurrentDateTime());
-  const [currentRankings, setCurrentRankings] = useState(initialData.data.hotSearchRankings);
-  const [previousRankings, setPreviousRankings] = useState([]);
+  const [currentRankings, setCurrentRankings] = useState<string[]>(initialData.data.hotSearchRankings);
+  const [previousRankings, setPreviousRankings] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRankings = async () => {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       const response = await fetch('/api/member/recommand', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -107,11 +116,11 @@ const Lanking = () => {
     return () => clearInterval(intervalId);
   }, [currentRankings]);
 
-  const getRankChange = (item, index) => {
-    if (previousRankings.length === 0) return null;
+  const getRankChange = (item: string, index: number): '▲' | '▼' | '-' => {
+    if (previousRankings.length === 0) return '-';
 
     const previousIndex = previousRankings.indexOf(item);
-    if (previousIndex === -1) return null;
+    if (previousIndex === -1) return '-';
 
     if (previousIndex > index) return '▲';
     if (previousIndex < index) return '▼';

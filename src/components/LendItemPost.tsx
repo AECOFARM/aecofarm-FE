@@ -89,6 +89,8 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
+  buttonVisible?: boolean; 
+  onClick?: () => void;
 }
 
 const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {

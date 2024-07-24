@@ -111,24 +111,28 @@ const MyItemList: NextPage = () => {
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return myPostList.borrowingItems.map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
-    } else if (selectedCategory === "빌려주기") {
       return myPostList.lendingItems.map((item) => ({
         ...item,
         type: "lending",
+        buttonVisible: true, // Adjust as necessary
+      }));
+    } else if (selectedCategory === "빌려주기") {
+      return myPostList.borrowingItems.map((item) => ({
+        ...item,
+        type: "borrowing",
+        buttonVisible: false, // Adjust as necessary
       }));
     } else if (selectedCategory === "기부하기") {
       return myPostList.borrowingItems.filter((item) => item.donateStatus === true)
-      .map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
+        .map((item) => ({
+          ...item,
+          type: "borrowing",
+          buttonVisible: false, // Adjust as necessary
+        }));
     } 
     return [];
-  }, [selectedCategory]);
+  }, [selectedCategory, myPostList]);
+  
 
     return (
       <Container>
@@ -141,17 +145,17 @@ const MyItemList: NextPage = () => {
         </CategoryContainer>
         <CategoryItemsContainer>
         <PostContainer>
-          {filteredItems?.length > 0 ? (
-            filteredItems.map((item) => (
-              item.type === "lending" ? (
-                <LendItemPost key={item.contractId} post={item as LendingItem}/>
-              ) : (
-                <BorrowItemPost key={item.contractId} post={item as BorrowingItem}/>
-              )
-            ))
-          ) : (
-            <Empty>아직 작성한 게시물이 없습니다.</Empty>
-          )}
+        {filteredItems?.length > 0 ? (
+          filteredItems.map((item) => (
+            item.type === "lending" ? (
+              <LendItemPost key={item.contractId} post={item as LendingItem} buttonVisible={item.buttonVisible} />
+            ) : (
+              <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
+            )
+          ))
+        ) : (
+          <Empty>아직 작성한 게시물이 없습니다.</Empty>
+        )}
         </PostContainer>
         </CategoryItemsContainer>
       </Container>

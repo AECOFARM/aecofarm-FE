@@ -35,7 +35,7 @@ interface ApiResponse {
 }
 
 const SearchPage: React.FC = () => {
-  const [results, setResults] = useState<{ lendItems: Post[], borrowItems: Post[] }>({
+  const [results, setResults] = useState<ApiResponse>({
     lendItems: [],
     borrowItems: [],
   });
@@ -58,7 +58,7 @@ const SearchPage: React.FC = () => {
           body: JSON.stringify({ keyword: query }),
         });
         const data: ApiResponse = await response.json();
-        setResults(data.data); 
+        setResults(data); // Directly set results from data
       }
     };
 
