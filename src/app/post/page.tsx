@@ -149,7 +149,7 @@ const Post = () => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [category, setCategory] = useState("BORROW");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<{ value: string }[]>([]);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     category: "BORROW",
     itemName: "",
