@@ -113,6 +113,7 @@ interface BorrowItemPostProps {
 const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
     contractId,
+    itemId, // 여기서 itemId를 받아옵니다.
     itemName,
     itemImage,
     itemPlace,
@@ -124,26 +125,20 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
     donateStatus
   } = post;
 
-
   const router = useRouter();
   const token = localStorage.getItem('token');
-
-  const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const contractId = Number((e.currentTarget as HTMLElement).dataset.contractId);
-    router.push(`/borrow-detail/${contractId}`);
-  };
-  
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
   const toggleLikeStatus = async () => {
+    try {
       if (likeStatus) {
         const response = await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          data: { itemId: itemId }
+          data: { itemId: itemId } // 여기서 itemId를 사용합니다.
         });
         console.log(response);
       } else {
@@ -155,20 +150,20 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         console.log(response);
       } 
       setLikeStatus(prevStatus => !prevStatus);
+    } catch (error) {
+      console.error("An error occurred while toggling like status:", error);
+    }
   };
 
-  let imageSrc = itemImage;
-  if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
-  }
+  let imageSrc = itemImage || "/img/default-image.png";
 
   return (
-      <Container data-contract-id={contractId.toString()} onClick={onClick}>
-      <ItemImage src={itemImage || "/img/default-image.png"} alt={itemName} />
+    <Container data-contract-id={contractId.toString()} onClick={onClick}>
+      <ItemImage src={imageSrc} alt={itemName} />
       <ItemInfo>
         <TitleContainer>
           <Title>{itemName}</Title>
-          {donateStatus === true && <DonateLabel />}
+          {donateStatus && <DonateLabel />}
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
