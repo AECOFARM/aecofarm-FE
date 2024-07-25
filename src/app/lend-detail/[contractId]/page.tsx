@@ -360,7 +360,7 @@ const LendDetailPage = () => {
     }
   };
 
-  if (loading && !itemDetail) {  
+  if (loading) {  
     return (
       <AppLayout>
         <Header />
@@ -374,6 +374,20 @@ const LendDetailPage = () => {
     );
   }
 
+
+  if (!itemDetail) {
+    return (
+      <AppLayout>
+        <Header />
+        <MainLayout>
+          <DetailContainer>
+            <SkeletonLendDetail />
+          </DetailContainer>
+        </MainLayout>
+        <Navigation />
+      </AppLayout>
+    );
+  }
 
   const {
     itemName,
