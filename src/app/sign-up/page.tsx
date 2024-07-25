@@ -284,7 +284,7 @@ const SignUpPage: React.FC = () => {
               />
               <PasswordIcon
                 src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
-                alt="Toggle Password Visibility"
+                alt="Password Visibility"
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>

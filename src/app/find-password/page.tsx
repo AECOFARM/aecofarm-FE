@@ -7,6 +7,7 @@ import NoFixedTopBar from '@/components/NoFixedTopBar';
 import OrangeButton from '@/components/OrangeButton';
 import api from '@/utils/api'; // 모듈화된 API 호출
 import { getToken } from '@/utils/localStorage'; // 모듈화된 로컬 스토리지 유틸리티
+import { useRouter } from 'next/navigation';
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,6 +67,7 @@ const PasswordIcon = styled.img`
 `;
 
 const FindPassword: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [schoolNum, setSchoolNum] = useState<string>('');
@@ -74,7 +76,7 @@ const FindPassword: React.FC = () => {
 
   const handleClick = async () => {
     const token = getToken(); // 로컬 스토리지에서 JWT 토큰을 가져옴
-
+  
     try {
       const response = await api.post('/member/update/pw', {
         email,
@@ -88,9 +90,10 @@ const FindPassword: React.FC = () => {
       });
 
       if (response.data.code === 200) {
-        alert(response.data.message);
+        alert('비밀번호 변경에 성공하였습니다!');
+        router.push('/login');
       } else {
-        alert(response.data.data);
+        alert('비밀번호 변경에 실패하였습니다. 정보를 다시 확인해주세요.');
       }
     } catch (error) {
       console.error('Error occurred while updating password:', error);

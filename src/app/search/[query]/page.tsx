@@ -34,11 +34,13 @@ interface ApiResponse {
   borrowItems: Post[];
 }
 
+
 const SearchPage: React.FC = () => {
   const [results, setResults] = useState<ApiResponse>({
     lendItems: [],
     borrowItems: [],
   });
+
   const pathname = usePathname();
   const decodedPathname = decodeURIComponent(pathname);
 
@@ -47,37 +49,51 @@ const SearchPage: React.FC = () => {
 
   useEffect(() => {
     const fetchResults = async () => {
-      if (query) {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/member/search`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ keyword: query }),
-        });
-        const data: ApiResponse = await response.json();
-        setResults(data);
+      try {
+        if (query) {
+          const token = localStorage.getItem('token');
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/member/search`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ keyword: query }),
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          console.log('API response:', result); // 데이터 확인
+          setResults({
+            lendItems: result.data.lendItems || [],
+            borrowItems: result.data.borrowItems || [],
+          });
+        }
+      } catch (error) {
+        console.error("Fetch error: ", error);
+        setResults({ lendItems: [], borrowItems: [] });
       }
     };
-
+  
     fetchResults();
   }, [query]);
+  
+  
 
   return (
     <AppLayout>
       <NoFixedTopBar text="검색 결과" />
       <SearchBar initialData={query as string || ""} />
       <SearchResultsWrapper>
-        {results.lendItems.length > 0 && (
+        {results.lendItems && results.lendItems.length > 0 && (
           <div>
             {results.lendItems.map((post) => (
               <LendItemPost key={post.contractId} post={post} />
             ))}
           </div>
         )}
-        {results.borrowItems.length > 0 && (
+        {results.borrowItems && results.borrowItems.length > 0 && (
           <div>
             {results.borrowItems.map((post) => (
               <BorrowItemPost key={post.contractId} post={post} />

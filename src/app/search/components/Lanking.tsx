@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
@@ -51,6 +50,9 @@ const RankItem = styled.div`
 
 const RankText = styled.div`
   flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 interface RankChangeIconProps {
@@ -84,6 +86,7 @@ const Lanking = () => {
   const [dateTime, setDateTime] = useState(getCurrentDateTime());
   const [currentRankings, setCurrentRankings] = useState<string[]>([]);
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
+  const [rankChanges, setRankChanges] = useState<Record<string, '▲' | '▼' | '-'>>({});
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -94,38 +97,36 @@ const Lanking = () => {
         }
       });
       const result = await response.json();
-      setCurrentRankings(result.data.hotSearchRankings);
-      setPreviousRankings(result.data.hotSearchRankings);
+      const newRankings: string[] = result.data.hotSearchRankings;
+
+      // Calculate rank changes
+      const newRankChanges: Record<string, '▲' | '▼' | '-'> = {};
+      newRankings.forEach((item: string, index: number) => {
+        const previousIndex = previousRankings.indexOf(item);
+        if (previousIndex === -1) {
+          newRankChanges[item] = '-';
+        } else if (previousIndex > index) {
+          newRankChanges[item] = '▲';
+        } else if (previousIndex < index) {
+          newRankChanges[item] = '▼';
+        } else {
+          newRankChanges[item] = '-';
+        }
+      });
+
+      setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+      setCurrentRankings(newRankings);
+      setRankChanges(newRankChanges);
+      setDateTime(getCurrentDateTime());
     };
 
+    // Fetch initial rankings
     fetchRankings();
 
-    const intervalId = setInterval(() => {
-      setPreviousRankings(currentRankings);
-      setCurrentRankings(shuffleArray(currentRankings));
-      setDateTime(getCurrentDateTime());
-    }, 10000);
+    const intervalId = setInterval(fetchRankings, 60000);
 
     return () => clearInterval(intervalId);
-  }, [currentRankings]);
-
-  const getRankChange = (item: string, index: number): '▲' | '▼' | '-' => {
-    const previousIndex = previousRankings.indexOf(item);
-
-    if (previousIndex === -1 || previousIndex === index) {
-      return '-';
-    }
-
-    if (previousIndex > index) {
-      return '▲';
-    }
-
-    if (previousIndex < index) {
-      return '▼';
-    }
-
-    return '-';
-  };
+  }, []);
 
   return (
     <Wrapper>
@@ -137,8 +138,8 @@ const Lanking = () => {
             <RankItem key={index}>
               <RankNumber rank={index + 1}>{index + 1}</RankNumber>
               <RankText>{item}</RankText>
-              <RankChangeIcon change={getRankChange(item, index)}>
-                {getRankChange(item, index)}
+              <RankChangeIcon change={rankChanges[item]}>
+                {rankChanges[item]}
               </RankChangeIcon>
             </RankItem>
           ))}
@@ -148,8 +149,8 @@ const Lanking = () => {
             <RankItem key={index + 4}>
               <RankNumber rank={index + 5}>{index + 5}</RankNumber>
               <RankText>{item}</RankText>
-              <RankChangeIcon change={getRankChange(item, index + 4)}>
-                {getRankChange(item, index + 4)}
+              <RankChangeIcon change={rankChanges[item]}>
+                {rankChanges[item]}
               </RankChangeIcon>
             </RankItem>
           ))}
