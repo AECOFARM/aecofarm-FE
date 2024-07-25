@@ -10,7 +10,7 @@ import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
 import axios from "axios";
 import { tagsState } from "@/state/atoms";
-import { useRecoilValue } from "recoil";
+import { RecoilRoot, useRecoilValue } from "recoil";
 
 const Form = styled.form`
   width: 100%;
@@ -280,6 +280,7 @@ const Post = () => {
   };
 
   return(
+    <RecoilRoot>
     <MainLayout>
       <TopBar text="글쓰기" />
       <Wrapper>
@@ -371,6 +372,7 @@ const Post = () => {
       </Form>
     </Wrapper>
     </MainLayout>
+    </RecoilRoot>
   );
 };
 
