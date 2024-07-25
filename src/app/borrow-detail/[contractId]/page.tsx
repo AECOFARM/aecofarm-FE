@@ -286,7 +286,7 @@ const BorrowDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`/contract/delete/${contractId}`);
+      const response = await api.delete(`/api/contract/delete/${contractId}`);
       if (response.data.code === 200) {
         setShowModal(true);
       } else {
