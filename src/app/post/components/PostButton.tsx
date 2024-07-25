@@ -31,8 +31,8 @@ const PostButtonContainer = styled.div`
   padding: 20px 0px;
   gap: 10px;
   position: fixed;
-  bottom: 20px;
-  background: #FFFFFF;
+  bottom: 0px;
+  background-color: var(--white);
   left: 50%;
   transform: translateX(-50%);
 `;
