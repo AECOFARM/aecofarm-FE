@@ -8,13 +8,12 @@ const HeaderContainer = styled.header`
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  height: 40px;
+  height: 50px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  margin-top: 20px;
   background-color: #FFFFFF;
   z-index: 1000;
   &::before {
