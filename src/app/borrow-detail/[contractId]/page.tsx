@@ -264,7 +264,7 @@ const BorrowDetailPage = () => {
 
     const fetchItemDetail = async () => {
       try {
-        const response = await api.get(`/contract/detail/${contractId}`);
+        const response = await api.get(`/api/contract/detail/${contractId}`);
         if (response.data.code === 200) {
           const item = response.data.data;
           setItemDetail(item);
@@ -286,7 +286,7 @@ const BorrowDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await api.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/contract/delete/${contractId}`);
+      const response = await api.delete(`/api/contract/delete/${contractId}`);
       if (response.data.code === 200) {
         setShowModal(true);
       } else {

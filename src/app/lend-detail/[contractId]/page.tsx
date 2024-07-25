@@ -249,7 +249,7 @@ const LendDetailPage = () => {
     const fetchItemDetail = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`/api/contract/detail/${contractId}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/contract/detail/${contractId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
