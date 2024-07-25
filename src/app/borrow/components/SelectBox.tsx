@@ -13,8 +13,8 @@ const SelectButton = styled.button`
   padding: 13px 30px 13px 14px;
   font-size: 15px;
   line-height: 14px;
-  background-color: white;
-  border: 1px solid var(--gray4);
+  background-color: #fff;
+  border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 10px;
   cursor: pointer;
@@ -23,55 +23,39 @@ const SelectButton = styled.button`
   text-overflow: ellipsis;
   overflow: hidden;
   color: black;
-  position: relative; /* relative positioning for the arrow */
-  transition: border-color 0.3s, outline 0.3s; /* Smooth transition for border and outline */
 
   &:hover,
   &:focus {
-    border: 1px solid var(--orange2);
-    outline: 3px solid var(--orange0);
+    border: 1px solid #FF9B3F;
+    outline: 3px solid #FFD9B7;
   }
-
-  &::after {
-    content: '';
-    position: absolute;
-    right: 14px; /* Adjust to your padding */
-    top: 50%;
-    transform: translateY(-40%) rotate(0deg); /* Default rotation */
-    border: 5px solid transparent;
-    border-top-color: var(--orange1); /* Color of the triangle */
-    transition: transform 0.3s; /* Smooth rotation transition */
-  }
-
-  /* Rotate the triangle when the options are shown */
-  ${({ $show }) => $show && `
-    &::after {
-      transform: translateY(-80%) rotate(180deg);
-    }
-  `}
 `;
+
+interface SelectListProps {
+  show: boolean;
+}
 
 const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${(props) => (props.$show ? 'block' : 'none')};
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: absolute;
   width: 120px;
   top: 42px;
   left: 0;
   margin: 0 0 0 20px;
   padding: 0;
-  border: 1px solid var(--gray4);
+  border: 1px solid #c4c4c4;
   box-sizing: border-box;
   box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  background-color: white;
+  background-color: #fff;
 `;
 
 const OptionButton = styled.button`
   width: 100%;
   padding: 7px 10px;
   border: none;
-  background-color: white;
+  background-color: #fff;
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
@@ -83,7 +67,7 @@ const OptionButton = styled.button`
 
   &:hover,
   &:focus {
-    background-color: var(--orange0);
+    background-color: #FFD9B7;
   }
 `;
 
@@ -93,12 +77,8 @@ const OptionList = styled.li`
   color: black;
 `;
 
-interface SelectListProps {
-  $show: boolean;
-}
-
 interface SelectBoxProps {
-  setSortType: (sortType: string) => void;
+  setSortType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SelectBox: React.FC<SelectBoxProps> = ({ setSortType }) => {
@@ -106,29 +86,29 @@ const SelectBox: React.FC<SelectBoxProps> = ({ setSortType }) => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectClick = () => {
-    setShowOptions(prevShowOptions => !prevShowOptions);
+    setShowOptions((prevShowOptions) => !prevShowOptions);
   };
 
-  const handleOptionClick = (option: string, sortType: string) => {
+  const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setShowOptions(false);
-    setSortType(sortType);
+    setSortType(option);
   };
 
   return (
     <Container>
-      <SelectButton className="btn-select" onClick={handleSelectClick} $show={showOptions}>
+      <SelectButton className="btn-select" onClick={handleSelectClick}>
         {selectedOption}
       </SelectButton>
-      <SelectList className="list-member" $show={showOptions}>
+      <SelectList className="list-member" show={showOptions}>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('최신순', 'NEWEST')}>최신순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('최신순')}>최신순</OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('낮은 가격순', 'PRICE_ASC')}>낮은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('낮은 가격순')}>낮은 가격순</OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('높은 가격순', 'PRICE_DESC')}>높은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick('높은 가격순')}>높은 가격순</OptionButton>
         </OptionList>
       </SelectList>
     </Container>
