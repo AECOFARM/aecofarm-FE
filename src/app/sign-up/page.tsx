@@ -260,7 +260,7 @@ const SignUpPage: React.FC = () => {
                 <DefaultProfileImage src="/img/aeco-logo.svg" alt="Default Profile Image" />
               </DefaultProfile>
             )}
-            <HiddenProfileInput type="file" accept=".jpg" id="profileImage" onChange={handleImageChange} />
+            <HiddenProfileInput type="file" id="profileImage" onChange={handleImageChange} />
             <div>
               <CustomProfileInputLabel htmlFor="profileImage">사진 선택</CustomProfileInputLabel>
               <DeleteImage onClick={handleRemoveImage}>기본 이미지로 변경</DeleteImage>
@@ -280,15 +280,15 @@ const SignUpPage: React.FC = () => {
                 required
                 value={userData.password}
                 onChange={handleInputChange}
-                type={isPasswordVisible ? 'text' : 'password'} // Use only this
+                type={isPasswordVisible ? 'text' : 'password'} 
               />
               <PasswordIcon
-                src={isPasswordVisible ? '/img/eye-open.svg' : '/img/eye-closed.svg'}
+                src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
                 alt="Toggle Password Visibility"
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>
-            <Button type='text' placeholder="학교번호" name="schoolNum" required onChange={handleInputChange} />
+            <Button type='text' placeholder="학번" name="schoolNum" required onChange={handleInputChange} />
             <OrangeButton text="회원가입" onClick={handleSignUp} />
           </ButtonContainer>
         </Container>
@@ -297,7 +297,7 @@ const SignUpPage: React.FC = () => {
             isOpen={isPopupOpen}
             onClose={handleClosePopup}
             title="회원가입 완료"
-            button1={{ text: "확인", onClick: handleClosePopup }}
+            button1={{ text: "확인", onClick: handleClick }}
             button2={{ text: "취소", onClick: handleClosePopup }}
           >
             회원가입이 완료되었습니다!

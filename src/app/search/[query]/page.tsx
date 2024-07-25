@@ -49,7 +49,7 @@ const SearchPage: React.FC = () => {
     const fetchResults = async () => {
       if (query) {
         const token = localStorage.getItem('token');
-        const response = await fetch(`/api/member/search`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/member/search`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -58,7 +58,7 @@ const SearchPage: React.FC = () => {
           body: JSON.stringify({ keyword: query }),
         });
         const data: ApiResponse = await response.json();
-        setResults(data); // Directly set results from data
+        setResults(data);
       }
     };
 

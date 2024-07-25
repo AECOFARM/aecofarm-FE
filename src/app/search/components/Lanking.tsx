@@ -2,14 +2,6 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
-const initialData = {
-  "code": 200,
-  "message": "SUCCESS",
-  "data": {
-    "hotSearchRankings": []
-  }
-};
-
 const Wrapper = styled.div`
   padding: 15px 35px;
 `;
@@ -18,6 +10,7 @@ const Title = styled.div`
   background-color: white;
   font-size: 20px;
   font-weight: 600;
+  color: black;
 `;
 
 const Time = styled.div`
@@ -56,7 +49,6 @@ const RankItem = styled.div`
   font-weight: 600;
 `;
 
-
 const RankText = styled.div`
   flex: 1;
 `;
@@ -90,7 +82,7 @@ const shuffleArray = (array: any[]) => {
 
 const Lanking = () => {
   const [dateTime, setDateTime] = useState(getCurrentDateTime());
-  const [currentRankings, setCurrentRankings] = useState<string[]>(initialData.data.hotSearchRankings);
+  const [currentRankings, setCurrentRankings] = useState<string[]>([]);
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
 
   useEffect(() => {
@@ -103,6 +95,7 @@ const Lanking = () => {
       });
       const result = await response.json();
       setCurrentRankings(result.data.hotSearchRankings);
+      setPreviousRankings(result.data.hotSearchRankings);
     };
 
     fetchRankings();
@@ -117,19 +110,26 @@ const Lanking = () => {
   }, [currentRankings]);
 
   const getRankChange = (item: string, index: number): '▲' | '▼' | '-' => {
-    if (previousRankings.length === 0) return '-';
-
     const previousIndex = previousRankings.indexOf(item);
-    if (previousIndex === -1) return '-';
 
-    if (previousIndex > index) return '▲';
-    if (previousIndex < index) return '▼';
+    if (previousIndex === -1 || previousIndex === index) {
+      return '-';
+    }
+
+    if (previousIndex > index) {
+      return '▲';
+    }
+
+    if (previousIndex < index) {
+      return '▼';
+    }
+
     return '-';
   };
 
   return (
     <Wrapper>
-      <Title>지금 HOT 검색 순위는?</Title>
+      <Title>지금 HOT 조회 순위는?</Title>
       <Time>{dateTime} 기준</Time>
       <RankingsContainer>
         <Column>
