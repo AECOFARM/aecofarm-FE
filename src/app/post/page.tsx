@@ -10,6 +10,7 @@ import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
 import axios from "axios";
 import { tagsState } from "@/state/atoms";
+import { useRecoilValue } from "recoil";
 
 const Form = styled.form`
   width: 100%;

@@ -28,5 +28,9 @@
         }
       ]
     }
-  ]
+  ],
+
+  "experimental": {
+    "forceSwcTransforms": true
+  }
 }
