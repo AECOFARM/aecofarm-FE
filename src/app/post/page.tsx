@@ -316,7 +316,7 @@ const Post = () => {
           type="text"
           required
         />
-        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange}/>
+        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange} value={itemDetail.itemHash}/>
         <TextInput
           placeholder="가격"
           name="price"
@@ -351,7 +351,7 @@ const Post = () => {
         />
         <ItemInfoContainer>
           <p>설명</p>
-          <textarea placeholder="상품의 상태를 자세히 적어주세요." name="itemContents" value={itemDetail?.itemContents} onChange={handleInputChange}/>
+          <textarea placeholder="상품의 상태를 자세히 적어주세요." name="itemContents" value={itemDetail?.itemContents} onChange={handleInputChange} required/>
         </ItemInfoContainer>
       </InputContainer>
       <PostButtonContainer>

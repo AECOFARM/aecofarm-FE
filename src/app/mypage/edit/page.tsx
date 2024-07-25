@@ -90,7 +90,7 @@ interface Profile {
   point: number;
 }
 
-const Example = () => {
+const UpdateMypage = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -250,7 +250,7 @@ const Example = () => {
       <Wrapper>
         <ProfileImageContainer image={profile?.image} />
         <ProfileImageEditButton>
-          <input type="file" onChange={handleFileChange} ref={fileInputRef} accept=".jpg" />
+          <input type="file" onChange={handleFileChange} ref={fileInputRef} accept="image/*" />
           <p onClick={fileInputClick}>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
         <ProfileEditContainer onSubmit={editProfile}>
@@ -290,4 +290,4 @@ const Example = () => {
   );
 };
 
-export default Example;
+export default UpdateMypage;

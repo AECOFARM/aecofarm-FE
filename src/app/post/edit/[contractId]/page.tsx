@@ -23,21 +23,17 @@ interface ItemDetail {
     contractTime: number;
     kakao: string;
     category?: string;
-    file?: File | null;
   }
 
 
 const UpdatePost = () => {
-
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category"); // 쿼리 파라미터로 받은 category
   const imageInputRef = useRef<HTMLInputElement>(null);
-
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const { contractId } = useParams() as { contractId: string };
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
@@ -52,7 +48,6 @@ const UpdatePost = () => {
     contractTime: 0,
     kakao: "",
     itemImage: "",
-    file: null
   });
   const [hasHashWrapInner, setHasHashWrapInner] = useState(false);
   const token = localStorage.getItem('token');
@@ -68,7 +63,8 @@ const UpdatePost = () => {
       contractTime: itemDetail.contractTime,
       price: itemDetail.price,
       itemPlace: itemDetail.itemPlace,
-      itemContents: itemDetail.itemContents
+      itemContents: itemDetail.itemContents,
+      itemImage: itemDetail.itemImage
     });
 
     const blob = new Blob([updateContract], {
@@ -132,12 +128,12 @@ const UpdatePost = () => {
     
     const fetchItemInfo = async () => {
       try {
-        const responce = await axios.get(`/api/contract/detail/${contractId}`, {
+        const response = await axios.get(`/api/contract/detail/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        const currentItem = responce.data.data;
+        const currentItem = response.data.data;
         setItemDetail(currentItem);
         setTags(currentItem.itemHash);
 
@@ -147,6 +143,7 @@ const UpdatePost = () => {
           const file = new File([blob], "itemImage.jpg", { type: blob.type });
           setFile(file);
         }
+
       } catch (err) {
         const errorMessage = (err as Error).message || 'Something went wrong';
           setError(errorMessage);
@@ -165,7 +162,6 @@ const UpdatePost = () => {
       reader.onloadend = () => {
         setItemDetail(prevState => ({
           ...prevState,
-          file: file,
           itemImage: reader.result as string
         }));
       };
@@ -206,7 +202,7 @@ const UpdatePost = () => {
         <InputContainer>
         {category === "BORROW" && (
           <ImageInputContainer>
-          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }}/>
+          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} value={itemDetail.itemImage}/>
           <label htmlFor="file" onClick={handleImageInput}>
             <ImagePreview>
                 {itemDetail.itemImage ? (
@@ -240,7 +236,7 @@ const UpdatePost = () => {
           required
 
         />
-        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange}/>
+        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange} value={itemDetail.itemHash}/>
         <TextInput
           placeholder="가격"
           name="price"
@@ -289,7 +285,7 @@ const Category = styled.div`
   font-size: 0.8rem;
   height: 30px;
   color: var(--black);
-  border-bottom: 1px solid var(--gray6);
+  border-bottom: 0.5px solid var(--gray6);
   max-width: 500px;
   width: 100%;
   display: flex;

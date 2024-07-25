@@ -4,9 +4,10 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 interface TagInputProps {
   placeholder?: string;
   onChange: (tags: string[]) => void;
+  value: string[];
 }
 
-const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange }) => {
+const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange, value }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [hashTag, setHashTag] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,19 +31,17 @@ const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange }) => {
     });
   }, [onChange]);
 
-  const onKeyUp = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
       if ((e.key === 'Enter' || e.key === ' ') && hashTag.trim() !== '') {
+        e.preventDefault();
         setTags((prevTags) => {
-          const newTags = [...prevTags, hashTag];
+          const newTags = [...prevTags, hashTag.trim()];
           onChange(newTags);
           return newTags;
         });
         setHashTag('');
       }
-    },
-    [hashTag, onChange]
-  );
+    }, [hashTag, onChange]);
 
   const updateLabelStyle = useCallback(() => {
     if (labelRef.current) {
@@ -61,6 +60,11 @@ const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange }) => {
   }, [hashTag]);
 
   useEffect(() => {
+    setTags(value);
+  }, [value])
+
+  useEffect(() => {
+
     const inputElement = inputRef.current;
 
     if(inputElement) {
@@ -79,7 +83,7 @@ const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange }) => {
   }, [hashTag, updateLabelStyle]);
 
   return (
-    <HashWrapOuter className='HashWrapOuter'>
+    <HashWrapOuter className='HashWrapOuter' onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}>
         <HashInput 
             type='text'
             value={hashTag}
