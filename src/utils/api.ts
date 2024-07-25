@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken } from './localStorage';
 
 const api = axios.create({
-  baseURL: '/api', // 기본 API URL 설정
+  baseURL: '${process.env.NEXT_PUBLIC_API_BASE_URL}', 
 });
 
 api.interceptors.request.use((config) => {
