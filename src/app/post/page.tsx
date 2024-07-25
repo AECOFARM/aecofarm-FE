@@ -8,7 +8,6 @@ import TopBar from "@/components/TopBar";
 import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
-import { useRecoilValue } from "recoil";
 import axios from "axios";
 import { tagsState } from "@/state/atoms";
 
