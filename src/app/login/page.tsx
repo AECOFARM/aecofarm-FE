@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import AppLayout from '@/components/layout/MobileLayout';
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
-import { setToken } from '@/utils/localStorage'; // 모듈화된 로컬 스토리지 유틸리티
-import { postRequest } from '@/utils/api'; // 모듈화된 API 호출
+import { setToken } from '@/utils/localStorage'; 
+import { postRequest } from '@/utils/api';
 
 const Wrapper = styled.div`
   margin-top: 150px;
@@ -85,7 +85,7 @@ const SignUpPage = () => {
 
   const login = async () => {
     try {
-      const data = await postRequest('/api/member/login', { email, password });
+      const data = await postRequest('${process.env.NEXT_PUBLIC_API_BASE_URL}/member/login', { email, password });
 
       if (data.code === 200) {
         const { token } = data.data;
