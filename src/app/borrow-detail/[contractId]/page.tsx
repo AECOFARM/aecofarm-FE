@@ -256,6 +256,7 @@ const BorrowDetailPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [showRequestPopup, setShowRequestPopup] = useState(false); 
   const router = useRouter();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!contractId) {
@@ -280,8 +281,28 @@ const BorrowDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = () => {
-    setLikeStatus(prevStatus => !prevStatus);
+  const toggleLikeStatus = async () => {
+    try {
+      if (likeStatus) {
+        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          data: { 'itemId': `${itemDetail?.itemId}`} // 여기서 itemId를 사용합니다.
+        });
+        console.log(response);
+      } else {
+        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+      } 
+      setLikeStatus(prevStatus => !prevStatus);
+    } catch (error) {
+      console.error("An error occurred while toggling like status:", error);
+    }
   };
 
   const handleDelete = async () => {

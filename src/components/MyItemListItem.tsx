@@ -36,17 +36,6 @@ const ItemImage = styled.img<{ width: string, height: string }>`
   aspect-ratio: 1 / 1; /* Width와 Height를 동일하게 유지 */
 `;
 
-const IconContainer = styled.div<{ visible: boolean }>`
-  display: ${({ visible }) => (visible ? 'flex' : 'none')};
-  align-items: center;
-  img {
-    width: 20px;
-  }
-  position: absolute;
-  top: 80px;
-  left: 80px;
-`;
-
 const ItemInfoContainer = styled.div<{ width: string}>`
   display: flex;
   flex-direction: row;

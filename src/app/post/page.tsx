@@ -111,22 +111,6 @@ const ItemInfoContainer = styled.div`
   }
 `;
 
-const PostButtonContainer = styled.div`
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0px;
-  gap: 10px;
-  position: fixed;
-  bottom: 20px;
-  background: #FFFFFF;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 const NoticeButton = styled.p`
   font-size: 0.9rem;
   text-decoration: underline;
@@ -316,7 +300,7 @@ const Post = () => {
           type="text"
           required
         />
-        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange}/>
+        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange} value={itemDetail.itemHash}/>
         <TextInput
           placeholder="가격"
           name="price"
@@ -340,6 +324,7 @@ const Post = () => {
           onChange={handleInputChange}
           type="number"
           required
+          label="분 이내"
         />
         <TextInput
           placeholder="대여 가능 시간"
@@ -348,16 +333,14 @@ const Post = () => {
           onChange={handleInputChange}
           type="number"
           required
+          label="시간"
         />
         <ItemInfoContainer>
           <p>설명</p>
-          <textarea placeholder="상품의 상태를 자세히 적어주세요." name="itemContents" value={itemDetail?.itemContents} onChange={handleInputChange}/>
+          <textarea placeholder="상품의 상태를 자세히 적어주세요." name="itemContents" value={itemDetail?.itemContents} onChange={handleInputChange} required/>
         </ItemInfoContainer>
       </InputContainer>
-      <PostButtonContainer>
-        <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <PostButton text="등록하기" />
-      </PostButtonContainer>
+      <PostButton text="등록하기"/>
       </Form>
     </Wrapper>
     </MainLayout>

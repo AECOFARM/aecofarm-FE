@@ -10,15 +10,8 @@ export const Wrapper = styled.div`
 `;
 
 export const CategoryItemsContainer = styled.div`
+  margin: 0 auto;
   margin-top: 60px;
-`;
-
-export const ListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
-  gap: 0px;
-  position: relative;
-  height: auto;
 `;
 
 export const Container = styled.div`

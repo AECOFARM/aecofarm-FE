@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const ItemInfo = styled.div`
-  width: 75%;
+  width: 90%;
   padding: 0 10px;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,11 @@ const Title = styled.h2`
   color: black;
   font-size: 19px;
   margin-bottom: 5px;
-  font-weight: 600;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 const Place = styled.div`
@@ -49,6 +53,7 @@ const TimeAndPrice = styled.p`
   color: black;
   font-weight: 400;
   margin-bottom: 5px;
+  
 `;
 
 const HashTags = styled.div``;

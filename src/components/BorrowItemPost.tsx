@@ -37,12 +37,18 @@ const TitleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  width: 100%;
 `;
 
 const Title = styled.h2`
   color: black;
+  width: 72%;
   font-size: 19px;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 const Place = styled.div`

@@ -15,6 +15,7 @@ interface ItemDetail {
   itemName: string;
   userName: string;
   itemContent: string;
+  itemId: number;
   kakao: string;
   price: number;
   itemPlace: string;
@@ -241,6 +242,7 @@ const LendDetailPage = () => {
   const [likeStatus, setLikeStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showRequestPopup, setShowRequestPopup] = useState(false); 
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (!contractId) {
@@ -269,8 +271,28 @@ const LendDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = () => {
-    setLikeStatus(prevStatus => !prevStatus);
+  const toggleLikeStatus = async () => {
+    try {
+      if (likeStatus) {
+        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          data: { 'itemId': `${itemDetail?.itemId}`} // 여기서 itemId를 사용합니다.
+        });
+        console.log(response);
+      } else {
+        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+      } 
+      setLikeStatus(prevStatus => !prevStatus);
+    } catch (error) {
+      console.error("An error occurred while toggling like status:", error);
+    }
   };
 
   const handleDelete = async () => {

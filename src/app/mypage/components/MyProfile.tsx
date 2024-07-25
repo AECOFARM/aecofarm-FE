@@ -9,23 +9,23 @@ const ProfileContainer = styled.div`
   width: 85%;
   background: #FFFFFF;
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 15px;
   margin: 20px auto;
   margin-top: 80px;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
 `;
 
-const ProfileImageContainer = styled.img`
-  box-sizing: border-box;
+const ProfileImageContainer = styled.div`
   width: 90px;
   height: 90px;
-  box-shadow: 1px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 10rem;
+  border: 1px solid var(--gray5);
+  border-radius: 50%;
+  overflow: hidden;
   img {
     width: 90px;
     height: 90px;
+    object-fit: cover;
   }
 `;
 
@@ -50,10 +50,10 @@ const ProfileEmailContainer = styled.div`
   gap: 10px;
   p {
     color: #686868;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
   .email {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 `;
 
@@ -64,10 +64,10 @@ const ProfilePointContainer = styled.div`
   gap: 10px;
   p {
     color: #686868;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
   .point {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #DF5532;
     font-weight: 500;
   }
@@ -140,7 +140,9 @@ const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) =>
 
   return (
     <ProfileContainer>
-      <ProfileImageContainer src={image} />
+      <ProfileImageContainer>
+        <img src={image} />
+      </ProfileImageContainer>
       <ProfileContentContainer>
         <ProfileNameContainer>{userName}</ProfileNameContainer>
         <ProfileEmailContainer>

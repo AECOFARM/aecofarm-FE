@@ -44,6 +44,15 @@ const InputLabel = styled.label`
   cursor: pointer;
 `;
 
+const ExampleLabel = styled.label`
+  position: absolute;
+  color: var(--gray8);
+  right: 0px;
+  font-size: 1rem;
+  top: 20px;
+`;
+
+
 interface TextInputProps {
   placeholder: string;
   value: string;
@@ -51,9 +60,10 @@ interface TextInputProps {
   name: string;
   type: string;
   required?: boolean;
+  label?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name, type, required }) => {
+const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name, type, required, label }) => {
   const textInputRef = useRef<HTMLInputElement>(null);
   const handleTextInput = () => {
     if(textInputRef.current) {
@@ -65,6 +75,7 @@ const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, nam
     <InputContainer>
       <Input value={value} onChange={onChange} name={name} ref={textInputRef} type={type} required={required} />
       <InputLabel htmlFor={value} onClick={handleTextInput}>{placeholder}</InputLabel>
+      <ExampleLabel>{label}</ExampleLabel>
     </InputContainer>
   );
 };
