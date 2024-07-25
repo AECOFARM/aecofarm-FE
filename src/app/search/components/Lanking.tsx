@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -73,20 +73,12 @@ const getCurrentDateTime = () => {
   return `${date} ${time}`;
 };
 
-const shuffleArray = (array: any[]) => {
-  let shuffledArray = array.slice();
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray;
-};
-
 const Lanking = () => {
   const [dateTime, setDateTime] = useState(getCurrentDateTime());
   const [currentRankings, setCurrentRankings] = useState<string[]>([]);
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
   const [rankChanges, setRankChanges] = useState<Record<string, '▲' | '▼' | '-'>>({});
+  const lastUpdateTimeRef = useRef<Date | null>(null);
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -99,25 +91,35 @@ const Lanking = () => {
       const result = await response.json();
       const newRankings: string[] = result.data.hotSearchRankings;
 
-      // Calculate rank changes
-      const newRankChanges: Record<string, '▲' | '▼' | '-'> = {};
-      newRankings.forEach((item: string, index: number) => {
-        const previousIndex = previousRankings.indexOf(item);
-        if (previousIndex === -1) {
-          newRankChanges[item] = '-';
-        } else if (previousIndex > index) {
-          newRankChanges[item] = '▲';
-        } else if (previousIndex < index) {
-          newRankChanges[item] = '▼';
-        } else {
-          newRankChanges[item] = '-';
-        }
-      });
+      const now = new Date();
+      const lastUpdateTime = lastUpdateTimeRef.current;
+      
+      if (!lastUpdateTime || now.getTime() - lastUpdateTime.getTime() >= 60000) {
+        // Calculate rank changes
+        const newRankChanges: Record<string, '▲' | '▼' | '-'> = {};
+        newRankings.forEach((item: string, index: number) => {
+          const previousIndex = previousRankings.indexOf(item);
+          if (previousIndex === -1) {
+            newRankChanges[item] = '▲'; // New item, mark as new with upward arrow
+          } else if (previousIndex > index) {
+            newRankChanges[item] = '▲';
+          } else if (previousIndex < index) {
+            newRankChanges[item] = '▼';
+          } else {
+            newRankChanges[item] = '-';
+          }
+        });
 
-      setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
-      setCurrentRankings(newRankings);
-      setRankChanges(newRankChanges);
-      setDateTime(getCurrentDateTime());
+        setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+        setCurrentRankings(newRankings);
+        setRankChanges(newRankChanges);
+        setDateTime(getCurrentDateTime());
+        lastUpdateTimeRef.current = now;
+      } else {
+        // Just update the current rankings and date time
+        setCurrentRankings(newRankings);
+        setDateTime(getCurrentDateTime());
+      }
     };
 
     // Fetch initial rankings
@@ -126,7 +128,7 @@ const Lanking = () => {
     const intervalId = setInterval(fetchRankings, 60000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [previousRankings]);
 
   return (
     <Wrapper>
