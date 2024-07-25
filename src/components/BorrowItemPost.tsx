@@ -104,12 +104,13 @@ interface Post {
   highPrice?: number;
 }
 
-interface LendItemPostProps {
+interface BorrowItemPostProps {
   post: Post;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
+
+const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
   const {
     contractId,
     itemId,
@@ -130,10 +131,11 @@ const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const router = useRouter();
   const token = localStorage.getItem('token');
 
-  const moveDetail = () => {
-    router.push(`/borrow-detail/${contractId}?itemId=${itemId}`);
-  }
-
+  const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const contractId = Number((e.currentTarget as HTMLElement).dataset.contractId);
+    router.push(`/borrow-detail/${contractId}`);
+  };
+  
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
