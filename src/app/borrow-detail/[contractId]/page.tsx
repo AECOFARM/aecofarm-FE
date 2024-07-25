@@ -408,12 +408,14 @@ const BorrowDetailPage = () => {
               </EditDeleteContainer>
             )}
           </UserContainer>
+          {!owner && (
           <ButtonContainer>
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
             <LendButton onClick={handleRequestClick}>대여 요청하기</LendButton>
           </ButtonContainer>
+          )}
         </Container>
       </MainLayout>
       <Navigation />

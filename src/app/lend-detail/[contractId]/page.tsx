@@ -419,6 +419,7 @@ const LendDetailPage = () => {
             </Place>
           </ItemInfo>
           <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+          {!owner && (
           <ButtonContainer>
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
@@ -427,6 +428,7 @@ const LendDetailPage = () => {
               빌려주기
             </LendButton>
           </ButtonContainer>
+          )}
         </Container>
       </MainLayout>
       <Navigation />
