@@ -2,8 +2,8 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import MyItemListItem from "@/components/MyItemListItem";
 import { NextPage } from "next";
-import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles";
 import Category from "@/components/Category";
+import { CategoryItemsContainer } from "@/components/CommonStyles";
 import { useRouter } from "next/navigation";
 import api from "@/utils/api";
 
@@ -19,12 +19,23 @@ interface Item {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   width: 95%;
 `;
 
+const ListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개 */
+  row-gap: 5px;
+  column-gap: 5px;
+  position: relative;
+  height: auto;
+  margin: 0 auto;
+`;
+
 const ItemContainer = styled.div`
-  box-sizing: border-box;
 `;
 
 const CategoryContainer = styled.div`
@@ -105,7 +116,7 @@ const MyItemList: NextPage = () => {
     fetchItems();
   }, []);
 
-  const imageSize = "100%";
+  const imageSize = 110;
 
   const filteredItems = useMemo(() => {
     let items: Item[] = [];
@@ -152,7 +163,7 @@ const MyItemList: NextPage = () => {
         ) : (
           <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
         )}
-      </CategoryItemsContainer>
+        </CategoryItemsContainer>
     </Container>
   );
 };
