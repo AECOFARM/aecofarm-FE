@@ -85,7 +85,7 @@ const SignUpPage = () => {
 
   const login = async () => {
     try {
-      const data = await postRequest('${process.env.NEXT_PUBLIC_API_BASE_URL}/member/login', { email, password });
+      const data = await postRequest('${process.env.NEXT_PUBLIC_API_BASE_URL}/api/member/login', { email, password });
 
       if (data.code === 200) {
         const { token } = data.data;
