@@ -79,6 +79,7 @@ const Lanking = () => {
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
   const [rankChanges, setRankChanges] = useState<Record<string, '▲' | '▼' | '-'>>({});
   const lastUpdateTimeRef = useRef<Date | null>(null);
+  const initialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -94,7 +95,20 @@ const Lanking = () => {
       const now = new Date();
       const lastUpdateTime = lastUpdateTimeRef.current;
       
-      if (!lastUpdateTime || now.getTime() - lastUpdateTime.getTime() >= 60000) {
+      if (initialLoadRef.current) {
+        // 첫 로딩 시 모든 항목에 '-' 설정
+        const initialRankChanges: Record<string, '▲' | '▼' | '-'> = {};
+        newRankings.forEach(item => {
+          initialRankChanges[item] = '-';
+        });
+
+        setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+        setCurrentRankings(newRankings);
+        setRankChanges(initialRankChanges);
+        setDateTime(getCurrentDateTime());
+        lastUpdateTimeRef.current = now;
+        initialLoadRef.current = false;
+      } else if (!lastUpdateTime || now.getTime() - lastUpdateTime.getTime() >= 60000) {
         // Calculate rank changes
         const newRankChanges: Record<string, '▲' | '▼' | '-'> = {};
         newRankings.forEach((item: string, index: number) => {
