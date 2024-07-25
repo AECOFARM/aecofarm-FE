@@ -317,6 +317,10 @@ const BorrowDetailPage = () => {
     }
   };
 
+  const handleUpdate = () => {
+    router.push(`/post/edit/${contractId}?category=BORROW`);
+  };
+
   const handleRequestClick = () => {
     setShowRequestPopup(true);
   };
@@ -402,7 +406,7 @@ const BorrowDetailPage = () => {
             </User>
             {owner && (
               <EditDeleteContainer>
-                <EditButton>수정</EditButton>
+                <EditButton onClick={handleUpdate}>수정</EditButton>
                 <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
               </EditDeleteContainer>
             )}

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { tagsState } from '@/state/atoms';
-import React, {useCallback, useEffect, useState, useRef} from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 interface TagInputProps {
   placeholder?: string;
+  onChange: (tags: string[]) => void;
 }
 
-const TagInput: React.FC<TagInputProps> = ({ placeholder }) => {
-  const [tags, setTags] = useRecoilState(tagsState);
+const TagInput: React.FC<TagInputProps> = ({ placeholder, onChange }) => {
+  const [tags, setTags] = useState<string[]>([]);
   const [hashTag, setHashTag] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
   const labelRef = useRef<HTMLLabelElement>(null);
@@ -24,17 +23,26 @@ const TagInput: React.FC<TagInputProps> = ({ placeholder }) => {
   }, []);
 
   const handleTagRemove = useCallback((tagToRemove: string) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag.value !== tagToRemove));
-  }, [setTags]);
+    setTags((prevTags) => {
+      const newTags = prevTags.filter((tag) => tag !== tagToRemove);
+      onChange(newTags);
+      return newTags;
+    });
+  }, [onChange]);
 
   const onKeyUp = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if ((e.key === 'Enter' || e.key === ' ') && hashTag.trim() !== '') {
-        setTags((prevTags) => [...prevTags, { value: hashTag }]);
+        setTags((prevTags) => {
+          const newTags = [...prevTags, hashTag];
+          onChange(newTags);
+          return newTags;
+        });
         setHashTag('');
       }
     },
-    [hashTag, setTags]);
+    [hashTag, onChange]
+  );
 
   const updateLabelStyle = useCallback(() => {
     if (labelRef.current) {
@@ -80,8 +88,8 @@ const TagInput: React.FC<TagInputProps> = ({ placeholder }) => {
             ref={inputRef}
         />
         {tags.map((tag, index) => (
-          <HashWrapInner key={index} onClick={() => handleTagRemove(tag.value)}>
-            #{tag.value}
+          <HashWrapInner key={index} onClick={() => handleTagRemove(tag)}>
+            #{tag}
           </HashWrapInner>
         ))}
         <InputLabel ref={labelRef} onClick={handleTagInput}>{placeholder}</InputLabel>
@@ -152,6 +160,5 @@ const InputLabel = styled.label`
   transition: all 0.2s;
   cursor: pointer;
 `;
-
 
 export default TagInput;
