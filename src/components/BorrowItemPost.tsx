@@ -110,10 +110,9 @@ interface BorrowItemPostProps {
 }
 
 
-const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
+const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
     contractId,
-    itemId,
     itemName,
     itemImage,
     itemPlace,
@@ -122,11 +121,9 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
     contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
-    donateStatus,
-    distance,
-    lowPrice,
-    highPrice
+    donateStatus
   } = post;
+
 
   const router = useRouter();
   const token = localStorage.getItem('token');
@@ -166,9 +163,9 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
   }
 
   return (
-    <Container>
-      <ItemImage src={imageSrc} alt={itemName} onClick={moveDetail}/>
-      <ItemInfo onClick={moveDetail}>
+      <Container data-contract-id={contractId.toString()} onClick={onClick}>
+      <ItemImage src={itemImage || "/img/default-image.png"} alt={itemName} />
+      <ItemInfo>
         <TitleContainer>
           <Title>{itemName}</Title>
           {donateStatus === true && <DonateLabel />}

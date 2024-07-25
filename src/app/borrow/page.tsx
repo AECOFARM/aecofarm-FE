@@ -56,9 +56,12 @@ const BorrowPage = () => {
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
-  const moveDetail = (contractId: number) => {
-    router.push(`/borrow-detail/${contractId}`);
-  };
+  const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const contractId = Number((e.currentTarget as HTMLDivElement).dataset.contractId);
+    if (contractId) {
+      router.push(`/borrow-detail/${contractId}`);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,10 +107,14 @@ const BorrowPage = () => {
           <SeeDonate setSeeDonateStatus={setSeeDonateStatus}/>
         </ButtonContainer>
         <PostContainer>
-          {posts.map((post) => (
-            <BorrowItemPost key={post.contractId} post={post} onClick={moveDetail}/>
-          ))}
-        </PostContainer>
+        {posts.map((post) => (
+          <BorrowItemPost
+            key={post.contractId}
+            post={post}
+            onClick={moveDetail}
+          />
+        ))}
+      </PostContainer>
       </MainLayout>
       <Navigation/>
     </AppLayout>
