@@ -172,46 +172,48 @@ const UpdatePost = () => {
             </ImageInputContainer>
           )}
           <TextInput
+            type="text" // 추가된 부분
             placeholder="상품명"
             name="itemName"
             value={itemDetail.itemName}
             onChange={handleInputChange}
           />
           <TextInput
+            type="text" // 추가된 부분
             placeholder="오픈채팅방 링크"
             name="kakao"
             value={itemDetail.kakao}
             onChange={handleInputChange}
           />
-          <TagInput
-            value={tags}
-            onChange={handleTagsChange}
-            placeholder="해시태그 입력"
-          />
           <TextInput
+            type="number" // 추가된 부분 (가격은 숫자 타입이 적절)
             placeholder="가격"
             name="price"
             value={String(itemDetail.price)}
             onChange={handleInputChange}
           />
           <TextInput
+            type="text" // 추가된 부분
             placeholder="거래 가능 장소"
             name="itemPlace"
             value={itemDetail.itemPlace}
             onChange={handleInputChange}
           />
           <TextInput
+            type="number" // 추가된 부분 (시간은 숫자 타입이 적절)
             placeholder="거래 가능 시간"
             name="contractTime"
             value={String(itemDetail.contractTime)}
             onChange={handleInputChange}
           />
           <TextInput
+            type="number" // 추가된 부분 (시간은 숫자 타입이 적절)
             placeholder="대여 가능 시간"
             name="time"
             value={String(itemDetail.time)}
             onChange={handleInputChange}
           />
+
           <ItemInfoContainer>
             <p>설명</p>
             <textarea
