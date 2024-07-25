@@ -77,7 +77,7 @@ interface AgreementProps {
 const Agreement: React.FC<AgreementProps> = ({checkStatus, setCheckStatus}) => {
 
   const checkIconSrc = checkStatus ? '/img/checked.svg' : '/img/not-checked.svg';
-  const childCheckIconSrc = checkStatus ? 'simple-checked.svg' : '/simple-not-checked.svg';
+  const childCheckIconSrc = checkStatus ? '/simple-checked.svg' : '/simple-not-checked.svg';
 
   const toggleCheckStatus = () => {
     setCheckStatus(prevStatus => !prevStatus);

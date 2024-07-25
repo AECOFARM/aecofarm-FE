@@ -74,7 +74,7 @@ interface Data {
 }
 
 const MyItemList: NextPage = () => {
-  const categories = ["대여하기", "기부하기", "빌려주기"];
+  const categories = ["대여하기", "빌려주기", "기부하기"];
   const [selectedCategory, setSelectedCategory] = useState("대여하기");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -120,13 +120,13 @@ const MyItemList: NextPage = () => {
     if (selectedCategory === "대여하기") {
       return myPostList.lendingItems.map((item) => ({
         ...item,
-        type: "lending",
+        type: "borrowing",
         buttonVisible: true,
       }));
     } else if (selectedCategory === "빌려주기") {
       return myPostList.borrowingItems.map((item) => ({
         ...item,
-        type: "borrowing",
+        type: "lending",
         buttonVisible: false,
       }));
     } else if (selectedCategory === "기부하기") {

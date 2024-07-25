@@ -78,7 +78,7 @@ interface Data {
 }
 
 const MyItemList: NextPage = () => {
-  const categories = ["대여하기", "기부하기", "빌려주기"];
+  const categories = ["대여하기", "빌려주기", "기부하기"];
   const [myHeartList, setMyHeartList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
