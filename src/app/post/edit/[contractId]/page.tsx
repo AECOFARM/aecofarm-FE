@@ -260,6 +260,7 @@ const UpdatePost = () => {
           onChange={handleInputChange}
           type="number"
           required
+          label="분 이내"
         />
         <TextInput
           placeholder="대여 가능 시간"
@@ -268,6 +269,7 @@ const UpdatePost = () => {
           onChange={handleInputChange}
           type="number"
           required
+          label="시간"
         />
         <ItemInfoContainer>
           <p>설명</p>

@@ -28,7 +28,7 @@ const PostButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0px;
+  padding: 30px 0px;
   gap: 10px;
   position: fixed;
   bottom: 0px;
@@ -55,6 +55,7 @@ const Button = styled.button`
   text-align: center;
   padding: 10px;
   cursor: pointer;
+  border: none;
 `;
 
 export default PostButton;
