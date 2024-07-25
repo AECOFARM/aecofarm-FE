@@ -106,6 +106,7 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
