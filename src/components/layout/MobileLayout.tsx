@@ -2,17 +2,11 @@ import styled from 'styled-components';
 
 const AppLayout = (props: { children: React.ReactNode }) => {
   return (
-<<<<<<< HEAD
 
     <Centering>
       <FixedWidth>{props.children}</FixedWidth>
     </Centering>
 
-=======
-    <Centering>
-      <FixedWidth>{props.children}</FixedWidth>
-    </Centering>
->>>>>>> main
   );
 };
 
