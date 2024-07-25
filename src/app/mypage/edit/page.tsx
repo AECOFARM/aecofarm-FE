@@ -250,7 +250,7 @@ const Example = () => {
       <Wrapper>
         <ProfileImageContainer image={profile?.image} />
         <ProfileImageEditButton>
-          <input type="file" onChange={handleFileChange} ref={fileInputRef} accept=".jpg,.jpeg,.png" />
+          <input type="file" onChange={handleFileChange} ref={fileInputRef} accept=".jpg" />
           <p onClick={fileInputClick}>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
         <ProfileEditContainer onSubmit={editProfile}>
@@ -272,7 +272,7 @@ const Example = () => {
               onChange={handleInputChange} 
             />
           </TextInputContainer>
-          <ModifiedButton text="수정하기" onClick={editProfile} />
+          <ModifiedButton text="수정하기" />
         </ProfileEditContainer>
         <LeaveButton>
           <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
