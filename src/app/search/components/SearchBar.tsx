@@ -51,7 +51,7 @@ const SearchButton = styled.button`
 `;
 
 interface SearchBarProps {
-  initialData: string;
+  initialData?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ initialData = '' }) => {

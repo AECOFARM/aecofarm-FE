@@ -41,7 +41,7 @@ const exampleData = [
   }
 ];
 
-const ItemList = () => {
+const ItemList: React.FC = () => {
   const handlePostClick = (contractId: number) => {
     console.log(`Post with contractId ${contractId} clicked`);
   };

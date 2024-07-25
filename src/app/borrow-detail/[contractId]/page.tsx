@@ -10,6 +10,8 @@ import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 import Popup from '@/components/Popup'; 
+import api from '@/utils/api';
+
 
 interface ItemDetail {
   owner: boolean;
@@ -261,19 +263,8 @@ const BorrowDetailPage = () => {
     }
 
     const fetchItemDetail = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('No token found in localStorage');
-        return;
-      }
-      console.log('Token:', token); // Debugging token
       try {
-        const response = await axios.get(`/api/contract/detail/${contractId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`        
-          }
-        });
-
+        const response = await api.get(`/contract/detail/${contractId}`);
         if (response.data.code === 200) {
           const item = response.data.data;
           setItemDetail(item);
@@ -294,18 +285,8 @@ const BorrowDetailPage = () => {
   };
 
   const handleDelete = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found in localStorage');
-      return;
-    }
     try {
-      const response = await axios.delete(`/api/contract/delete/${contractId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`        
-        }
-      });
-
+      const response = await api.delete(`/contract/delete/${contractId}`);
       if (response.data.code === 200) {
         setShowModal(true);
       } else {
@@ -335,11 +316,6 @@ const BorrowDetailPage = () => {
   };
 
   const handleRequest = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found in localStorage');
-      return;
-    }
     router.push(`/reserve/${contractId}`);
   };
 

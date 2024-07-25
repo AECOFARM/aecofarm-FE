@@ -104,14 +104,16 @@ interface Post {
   highPrice?: number;
 }
 
-interface LendItemPostProps {
+interface BorrowItemPostProps {
   post: Post;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
+
+const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
     contractId,
-    itemId,
+    itemId, // 여기서 itemId를 받아옵니다.
     itemName,
     itemImage,
     itemPlace,
@@ -120,30 +122,23 @@ const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
     contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
-    donateStatus,
-    distance,
-    lowPrice,
-    highPrice
+    donateStatus
   } = post;
 
   const router = useRouter();
   const token = localStorage.getItem('token');
-
-  const moveDetail = () => {
-    router.push(`/borrow-detail/${contractId}?itemId=${itemId}`);
-  }
-
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
   const toggleLikeStatus = async () => {
+    try {
       if (likeStatus) {
         const response = await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          data: { itemId: itemId }
+          data: { itemId: itemId } // 여기서 itemId를 사용합니다.
         });
         console.log(response);
       } else {
@@ -155,20 +150,20 @@ const BorrowItemPost: React.FC<LendItemPostProps> = ({ post }) => {
         console.log(response);
       } 
       setLikeStatus(prevStatus => !prevStatus);
+    } catch (error) {
+      console.error("An error occurred while toggling like status:", error);
+    }
   };
 
-  let imageSrc = itemImage;
-  if (!imageSrc) {
-    imageSrc = "/img/default-image.png";
-  }
+  let imageSrc = itemImage || "/img/default-image.png";
 
   return (
-    <Container>
-      <ItemImage src={imageSrc} alt={itemName} onClick={moveDetail}/>
-      <ItemInfo onClick={moveDetail}>
+    <Container data-contract-id={contractId.toString()} onClick={onClick}>
+      <ItemImage src={imageSrc} alt={itemName} />
+      <ItemInfo>
         <TitleContainer>
           <Title>{itemName}</Title>
-          {donateStatus === true && <DonateLabel />}
+          {donateStatus && <DonateLabel />}
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>

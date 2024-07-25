@@ -11,6 +11,7 @@ const Title = styled.div`
   background-color: white;
   font-size: 20px;
   font-weight: 600;
+  color: black;
 `;
 
 const KeyWordContainer = styled.div`

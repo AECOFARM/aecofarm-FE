@@ -1,3 +1,4 @@
+'use client';
 import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import AlarmListItem from "./AlarmListItem";
@@ -51,7 +52,6 @@ interface AlarmListData {
 const AlarmList: React.FC = () => {
     const categories = ["전체", "대여하기", "빌려주기"];
     const [selectedCategory, setSelectedCategory] = useState("전체");
-    const token = localStorage.getItem('token');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [alarmList, setAlarmList] = useState<AlarmListData>({ lending: [], borrowing: [] });
@@ -64,6 +64,12 @@ const AlarmList: React.FC = () => {
         const fetchAlarm = async () => {
             setError(null);
             setLoading(true);
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('로그인 후 시도해주세요.');
+                setLoading(false);
+                return;
+            }
             try {
                 const response = await axios.get('/api/alarm/list', {
                     headers: {
@@ -73,7 +79,11 @@ const AlarmList: React.FC = () => {
                 const data = response.data.data;
                 setAlarmList(data);
             } catch (err: any) {
-                setError(err.message || 'Something went wrong');
+                if (err.response?.status === 401) {
+                    setError('토큰이 유효하지 않습니다. 다시 로그인해주세요.');
+                } else {
+                    setError('데이터를 가져오는 데 실패했습니다.');
+                }
             } finally {
                 setLoading(false);
             }
@@ -101,9 +111,15 @@ const AlarmList: React.FC = () => {
             </CategoryContainer>
             <CategoryItemsContainer>
                 <AlarmContainer>
-                    {filteredData.map((alarm, index) => (
-                        <AlarmListItem key={index} alarm={alarm} category={alarm.category} />
-                    ))}
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : error ? (
+                        <div style={{ color: 'red' }}>{error}</div>
+                    ) : (
+                        filteredData.map((alarm, index) => (
+                            <AlarmListItem key={index} alarm={alarm} category={alarm.category} />
+                        ))
+                    )}
                 </AlarmContainer>
             </CategoryItemsContainer>
         </Container>

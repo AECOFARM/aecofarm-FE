@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   async redirects() {
     return [
@@ -16,9 +17,12 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/:path*',
       },
-    ]
+    ];
   },
 
+  experimental: {
+    forceSwcTransforms: true,
+  },
 };
 
 export default nextConfig;

@@ -249,7 +249,7 @@ const LendDetailPage = () => {
     const fetchItemDetail = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`/api/contract/detail/${contractId}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/contract/detail/${contractId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -322,6 +322,7 @@ const LendDetailPage = () => {
       if (response.data.code === 200) {
         alert('빌려주기 요청에 성공하였습니다.');
         closeRequestPopup();
+        router.push('/lend');
       } else {
         alert('빌려주기 요청에 실패하였습니다.');
         console.error('빌려주기 요청에 실패하였습니다:', response.data.message);

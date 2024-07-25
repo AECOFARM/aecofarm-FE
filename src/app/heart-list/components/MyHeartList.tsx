@@ -5,7 +5,7 @@ import { NextPage } from "next";
 import { ListContainer, CategoryItemsContainer } from "@/components/CommonStyles";
 import Category from "@/components/Category";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import api from "@/utils/api";
 
 interface Item {
   contractId: number;
@@ -14,6 +14,7 @@ interface Item {
   time: number;
   price: number;
   likeStatus?: boolean;
+  type?: string;
 }
 
 const Container = styled.div`
@@ -71,7 +72,6 @@ const MyItemList: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const token = localStorage.getItem('token');
 
   const moveBorrowDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
@@ -92,11 +92,7 @@ const MyItemList: NextPage = () => {
       setError(null);
       setLoading(true);
       try {
-        const response = await axios.get(`/api/likes/list`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await api.get(`/likes/list`);
         const data = response.data.data;
         setMyHeartList(data);
       } catch(err) {
@@ -107,55 +103,56 @@ const MyItemList: NextPage = () => {
       }
     };
     fetchItems();
-  }, [token]);
+  }, []);
 
   const imageSize = "100%";
 
   const filteredItems = useMemo(() => {
     let items: Item[] = [];
-    
+
     if (selectedCategory === "대여하기") {
       items = myHeartList.borrowingItems;
     } else if (selectedCategory === "빌려주기") {
       items = myHeartList.lendingItems as Item[]; // Type assertion
     } else if (selectedCategory === "기부하기") {
-      return myHeartList.borrowingItems.filter((item) => item.price === 0)
-      .map((item) => ({
-        ...item,
-        type: "borrowing",
-      }));
-    } 
-    return [];
-  }, [selectedCategory]);
+      items = myHeartList.borrowingItems.filter((item) => item.price === 0)
+        .map((item) => ({
+          ...item,
+          type: "borrowing",
+        }));
+    }
+    return items;
+  }, [selectedCategory, myHeartList]);
 
   return (
     <Container>
-    <CategoryContainer>
-    <Category
-      selectedCategory={selectedCategory}
-      onSelectCategory={handleCategoryChange}
-      categories={categories}
-    />
-    </CategoryContainer>
-    <CategoryItemsContainer>
-    {filteredItems.length > 0 ? (
-      <ListContainer>
-        {filteredItems.map((item) => (
-          item.type === "lending" ? (
-          <ItemContainer key={item.contractId}>
-            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveLendDetail}} />
-          </ItemContainer>
-          ) : (
-           <ItemContainer key={item.contractId}>
-            <MyItemListItem item={item} imageHeight={imageSize} imageWidth={imageSize} onClick={() => {moveBorrowDetail}} />
-          </ItemContainer>
-          )
-        ))}
-      </ListContainer>
-      ) : (
-        <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
-      )}
-    </CategoryItemsContainer>
+      <CategoryContainer>
+        <Category
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategoryChange}
+          categories={categories}
+        />
+      </CategoryContainer>
+      <CategoryItemsContainer>
+        {filteredItems.length > 0 ? (
+          <ListContainer>
+            {filteredItems.map((item) => (
+              <ItemContainer key={item.contractId}>
+                <MyItemListItem
+                  item={item}
+                  imageHeight={imageSize}
+                  imageWidth={imageSize}
+                  onClick={() => {
+                    item.type === "lending" ? moveLendDetail(item.contractId) : moveBorrowDetail(item.contractId);
+                  }}
+                />
+              </ItemContainer>
+            ))}
+          </ListContainer>
+        ) : (
+          <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
+        )}
+      </CategoryItemsContainer>
     </Container>
   );
 };

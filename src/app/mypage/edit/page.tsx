@@ -141,14 +141,14 @@ const Example = () => {
     }
 
     try {
-      const response = await axios.delete('/api/member/signout', {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/member/signout`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
       if (response.data.code === 200) {
-        alert(response.data.message); // Use the success message from the response
+        alert('회원정보가 삭제되었습니다.'); // Use the success message from the response
         router.push('/');
       } else {
         alert('회원 탈퇴에 실패하였습니다.');

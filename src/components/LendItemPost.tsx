@@ -36,11 +36,11 @@ const Place = styled.div`
   display: flex;
   
   img {
-   margin-right: 2px;  
+    margin-right: 2px;  
   }
 
   div {
-   margin-left: 7px;
+    margin-left: 7px;
   }
 `;
 
@@ -89,6 +89,8 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
+  buttonVisible?: boolean; 
+  onClick?: () => void;
 }
 
 const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
@@ -114,7 +116,8 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
-  const toggleLikeStatus = async () => {
+  const toggleLikeStatus = async (event: React.MouseEvent) => {
+    event.stopPropagation();
     if (likeStatus) {
       const response = await axios.delete(`/api/likes/delete/${contractId}`, {
         headers: {

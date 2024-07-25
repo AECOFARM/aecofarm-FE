@@ -2,14 +2,6 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
-const initialData = {
-  "code": 200,
-  "message": "SUCCESS",
-  "data": {
-    "hotSearchRankings": []
-  }
-};
-
 const Wrapper = styled.div`
   padding: 15px 35px;
 `;
@@ -18,6 +10,7 @@ const Title = styled.div`
   background-color: white;
   font-size: 20px;
   font-weight: 600;
+  color: black;
 `;
 
 const Time = styled.div`
@@ -35,6 +28,17 @@ const Column = styled.div`
   width: 48%;
 `;
 
+interface RankNumberProps {
+  rank: number;
+}
+
+const RankNumber = styled.div<RankNumberProps>`
+  font-weight: bold;
+  font-size: 22px;
+  margin-right: 10px;
+  color: ${props => props.rank <= 3 ? 'var(--red)' : 'black'};
+`;
+
 const RankItem = styled.div`
   display: flex;
   align-items: center;
@@ -45,18 +49,15 @@ const RankItem = styled.div`
   font-weight: 600;
 `;
 
-const RankNumber = styled.div`
-  font-weight: bold;
-  font-size: 22px;
-  margin-right: 10px;
-  color: ${props => props.rank <= 3 ? 'var(--red)' : 'black'};
-`;
-
 const RankText = styled.div`
   flex: 1;
 `;
 
-const RankChangeIcon = styled.div`
+interface RankChangeIconProps {
+  change: '▲' | '▼' | '-';
+}
+
+const RankChangeIcon = styled.div<RankChangeIconProps>`
   margin-left: 8px;
   color: ${props => props.change === '▲' ? 'var(--orange3)' : props.change === '▼' ? 'var(--blue)' : 'black'};
 `;
@@ -70,7 +71,7 @@ const getCurrentDateTime = () => {
   return `${date} ${time}`;
 };
 
-const shuffleArray = (array) => {
+const shuffleArray = (array: any[]) => {
   let shuffledArray = array.slice();
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -81,12 +82,12 @@ const shuffleArray = (array) => {
 
 const Lanking = () => {
   const [dateTime, setDateTime] = useState(getCurrentDateTime());
-  const [currentRankings, setCurrentRankings] = useState(initialData.data.hotSearchRankings);
-  const [previousRankings, setPreviousRankings] = useState([]);
+  const [currentRankings, setCurrentRankings] = useState<string[]>([]);
+  const [previousRankings, setPreviousRankings] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRankings = async () => {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token');
       const response = await fetch('/api/member/recommand', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -94,6 +95,7 @@ const Lanking = () => {
       });
       const result = await response.json();
       setCurrentRankings(result.data.hotSearchRankings);
+      setPreviousRankings(result.data.hotSearchRankings);
     };
 
     fetchRankings();
@@ -107,20 +109,27 @@ const Lanking = () => {
     return () => clearInterval(intervalId);
   }, [currentRankings]);
 
-  const getRankChange = (item, index) => {
-    if (previousRankings.length === 0) return null;
-
+  const getRankChange = (item: string, index: number): '▲' | '▼' | '-' => {
     const previousIndex = previousRankings.indexOf(item);
-    if (previousIndex === -1) return null;
 
-    if (previousIndex > index) return '▲';
-    if (previousIndex < index) return '▼';
+    if (previousIndex === -1 || previousIndex === index) {
+      return '-';
+    }
+
+    if (previousIndex > index) {
+      return '▲';
+    }
+
+    if (previousIndex < index) {
+      return '▼';
+    }
+
     return '-';
   };
 
   return (
     <Wrapper>
-      <Title>지금 HOT 검색 순위는?</Title>
+      <Title>지금 HOT 조회 순위는?</Title>
       <Time>{dateTime} 기준</Time>
       <RankingsContainer>
         <Column>

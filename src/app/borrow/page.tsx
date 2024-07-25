@@ -11,6 +11,7 @@ import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import BorrowItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
+
 interface Post {
   contractId: number;
   itemId: number;
@@ -55,6 +56,12 @@ const BorrowPage = () => {
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
+  const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const contractId = Number((e.currentTarget as HTMLDivElement).dataset.contractId);
+    if (contractId) {
+      router.push(`/borrow-detail/${contractId}`);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,10 +107,14 @@ const BorrowPage = () => {
           <SeeDonate setSeeDonateStatus={setSeeDonateStatus}/>
         </ButtonContainer>
         <PostContainer>
-          {posts.map((post) => (
-            <BorrowItemPost key={post.contractId} post={post} />
-          ))}
-        </PostContainer>
+        {posts.map((post) => (
+          <BorrowItemPost
+            key={post.contractId}
+            post={post}
+            onClick={moveDetail}
+          />
+        ))}
+      </PostContainer>
       </MainLayout>
       <Navigation/>
     </AppLayout>

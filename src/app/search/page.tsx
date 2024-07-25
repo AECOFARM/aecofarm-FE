@@ -7,16 +7,13 @@ import SearchBar from "./components/SearchBar";
 import KeyWords from "./components/KeyWords";
 import Lanking from "./components/Lanking";
 
-
 const SearchPage = () => {
-  
   return (
     <AppLayout>
       <NoFixedTopBar text="검색하기"/>
-        <SearchBar/>
-        <KeyWords/>
-        <Lanking/>
-
+      <SearchBar />
+      <KeyWords />
+      <Lanking />
     </AppLayout>
   );
 }
