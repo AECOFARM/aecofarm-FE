@@ -53,6 +53,7 @@ const TitleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  width: 85%;
 `;
 
 const Title = styled.h2`

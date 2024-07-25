@@ -5,7 +5,7 @@ import AppLayout from './layout/MobileLayout';
 
 const HeaderContainer = styled.header`
   position: fixed;
-  bottom: 10px;
+  bottom: 0px;
   height: 60px;
   background-color: white;
   display: flex;
