@@ -1,5 +1,5 @@
 'use client'
-import React, {useState, useRef, useCallback} from "react";
+import React, {useState, useRef, useEffect, ChangeEvent} from "react";
 import styled from 'styled-components';
 import TagInput from "./components/TagInput";
 import TextInput from "./components/TextInput";
@@ -8,9 +8,7 @@ import TopBar from "@/components/TopBar";
 import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
-import { useRecoilValue } from "recoil";
 import axios from "axios";
-import { tagsState } from "@/state/atoms";
 
 const Form = styled.form`
   width: 100%;
@@ -153,7 +151,7 @@ interface ItemDetail {
 const Post = () => {
   const router = useRouter();
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const tags = useRecoilValue(tagsState);
+  const [tags, setTags] = useState<string[]>([]);
 
   const [category, setCategory] = useState("BORROW");
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
@@ -174,18 +172,6 @@ const Post = () => {
 
   const fetchPost = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !itemDetail.itemName ||
-      !tags.length ||
-      !itemDetail.contractTime ||
-      !itemDetail.time ||
-      !itemDetail.price ||
-      !itemDetail.itemPlace ||
-      !itemDetail.itemContents
-    ) {
-      alert("모든 항목을 입력해주세요!");
-      return;
-    }
 
     const token = localStorage.getItem('token');
     const formData = new FormData();
@@ -193,7 +179,7 @@ const Post = () => {
       category: itemDetail.category,
       itemName: itemDetail.itemName,
       kakao: itemDetail.kakao,
-      itemHash: tags.map(tag => tag.value),
+      itemHash: tags,
       time: itemDetail.time,
       contractTime: itemDetail.contractTime,
       price: itemDetail.price,
@@ -235,7 +221,7 @@ const Post = () => {
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    setCategory(event.target.value);
+    setCategory(value);
     setItemDetail(prevState => ({
       ...prevState,
       category: value
@@ -269,6 +255,10 @@ const Post = () => {
     if (imageInputRef.current) {
       imageInputRef.current.click();
     }
+  };
+
+  const handleTagsChange = (newTags: string[]) => {
+    setTags(newTags);
   };
 
   const removeImage = () => {
@@ -326,7 +316,7 @@ const Post = () => {
           type="text"
           required
         />
-        <TagInput placeholder="해시태그 입력"/>
+        <TagInput placeholder="해시태그 입력" onChange={handleTagsChange}/>
         <TextInput
           placeholder="가격"
           name="price"

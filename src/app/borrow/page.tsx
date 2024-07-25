@@ -11,7 +11,6 @@ import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import BorrowItemPost from '../../components/BorrowItemPost'; 
 import SeeDonate from './components/SeeDonate';
-
 interface Post {
   contractId: number;
   itemId: number;
@@ -56,9 +55,6 @@ const BorrowPage = () => {
   const [sortType, setSortType] = useState('NEWEST');
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
-  const moveDetail = (contractId: number) => {
-    router.push(`/borrow-detail/${contractId}`);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
