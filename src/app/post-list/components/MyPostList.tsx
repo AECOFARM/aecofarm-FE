@@ -21,7 +21,7 @@ const PostContainer = styled.div`
   max-width: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
 `;
 
 const CategoryContainer = styled.div`
