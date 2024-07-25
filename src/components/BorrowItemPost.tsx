@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DonateLabel from './DonateLabel';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import SkeletonPost from './skeleton/SkeletonBorrowItemPost';
 
 const Container = styled.div`
   background-color: white;
@@ -119,7 +120,7 @@ interface BorrowItemPostProps {
 const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
     contractId,
-    itemId, // 여기서 itemId를 받아옵니다.
+    itemId,
     itemName,
     itemImage,
     itemPlace,
@@ -134,6 +135,7 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const router = useRouter();
   const token = localStorage.getItem('token');
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
+  const [loading, setLoading] = useState(true);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
@@ -144,7 +146,7 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          data: { itemId: itemId } // 여기서 itemId를 사용합니다.
+          data: { itemId: itemId } 
         });
         console.log(response);
       } else {
@@ -162,6 +164,17 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   };
 
   let imageSrc = itemImage || "/img/default-image.png";
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); 
+  }, []);
+
+  if (loading) {
+    return <SkeletonPost />; 
+  }
+
 
   return (
     <Container data-contract-id={contractId.toString()} onClick={onClick}>

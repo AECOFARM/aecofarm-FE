@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
+import SkeletonLanking from "@/components/skeleton/SkeletonLanking";
 
 const Wrapper = styled.div`
   padding: 15px 35px;
@@ -78,6 +79,7 @@ const Lanking = () => {
   const [currentRankings, setCurrentRankings] = useState<string[]>([]);
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
   const [rankChanges, setRankChanges] = useState<Record<string, '▲' | '▼' | '-'>>({});
+  const [loading, setLoading] = useState(true); // New state for loading
   const lastUpdateTimeRef = useRef<Date | null>(null);
   const initialLoadRef = useRef<boolean>(true);
 
@@ -108,6 +110,7 @@ const Lanking = () => {
         setDateTime(getCurrentDateTime());
         lastUpdateTimeRef.current = now;
         initialLoadRef.current = false;
+        setLoading(false); // Set loading to false once data is fetched
       } else if (!lastUpdateTime || now.getTime() - lastUpdateTime.getTime() >= 60000) {
         // Calculate rank changes
         const newRankChanges: Record<string, '▲' | '▼' | '-'> = {};
@@ -129,6 +132,7 @@ const Lanking = () => {
         setRankChanges(newRankChanges);
         setDateTime(getCurrentDateTime());
         lastUpdateTimeRef.current = now;
+        setLoading(false); // Set loading to false once data is fetched
       } else {
         // Just update the current rankings and date time
         setCurrentRankings(newRankings);
@@ -143,6 +147,10 @@ const Lanking = () => {
 
     return () => clearInterval(intervalId);
   }, [previousRankings]);
+
+  if (loading) { 
+    return <SkeletonLanking />;
+  }
 
   return (
     <Wrapper>
