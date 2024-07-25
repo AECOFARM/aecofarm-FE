@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { RecoilRoot } from 'recoil';
 
 const AppLayout = (props: { children: React.ReactNode }) => {
   return (
-    <RecoilRoot>
+
     <Centering>
       <FixedWidth>{props.children}</FixedWidth>
     </Centering>
-    </RecoilRoot>
+
   );
 };
 
