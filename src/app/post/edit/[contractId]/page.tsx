@@ -8,6 +8,8 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import TopBar from "@/components/TopBar";
 import PostButton from "../../components/PostButton";
+import PostLoading from "@/components/loading/PostLoading";
+import AlertPopup from "@/components/AlertPopup";
 import axios from "axios";
 
 interface ItemDetail {
@@ -36,6 +38,7 @@ const UpdatePost = () => {
   const [error, setError] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const { contractId } = useParams() as { contractId: string };
+  const [isOpen, setIsOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     owner: false,
     userName: "",
@@ -54,6 +57,7 @@ const UpdatePost = () => {
 
   const updatePost = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const updateContract = JSON.stringify({
       category: category,
       itemName: itemDetail.itemName,
@@ -81,7 +85,6 @@ const UpdatePost = () => {
       formData.append('file', emptyFile);
     }
     setError(null);
-    setLoading(true);
     try {
       
       const response = await axios.put(`/api/contract/update/${contractId}`, formData, {
@@ -90,13 +93,9 @@ const UpdatePost = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+      setLoading(false);
       if (response.data.code === 200) {
-        alert(response.data.message);
-        if (category === "BORROW") {
-          router.push(`/borrow-detail/${contractId}`);
-        } else {
-          router.push(`/lend-detail/${contractId}`);
-        }
+        setIsOpen(true);
       } else {
         alert('글 수정에 실패하였습니다.');
       }
@@ -104,8 +103,15 @@ const UpdatePost = () => {
     } catch(err) {
       const errorMessage = (err as Error).message || 'Something went wrong';
       setError(errorMessage);
-    } finally {
-      setLoading(false);
+    } 
+  };
+
+  const handleClick = () => {
+    setIsOpen(false);
+    if (category === "BORROW") {
+      router.push(`/borrow-detail/${contractId}`);
+    } else {
+      router.push(`/lend-detail/${contractId}`);
     }
   };
 
@@ -156,7 +162,6 @@ const UpdatePost = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
-    setFile(selectedFile);
     if (selectedFile) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -166,6 +171,7 @@ const UpdatePost = () => {
         }));
       };
       reader.readAsDataURL(selectedFile);
+      setFile(selectedFile);
     }
   };
 
@@ -182,15 +188,19 @@ const UpdatePost = () => {
   const removeImage = () => {
     setItemDetail(prevState => ({
       ...prevState,
-      file: null,
       itemImage: ""
     }));
+    setFile(null);
+    if (imageInputRef.current) {
+      imageInputRef.current.value = ''; // 파일 input 값을 초기화
+    }
   };
 
   return(
     <MainLayout>
       <TopBar text="글 수정하기" />
       <Wrapper>
+      {loading && <PostLoading />}
         <Form onSubmit={updatePost}>
         <Category>
           {category === "BORROW" ? (
@@ -202,7 +212,7 @@ const UpdatePost = () => {
         <InputContainer>
         {category === "BORROW" && (
           <ImageInputContainer>
-          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} value={itemDetail.itemImage}/>
+          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} />
           <label htmlFor="file" onClick={handleImageInput}>
             <ImagePreview>
                 {itemDetail.itemImage ? (
@@ -278,6 +288,7 @@ const UpdatePost = () => {
         </InputContainer>
       <PostButton text="수정하기"/>
       </Form>
+      <AlertPopup isOpen={isOpen} title="게시글 수정 완료!" content="게시글 수정을 완료하였습니다. 확인하세요!" button="확인" onClose={handleClick}/>
       </Wrapper>
     </MainLayout>
   );

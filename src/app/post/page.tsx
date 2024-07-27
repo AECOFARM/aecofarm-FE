@@ -8,6 +8,7 @@ import TopBar from "@/components/TopBar";
 import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
+import PostLoading from "@/components/loading/PostLoading";
 import axios from "axios";
 
 const Form = styled.form`
@@ -156,6 +157,7 @@ const Post = () => {
 
   const fetchPost = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const token = localStorage.getItem('token');
     const formData = new FormData();
@@ -185,7 +187,6 @@ const Post = () => {
       
     try {
       setError(null);
-      setLoading(true);
 
       const response = await axios.post(`/api/contract/post`,
         formData,{
@@ -195,11 +196,13 @@ const Post = () => {
         }
       });
       console.log(response);
-      router.push("/post/complete");
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000); // 로딩 상태를 1초간 유지
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {
-      setLoading(false);
+      router.push("/post/complete");
     }
   };
 
@@ -257,6 +260,7 @@ const Post = () => {
     <MainLayout>
       <TopBar text="글쓰기" />
       <Wrapper>
+      {loading && <PostLoading /> }
       <Form onSubmit={fetchPost} method="post">
       <SelectContainer>
         <select value={category} onChange={handleCategoryChange}>
