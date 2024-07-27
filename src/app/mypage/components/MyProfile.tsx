@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Popup from '@/components/Popup';
 import axios from 'axios';
+import Image from 'next/image';
 
 const ProfileContainer = styled.div`
   position: relative;
@@ -22,11 +23,7 @@ const ProfileImageContainer = styled.div`
   border: 1px solid var(--gray5);
   border-radius: 50%;
   overflow: hidden;
-  img {
-    width: 90px;
-    height: 90px;
-    object-fit: cover;
-  }
+  position: relative;
 `;
 
 const ProfileContentContainer = styled.div`
@@ -141,7 +138,7 @@ const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) =>
   return (
     <ProfileContainer>
       <ProfileImageContainer>
-        <img src={image} />
+        <Image src={image} alt="profile-img" width={90} height={90} priority/>
       </ProfileImageContainer>
       <ProfileContentContainer>
         <ProfileNameContainer>{userName}</ProfileNameContainer>
