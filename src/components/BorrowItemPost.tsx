@@ -4,6 +4,7 @@ import DonateLabel from './DonateLabel';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import SkeletonPost from './skeleton/SkeletonBorrowItemPost';
+import Image from 'next/image';
 
 const Container = styled.div`
   background-color: white;
@@ -17,11 +18,13 @@ const Container = styled.div`
   cursor: pointer;
 `;
 
-const ItemImage = styled.img`
+const ItemImage = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 10px;
   border: 1px solid var(--gray3);
+  overflow: hidden;
+  position: relative;
 `;
 
 const ItemInfo = styled.div`
@@ -56,13 +59,16 @@ const Place = styled.div`
   font-size: 13px;
   color: var(--gray6);
   display: flex;
+  align-items: center;
 
   img {
-   margin-right: 2px;  
+    margin-right: 2px;  
   }
 
   div {
-   margin-left: 7px;
+    display: flex;
+    align-items: center;
+    margin-left: 7px;
   }
 `;
 
@@ -85,13 +91,14 @@ const HashTag = styled.span`
   white-space: nowrap;
 `;
 
-const LikeIcon = styled.img`
+const LikeIcon = styled.div`
   position: absolute;
   top: 10px;
   right: 20px;
   width: 24px;
   height: 24px;
   cursor: pointer;
+  overflow: hidden;
 `;
 
 interface Post {
@@ -115,7 +122,6 @@ interface BorrowItemPostProps {
   post: Post;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
-
 
 const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
@@ -175,10 +181,11 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
     return <SkeletonPost />; 
   }
 
-
   return (
     <Container data-contract-id={contractId.toString()} onClick={onClick}>
-      <ItemImage src={imageSrc} alt={itemName} />
+      <ItemImage>
+        <Image src={imageSrc} alt={itemName} layout="fill" objectFit="cover" />
+      </ItemImage>
       <ItemInfo>
         <TitleContainer>
           <Title>{itemName}</Title>
@@ -186,9 +193,9 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
-          <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
+          <Image src='/img/location-pin.svg' alt='location pin' width={16} height={16} /> {itemPlace}
           <div>
-            <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
+            <Image src='/img/clock-icon.svg' alt='clock' width={16} height={16}/> {contractTime}분 이내 거래 가능
           </div>
         </Place>
         <HashTags>
@@ -197,7 +204,9 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
           ))}
         </HashTags>
       </ItemInfo>
-      <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+      <LikeIcon onClick={toggleLikeStatus}>
+        <Image src={likeIconSrc} alt='like icon' layout="fill" objectFit="cover" />
+      </LikeIcon>
     </Container>
   );
 };
