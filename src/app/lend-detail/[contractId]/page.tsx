@@ -15,7 +15,7 @@ interface ItemDetail {
   contractId: number;
   itemName: string;
   userName: string;
-  itemContent: string;
+  itemContents: string;
   itemId: number;
   kakao: string;
   price: number;
@@ -81,7 +81,7 @@ const Content = styled.div`
   font-size: 17px;
   color: var(--gray6);
   font-weight: 400;
-  margin: 15px 0 10px;
+  margin-top: 15px;
 `;
 
 const TimeAndPrice = styled.p`
@@ -392,7 +392,7 @@ const LendDetailPage = () => {
   const {
     itemName,
     userName,
-    itemContent,
+    itemContents,
     kakao,
     itemPlace,
     price,
@@ -426,6 +426,7 @@ const LendDetailPage = () => {
                 </EditDeleteContainer>
               )}
             </UserContainer>
+            <Content>{itemContents}</Content>
             <HashTags>
               {itemHash.map((tag, index) => (
                 <HashTag key={index}>#{tag}</HashTag>
