@@ -8,29 +8,6 @@ const Container = styled.div`
   z-index: 100;
 `;
 
-const SelectButton = styled.button`
-  width: 100%;
-  padding: 13px 30px 13px 14px;
-  font-size: 15px;
-  line-height: 14px;
-  background-color: white;
-  border: 1px solid var(--gray4);
-  box-sizing: border-box;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  color: black;
-
-  &:hover,
-  &:focus {
-    border: 1px solid var(--orange2);
-    outline: 3px solid var(--orange0);
-  }
-`;
-
 interface SelectListProps {
   show: boolean;
 }
@@ -71,6 +48,54 @@ const OptionButton = styled.button`
   }
 `;
 
+interface SelectButtonProps {
+  $show: boolean;
+}
+
+const SelectButton = styled.button<SelectButtonProps>`
+  width: 100%;
+  padding: 13px 30px 13px 14px;
+  font-size: 15px;
+  line-height: 14px;
+  background-color: white;
+  border: 1px solid var(--gray4);
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: black;
+  position: relative; /* relative positioning for the arrow */
+  transition: border-color 0.3s, outline 0.3s; /* Smooth transition for border and outline */
+
+  &:hover,
+  &:focus {
+    border: 1px solid var(--orange2);
+    outline: 3px solid var(--orange0);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 14px; /* Adjust to your padding */
+    top: 50%;
+    transform: translateY(-40%) rotate(0deg); /* Default rotation */
+    border: 5px solid transparent;
+    border-top-color: var(--orange1); /* Color of the triangle */
+    transition: transform 0.3s; /* Smooth rotation transition */
+  }
+
+  /* Rotate the triangle when the options are shown */
+  ${({ $show }) => $show && `
+    &::after {
+      transform: translateY(-80%) rotate(180deg);
+    }
+  `}
+`;
+
+
 const OptionList = styled.li`
   padding: 3px 5px;
   margin: 0 3px;
@@ -97,7 +122,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ onChange }) => {
 
   return (
     <Container>
-      <SelectButton className="btn-select" onClick={handleSelectClick}>
+      <SelectButton className="btn-select" onClick={handleSelectClick} $show={showOptions}>
         {selectedOption}
       </SelectButton>
       <SelectList className="list-member" show={showOptions}>

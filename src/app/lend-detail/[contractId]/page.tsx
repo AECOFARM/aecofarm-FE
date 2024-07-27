@@ -8,7 +8,8 @@ import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
-import Popup from '@/components/Popup'; // Popup 컴포넌트 import
+import Popup from '@/components/Popup'; 
+import SkeletonLendDetail from '@/components/skeleton/SkeletonLendDetail';
 
 interface ItemDetail {
   contractId: number;
@@ -242,6 +243,7 @@ const LendDetailPage = () => {
   const [likeStatus, setLikeStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showRequestPopup, setShowRequestPopup] = useState(false); 
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -265,6 +267,8 @@ const LendDetailPage = () => {
         }
       } catch (error) {
         console.error('Failed to fetch item detail:', error);
+      } finally {
+        setLoading(false);  // Set loading to false once the data is fetched
       }
     };
 
@@ -278,7 +282,7 @@ const LendDetailPage = () => {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          data: { 'itemId': `${itemDetail?.itemId}`} // 여기서 itemId를 사용합니다.
+          data: { 'itemId': `${itemDetail?.itemId}`} 
         });
         console.log(response);
       } else {
@@ -356,12 +360,29 @@ const LendDetailPage = () => {
     }
   };
 
+  if (loading) {  
+    return (
+      <AppLayout>
+        <Header />
+        <MainLayout>
+          <DetailContainer>
+            <SkeletonLendDetail />
+          </DetailContainer>
+        </MainLayout>
+        <Navigation />
+      </AppLayout>
+    );
+  }
+
+
   if (!itemDetail) {
     return (
       <AppLayout>
         <Header />
         <MainLayout>
-          <DetailContainer>Loading item details...</DetailContainer>
+          <DetailContainer>
+            <SkeletonLendDetail />
+          </DetailContainer>
         </MainLayout>
         <Navigation />
       </AppLayout>
@@ -419,6 +440,7 @@ const LendDetailPage = () => {
             </Place>
           </ItemInfo>
           <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+          {!owner && (
           <ButtonContainer>
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
@@ -427,6 +449,7 @@ const LendDetailPage = () => {
               빌려주기
             </LendButton>
           </ButtonContainer>
+          )}
         </Container>
       </MainLayout>
       <Navigation />

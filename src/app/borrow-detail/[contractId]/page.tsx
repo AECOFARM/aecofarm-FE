@@ -11,6 +11,7 @@ import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 import Popup from '@/components/Popup'; 
 import api from '@/utils/api';
+import SkeletonBorrowDetail from '@/components/skeleton/SkeletonBorrowDetail';
 
 
 interface ItemDetail {
@@ -255,6 +256,7 @@ const BorrowDetailPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showRequestPopup, setShowRequestPopup] = useState(false); 
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const token = localStorage.getItem('token');
 
@@ -275,6 +277,8 @@ const BorrowDetailPage = () => {
         }
       } catch (error) {
         console.error('Failed to fetch item detail:', error);
+      } finally {
+        setLoading(false);  
       }
     };
 
@@ -288,7 +292,7 @@ const BorrowDetailPage = () => {
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          data: { 'itemId': `${itemDetail?.itemId}`} // 여기서 itemId를 사용합니다.
+          data: { 'itemId': `${itemDetail?.itemId}`} 
         });
         console.log(response);
       } else {
@@ -340,12 +344,14 @@ const BorrowDetailPage = () => {
     router.push(`/reserve/${contractId}`);
   };
 
-  if (!itemDetail) {
+  if (loading || !itemDetail) {  
     return (
       <AppLayout>
         <Header />
         <MainLayout>
-          <DetailContainer>Loading item details...</DetailContainer>
+          <DetailContainer>
+            <SkeletonBorrowDetail />
+          </DetailContainer>
         </MainLayout>
         <Navigation />
       </AppLayout>
@@ -408,12 +414,14 @@ const BorrowDetailPage = () => {
               </EditDeleteContainer>
             )}
           </UserContainer>
+          {!owner && (
           <ButtonContainer>
             <LendButton href={kakao} target="_blank">
               오픈채팅 바로가기
             </LendButton>
             <LendButton onClick={handleRequestClick}>대여 요청하기</LendButton>
           </ButtonContainer>
+          )}
         </Container>
       </MainLayout>
       <Navigation />

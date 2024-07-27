@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import SkeletonLendItemPost from './skeleton/SkeletonLendItemPost';
 
 const Container = styled.div`
   background-color: white;
@@ -118,6 +119,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const token = localStorage.getItem('token');
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
+  const [loading, setLoading] = useState(true);
 
   const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
 
@@ -141,6 +143,17 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
     }
     setLikeStatus(prevStatus => !prevStatus);
   };
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <SkeletonLendItemPost />; 
+  }
 
   return (
     <Container onClick={moveDetail}>

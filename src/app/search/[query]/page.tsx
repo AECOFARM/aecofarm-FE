@@ -64,7 +64,7 @@ const SearchPage: React.FC = () => {
             throw new Error('Network response was not ok');
           }
           const result = await response.json();
-          console.log('API response:', result); // 데이터 확인
+          console.log('API response:', result); 
           setResults({
             lendItems: result.data.lendItems || [],
             borrowItems: result.data.borrowItems || [],
@@ -101,7 +101,7 @@ const SearchPage: React.FC = () => {
           </div>
         )}
         {results.lendItems.length === 0 && results.borrowItems.length === 0 && (
-          <p>No results found</p>
+          <p></p>
         )}
       </SearchResultsWrapper>
     </AppLayout>

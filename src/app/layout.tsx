@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { aecofarmFont } from "@/app/fonts";
+import StyledComponentsRegistry from "@/utils/registry";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,8 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body>
+      <StyledComponentsRegistry>
         {children}
+      </StyledComponentsRegistry>
       </body>
     </html>
   );

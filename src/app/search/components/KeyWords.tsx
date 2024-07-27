@@ -1,7 +1,8 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation'; // useRouter 추가
+import { useRouter } from 'next/navigation'; 
+import SkeletonKeyWords from "@/components/skeleton/SkeletonKeyWords";
 
 const Wrapper = styled.div`
   padding: 15px 35px;
@@ -33,7 +34,8 @@ const KeyWord = styled.div`
 
 const KeyWords = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
-  const router = useRouter(); // useRouter 훅 사용
+  const [loading, setLoading] = useState(true);
+  const router = useRouter(); 
 
   useEffect(() => {
     const fetchKeywords = async () => {
@@ -46,6 +48,7 @@ const KeyWords = () => {
       });
       const result = await response.json();
       setKeywords(result.data.recommendedKeywords.slice(0, 6));
+      setLoading(false);
     };
 
     fetchKeywords();
@@ -54,6 +57,10 @@ const KeyWords = () => {
   const handleKeywordClick = (keyword: string) => {
     router.push(`/search/${encodeURIComponent(keyword)}`); 
   };
+
+  if (loading) { 
+    return <SkeletonKeyWords />;
+  }
 
   return (
     <Wrapper>
