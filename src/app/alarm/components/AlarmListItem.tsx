@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Popup from "@/components/Popup";
 import { useRouter } from "next/navigation";
+import AlertPopup from "@/components/AlertPopup";
 import axios from "axios";
 
 const Container = styled.div`
@@ -80,6 +81,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   const time = new Date(alarm.time);
   const formattedTime = time.toLocaleDateString();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
   const token = localStorage.getItem('token');
 

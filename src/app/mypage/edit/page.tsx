@@ -7,6 +7,7 @@ import MainLayout from "@/components/layout/MainLayout";
 import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
+import AlertPopup from "@/components/AlertPopup";
 import axios from 'axios';
 
 const ProfileImageContainer = styled.div<{ image?: string }>`
@@ -93,6 +94,7 @@ interface Profile {
 const UpdateMypage = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -131,6 +133,8 @@ const UpdateMypage = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+
 
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem('token');
@@ -199,8 +203,7 @@ const UpdateMypage = () => {
       });
       
       if (response.data.code === 200) {
-        alert(response.data.message);
-        router.push('/mypage');
+        setIsAlertOpen(true);
       } else {
         alert('프로필 수정에 실패하였습니다.');
       }
@@ -210,6 +213,11 @@ const UpdateMypage = () => {
       setLoading(false);
     }
   };
+
+  const handleUpdate = () => {
+    setIsAlertOpen(false);
+    router.push('/mypage');
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -285,6 +293,7 @@ const UpdateMypage = () => {
             button2={{ text: "아니오", onClick: closeModal }} 
           />
         </LeaveButton>
+        <AlertPopup isOpen={isAlertOpen} title="프로필 수정 완료!" content="프로필 수정을 완료하였습니다! 마이페이지에서 확인하세요." button="확인" onClose={handleUpdate} />
       </Wrapper>
     </MainLayout>
   );
