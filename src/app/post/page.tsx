@@ -125,9 +125,9 @@ interface ItemDetail {
   itemName: string;
   kakao: string;
   itemHash: string[];
-  time: number;
-  contractTime: number;
-  price: number;
+  time: string;
+  contractTime: string;
+  price: string;
   itemPlace: string;
   itemContents: string;
   file?: File | null;
@@ -145,9 +145,9 @@ const Post = () => {
     itemName: "",
     kakao: "",
     itemHash: [],
-    time: 0,
-    contractTime: 0,
-    price: 0,
+    time: "",
+    contractTime: "",
+    price: "",
     itemPlace: "",
     itemContents: "",
     file: null,
@@ -156,6 +156,7 @@ const Post = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [numberValue, setNumberValue] = useState<string>("");
 
   const fetchPost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,9 +169,9 @@ const Post = () => {
       itemName: itemDetail.itemName,
       kakao: itemDetail.kakao,
       itemHash: tags,
-      time: itemDetail.time,
-      contractTime: itemDetail.contractTime,
-      price: itemDetail.price,
+      time: itemDetail.time ? parseInt(itemDetail.time) : 0,
+      contractTime: itemDetail.contractTime ? parseInt(itemDetail.contractTime) : 0,
+      price: itemDetail.price ? parseInt(itemDetail.price) : 0,
       itemPlace: itemDetail.itemPlace,
       itemContents: itemDetail.itemContents
     });
@@ -219,10 +220,19 @@ const Post = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
-    setItemDetail(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    if (e.target.type === 'number') {
+      if (/^\d*$/.test(value)) { // 숫자만 포함된 경우
+        setItemDetail(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      }
+    } else {
+      setItemDetail(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

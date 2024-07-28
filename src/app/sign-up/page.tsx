@@ -233,7 +233,7 @@ const SignUpPage: React.FC = () => {
     if (profileImage) {
       formData.append('file', profileImage, profileImage.name);
     } else {
-      const defaultImageBlob = await urlToBlob('/img/aeco-logo.svg');
+      const defaultImageBlob = await urlToBlob('/img/default-image.png');
       formData.append('file', defaultImageBlob, 'defaultProfileImage.jpg');
     }
 
@@ -267,7 +267,7 @@ const SignUpPage: React.FC = () => {
               <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image"/>
             ) : (
               <DefaultProfile>
-                <DefaultProfileImage src="/img/aeco-logo.svg" alt="Default Profile Image" />
+                <DefaultProfileImage src="/img/default-image.png" alt="Default Profile Image" />
               </DefaultProfile>
             )}
             <HiddenProfileInput type="file" id="profileImage" onChange={handleImageChange} accept='image/*'/>
