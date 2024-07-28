@@ -31,6 +31,7 @@ const ItemInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  align-items: flex-start;
 `;
 
 const TitleContainer = styled.div`
@@ -87,8 +88,8 @@ const HashTag = styled.span`
 
 const LikeIcon = styled.img`
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   width: 24px;
   height: 24px;
   cursor: pointer;

@@ -8,7 +8,7 @@ const HeaderContainer = styled.header`
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  height: 50px;
+  height: 60px;
   background-color: white;
   display: flex;
   align-items: center;

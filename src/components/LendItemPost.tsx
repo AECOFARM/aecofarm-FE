@@ -21,6 +21,7 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 `;
 
 const Title = styled.h2`
@@ -71,7 +72,7 @@ const HashTag = styled.span`
 const LikeIcon = styled.img`
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 15px;
   width: 24px;
   height: 24px;
   cursor: pointer;

@@ -6,10 +6,21 @@ const ItemPreviewContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 15px;
-  .itemImage {
-    width: 6rem;
-    height: 6rem;
-    border-radius: 10px;
+  width: 100%;
+`;
+
+const ItemImageContainer = styled.div`
+  display: flex;
+  width: 100px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%:
+    object-fit: cover;
   }
 `;
 
@@ -18,6 +29,7 @@ const ItemInfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
+  width: 70%;
 `;
 
 const ItemName = styled.p`
@@ -28,10 +40,8 @@ const ItemName = styled.p`
 
 const ItemHashTags = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   gap: 5px;
-  text-overflow: ellipsis;
+  flex-wrap: wrap;
 `;
 
 const ItemHashTag = styled.p`
@@ -118,7 +128,9 @@ const ItemPreview: React.FC<ItemProps> = ({item}) => {
 
   return (
     <ItemPreviewContainer>
-        <img className="itemImage" src ={image || '/img/default-image.png'} />
+      <ItemImageContainer>
+        <img src ={image || '/img/default-image.png'} />
+      </ItemImageContainer>
         <ItemInfoContainer>
             <ItemName>{itemName}</ItemName>
             <ItemHashTags>
