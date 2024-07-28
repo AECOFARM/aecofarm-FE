@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import React from 'react';
+import SkeletonMyItemListItem from './skeleton/SkeletonMyItemListItem';
+import React, {useEffect, useState} from 'react';
 
 interface Item {
   contractId: number;
@@ -91,6 +92,7 @@ interface ItemProps {
 }
 
 const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHeight, imageWidth }) => {
+  const [loading, setLoading] = useState(true);
   const {
     contractId,
     itemName,
@@ -104,6 +106,16 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(({ item, onClick, imageHe
   if (!imageSrc) {
     imageSrc = item.itemImage || "/img/default-image.png";
 
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); 
+  }, []);
+
+  if (loading) {
+    return <SkeletonMyItemListItem />; 
   }
 
   const heightStyle = typeof imageHeight === 'number' ? `${imageHeight}px` : imageHeight;

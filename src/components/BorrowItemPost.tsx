@@ -28,12 +28,13 @@ const ItemImage = styled.div`
 `;
 
 const ItemInfo = styled.div`
-  width: 75%;
+  width: 70%;
   padding: 0 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  align-items: flex-start;
 `;
 
 const TitleContainer = styled.div`
@@ -41,35 +42,38 @@ const TitleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
-  width: 100%;
+  width: 90%;
+  justify-content: space-between;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   color: black;
-  width: 72%;
   font-size: 19px;
   font-weight: 600;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
+  text-overflow: ellipsis;
   word-break: break-all;
+  align-items: flex-start;
+  display: block;
+  width: 100%;
+  text-align: left;
 `;
 
 const Place = styled.div`
   font-size: 13px;
   color: var(--gray6);
   display: flex;
-  align-items: center;
-
-  img {
-    margin-right: 2px;  
-  }
-
+  align-items: flex-start;
+  gap: 8px;
   div {
-    display: flex;
-    align-items: center;
-    margin-left: 7px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
+  width: 100%;
 `;
 
 const TimeAndPrice = styled.p`
@@ -79,6 +83,8 @@ const TimeAndPrice = styled.p`
 `;
 
 const HashTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const HashTag = styled.span`
@@ -89,12 +95,14 @@ const HashTag = styled.span`
   border-radius: 5px;
   font-size: 13px;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const LikeIcon = styled.div`
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -193,9 +201,11 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
-          <Image src='/img/location-pin.svg' alt='location pin' width={16} height={16} /> {itemPlace}
           <div>
-            <Image src='/img/clock-icon.svg' alt='clock' width={16} height={16}/> {contractTime}분 이내 거래 가능
+            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14} /> {itemPlace}
+          </div>
+          <div>
+            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 가능
           </div>
         </Place>
         <HashTags>

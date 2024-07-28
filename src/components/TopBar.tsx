@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const Header = styled.div`
   position: fixed;
   height: 50px;
-  top: 60px;
+  top: 50px;
   max-width: 500px;
   width: 100%;
   background-color: white;

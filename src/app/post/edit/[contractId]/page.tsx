@@ -8,6 +8,8 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import TopBar from "@/components/TopBar";
 import PostButton from "../../components/PostButton";
+import PostLoading from "@/components/loading/PostLoading";
+import AlertPopup from "@/components/AlertPopup";
 import axios from "axios";
 
 interface ItemDetail {
@@ -36,6 +38,8 @@ const UpdatePost = () => {
   const [error, setError] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const { contractId } = useParams() as { contractId: string };
+  const [isCompleteOpen, setIsCompleteOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     owner: false,
     userName: "",
@@ -49,11 +53,12 @@ const UpdatePost = () => {
     kakao: "",
     itemImage: "",
   });
-  const [hasHashWrapInner, setHasHashWrapInner] = useState(false);
+  const [hasHashWrapInner, setHasHashWrapInner] = useState<boolean>(false);
   const token = localStorage.getItem('token');
 
   const updatePost = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const updateContract = JSON.stringify({
       category: category,
       itemName: itemDetail.itemName,
@@ -76,12 +81,13 @@ const UpdatePost = () => {
 
     if (file) {
       formData.append('file', file);
+    } else if (itemDetail.itemImage && itemDetail.itemImage !== "") {
+      formData.append('file', itemDetail.itemImage);
     } else {
       const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
       formData.append('file', emptyFile);
     }
     setError(null);
-    setLoading(true);
     try {
       
       const response = await axios.put(`/api/contract/update/${contractId}`, formData, {
@@ -90,13 +96,9 @@ const UpdatePost = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+      setLoading(false);
       if (response.data.code === 200) {
-        alert(response.data.message);
-        if (category === "BORROW") {
-          router.push(`/borrow-detail/${contractId}`);
-        } else {
-          router.push(`/lend-detail/${contractId}`);
-        }
+        setIsCompleteOpen(true);
       } else {
         alert('글 수정에 실패하였습니다.');
       }
@@ -104,8 +106,15 @@ const UpdatePost = () => {
     } catch(err) {
       const errorMessage = (err as Error).message || 'Something went wrong';
       setError(errorMessage);
-    } finally {
-      setLoading(false);
+    } 
+  };
+
+  const handleClick = () => {
+    setIsCompleteOpen(false);
+    if (category === "BORROW") {
+      router.push(`/borrow-detail/${contractId}`);
+    } else {
+      router.push(`/lend-detail/${contractId}`);
     }
   };
 
@@ -138,10 +147,14 @@ const UpdatePost = () => {
         setTags(currentItem.itemHash);
 
         if (currentItem?.itemImage) {
-          const response = await fetch(currentItem?.itemImage);
-          const blob = await response.blob();
-          const file = new File([blob], "itemImage.jpg", { type: blob.type });
-          setFile(file);
+          try {
+            const response = await fetch(currentItem.itemImage, { mode: 'no-cors' });
+            const blob = await response.blob();
+            const file = new File([blob], "itemImage.jpg", { type: blob.type });
+            setFile(file);
+          } catch (error) {
+            console.error('Error fetching the image:', error);
+          }
         }
 
       } catch (err) {
@@ -155,17 +168,25 @@ const UpdatePost = () => {
   if (!itemDetail) return <div>contractId를 확인하세요</div>;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    var limit_size = 1024 * 1024;
     const selectedFile = e.target.files?.[0] || null;
-    setFile(selectedFile);
     if (selectedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      const upload_size = selectedFile.size;
+      if(limit_size < upload_size) {
+        setIsAlertOpen(true);
+        return false;
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
         setItemDetail(prevState => ({
           ...prevState,
           itemImage: reader.result as string
         }));
+        
       };
       reader.readAsDataURL(selectedFile);
+      setFile(selectedFile);
+      }
     }
   };
 
@@ -182,15 +203,19 @@ const UpdatePost = () => {
   const removeImage = () => {
     setItemDetail(prevState => ({
       ...prevState,
-      file: null,
       itemImage: ""
     }));
+    setFile(null);
+    if (imageInputRef.current) {
+      imageInputRef.current.value = ''; // 파일 input 값을 초기화
+    }
   };
 
   return(
     <MainLayout>
       <TopBar text="글 수정하기" />
       <Wrapper>
+      {loading && <PostLoading />}
         <Form onSubmit={updatePost}>
         <Category>
           {category === "BORROW" ? (
@@ -202,7 +227,7 @@ const UpdatePost = () => {
         <InputContainer>
         {category === "BORROW" && (
           <ImageInputContainer>
-          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} value={itemDetail.itemImage}/>
+          <input type="file" ref={imageInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} />
           <label htmlFor="file" onClick={handleImageInput}>
             <ImagePreview>
                 {itemDetail.itemImage ? (
@@ -278,6 +303,8 @@ const UpdatePost = () => {
         </InputContainer>
       <PostButton text="수정하기"/>
       </Form>
+      <AlertPopup isOpen={isCompleteOpen} title="게시글 수정 완료!" content="게시글 수정을 완료하였습니다. 확인하세요!" button="확인" onClose={handleClick}/>
+      <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
       </Wrapper>
     </MainLayout>
   );

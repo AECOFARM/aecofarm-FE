@@ -18,6 +18,7 @@ const DonateLabelText = styled.p`
   font-size: 0.7rem;
   color: #FFFFFF;
   font-weight: 700;
+  white-space: nowrap;
 `;
 
 const DonateLabel = () => {

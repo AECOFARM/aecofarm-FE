@@ -10,6 +10,7 @@ import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import DonateLabel from '@/components/DonateLabel';
 import Popup from '@/components/Popup'; 
+import AlertPopup from '@/components/AlertPopup';
 import api from '@/utils/api';
 import SkeletonBorrowDetail from '@/components/skeleton/SkeletonBorrowDetail';
 
@@ -425,14 +426,7 @@ const BorrowDetailPage = () => {
         </Container>
       </MainLayout>
       <Navigation />
-      {showModal && (
-        <ModalBackground>
-          <ModalContainer>
-            <p>게시글이 삭제되었습니다.</p>
-            <ModalButton onClick={closeModalAndRedirect}>확인</ModalButton>
-          </ModalContainer>
-        </ModalBackground>
-      )}
+      <AlertPopup title="게시글 삭제 완료" content="메인 페이지로 이동합니다." isOpen={showModal} onClose={closeModalAndRedirect} button='확인'/>
       {showRequestPopup && (
         <Popup
           isOpen={showRequestPopup}

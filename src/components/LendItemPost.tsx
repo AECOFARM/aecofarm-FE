@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import SkeletonLendItemPost from './skeleton/SkeletonLendItemPost';
+import Image from 'next/image';
 
 const Container = styled.div`
   background-color: white;
@@ -21,10 +22,14 @@ const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   color: black;
+  display: block;
+  width: 100%;
+  text-align: left;
   font-size: 19px;
   margin-bottom: 5px;
   font-weight: 700;
@@ -37,16 +42,17 @@ const Title = styled.h2`
 const Place = styled.div`
   font-size: 13px;
   color: var(--gray6);
-  margin: 5px 0 0 0;
   display: flex;
-  
-  img {
-    margin-right: 2px;  
-  }
-
+  align-items: flex-start;
+  gap: 8px;
   div {
-    margin-left: 7px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
+  width: 100%;
 `;
 
 const TimeAndPrice = styled.p`
@@ -57,7 +63,10 @@ const TimeAndPrice = styled.p`
   
 `;
 
-const HashTags = styled.div``;
+const HashTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 const HashTag = styled.span`
   background-color: white;
@@ -66,12 +75,15 @@ const HashTag = styled.span`
   margin-right: 5px;
   border-radius: 5px;
   font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const LikeIcon = styled.img`
   position: absolute;
   top: 10px;
-  right: 20px;
+  right: 15px;
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -161,9 +173,11 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
-          <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
           <div>
-            <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 희망
+            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14}/> {itemPlace}
+          </div>
+          <div>
+            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 희망
           </div>
         </Place>
         <HashTags>

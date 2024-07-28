@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import Popup from '@/components/Popup';
+import AlertPopup from '@/components/AlertPopup';
 import axios from 'axios';
 
 const Wrapper = styled.div`
@@ -157,6 +158,7 @@ const Button = styled.input.attrs(props => ({
 const SignUpPage: React.FC = () => {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserData>({
     email: '',
     userName: '',
@@ -192,8 +194,16 @@ const SignUpPage: React.FC = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setProfileImage(e.target.files[0]);
+    var limit_size = 1024 * 1024;
+    const file = e.target.files?.[0] || null;
+    if (file) {
+      var upload_size = file.size;
+      if (limit_size < upload_size) {
+        setIsAlertOpen(true);
+        return false;
+      } else {
+        setProfileImage(file);
+      }
     }
   };
 
@@ -254,13 +264,13 @@ const SignUpPage: React.FC = () => {
           <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
           <ProfileContainer>
             {profileImage ? (
-              <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image" />
+              <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image"/>
             ) : (
               <DefaultProfile>
                 <DefaultProfileImage src="/img/aeco-logo.svg" alt="Default Profile Image" />
               </DefaultProfile>
             )}
-            <HiddenProfileInput type="file" id="profileImage" onChange={handleImageChange} />
+            <HiddenProfileInput type="file" id="profileImage" onChange={handleImageChange} accept='image/*'/>
             <div>
               <CustomProfileInputLabel htmlFor="profileImage">사진 선택</CustomProfileInputLabel>
               <DeleteImage onClick={handleRemoveImage}>기본 이미지로 변경</DeleteImage>
@@ -303,6 +313,7 @@ const SignUpPage: React.FC = () => {
             회원가입이 완료되었습니다!
           </Popup>
         )}
+        <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
       </Wrapper>
     </AppLayout>
   );

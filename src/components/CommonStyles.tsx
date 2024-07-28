@@ -4,14 +4,14 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 110px;
+  margin-top: 100px;
   margin-bottom: 120px;
   background-color: #ffffff;
 `;
 
 export const CategoryItemsContainer = styled.div`
   margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 50px;
 `;
 
 export const Container = styled.div`

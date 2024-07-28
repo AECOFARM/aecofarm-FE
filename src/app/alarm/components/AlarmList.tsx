@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const CategoryContainer = styled.div`
   position: fixed;
-  top: 110px;
+  top: 100px;
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -100,6 +100,8 @@ const AlarmList: React.FC = () => {
             ? alarmList.lending.map((item) => ({ ...item, category: "lending" }))
             : alarmList.borrowing.map((item) => ({ ...item, category: "borrowing" }));
 
+    const sortedData = filteredData.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+
     return (
         <Container>
             <CategoryContainer>
@@ -116,7 +118,7 @@ const AlarmList: React.FC = () => {
                     ) : error ? (
                         <div style={{ color: 'red' }}>{error}</div>
                     ) : (
-                        filteredData.map((alarm, index) => (
+                        sortedData.map((alarm, index) => (
                             <AlarmListItem key={index} alarm={alarm} category={alarm.category} />
                         ))
                     )}

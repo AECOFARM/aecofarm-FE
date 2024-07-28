@@ -1,8 +1,10 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Popup from "@/components/Popup";
 import { useRouter } from "next/navigation";
+import AlertPopup from "@/components/AlertPopup";
+import SkeletonAlarmListItem from "@/components/skeleton/SkeletonAlarmListItem";
 import axios from "axios";
 
 const Container = styled.div`
@@ -40,19 +42,27 @@ const AlarmTitleContainer = styled.div`
   width: 100%;
 `;
 
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+`;
+
 const AlarmTitle = styled.p`
   color: var(--black);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 `;
 
 const AlarmTime = styled.p`
   color: var(--black);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 `;
 
 const AlarmContent = styled.div`
   color: var(--black);
+  font-size: 0.95rem;
 `;
 
 const AlarmItemImage = styled.img`
@@ -80,8 +90,10 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   const time = new Date(alarm.time);
   const formattedTime = time.toLocaleDateString();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
   const token = localStorage.getItem('token');
+  const [loading, setLoading] = useState(true);
 
   const openModal = () => {
     setIsOpen(true);
@@ -218,12 +230,23 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
     onClick: () => handleRequest(false)
   }
   const modalContent = (
-    <div>
-      <AlarmTime>{formattedTime}</AlarmTime>
+    <ContentContainer>
       <AlarmTitle>{alarm.itemName}</AlarmTitle>
-      <AlarmItemImage src={alarm.image} />
-    </div>
+      <AlarmItemImage src={alarm.image || "/img/default-image.png"} />
+      <AlarmContent>{alarm.userName}님의 [{alarm.itemName}] 상품 예약</AlarmContent>
+      <AlarmTime>{formattedTime}</AlarmTime>
+    </ContentContainer>
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); 
+  }, []);
+
+  if (loading) {
+    return <SkeletonAlarmListItem />; 
+  }
 
   return (
     <Container onClick={onClick}>
