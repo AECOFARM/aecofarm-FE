@@ -26,7 +26,7 @@ const PostContainer = styled.div`
 
 const CategoryContainer = styled.div`
   position: fixed;
-  top: 110px;
+  top: 100px;
   z-index: 100;
   display: flex;
   width: 100%;
@@ -118,13 +118,13 @@ const MyItemList: NextPage = () => {
 
   const filteredItems = useMemo(() => {
     if (selectedCategory === "대여하기") {
-      return myPostList.lendingItems.map((item) => ({
+      return myPostList.borrowingItems.map((item) => ({
         ...item,
         type: "borrowing",
         buttonVisible: true,
       }));
     } else if (selectedCategory === "빌려주기") {
-      return myPostList.borrowingItems.map((item) => ({
+      return myPostList.lendingItems.map((item) => ({
         ...item,
         type: "lending",
         buttonVisible: false,

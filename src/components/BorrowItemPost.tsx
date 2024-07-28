@@ -28,7 +28,7 @@ const ItemImage = styled.div`
 `;
 
 const ItemInfo = styled.div`
-  width: 75%;
+  width: 70%;
   padding: 0 15px;
   display: flex;
   flex-direction: column;
@@ -42,18 +42,22 @@ const TitleContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 5px;
-  width: 100%;
+  width: 90%;
+  justify-content: space-between;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   color: black;
-  width: 72%;
   font-size: 19px;
   font-weight: 600;
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
+  text-overflow: ellipsis;
   word-break: break-all;
+  align-items: flex-start;
+  display: block;
+  width: 100%;
+  text-align: left;
 `;
 
 const Place = styled.div`
@@ -80,6 +84,8 @@ const TimeAndPrice = styled.p`
 `;
 
 const HashTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const HashTag = styled.span`
@@ -90,6 +96,8 @@ const HashTag = styled.span`
   border-radius: 5px;
   font-size: 13px;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const LikeIcon = styled.div`

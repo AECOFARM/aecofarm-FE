@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const CategoryContainer = styled.div`
   position: fixed;
-  top: 110px;
+  top: 100px;
   z-index: 100;
   display: flex;
   flex-direction: column;

@@ -24,8 +24,11 @@ const ItemInfo = styled.div`
   align-items: flex-start;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   color: black;
+  display: block;
+  width: 100%;
+  text-align: left;
   font-size: 19px;
   margin-bottom: 5px;
   font-weight: 700;
@@ -58,7 +61,10 @@ const TimeAndPrice = styled.p`
   
 `;
 
-const HashTags = styled.div``;
+const HashTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 const HashTag = styled.span`
   background-color: white;
@@ -67,6 +73,9 @@ const HashTag = styled.span`
   margin-right: 5px;
   border-radius: 5px;
   font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 
 const LikeIcon = styled.img`

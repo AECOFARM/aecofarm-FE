@@ -1,9 +1,10 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Popup from "@/components/Popup";
 import { useRouter } from "next/navigation";
 import AlertPopup from "@/components/AlertPopup";
+import SkeletonAlarmListItem from "@/components/skeleton/SkeletonAlarmListItem";
 import axios from "axios";
 
 const Container = styled.div`
@@ -43,17 +44,18 @@ const AlarmTitleContainer = styled.div`
 
 const AlarmTitle = styled.p`
   color: var(--black);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
 `;
 
 const AlarmTime = styled.p`
   color: var(--black);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 `;
 
 const AlarmContent = styled.div`
   color: var(--black);
+  font-size: 0.95rem;
 `;
 
 const AlarmItemImage = styled.img`
@@ -84,6 +86,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
   const token = localStorage.getItem('token');
+  const [loading, setLoading] = useState(true);
 
   const openModal = () => {
     setIsOpen(true);
@@ -226,6 +229,16 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
       <AlarmItemImage src={alarm.image} />
     </div>
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); 
+  }, []);
+
+  if (loading) {
+    return <SkeletonAlarmListItem />; 
+  }
 
   return (
     <Container onClick={onClick}>

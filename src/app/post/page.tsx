@@ -200,7 +200,7 @@ const Post = () => {
       console.log(response);
       setTimeout(() => {
         setLoading(false);
-      }, 2000); // 로딩 상태를 1초간 유지
+      }, 2000); // 로딩 상태를 2초간 유지
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
     } finally {

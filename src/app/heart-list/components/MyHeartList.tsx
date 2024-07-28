@@ -40,7 +40,7 @@ const ItemContainer = styled.div`
 
 const CategoryContainer = styled.div`
   position: fixed;
-  top: 110px;
+  top: 100px;
   z-index: 100;
   display: flex;
   width: 100%;
@@ -116,7 +116,7 @@ const MyItemList: NextPage = () => {
     fetchItems();
   }, []);
 
-  const imageSize = 110;
+  const imageSize = 100;
 
   const filteredItems = useMemo(() => {
     let items: Item[] = [];
