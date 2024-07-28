@@ -140,7 +140,7 @@ const SignUpPage = () => {
           <ExtraButtonContainer>
             <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
             <span> | </span>
-            <SignUpButton onClick={findPassword}>비밀번호 찾기</SignUpButton>
+            <SignUpButton onClick={findPassword}>비밀번호를 잊으셨나요?</SignUpButton>
           </ExtraButtonContainer>
         </ButtonContainer>
       </Wrapper>

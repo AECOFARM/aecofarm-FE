@@ -75,10 +75,10 @@ const FindPassword: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
-    const token = getToken(); // 로컬 스토리지에서 JWT 토큰을 가져옴
+    const token = getToken(); 
   
     try {
-      const response = await api.post('/member/update/pw', {
+      const response = await api.post('/api/member/update/pw', {
         email,
         userName,
         schoolNum: Number(schoolNum),
