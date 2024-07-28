@@ -75,10 +75,10 @@ const FindPassword: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
-    const token = getToken(); 
+    const token = localStorage.getItem('token');
   
     try {
-      const response = await api.post('/api/member/update/pw', {
+      const response = await api.post('/member/update/pw', {
         email,
         userName,
         schoolNum: Number(schoolNum),
