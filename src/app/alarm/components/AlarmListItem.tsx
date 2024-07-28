@@ -42,6 +42,13 @@ const AlarmTitleContainer = styled.div`
   width: 100%;
 `;
 
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+`;
+
 const AlarmTitle = styled.p`
   color: var(--black);
   font-size: 1rem;
@@ -223,11 +230,12 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
     onClick: () => handleRequest(false)
   }
   const modalContent = (
-    <div>
-      <AlarmTime>{formattedTime}</AlarmTime>
+    <ContentContainer>
       <AlarmTitle>{alarm.itemName}</AlarmTitle>
-      <AlarmItemImage src={alarm.image} />
-    </div>
+      <AlarmItemImage src={alarm.image || "/img/default-image.png"} />
+      <AlarmContent>{alarm.userName}님의 [{alarm.itemName}] 상품 예약</AlarmContent>
+      <AlarmTime>{formattedTime}</AlarmTime>
+    </ContentContainer>
   );
 
   useEffect(() => {

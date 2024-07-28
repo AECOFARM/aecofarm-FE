@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import SkeletonLendItemPost from './skeleton/SkeletonLendItemPost';
+import Image from 'next/image';
 
 const Container = styled.div`
   background-color: white;
@@ -41,16 +42,17 @@ const Title = styled.div`
 const Place = styled.div`
   font-size: 13px;
   color: var(--gray6);
-  margin: 5px 0 0 0;
   display: flex;
-  
-  img {
-    margin-right: 2px;  
-  }
-
+  align-items: flex-start;
+  gap: 8px;
   div {
-    margin-left: 7px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
+  width: 100%;
 `;
 
 const TimeAndPrice = styled.p`
@@ -171,9 +173,11 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
         <Title>{itemName}</Title>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
-          <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
           <div>
-            <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 희망
+            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14}/> {itemPlace}
+          </div>
+          <div>
+            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 희망
           </div>
         </Place>
         <HashTags>

@@ -81,6 +81,8 @@ const UpdatePost = () => {
 
     if (file) {
       formData.append('file', file);
+    } else if (itemDetail.itemImage && itemDetail.itemImage !== "") {
+      formData.append('file', itemDetail.itemImage);
     } else {
       const emptyFile = new File([""], "empty.txt", {type: "text/plain"});
       formData.append('file', emptyFile);
@@ -145,10 +147,14 @@ const UpdatePost = () => {
         setTags(currentItem.itemHash);
 
         if (currentItem?.itemImage) {
-          const response = await fetch(currentItem?.itemImage);
-          const blob = await response.blob();
-          const file = new File([blob], "itemImage.jpg", { type: blob.type });
-          setFile(file);
+          try {
+            const response = await fetch(currentItem.itemImage, { mode: 'no-cors' });
+            const blob = await response.blob();
+            const file = new File([blob], "itemImage.jpg", { type: blob.type });
+            setFile(file);
+          } catch (error) {
+            console.error('Error fetching the image:', error);
+          }
         }
 
       } catch (err) {
@@ -165,7 +171,7 @@ const UpdatePost = () => {
     var limit_size = 1024 * 1024;
     const selectedFile = e.target.files?.[0] || null;
     if (selectedFile) {
-      var upload_size = selectedFile.size;
+      const upload_size = selectedFile.size;
       if(limit_size < upload_size) {
         setIsAlertOpen(true);
         return false;
@@ -174,8 +180,9 @@ const UpdatePost = () => {
         reader.onloadend = () => {
         setItemDetail(prevState => ({
           ...prevState,
-          imagePreviewUrl: reader.result as string
+          itemImage: reader.result as string
         }));
+        
       };
       reader.readAsDataURL(selectedFile);
       setFile(selectedFile);

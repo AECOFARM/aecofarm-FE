@@ -64,17 +64,16 @@ const Place = styled.div`
   font-size: 13px;
   color: var(--gray6);
   display: flex;
-  align-items: center;
-
-  img {
-    margin-right: 2px;  
-  }
-
+  align-items: flex-start;
+  gap: 8px;
   div {
-    display: flex;
-    align-items: center;
-    margin-left: 7px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
+  width: 100%;
 `;
 
 const TimeAndPrice = styled.p`
@@ -202,9 +201,11 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         </TitleContainer>
         <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
         <Place>
-          <Image src='/img/location-pin.svg' alt='location pin' width={16} height={16} /> {itemPlace}
           <div>
-            <Image src='/img/clock-icon.svg' alt='clock' width={16} height={16}/> {contractTime}분 이내 거래 가능
+            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14} /> {itemPlace}
+          </div>
+          <div>
+            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 가능
           </div>
         </Place>
         <HashTags>
