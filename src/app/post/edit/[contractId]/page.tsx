@@ -38,7 +38,8 @@ const UpdatePost = () => {
   const [error, setError] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const { contractId } = useParams() as { contractId: string };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCompleteOpen, setIsCompleteOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail>({
     owner: false,
     userName: "",
@@ -52,7 +53,7 @@ const UpdatePost = () => {
     kakao: "",
     itemImage: "",
   });
-  const [hasHashWrapInner, setHasHashWrapInner] = useState(false);
+  const [hasHashWrapInner, setHasHashWrapInner] = useState<boolean>(false);
   const token = localStorage.getItem('token');
 
   const updatePost = async (e: React.FormEvent) => {
@@ -95,7 +96,7 @@ const UpdatePost = () => {
       });
       setLoading(false);
       if (response.data.code === 200) {
-        setIsOpen(true);
+        setIsCompleteOpen(true);
       } else {
         alert('글 수정에 실패하였습니다.');
       }
@@ -107,7 +108,7 @@ const UpdatePost = () => {
   };
 
   const handleClick = () => {
-    setIsOpen(false);
+    setIsCompleteOpen(false);
     if (category === "BORROW") {
       router.push(`/borrow-detail/${contractId}`);
     } else {
@@ -161,17 +162,24 @@ const UpdatePost = () => {
   if (!itemDetail) return <div>contractId를 확인하세요</div>;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    var limit_size = 1024 * 1024;
     const selectedFile = e.target.files?.[0] || null;
     if (selectedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      var upload_size = selectedFile.size;
+      if(limit_size < upload_size) {
+        setIsAlertOpen(true);
+        return false;
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
         setItemDetail(prevState => ({
           ...prevState,
-          itemImage: reader.result as string
+          imagePreviewUrl: reader.result as string
         }));
       };
       reader.readAsDataURL(selectedFile);
       setFile(selectedFile);
+      }
     }
   };
 
@@ -288,7 +296,8 @@ const UpdatePost = () => {
         </InputContainer>
       <PostButton text="수정하기"/>
       </Form>
-      <AlertPopup isOpen={isOpen} title="게시글 수정 완료!" content="게시글 수정을 완료하였습니다. 확인하세요!" button="확인" onClose={handleClick}/>
+      <AlertPopup isOpen={isCompleteOpen} title="게시글 수정 완료!" content="게시글 수정을 완료하였습니다. 확인하세요!" button="확인" onClose={handleClick}/>
+      <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
       </Wrapper>
     </MainLayout>
   );

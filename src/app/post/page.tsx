@@ -9,6 +9,7 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Wrapper } from "@/components/CommonStyles";
 import PostButton from "./components/PostButton";
 import PostLoading from "@/components/loading/PostLoading";
+import AlertPopup from "@/components/AlertPopup";
 import axios from "axios";
 
 const Form = styled.form`
@@ -152,7 +153,8 @@ const Post = () => {
     file: null,
     imagePreviewUrl: ""
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchPost = async (e: React.FormEvent) => {
@@ -224,10 +226,16 @@ const Post = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : undefined;
+    var limit_size = 1024 * 1024;
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      var upload_size = file.size;
+      if(limit_size < upload_size) {
+        setIsAlertOpen(true);
+        return false;
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
         setItemDetail(prevState => ({
           ...prevState,
           file: file,
@@ -235,7 +243,8 @@ const Post = () => {
         }));
       };
       reader.readAsDataURL(file);
-    }
+      }
+    };
   };
 
   const handleImageInput = () => {
@@ -346,6 +355,7 @@ const Post = () => {
       </InputContainer>
       <PostButton text="등록하기"/>
       </Form>
+      <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
     </Wrapper>
     </MainLayout>
   );

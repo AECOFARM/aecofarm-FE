@@ -93,9 +93,10 @@ interface Profile {
 
 const UpdateMypage = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCompleteOpen, setIsCompleteOpen] = useState<boolean>(false);
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -203,7 +204,7 @@ const UpdateMypage = () => {
       });
       
       if (response.data.code === 200) {
-        setIsAlertOpen(true);
+        setIsCompleteOpen(true);
       } else {
         alert('프로필 수정에 실패하였습니다.');
       }
@@ -215,7 +216,7 @@ const UpdateMypage = () => {
   };
 
   const handleUpdate = () => {
-    setIsAlertOpen(false);
+    setIsCompleteOpen(false);
     router.push('/mypage');
   }
 
@@ -232,17 +233,25 @@ const UpdateMypage = () => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    var limit_size = 1024 * 1024;
     const selectedFile = e.target.files?.[0] || null;
-    setFile(selectedFile);
+    
     if (selectedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfile(prevState => prevState ? {
-          ...prevState,
-          image: reader.result as string
-        } : null);
-      };
+      var upload_size = selectedFile.size;
+      if(limit_size < upload_size) {
+        setIsAlertOpen(true);
+        return false;
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfile(prevState => prevState ? {
+            ...prevState,
+            image: reader.result as string
+          } : null);
+        };
       reader.readAsDataURL(selectedFile);
+      setFile(selectedFile);
+      }
     }
   };
 
@@ -293,7 +302,8 @@ const UpdateMypage = () => {
             button2={{ text: "아니오", onClick: closeModal }} 
           />
         </LeaveButton>
-        <AlertPopup isOpen={isAlertOpen} title="프로필 수정 완료!" content="프로필 수정을 완료하였습니다! 마이페이지에서 확인하세요." button="확인" onClose={handleUpdate} />
+        <AlertPopup isOpen={isCompleteOpen} title="프로필 수정 완료!" content="프로필 수정을 완료하였습니다! 마이페이지에서 확인하세요." button="확인" onClose={handleUpdate} />
+        <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
       </Wrapper>
     </MainLayout>
   );
