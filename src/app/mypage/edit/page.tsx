@@ -194,9 +194,6 @@ const UpdateMypage = () => {
       formData.append('file', new File([""], "empty.txt", { type: "text/plain" }));
     }
 
-    console.log("Updated Profile Data:", updateProfileData); // Print updateProfileData
-    console.log("Updated Profile file:", file); // Print updateProfileData
-
     setError(null);
     setLoading(true);
 
@@ -236,7 +233,6 @@ const UpdateMypage = () => {
         ...prevState,
         [name]: value
       } : null;
-      console.log("Updated Profile:", updatedProfile); // Print updated profile details
       return updatedProfile;
     });
   };
@@ -273,10 +269,10 @@ const UpdateMypage = () => {
 
   const removeImage = () => {
     setIsImageEditOpen(false);
-    setProfile(prevState => ({
+    setProfile(prevState => prevState ? {
       ...prevState,
       image: ""
-    } as Profile));
+    } : null);
     setFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = ''; // 파일 input 값을 초기화
@@ -285,11 +281,11 @@ const UpdateMypage = () => {
 
   const editButton = {
     text: "수정",
-    onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => fileInputClick(e)
+    onClick: fileInputClick
   }
   const removeButton = {
     text: "삭제",
-    onClick: () => removeImage()
+    onClick: removeImage
   }
 
   return (
@@ -297,7 +293,7 @@ const UpdateMypage = () => {
       <TopBar text="프로필 수정" />
       <Wrapper>
         <ImageComtainer>
-        <ProfileImageContainer image={profile?.image} />
+        <ProfileImageContainer image={profile?.image || "/img/default-image.png"} />
         <ProfileImageEditButton>
           <input type="file" onChange={handleFileChange} ref={fileInputRef} accept="image/*" />
           <p onClick={() => setIsImageEditOpen(true)}>사진 수정 및 삭제</p>
