@@ -116,7 +116,7 @@ const MyItemList: NextPage = () => {
     fetchItems();
   }, []);
 
-  const imageSize = 100;
+  const imageSize = "100%";
 
   const filteredItems = useMemo(() => {
     let items: Item[] = [];
