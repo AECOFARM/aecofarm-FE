@@ -113,13 +113,6 @@ const ItemInfoContainer = styled.div`
   }
 `;
 
-const NoticeButton = styled.p`
-  font-size: 0.9rem;
-  text-decoration: underline;
-  color: #000000;
-  cursor: pointer;
-`;
-
 interface ItemDetail {
   category: string;
   itemName: string;
