@@ -9,18 +9,18 @@ import { useRouter } from "next/navigation";
 import Popup from "@/components/Popup";
 import AlertPopup from "@/components/AlertPopup";
 import axios from 'axios';
+import { text } from "stream/consumers";
 
 const ProfileImageContainer = styled.div<{ image?: string }>`
   background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-position: center;
   background-size: cover;
-  width: 30%;
-  margin: 0 auto;
+  width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   border: 1px solid var(--gray3);
-  margin: 20px;
+  
 `;
 
 const ProfileImageEditButton = styled.div`
@@ -84,6 +84,14 @@ const LeaveButton = styled.div`
   }
 `;
 
+const ImageComtainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+`;
+
 interface Profile {
   userName: string;
   email: string;
@@ -96,6 +104,7 @@ const UpdateMypage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isCompleteOpen, setIsCompleteOpen] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
+  const [isImageEditOpen, setIsImageEditOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -257,19 +266,43 @@ const UpdateMypage = () => {
 
   const fileInputClick = (e: React.MouseEvent) => {
     if (fileInputRef.current) {
+      setIsImageEditOpen(false);
       fileInputRef.current.click();
     }
   };
+
+  const removeImage = () => {
+    setIsImageEditOpen(false);
+    setProfile(prevState => ({
+      ...prevState,
+      image: ""
+    } as Profile));
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''; // 파일 input 값을 초기화
+    }
+  };
+
+  const editButton = {
+    text: "수정",
+    onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => fileInputClick(e)
+  }
+  const removeButton = {
+    text: "삭제",
+    onClick: () => removeImage()
+  }
 
   return (
     <MainLayout>
       <TopBar text="프로필 수정" />
       <Wrapper>
+        <ImageComtainer>
         <ProfileImageContainer image={profile?.image} />
         <ProfileImageEditButton>
           <input type="file" onChange={handleFileChange} ref={fileInputRef} accept="image/*" />
-          <p onClick={fileInputClick}>사진 수정 및 삭제</p>
+          <p onClick={() => setIsImageEditOpen(true)}>사진 수정 및 삭제</p>
         </ProfileImageEditButton>
+        </ImageComtainer>
         <ProfileEditContainer onSubmit={editProfile}>
           <TextInputContainer>
             <EditTitle>이름</EditTitle>
@@ -304,6 +337,7 @@ const UpdateMypage = () => {
         </LeaveButton>
         <AlertPopup isOpen={isCompleteOpen} title="프로필 수정 완료!" content="프로필 수정을 완료하였습니다! 마이페이지에서 확인하세요." button="확인" onClose={handleUpdate} />
         <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
+        <Popup isOpen={isImageEditOpen} title="" children="" button1={editButton} button2={removeButton} onClose={() => setIsImageEditOpen(false)} />
       </Wrapper>
     </MainLayout>
   );

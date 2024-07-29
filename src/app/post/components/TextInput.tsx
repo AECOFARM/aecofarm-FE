@@ -32,6 +32,17 @@ const Input = styled.input.attrs(props => ({
     color: var(--gray6);
     font-weight: bold;
   }
+  /* Remove arrows in input[type="number"] for Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Remove arrows in input[type="number"] for Firefox */
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
 `;
 
 const InputLabel = styled.label`
@@ -71,9 +82,15 @@ const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, nam
     }
   }
 
+  const handleWheel = (event: React.WheelEvent<HTMLInputElement>) => {
+    if (type === "number") {
+      event.preventDefault();
+    }
+  };
+
   return (
     <InputContainer>
-      <Input value={value} onChange={onChange} name={name} ref={textInputRef} type={type} required={required} />
+      <Input value={value} onChange={onChange} name={name} ref={textInputRef} type={type} required={required} onWheel={handleWheel}/>
       <InputLabel htmlFor={value} onClick={handleTextInput}>{placeholder}</InputLabel>
       <ExampleLabel>{label}</ExampleLabel>
     </InputContainer>

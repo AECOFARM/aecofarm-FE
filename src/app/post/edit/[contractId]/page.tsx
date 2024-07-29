@@ -16,13 +16,13 @@ interface ItemDetail {
     owner: boolean;
     userName: string;
     itemName: string;
-    price: number;
+    price: string;
     itemImage?: string;
     itemContents: string;
     itemPlace: string;
     itemHash: string[];
-    time: number;
-    contractTime: number;
+    time: string;
+    contractTime: string;
     kakao: string;
     category?: string;
   }
@@ -44,12 +44,12 @@ const UpdatePost = () => {
     owner: false,
     userName: "",
     itemName: "",
-    price: 0,
+    price: "",
     itemContents: "",
     itemPlace: "",
     itemHash: [],
-    time: 0,
-    contractTime: 0,
+    time: "",
+    contractTime: "",
     kakao: "",
     itemImage: "",
   });
@@ -64,9 +64,9 @@ const UpdatePost = () => {
       itemName: itemDetail.itemName,
       kakao: itemDetail.kakao,
       itemHash: tags,
-      time: itemDetail.time,
-      contractTime: itemDetail.contractTime,
-      price: itemDetail.price,
+      time: itemDetail.time ? parseInt(itemDetail.time) : 0,
+      contractTime: itemDetail.contractTime ? parseInt(itemDetail.contractTime) : 0,
+      price: itemDetail.price ? parseInt(itemDetail.price) : 0,
       itemPlace: itemDetail.itemPlace,
       itemContents: itemDetail.itemContents,
       itemImage: itemDetail.itemImage
@@ -125,10 +125,19 @@ const UpdatePost = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
-    setItemDetail(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    if (e.target.type === 'number') {
+      if (/^\d*$/.test(value)) { // 숫자만 포함된 경우
+        setItemDetail(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      }
+    } else {
+      setItemDetail(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   useEffect(() => {

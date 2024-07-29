@@ -3,16 +3,16 @@ import styled from "styled-components"
 import React from "react"
 import { Wrapper, Line } from "@/components/CommonStyles";
 
-const AiDetailPage = () => {
+const EducationDetailPage = () => {
   return (
     <Wrapper>
       <ClubInfoContainer>
         <ClubProfileContainer>
-          <img src="/img/club-image2.png" />
-          <p>공과대학 학생회</p>
+          <img src="/img/club-image6.png" />
+          <p>사범대학 학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 공과대학은 혁신적인 공학 교육과 실습을 통해 창의적이고 실용적인 인재를 양성합니다. 공과대학 학생회는 학생들의 학습 효율을 높이기 위해 다양한 공학 기기 및 도구를 대여해드리고 있습니다. 여러분의 학업에 필요한 물품들을 쉽게 대여하여 사용하실 수 있습니다.</p>
+          <p>동국대학교 사범대학은 미래의 교육자를 양성하는 데 중점을 둡니다. 교육학의 이론과 실습을 겸비한 교육 과정을 통해 학생들이 훌륭한 교사로 성장할 수 있도록 지원합니다. 다양한 교구와 실습 자료를 대여하여 보다 효과적인 교육 연습이 가능합니다.</p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,26 +21,26 @@ const AiDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/공구키트.jpg" />
-              <p>공구 키트</p>
+              <img src = "/img/club/사범대학/색연필.jpg" />
+              <p>색연필</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/글루건.jpg" />
-              <p>글루건</p>
+              <img src = "/img/club/사범대학/색종이.jpg" />
+              <p>색종이</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/아두이노키트.jpg" />
-              <p>아두이노 키트</p>
+              <img src = "/img/club/사범대학/싸인펜.jpg" />
+              <p>싸인펜</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/일반물리학실험책.jpg" />
-              <p>일반물리학 실험책</p>
+              <img src = "/img/club/사범대학/중등교과서.jpg" />
+              <p>중등 교과서</p>
             </ClubProductInfo>
           </ClubProduct>
         </ClubProducts>
@@ -134,4 +134,4 @@ const ClubProductInfo = styled.div`
   margin: 0 auto;
 `;
 
-export default AiDetailPage;
+export default EducationDetailPage;

@@ -3,16 +3,16 @@ import styled from "styled-components"
 import React from "react"
 import { Wrapper, Line } from "@/components/CommonStyles";
 
-const AiDetailPage = () => {
+const StudentDetailPage = () => {
   return (
     <Wrapper>
       <ClubInfoContainer>
         <ClubProfileContainer>
-          <img src="/img/club-image2.png" />
-          <p>공과대학 학생회</p>
+          <img src="/img/club-image5.png" />
+          <p>동국대학교 총학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 공과대학은 혁신적인 공학 교육과 실습을 통해 창의적이고 실용적인 인재를 양성합니다. 공과대학 학생회는 학생들의 학습 효율을 높이기 위해 다양한 공학 기기 및 도구를 대여해드리고 있습니다. 여러분의 학업에 필요한 물품들을 쉽게 대여하여 사용하실 수 있습니다.</p>
+          <p>동국대학교 컴퓨터공학전공은 정보화 사회에 발맞추어 창의적이고 실용적인 소프트웨어 및 하드웨어 전문가를 양성합니다. 학생들이 다양한 프로젝트를 수행할 수 있도록 최신 컴퓨터 장비와 소프트웨어를 대여해드리고 있습니다. 필요한 물품을 손쉽게 빌려 사용해보세요.</p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,26 +21,26 @@ const AiDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/공구키트.jpg" />
-              <p>공구 키트</p>
+              <img src = "/img/club/총학생회/노트북거치대.jpg" />
+              <p>노트북 거치대</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/글루건.jpg" />
-              <p>글루건</p>
+              <img src = "/img/club/총학생회/우산.jpg" />
+              <p>우산</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/아두이노키트.jpg" />
-              <p>아두이노 키트</p>
+              <img src = "/img/club/총학생회/일회용치약.jpg" />
+              <p>일회용 치약</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/일반물리학실험책.jpg" />
-              <p>일반물리학 실험책</p>
+              <img src = "/img/club/총학생회/축구공.jpg" />
+              <p>축구공</p>
             </ClubProductInfo>
           </ClubProduct>
         </ClubProducts>
@@ -134,4 +134,4 @@ const ClubProductInfo = styled.div`
   margin: 0 auto;
 `;
 
-export default AiDetailPage;
+export default StudentDetailPage;
