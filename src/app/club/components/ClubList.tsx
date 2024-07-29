@@ -30,6 +30,26 @@ const data: ClubInfoData[] = [
     "clubName": "동불",
     "move": "dongbul"
   },
+  {
+    "image": "/img/club-image5.png",
+    "clubName": "총학생회",
+    "move": "student"
+  },
+  {
+    "image": "/img/club-image6.png",
+    "clubName": "교육학과",
+    "move": "education"
+  },
+  {
+    "image": "/img/club-image7.png",
+    "clubName": "법과대학",
+    "move": "law"
+  },
+  {
+    "image": "/img/club-image8.png",
+    "clubName": "경영대학",
+    "move": "business"
+  },
 ]
 
 const ClubList: React.FC = () => {
@@ -49,7 +69,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
-  width: 80%;
+  width: 90%;
 `;
 
 export default ClubList;

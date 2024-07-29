@@ -69,6 +69,7 @@ const ClubDescriptionContainer = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: var(--gray6);
+    word-break: keep-all
   }
 `;
 

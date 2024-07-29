@@ -3,16 +3,16 @@ import styled from "styled-components"
 import React from "react"
 import { Wrapper, Line } from "@/components/CommonStyles";
 
-const AiDetailPage = () => {
+const BusinessDetailPage = () => {
   return (
     <Wrapper>
       <ClubInfoContainer>
         <ClubProfileContainer>
-          <img src="/img/club-image2.png" />
-          <p>공과대학 학생회</p>
+          <img src="/img/club-image8.png" />
+          <p>경영대학 학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 공과대학은 혁신적인 공학 교육과 실습을 통해 창의적이고 실용적인 인재를 양성합니다. 공과대학 학생회는 학생들의 학습 효율을 높이기 위해 다양한 공학 기기 및 도구를 대여해드리고 있습니다. 여러분의 학업에 필요한 물품들을 쉽게 대여하여 사용하실 수 있습니다.</p>
+          <p>동국대학교 경영대학은 글로벌 리더를 양성하기 위해 체계적인 경영 교육을 제공합니다. 경영대학 학생회는 학우들이 다양한 경영 프로젝트를 성공적으로 수행할 수 있도록 필요한 장비와 자료를 대여하고 있습니다. 필요한 물품을 통해 프로젝트를 더욱 효과적으로 진행해보세요.</p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,26 +21,26 @@ const AiDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/공구키트.jpg" />
-              <p>공구 키트</p>
+              <img src = "/img/club/경영대학/구두클리너.jpg" />
+              <p>구두 클리너</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/글루건.jpg" />
-              <p>글루건</p>
+              <img src = "/img/club/경영대학/문서집게.jpg" />
+              <p>문서 집게</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/아두이노키트.jpg" />
-              <p>아두이노 키트</p>
+              <img src = "/img/club/경영대학/발표레이저.jpg" />
+              <p>발표 레이저</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/일반물리학실험책.jpg" />
-              <p>일반물리학 실험책</p>
+              <img src = "/img/club/경영대학/A4용지.jpg" />
+              <p>A4 용지</p>
             </ClubProductInfo>
           </ClubProduct>
         </ClubProducts>
@@ -134,4 +134,4 @@ const ClubProductInfo = styled.div`
   margin: 0 auto;
 `;
 
-export default AiDetailPage;
+export default BusinessDetailPage;
