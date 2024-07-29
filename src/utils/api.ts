@@ -14,7 +14,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// utils/api.ts
 export const getRequest = async (url: string, headers: object = {}) => {
   const response = await fetch(url, {
     method: 'GET',
