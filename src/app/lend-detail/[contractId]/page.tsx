@@ -15,6 +15,7 @@ interface ItemDetail {
   contractId: number;
   itemName: string;
   userName: string;
+  userImage: string;
   itemContents: string;
   itemId: number;
   kakao: string;
@@ -392,6 +393,7 @@ const LendDetailPage = () => {
   const {
     itemName,
     userName,
+    userImage,
     itemContents,
     kakao,
     itemPlace,
@@ -417,7 +419,7 @@ const LendDetailPage = () => {
             </TitleContainer>
             <UserContainer>
               <User>
-                <ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span>
+                <ProfileImg src={userImage}/><span>{userName}</span>
               </User>
               {owner && (
                 <EditDeleteContainer>
