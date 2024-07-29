@@ -20,6 +20,7 @@ interface ItemDetail {
   contractId: number;
   itemId: number;
   userName: string;
+  userImage: string;
   itemName: string;
   itemContents: string;
   kakao: string;
@@ -363,6 +364,7 @@ const BorrowDetailPage = () => {
     owner,
     itemName,
     userName,
+    userImage,
     itemContents,
     kakao,
     itemImage,
@@ -406,7 +408,7 @@ const BorrowDetailPage = () => {
           <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
           <UserContainer>
             <User>
-              <ProfileImg src='/img/aco-profile.svg'/><span>{userName}</span>
+              <ProfileImg src={userImage}/><span>{userName}</span>
             </User>
             {owner && (
               <EditDeleteContainer>
