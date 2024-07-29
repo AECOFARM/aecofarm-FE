@@ -93,7 +93,9 @@ const User = styled.div`
 `;
 
 const ProfileImg = styled.img`
+  height: 30px;
   width: 30px;
+  margin-left: 7px;
   border-radius: 30px;
   border: 1px solid var(--gray3);
 `;
