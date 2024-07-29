@@ -5,9 +5,8 @@ import AppLayout from '@/components/layout/MobileLayout';
 import MainLayout from '@/components/layout/MainLayout';
 import NoFixedTopBar from '@/components/NoFixedTopBar';
 import OrangeButton from '@/components/OrangeButton';
-import api from '@/utils/api'; // 모듈화된 API 호출
-import { getToken } from '@/utils/localStorage'; // 모듈화된 로컬 스토리지 유틸리티
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,18 +74,12 @@ const FindPassword: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
-    const token = getToken(); // 로컬 스토리지에서 JWT 토큰을 가져옴
-  
     try {
-      const response = await api.post('/member/update/pw', {
+      const response = await axios.post('/api/member/update/pw', {
         email,
         userName,
         schoolNum: Number(schoolNum),
         password,
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
       });
 
       if (response.data.code === 200) {
