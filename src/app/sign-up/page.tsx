@@ -13,12 +13,14 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 500px;
+  max-width: 500px;
 `;
 
 const Container = styled.div`
-  width: 100%; 
-  padding: 0 32px; 
+  width: 90%; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   box-sizing: border-box; 
   margin-top: 20px;
 `;
@@ -109,14 +111,12 @@ const DeleteImage = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  position: absolute;
-  top: 420px;
   gap: 20px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   width: 100%;
-  max-width: 470px;
-  padding-right: 40px;
+  box-sizing: border-box; 
 `;
 
 const PasswordInputContainer = styled.div`
@@ -145,7 +145,6 @@ interface UserData {
 const Button = styled.input.attrs(props => ({
   type: props.type || 'text' // Ensuring 'type' defaults to 'text' if not provided
 }))`
-  width: 100%;
   padding: 15px 22px;
   border-radius: 15px;
   border: 0;
@@ -153,6 +152,7 @@ const Button = styled.input.attrs(props => ({
   background-color: var(--gray2);
   font-size: 17px;
   text-align: left;
+  width: 100%;
 `;
 
 const SignUpPage: React.FC = () => {
