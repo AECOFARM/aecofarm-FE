@@ -310,7 +310,7 @@ const SignUpPage: React.FC = () => {
             button1={{ text: "확인", onClick: handleClick }}
             button2={{ text: "취소", onClick: handleClosePopup }}
           >
-            회원가입이 완료되었습니다!
+            3000P가 지급되었습니다!
           </Popup>
         )}
         <AlertPopup title="이미지 사이즈 초과" content="1mb 사이즈 미만의 이미지만 업로드가 가능합니다." button="확인" isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
