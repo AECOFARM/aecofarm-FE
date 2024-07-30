@@ -126,7 +126,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
 
   const router = useRouter();
   const moveDetail = () => {
-    router.push(`lend-detail/${contractId}`);
+    router.push(`/lend-detail/${contractId}`);
   }
   const token = localStorage.getItem('token');
 
