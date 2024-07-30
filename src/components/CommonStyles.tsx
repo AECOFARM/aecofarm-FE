@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const CategoryItemsContainer = styled.div`
+  margin: 0 auto;
   margin-top: 60px;
 `;
 
