@@ -128,9 +128,10 @@ interface Post {
 
 interface BorrowItemPostProps {
   post: Post;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
+const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   const {
     contractId,
     itemId,
@@ -188,12 +189,8 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post }) => {
     return <SkeletonPost />; 
   }
 
-  const moveDetail = () => {
-    router.push(`/borrow-detail/${contractId}`);
-  }
-
   return (
-    <Container data-contract-id={contractId.toString()} onClick={moveDetail}>
+    <Container data-contract-id={contractId.toString()} onClick={onClick}>
       <ItemImage>
         <Image src={imageSrc} alt={itemName} layout="fill" objectFit="cover" />
       </ItemImage>
