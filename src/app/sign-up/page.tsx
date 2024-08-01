@@ -222,26 +222,34 @@ const SignUpPage: React.FC = () => {
 
   const handleSignUp = async () => {
     const { email, userName, password, phone, schoolNum } = userData;
+  
+    const allowedDomain = '@dgu.ac.kr';
 
+    if (!email.endsWith(allowedDomain)) {
+      alert(`이메일은 ${allowedDomain} 도메인만 허용됩니다.`);
+      return;
+    }
+  
+    // 모든 필수 입력란이 채워져 있는지 확인
     if (!email || !userName || !password || !phone || !schoolNum) {
       alert('모든 필수 정보를 입력해주세요.');
       return;
     }
-
+  
     const formData = new FormData();
-
+  
     if (profileImage) {
       formData.append('file', profileImage, profileImage.name);
     } else {
       const defaultImageBlob = await urlToBlob('/img/default-image.png');
       formData.append('file', defaultImageBlob, 'defaultProfileImage.jpg');
     }
-
+  
     formData.append('signupData', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
-
+  
     try {
       const response = await axios.post('/api/member/signup', formData);
-
+  
       if (response.data.code === 200) {
         handleOpenPopup();
       } else {
@@ -251,6 +259,7 @@ const SignUpPage: React.FC = () => {
       alert('회원가입에 실패하였습니다.');
     }
   };
+  
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prevVisibility) => !prevVisibility);
