@@ -1,5 +1,5 @@
 'use client';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from '@/components/OrangeButton';
 import { useRouter } from 'next/navigation';
@@ -133,6 +133,63 @@ const PasswordIcon = styled.img`
   cursor: pointer;
 `;
 
+const EmailButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+`;
+
+const EmailButton = styled.input.attrs(props => ({
+  type: props.type || 'text'
+}))`
+  padding: 15px 22px;
+  border-radius: 15px;
+  border: 0;
+  color: var(--gray6);
+  background-color: var(--gray2);
+  font-size: 17px;
+  text-align: left;
+  width: 70%;
+`;
+
+const EmailCheckButton = styled.button`
+  width: 30%;
+  background-color: var(--orange2);
+  color: white;
+  padding: 15px 22px;
+  border: none;
+  border-radius: 15px;
+  font-size: 17px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkorange;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const VerificationCodeInput = styled.input`
+  padding: 15px 22px;
+  border-radius: 15px;
+  border: 0;
+  color: var(--gray6);
+  background-color: var(--gray2);
+  font-size: 17px;
+  text-align: left;
+  width: 100%;
+  animation: ${fadeIn} 0.5s ease-in-out;
+`;
+
 interface UserData {
   email: string;
   userName: string;
@@ -141,9 +198,8 @@ interface UserData {
   schoolNum: string;
 }
 
-
 const Button = styled.input.attrs(props => ({
-  type: props.type || 'text' // Ensuring 'type' defaults to 'text' if not provided
+  type: props.type || 'text'
 }))`
   padding: 15px 22px;
   border-radius: 15px;
@@ -168,6 +224,9 @@ const SignUpPage: React.FC = () => {
   });
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [emailVerificationStatus, setEmailVerificationStatus] = useState<string | null>(null);
+  const [showVerificationCodeInput, setShowVerificationCodeInput] = useState<boolean>(false);
+  const [verificationCode, setVerificationCode] = useState<string>('');
 
   const formatPhoneNumber = (value: string): string => {
     const cleaned = value.replace(/\D+/g, '');
@@ -220,17 +279,16 @@ const SignUpPage: React.FC = () => {
     return blob;
   };
 
-  const handleSignUp = async () => {
+  const handleEmailVerification = async () => {
     const { email, userName, password, phone, schoolNum } = userData;
   
     const allowedDomain = '@dgu.ac.kr';
-
+  
     if (!email.endsWith(allowedDomain)) {
       alert(`이메일은 ${allowedDomain} 도메인만 허용됩니다.`);
       return;
     }
   
-    // 모든 필수 입력란이 채워져 있는지 확인
     if (!email || !userName || !password || !phone || !schoolNum) {
       alert('모든 필수 정보를 입력해주세요.');
       return;
@@ -251,7 +309,34 @@ const SignUpPage: React.FC = () => {
       const response = await axios.post('/api/member/signup', formData);
   
       if (response.data.code === 200) {
-        handleOpenPopup();
+        setShowVerificationCodeInput(true);
+      } else {
+        setEmailVerificationStatus('이메일 인증에 실패했습니다.');
+      }
+    } catch (error) {
+      setEmailVerificationStatus('이메일 인증 요청 중 오류가 발생했습니다.');
+    }
+  };
+  
+  const handleSignUp = async () => {
+    const requestData = {
+      signupRequestDTO: {
+        email: userData.email,
+        userName: userData.userName,
+        password: userData.password,
+        phone: userData.phone,
+        schoolNum: userData.schoolNum,
+        imageUrl: profileImage ? URL.createObjectURL(profileImage) : 'image_url',
+      },
+      authCode: verificationCode,
+      expectedCode: "비교 코드" // 서버에서 보낸 인증 코드와 비교하는 로직 필요
+    };
+  
+    try {
+      const response = await axios.post('/api/member/signup/complete', requestData);
+  
+      if (response.data.code === 200) {
+        handleOpenPopup(); // 회원가입 성공 시 팝업 열기
       } else {
         alert(`회원가입에 실패하였습니다. ${response.data.message}`);
       }
@@ -260,9 +345,8 @@ const SignUpPage: React.FC = () => {
     }
   };
   
-
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible((prevVisibility) => !prevVisibility);
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   return (
@@ -290,8 +374,6 @@ const SignUpPage: React.FC = () => {
           <TextContainer>정보를 입력해주세요</TextContainer>
           <ButtonContainer>
             <Button type='text' placeholder="이름" name="userName" required onChange={handleInputChange} />
-            <Button type='tel' placeholder="전화번호" name="phone" required value={userData.phone} onChange={handleInputChange} />
-            <Button type='email' placeholder="이메일" name="email" required onChange={handleInputChange} />
             <PasswordInputContainer>
               <Button
                 placeholder="비밀번호"
@@ -307,7 +389,22 @@ const SignUpPage: React.FC = () => {
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>
+            <Button type='tel' placeholder="전화번호" name="phone" required value={userData.phone} onChange={handleInputChange} />
             <Button type='text' placeholder="학번" name="schoolNum" required onChange={handleInputChange} />
+            <EmailButtonContainer>
+              <EmailButton type='email' placeholder="학교 이메일 (@dgu.ac.kr)" name="email" required onChange={handleInputChange} />
+              <EmailCheckButton onClick={handleEmailVerification}>인증</EmailCheckButton>
+            </EmailButtonContainer>
+            {showVerificationCodeInput && (
+              <VerificationCodeInput
+                type='text'
+                placeholder="인증 코드"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                required
+              />
+            )}
+            {emailVerificationStatus && <p>{emailVerificationStatus}</p>}
             <OrangeButton text="회원가입" onClick={handleSignUp} />
           </ButtonContainer>
         </Container>
