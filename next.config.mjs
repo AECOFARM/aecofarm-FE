@@ -15,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://3.34.145.189:8080/:path*',
+        destination: 'https://port-0-aecofarm-lyhj20nc49bb1c32.sel5.cloudtype.app/:path*',
       },
     ];
   },
