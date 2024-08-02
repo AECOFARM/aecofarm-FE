@@ -337,6 +337,14 @@ const SignUpPage: React.FC = () => {
     };
 
     try {
+
+      const { email, userName, password, phone, schoolNum } = userData;
+      
+      if (!email || !userName || !password || !phone || !schoolNum) {
+        alert('모든 필수 정보를 입력해주세요.');
+        return;
+      }
+
       const response = await axios.post('/api/member/signup/complete', requestData);
 
       if (response.data.code === 200) {
