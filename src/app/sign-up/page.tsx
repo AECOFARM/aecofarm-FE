@@ -196,6 +196,7 @@ interface UserData {
   password: string;
   phone: string;
   schoolNum: string;
+  authCode: string;
 }
 
 const Button = styled.input.attrs(props => ({
@@ -220,13 +221,15 @@ const SignUpPage: React.FC = () => {
     userName: '',
     password: '',
     phone: '',
-    schoolNum: ''
+    schoolNum: '',
+    authCode: ''
   });
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [emailVerificationStatus, setEmailVerificationStatus] = useState<string | null>(null);
   const [showVerificationCodeInput, setShowVerificationCodeInput] = useState<boolean>(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
+  const [expectedCode, setExpectedCode] = useState<string>('');
 
   const formatPhoneNumber = (value: string): string => {
     const cleaned = value.replace(/\D+/g, '');
@@ -281,35 +284,36 @@ const SignUpPage: React.FC = () => {
 
   const handleEmailVerification = async () => {
     const { email, userName, password, phone, schoolNum } = userData;
-  
+
     const allowedDomain = '@dgu.ac.kr';
-  
+
     if (!email.endsWith(allowedDomain)) {
       alert(`이메일은 ${allowedDomain} 도메인만 허용됩니다.`);
       return;
     }
-  
+
     if (!email || !userName || !password || !phone || !schoolNum) {
       alert('모든 필수 정보를 입력해주세요.');
       return;
     }
-  
+
     const formData = new FormData();
-  
+
     if (profileImage) {
       formData.append('file', profileImage, profileImage.name);
     } else {
       const defaultImageBlob = await urlToBlob('/img/default-image.png');
       formData.append('file', defaultImageBlob, 'defaultProfileImage.jpg');
     }
-  
+
     formData.append('signupData', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
-  
+
     try {
       const response = await axios.post('/api/member/signup', formData);
-  
+
       if (response.data.code === 200) {
         setShowVerificationCodeInput(true);
+        setExpectedCode(response.data.data.expectedCode); 
       } else {
         setEmailVerificationStatus('이메일 인증에 실패했습니다.');
       }
@@ -317,7 +321,7 @@ const SignUpPage: React.FC = () => {
       setEmailVerificationStatus('이메일 인증 요청 중 오류가 발생했습니다.');
     }
   };
-  
+
   const handleSignUp = async () => {
     const requestData = {
       signupRequestDTO: {
@@ -329,12 +333,12 @@ const SignUpPage: React.FC = () => {
         imageUrl: profileImage ? URL.createObjectURL(profileImage) : 'image_url',
       },
       authCode: verificationCode,
-      expectedCode: "비교 코드" // 서버에서 보낸 인증 코드와 비교하는 로직 필요
+      expectedCode: expectedCode 
     };
-  
+
     try {
       const response = await axios.post('/api/member/signup/complete', requestData);
-  
+
       if (response.data.code === 200) {
         handleOpenPopup(); // 회원가입 성공 시 팝업 열기
       } else {
@@ -344,7 +348,7 @@ const SignUpPage: React.FC = () => {
       alert('회원가입에 실패하였습니다.');
     }
   };
-  
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -399,7 +403,7 @@ const SignUpPage: React.FC = () => {
               <VerificationCodeInput
                 type='text'
                 placeholder="인증 코드"
-                value={verificationCode}
+                value={verificationCode} // Use the verificationCode state
                 onChange={(e) => setVerificationCode(e.target.value)}
                 required
               />
