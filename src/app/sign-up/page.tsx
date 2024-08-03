@@ -197,6 +197,7 @@ interface UserData {
   phone: string;
   schoolNum: string;
   authCode: string;
+  imageUrl: string;
 }
 
 const Button = styled.input.attrs(props => ({
@@ -222,7 +223,8 @@ const SignUpPage: React.FC = () => {
     password: '',
     phone: '',
     schoolNum: '',
-    authCode: ''
+    authCode: '',
+    imageUrl: ''
   });
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -260,13 +262,21 @@ const SignUpPage: React.FC = () => {
     const file = e.target.files?.[0] || null;
     if (file) {
       var upload_size = file.size;
-      if (limit_size < upload_size) {
+      if(limit_size < upload_size) {
         setIsAlertOpen(true);
         return false;
       } else {
-        setProfileImage(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+        setUserData(prevState => ({
+          ...prevState,
+          imageUrl: reader.result as string
+        }));
+      };
+      reader.readAsDataURL(file);
+      setProfileImage(file);
       }
-    }
+    };
   };
 
   const handleOpenPopup = () => setIsPopupOpen(true);
@@ -314,6 +324,7 @@ const SignUpPage: React.FC = () => {
       if (response.data.code === 200) {
         setShowVerificationCodeInput(true);
         setExpectedCode(response.data.data.expectedCode); 
+        setUserData(response.data.data.signupRequestDTO);
       } else {
         alert('이메일 인증에 실패했습니다.');
       }
@@ -330,7 +341,7 @@ const SignUpPage: React.FC = () => {
         password: userData.password,
         phone: userData.phone,
         schoolNum: userData.schoolNum,
-        imageUrl: profileImage ? URL.createObjectURL(profileImage) : 'image_url',
+        imageUrl: userData.imageUrl,
       },
       authCode: verificationCode,
       expectedCode: expectedCode 
@@ -369,7 +380,7 @@ const SignUpPage: React.FC = () => {
           <TextContainer>프로필 사진을 첨부해주세요</TextContainer>
           <ProfileContainer>
             {profileImage ? (
-              <ProfileImage src={URL.createObjectURL(profileImage)} alt="Profile Image"/>
+              <ProfileImage src={userData.imageUrl} alt="Profile Image"/>
             ) : (
               <DefaultProfile>
                 <DefaultProfileImage src="/img/default-image.png" alt="Default Profile Image" />
