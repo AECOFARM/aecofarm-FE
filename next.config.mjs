@@ -15,7 +15,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://3.34.145.189:8080/:path*',
+        destination: 'https://dgu.aecofarm.store/:path*',
       },
     ];
   },

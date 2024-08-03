@@ -77,7 +77,7 @@ const DefaultProfile = styled.div`
 
 const DefaultProfileImage = styled.img`
   width: 100%;
-  height: 50%;
+  height: 40%;
   object-fit: cover; 
 `;
 
@@ -315,7 +315,7 @@ const SignUpPage: React.FC = () => {
         setShowVerificationCodeInput(true);
         setExpectedCode(response.data.data.expectedCode); 
       } else {
-        setEmailVerificationStatus('이메일 인증에 실패했습니다.');
+        alert('이메일 인증에 실패했습니다.');
       }
     } catch (error) {
       setEmailVerificationStatus('이메일 인증 요청 중 오류가 발생했습니다.');
@@ -337,6 +337,14 @@ const SignUpPage: React.FC = () => {
     };
 
     try {
+
+      const { email, userName, password, phone, schoolNum } = userData;
+      
+      if (!email || !userName || !password || !phone || !schoolNum) {
+        alert('모든 필수 정보를 입력해주세요.');
+        return;
+      }
+
       const response = await axios.post('/api/member/signup/complete', requestData);
 
       if (response.data.code === 200) {
