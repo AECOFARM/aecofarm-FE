@@ -1,39 +1,40 @@
 # AECOFARM-FE
 [👩🏻‍🌾 개발 중] 대학생 교내 물품 공유 플랫폼 '아코팜' 프론트엔드
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<br>
 
-## Getting Started
+## Commit Convention
 
-First, run the development server:
+| 커밋 유형 | 설명 |
+| --- | --- |
+| feat | 새로운 기능 추가 |
+| fix | 버그 수정 |
+| docs | 문서 수정 |
+| style | 코드 formatting, 세미콜론 누락, 코드 자체의 변경이 없는 경우 |
+| refactor | 코드 리팩토링 |
+| test | 테스트 코드, 리팩토링 테스트 코드 추가 |
+| chore | 패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore |
+| design | CSS 등 사용자 UI 디자인 변경 |
+| comment | 필요한 주석 추가 및 변경 |
+| rename | 파일 또는 폴더 명을 수정하거나 옮기는 작업만인 경우 |
+| remove | 파일을 삭제하는 작업만 수행한 경우 |
+| !BREAKING CHANGE | 커다란 API 변경의 경우 |
+| !HOTFIX | 급하게 치명적인 버그를 고쳐야 하는 경우 |
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## PR Convention
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| 아이콘 | 코드 | 설명 |
+| --- | --- | --- |
+| 🧑🏻‍🎨 | :art | 코드의 구조/형태 개선 |
+| ⚡️ | :zap | 성능 개선 |
+| 🔥 | :fire | 코드/파일 삭제 |
+| 🐛 | :bug | 버그 수정 |
+| 🚑 | :ambulance | 긴급 수정 |
+| ✨ | :sparkles | 새 기능 |
+| 💄 | :lipstick | UI/스타일 파일 추가/수정 |
+| ⏪ | :rewind | 변경 내용 되돌리기 |
+| 🔀 | :twisted_rightwards_arrows | 브랜치 합병 |
+| 💡 | :bulb | 주석 추가/수정 |
+| 🗃 | :card_file_box | 데이터베이스 관련 수정 |
