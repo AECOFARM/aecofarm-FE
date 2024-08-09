@@ -1,7 +1,6 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF7A00, 100:FD9F28&height=200&section=header&text=AECOFARM" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF7A00,100:FD9F28&height=200&section=header&text=AECOFARM" />
 <br>
 
-[👩🏻‍🌾 개발 완료] 대학생 교내 물품 공유 플랫폼 '아코팜'
 ![aecofarm-main](https://github.com/user-attachments/assets/e97f78e4-f692-4814-bc7a-30599864dee4)
 <br>
 
@@ -14,7 +13,7 @@
 
 ## Introduce
 ### 1. 프로젝트 명
-대학생 물품 공유의 장, AECO farm
+대학생 교내 물품 공유 플랫폼, 아코팜
 ![readme-page-1](https://github.com/user-attachments/assets/a1bf83dd-20ed-4692-b6a1-b134276affd9)
 <br>
 ### 2. 프로젝트 소개
@@ -31,7 +30,7 @@
 ![readme-page-6](https://github.com/user-attachments/assets/b4188b0a-f7c3-445b-a1ba-48ea23106c8a)
 <br>
 
-## 👋AECOfarm Team
+## 👋AECOfarm Team
 
 | 이름                                  | 전공                 | Email                  |
 | ------------------------------------ | ------------------- | --------------------- |
