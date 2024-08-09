@@ -57,8 +57,8 @@
 
 | 이름                                  | 전공                 | Email                  |
 | ------------------------------------ | ------------------- | --------------------- |
-| [서하은](https://github.com/haeun1107) | 동국대학교 컴퓨터공학전공 | haeun                  |
-| [서은정](https://github.com/enunsnv)   | 동국대학교 컴퓨터공학전공 | eunjeong               |
+| [서하은](https://github.com/haeun1107) | 동국대학교 컴퓨터공학전공 | haeun9394@gmail.com    |
+| [서은정](https://github.com/enunsnv)   | 동국대학교 컴퓨터공학전공 | seoej0315@naver.com    |
 | [이정선](https://github.com/leejs0823) | 동국대학교 컴퓨터공학전공 | dlwjdtjs0111@gmail.com |
-| [최예인](https://github.com/YeahOut)   | 동국대학교 컴퓨터공학전공 | yeahin                 |
+| [최예인](https://github.com/YeahOut)   | 동국대학교 컴퓨터공학전공 | pt840072@naver.com     |
 
