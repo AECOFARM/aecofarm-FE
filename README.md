@@ -15,20 +15,20 @@
 <br>
 
 ## Preview
-![readme-page-2](https://github.com/user-attachments/assets/dbc016c6-2453-4661-a57c-9c5faaa5ea1b)
 ### 거래 게시판(대여하기/빌려주기)
+![readme-page-2](https://github.com/user-attachments/assets/dbc016c6-2453-4661-a57c-9c5faaa5ea1b)
 <br>
 
-![readme-page-3](https://github.com/user-attachments/assets/25399dcb-fa85-47e2-afd4-ddbef00743f3)
 ### 실명 기반 거래
+![readme-page-3](https://github.com/user-attachments/assets/25399dcb-fa85-47e2-afd4-ddbef00743f3)
 <br>
 
-![readme-page-4](https://github.com/user-attachments/assets/573f2ccd-9c08-47ca-ba2e-27098a293633)
 ### 키워드 기반 검색
+![readme-page-4](https://github.com/user-attachments/assets/573f2ccd-9c08-47ca-ba2e-27098a293633)
 <br>
 
-![readme-page-5](https://github.com/user-attachments/assets/f6567e73-6037-4537-b88f-6452c302c72e)
 ### 마이페이지 관리
+![readme-page-5](https://github.com/user-attachments/assets/f6567e73-6037-4537-b88f-6452c302c72e)
 <br>
 <br>
 
