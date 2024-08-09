@@ -33,13 +33,13 @@
 <br>
 <br>
 
-## 💻시연 영상 
+## 💻 시연 영상 
 [시연영상 보러가기](https://www.youtube.com/watch?v=LxEjWi7tbL4)
 <br>
 <br>
 <br>
 
-## Architecture
+# 🔧 Architecture
 ![readme-page-6](https://github.com/user-attachments/assets/b4188b0a-f7c3-445b-a1ba-48ea23106c8a)
 <br>
 <br>
@@ -53,7 +53,7 @@
 <br>
 <br>
 
-# 👋AECOfarm Team
+# 👋 AECOfarm Team
 
 | 이름                                  | 전공                 | Email                  |
 | ------------------------------------ | ------------------- | --------------------- |
