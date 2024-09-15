@@ -32,7 +32,7 @@ const ImageContainer = styled.div``;
 const ImageBackGround = styled.div`
   width: 330px;
   height: 330px;
-  background-color: var(--orange0);
+  background-color: ${({ theme }) => theme.colors.orange0};
   border-radius: 50%;
   z-index: 0;
 `;

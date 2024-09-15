@@ -106,23 +106,11 @@ const Mypage = () => {
       )}
 
       <ListContainer>
-        <MypageList
-          img="/heart-list.svg"
-          text="내가 좋아요한 게시물"
-          onClick={heartList}
-        ></MypageList>
-        <hr />
-        <MypageList
-          img="/post-list.svg"
-          text="내가 쓴 게시물"
-          onClick={postList}
-        ></MypageList>
-        <hr />
-        <MypageList
-          img="/contract-list.svg"
-          text="거래 내역 조회"
-          onClick={contractList}
-        ></MypageList>
+        <MypageList img="/heart-list.svg" text="내가 좋아요한 게시물" onClick={heartList}></MypageList>
+        <hr/>
+        <MypageList img="/post-list.svg" text="내가 쓴 게시물" onClick={postList}></MypageList>
+        <hr/>
+        <MypageList img="/contract-list.svg" text="거래 내역 조회" onClick={contractList}></MypageList>
       </ListContainer>
       <RecentlyViewedListContainer>
         <TextContainer>최근 본 대여 물품</TextContainer>
