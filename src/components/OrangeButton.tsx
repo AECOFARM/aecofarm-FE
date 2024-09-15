@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { NextPage } from 'next';
+import styled from "styled-components";
+import { NextPage } from "next";
 
 const Button = styled.button`
   width: 100%;
@@ -18,7 +18,11 @@ interface ButtonProps {
 }
 
 const OrangeButton: NextPage<ButtonProps> = ({ text, onClick, className }) => {
-  return <Button onClick={onClick} className={className} type='submit'>{text}</Button>;
+  return (
+    <Button onClick={onClick} className={className} type="submit">
+      {text}
+    </Button>
+  );
 };
 
 export default OrangeButton;

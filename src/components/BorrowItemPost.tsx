@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import DonateLabel from './DonateLabel';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import SkeletonPost from './skeleton/SkeletonBorrowItemPost';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import DonateLabel from "./DonateLabel";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import SkeletonPost from "./skeleton/SkeletonBorrowItemPost";
+import Image from "next/image";
 
 const Container = styled.div`
   background-color: white;
@@ -143,35 +143,41 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
     contractTime,
     itemHash,
     likeStatus: initialLikeStatus,
-    donateStatus
+    donateStatus,
   } = post;
 
   const router = useRouter();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
   const [loading, setLoading] = useState(true);
 
-  const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
+  const likeIconSrc = likeStatus
+    ? "/img/red-heart.svg"
+    : "/img/empty-heart.svg";
 
   const toggleLikeStatus = async () => {
     try {
       if (likeStatus) {
         const response = await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
-          data: { itemId: itemId } 
+          data: { itemId: itemId },
         });
         console.log(response);
       } else {
-        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await axios.post(
+          `/api/likes/add/${contractId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         console.log(response);
-      } 
-      setLikeStatus(prevStatus => !prevStatus);
+      }
+      setLikeStatus((prevStatus) => !prevStatus);
     } catch (error) {
       console.error("An error occurred while toggling like status:", error);
     }
@@ -182,11 +188,11 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000); 
+    }, 1000);
   }, []);
 
   if (loading) {
-    return <SkeletonPost />; 
+    return <SkeletonPost />;
   }
 
   return (
@@ -199,13 +205,27 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
           <Title>{itemName}</Title>
           {donateStatus && <DonateLabel />}
         </TitleContainer>
-        <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
+        <TimeAndPrice>
+          {time}시간 | {price}P
+        </TimeAndPrice>
         <Place>
           <div>
-            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14} /> {itemPlace}
+            <Image
+              src="/img/location-pin.svg"
+              alt="location pin"
+              width={14}
+              height={14}
+            />{" "}
+            {itemPlace}
           </div>
           <div>
-            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 가능
+            <Image
+              src="/img/clock-icon.svg"
+              alt="clock"
+              width={14}
+              height={14}
+            />{" "}
+            {contractTime}분 이내 거래 가능
           </div>
         </Place>
         <HashTags>
@@ -215,7 +235,12 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         </HashTags>
       </ItemInfo>
       <LikeIcon onClick={toggleLikeStatus}>
-        <Image src={likeIconSrc} alt='like icon' layout="fill" objectFit="cover" />
+        <Image
+          src={likeIconSrc}
+          alt="like icon"
+          layout="fill"
+          objectFit="cover"
+        />
       </LikeIcon>
     </Container>
   );

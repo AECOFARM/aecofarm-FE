@@ -8,7 +8,7 @@ const ItemContainer = styled.div`
   align-items: center;
   gap: 3px;
   padding: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   position: relative;
   width: auto;
   height: auto;
@@ -52,16 +52,16 @@ const ItemTitle = styled.div`
 `;
 
 const SkeletonMyItemListItem = () => {
-    return (
-      <ItemContainer>
-        <ItemImage />
-        <ItemTitle />
-        <ItemInfoContainer>
-          <Price></Price>
-          <Time></Time>
-        </ItemInfoContainer>
-      </ItemContainer>
-    );
-}
+  return (
+    <ItemContainer>
+      <ItemImage />
+      <ItemTitle />
+      <ItemInfoContainer>
+        <Price></Price>
+        <Time></Time>
+      </ItemInfoContainer>
+    </ItemContainer>
+  );
+};
 
 export default SkeletonMyItemListItem;

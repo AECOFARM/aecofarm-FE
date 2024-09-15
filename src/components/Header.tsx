@@ -1,6 +1,6 @@
 "use client";
-import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
 
 const HeaderContainer = styled.header`
   max-width: 500px;
@@ -14,7 +14,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   z-index: 1000;
   &::before {
     content: "";
@@ -23,7 +23,7 @@ const HeaderContainer = styled.header`
     left: 0;
     width: 100%;
     height: 20px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 `;
 
@@ -44,35 +44,33 @@ const IconContainer = styled.div`
 `;
 
 const Header = () => {
-
   const router = useRouter();
 
   const moveSearchPage = () => {
-    router.push('/search');
+    router.push("/search");
   };
 
   const moveAlarmPage = () => {
-    router.push('/alarm');
-  }
+    router.push("/alarm");
+  };
 
   const moveBorrowPage = () => {
-    router.push('/borrow');
-  }
-  
-    return (
-        <HeaderContainer>
-            <IconContainer onClick={moveSearchPage}>
-                <img src = "/search.svg" alt="search" />
-            </IconContainer>
-            <Logo onClick={moveBorrowPage}>
-                <img src="/aecofarm-logo.svg" alt="logo" />
-            </Logo>
-            <IconContainer onClick={moveAlarmPage}>
-                <img src = "/bell.svg" alt="alarm"/>
-            </IconContainer>
-        </HeaderContainer>
-        
-    );
-}
+    router.push("/borrow");
+  };
+
+  return (
+    <HeaderContainer>
+      <IconContainer onClick={moveSearchPage}>
+        <img src="/search.svg" alt="search" />
+      </IconContainer>
+      <Logo onClick={moveBorrowPage}>
+        <img src="/aecofarm-logo.svg" alt="logo" />
+      </Logo>
+      <IconContainer onClick={moveAlarmPage}>
+        <img src="/bell.svg" alt="alarm" />
+      </IconContainer>
+    </HeaderContainer>
+  );
+};
 
 export default Header;

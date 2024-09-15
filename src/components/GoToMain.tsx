@@ -32,29 +32,32 @@ const IconContainer = styled.div`
 `;
 
 interface Props {
-    text: string;
+  text: string;
 }
 
+const GoToMain: React.FC<Props> = ({ text }) => {
+  const router = useRouter();
 
-const GoToMain: React.FC<Props> = ({text}) => {
+  const handleClick = () => {
+    router.push("/borrow");
+  };
 
-    const router = useRouter();
-  
-    const handleClick = () => {
-      router.push("/borrow");
-    }
-  
-    return (
-      <Wrapper>
-        <CompleteMessageContainer>
-          <IconContainer>
-            <img src = "/complete.svg" alt="complete" />
-          </IconContainer>
-          <p>{text}</p>
-        </CompleteMessageContainer>
-        <ExtendedOrangeButton text="메인으로" onClick={handleClick} checked={true} disabled={false}/>
-      </Wrapper>
-    );
-  }
-  
-  export default GoToMain;
+  return (
+    <Wrapper>
+      <CompleteMessageContainer>
+        <IconContainer>
+          <img src="/complete.svg" alt="complete" />
+        </IconContainer>
+        <p>{text}</p>
+      </CompleteMessageContainer>
+      <ExtendedOrangeButton
+        text="메인으로"
+        onClick={handleClick}
+        checked={true}
+        disabled={false}
+      />
+    </Wrapper>
+  );
+};
+
+export default GoToMain;

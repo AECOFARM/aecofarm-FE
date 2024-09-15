@@ -3,21 +3,20 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 interface PostButtonProps {
-    text: string;
-    onClick?: () => void;
+  text: string;
+  onClick?: () => void;
 }
 
-const PostButton: React.FC<PostButtonProps> = ({text, onClick}) => {
+const PostButton: React.FC<PostButtonProps> = ({ text, onClick }) => {
   const router = useRouter();
 
   return (
     <PostButtonContainer>
-        <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-        <Button onClick={onClick} type="submit">
-          {text}
-        </Button>
-        
-      </PostButtonContainer>
+      <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
+      <Button onClick={onClick} type="submit">
+        {text}
+      </Button>
+    </PostButtonContainer>
   );
 };
 
@@ -45,13 +44,13 @@ const NoticeButton = styled.p`
 `;
 
 const Button = styled.button`
-  background-color: #FF9B3F;
+  background-color: #ff9b3f;
   width: 30%;
   height: 40px;
   font-size: 1rem;
   font-weight: 700;
   border-radius: 15px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   padding: 10px;
   cursor: pointer;

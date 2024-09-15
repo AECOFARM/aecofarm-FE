@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Popup from '@/components/Popup';
-import axios from 'axios';
-import Image from 'next/image';
+import styled from "styled-components";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Popup from "@/components/Popup";
+import axios from "axios";
+import Image from "next/image";
 
 const ProfileContainer = styled.div`
   position: relative;
   width: 85%;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 20px;
   padding: 20px 15px;
   margin: 20px auto;
@@ -65,7 +65,7 @@ const ProfilePointContainer = styled.div`
   }
   .point {
     font-size: 0.7rem;
-    color: #DF5532;
+    color: #df5532;
     font-weight: 500;
   }
 `;
@@ -82,9 +82,10 @@ const ButtonContainer = styled.div`
   right: 0px;
   p {
     font-size: 0.6rem;
-    color: #AAAAAA;
+    color: #aaaaaa;
   }
-  .logout, .edit {
+  .logout,
+  .edit {
     cursor: pointer;
   }
 `;
@@ -96,55 +97,64 @@ interface ProfileProps {
   point: number;
 }
 
-const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) => {
+const MyProfile: React.FC<ProfileProps> = ({
+  userName,
+  email,
+  image,
+  point,
+}) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
   const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
   const profileEdit = () => {
-    router.push('/mypage/edit');
-  }
+    router.push("/mypage/edit");
+  };
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
-      const response = await axios.post('/api/member/logout', {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await axios.post(
+        "/api/member/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
       if (response.data.code === 200) {
         alert(response.data.data); // 로그아웃 성공 메시지
-        localStorage.removeItem('token'); // 로그아웃 시 토큰 삭제
-        router.push('/login'); // 로그인 페이지로 리디렉션
+        localStorage.removeItem("token"); // 로그아웃 시 토큰 삭제
+        router.push("/login"); // 로그인 페이지로 리디렉션
       } else {
-        alert('로그아웃에 실패하였습니다.');
+        alert("로그아웃에 실패하였습니다.");
       }
     } catch (error) {
-      console.error('로그아웃 오류:', error);
-      alert('로그아웃에 실패하였습니다.');
+      console.error("로그아웃 오류:", error);
+      alert("로그아웃에 실패하였습니다.");
     }
   };
 
   return (
     <ProfileContainer>
       <ProfileImageContainer>
-        <Image src={image} alt="profile-img" width={90} height={90} priority/>
+        <Image src={image} alt="profile-img" width={90} height={90} priority />
       </ProfileImageContainer>
       <ProfileContentContainer>
         <ProfileNameContainer>{userName}</ProfileNameContainer>
         <ProfileEmailContainer>
           <p>Email</p>
-          <p className='email'>{email}</p>
+          <p className="email">{email}</p>
         </ProfileEmailContainer>
         <ProfilePointContainer>
           <p>Point</p>
@@ -152,20 +162,24 @@ const MyProfile: React.FC<ProfileProps> = ({ userName, email, image, point }) =>
         </ProfilePointContainer>
       </ProfileContentContainer>
       <ButtonContainer>
-        <p onClick={profileEdit} className='edit'>프로필 수정</p>
+        <p onClick={profileEdit} className="edit">
+          프로필 수정
+        </p>
         <p>|</p>
-        <p onClick={openModal} className='logout'>로그아웃</p>
+        <p onClick={openModal} className="logout">
+          로그아웃
+        </p>
       </ButtonContainer>
-      <Popup 
-        isOpen={isOpen} 
-        onClose={closeModal} 
-        title="로그아웃 하시겠습니까?" 
-        children="" 
-        button1={{ text: "예", onClick: handleLogout }} 
-        button2={{ text: "아니오", onClick: closeModal }} 
+      <Popup
+        isOpen={isOpen}
+        onClose={closeModal}
+        title="로그아웃 하시겠습니까?"
+        children=""
+        button1={{ text: "예", onClick: handleLogout }}
+        button2={{ text: "아니오", onClick: closeModal }}
       />
     </ProfileContainer>
   );
-}
+};
 
 export default MyProfile;

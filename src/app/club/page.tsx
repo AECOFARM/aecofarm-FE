@@ -1,8 +1,8 @@
-"use client"
-import React from "react"
-import styled from "styled-components"
-import { Wrapper } from "@/components/CommonStyles"
-import ClubList from "./components/ClubList"
+"use client";
+import React from "react";
+import styled from "styled-components";
+import { Wrapper } from "@/components/CommonStyles";
+import ClubList from "./components/ClubList";
 
 const Club = () => {
   return (
@@ -11,6 +11,5 @@ const Club = () => {
     </Wrapper>
   );
 };
-
 
 export default Club;

@@ -18,7 +18,7 @@ const ItemImageContainer = styled.div`
   border-radius: 10px;
   overflow: hidden;
   img {
-    width: 100%;
+    width: 100%; 
     height: 100%:
     object-fit: cover;
   }
@@ -102,65 +102,57 @@ const IconContainer = styled.div`
 `;
 
 interface Item {
-    itemName : string;
-    image : string;
-    price : number;
-    itemPlace : string;
-    time : number;
-    contractTime : number;
-    itemHash : string[];
+  itemName: string;
+  image: string;
+  price: number;
+  itemPlace: string;
+  time: number;
+  contractTime: number;
+  itemHash: string[];
 }
 
 interface ItemProps {
-    item: Item;
+  item: Item;
 }
 
-const ItemPreview: React.FC<ItemProps> = ({item}) => {
-  const {
-    itemName,
-    image,
-    price,
-    itemPlace,
-    time,
-    contractTime,
-    itemHash,
-  } = item;
+const ItemPreview: React.FC<ItemProps> = ({ item }) => {
+  const { itemName, image, price, itemPlace, time, contractTime, itemHash } =
+    item;
 
   return (
     <ItemPreviewContainer>
       <ItemImageContainer>
-        <img src ={image || '/img/default-image.png'} />
+        <img src={image || "/img/default-image.png"} />
       </ItemImageContainer>
-        <ItemInfoContainer>
-            <ItemName>{itemName}</ItemName>
-            <ItemHashTags>
-                {itemHash.map((tag, index) => (
-                    <ItemHashTag key={index}>#{tag}</ItemHashTag>
-                ))}
-            </ItemHashTags>
-            <TimeAndPrice>
-                <p>{time}시간</p>
-                <p>|</p>
-                 <p>{price}원</p>
-            </TimeAndPrice>
-            <PlaceAndContract>
-              <ItemPlace>
-                <IconContainer>
-                    <img src = "/img/location-pin.svg" />
-                </IconContainer>
-                <p>{itemPlace}</p>
-              </ItemPlace>
-              <ItemContractTime>
-                <IconContainer>
-                  <img src = "/clock.svg" />
-                </IconContainer>
-                <p>{contractTime}분 이내 거래 가능</p>
-              </ItemContractTime>
-            </PlaceAndContract>
-            
-        </ItemInfoContainer>
+      <ItemInfoContainer>
+        <ItemName>{itemName}</ItemName>
+        <ItemHashTags>
+          {itemHash.map((tag, index) => (
+            <ItemHashTag key={index}>#{tag}</ItemHashTag>
+          ))}
+        </ItemHashTags>
+        <TimeAndPrice>
+          <p>{time}시간</p>
+          <p>|</p>
+          <p>{price}원</p>
+        </TimeAndPrice>
+        <PlaceAndContract>
+          <ItemPlace>
+            <IconContainer>
+              <img src="/img/location-pin.svg" />
+            </IconContainer>
+            <p>{itemPlace}</p>
+          </ItemPlace>
+          <ItemContractTime>
+            <IconContainer>
+              <img src="/clock.svg" />
+            </IconContainer>
+            <p>{contractTime}분 이내 거래 가능</p>
+          </ItemContractTime>
+        </PlaceAndContract>
+      </ItemInfoContainer>
     </ItemPreviewContainer>
   );
-}
+};
 
 export default ItemPreview;
