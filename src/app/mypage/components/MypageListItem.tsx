@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { NextPage } from 'next';
-import Image from 'next/image';
+import styled from "styled-components";
+import { NextPage } from "next";
+import Image from "next/image";
 
 const Container = styled.div`
   display: flex;
@@ -34,11 +34,17 @@ const MypageList: NextPage<Props> = ({ img, text, onClick }) => {
   return (
     <Container onClick={onClick}>
       <IconContainer>
-        <Image src={img} alt="icon" layout="fill" objectFit="contain" priority />
+        <Image
+          src={img}
+          alt="icon"
+          layout="fill"
+          objectFit="contain"
+          priority
+        />
       </IconContainer>
       <TextContainer>{text}</TextContainer>
     </Container>
   );
-}
+};
 
 export default MypageList;

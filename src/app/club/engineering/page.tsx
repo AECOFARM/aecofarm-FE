@@ -1,6 +1,6 @@
-"use client"
-import styled from "styled-components"
-import React from "react"
+"use client";
+import styled from "styled-components";
+import React from "react";
 import { Wrapper, Line } from "@/components/CommonStyles";
 
 const AiDetailPage = () => {
@@ -12,7 +12,12 @@ const AiDetailPage = () => {
           <p>공과대학 학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 공과대학은 혁신적인 공학 교육과 실습을 통해 창의적이고 실용적인 인재를 양성합니다. 공과대학 학생회는 학생들의 학습 효율을 높이기 위해 다양한 공학 기기 및 도구를 대여해드리고 있습니다. 여러분의 학업에 필요한 물품들을 쉽게 대여하여 사용하실 수 있습니다.</p>
+          <p>
+            동국대학교 공과대학은 혁신적인 공학 교육과 실습을 통해 창의적이고
+            실용적인 인재를 양성합니다. 공과대학 학생회는 학생들의 학습 효율을
+            높이기 위해 다양한 공학 기기 및 도구를 대여해드리고 있습니다.
+            여러분의 학업에 필요한 물품들을 쉽게 대여하여 사용하실 수 있습니다.
+          </p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,25 +26,25 @@ const AiDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/공구키트.jpg" />
+              <img src="/img/club/공과대학/공구키트.jpg" />
               <p>공구 키트</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/글루건.jpg" />
+              <img src="/img/club/공과대학/글루건.jpg" />
               <p>글루건</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/아두이노키트.jpg" />
+              <img src="/img/club/공과대학/아두이노키트.jpg" />
               <p>아두이노 키트</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/공과대학/일반물리학실험책.jpg" />
+              <img src="/img/club/공과대학/일반물리학실험책.jpg" />
               <p>일반물리학 실험책</p>
             </ClubProductInfo>
           </ClubProduct>
@@ -80,7 +85,7 @@ const ClubDescriptionContainer = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: var(--gray6);
-    word-break: keep-all
+    word-break: keep-all;
   }
 `;
 

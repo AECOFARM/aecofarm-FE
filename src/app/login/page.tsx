@@ -1,15 +1,15 @@
-'use client';
-import { useState, ChangeEvent } from 'react';
-import styled from 'styled-components';
-import AppLayout from '@/components/layout/MobileLayout';
-import OrangeButton from '@/components/OrangeButton';
-import { useRouter } from 'next/navigation';
-import { setToken } from '@/utils/localStorage'; 
-import { postRequest } from '@/utils/api';
+"use client";
+import { useState, ChangeEvent } from "react";
+import styled from "styled-components";
+import AppLayout from "@/components/layout/MobileLayout";
+import OrangeButton from "@/components/OrangeButton";
+import { useRouter } from "next/navigation";
+import { setToken } from "@/utils/localStorage";
+import { postRequest } from "@/utils/api";
 
 const Wrapper = styled.div`
   margin-top: 150px;
-  width: 100%; 
+  width: 100%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@ const PasswordInputContainer = styled.div`
 
 const PasswordIcon = styled.img`
   position: absolute;
-  right: 15px; 
+  right: 15px;
   width: 23px;
   cursor: pointer;
 `;
@@ -75,13 +75,15 @@ const SignUpButton = styled.button`
 
 const SignUpPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.target.value);
 
   const login = async () => {
     try {
@@ -90,57 +92,66 @@ const SignUpPage = () => {
       if (data.code === 200) {
         const { token } = data.data;
         setToken(token); // 로컬 스토리지에 토큰 저장
-        router.push('/borrow');
+        router.push("/borrow");
       } else {
-        setErrorMessage(data.message || '로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!');
+        setErrorMessage(
+          data.message ||
+            "로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요!"
+        );
       }
     } catch (error) {
-      setErrorMessage('서버와의 연결에 실패했습니다. 나중에 다시 시도해주세요.');
+      setErrorMessage(
+        "서버와의 연결에 실패했습니다. 나중에 다시 시도해주세요."
+      );
     }
   };
 
   const handleClick = () => {
-    router.push('/sign-up');
+    router.push("/sign-up");
   };
 
   const findPassword = () => {
-    router.push('/find-password');
+    router.push("/find-password");
   };
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevVisibility => !prevVisibility);
+    setIsPasswordVisible((prevVisibility) => !prevVisibility);
   };
 
   return (
     <AppLayout>
       <Wrapper>
-        <HeaderLogo src='/img/aeco-logo.svg' alt="Logo" />
+        <HeaderLogo src="/img/aeco-logo.svg" alt="Logo" />
         <ButtonContainer>
-          <Button 
-            type="email" 
-            placeholder="이메일" 
-            value={email} 
-            onChange={handleEmailChange} 
+          <Button
+            type="email"
+            placeholder="이메일"
+            value={email}
+            onChange={handleEmailChange}
           />
           <PasswordInputContainer>
-            <Button 
-              type={isPasswordVisible ? 'text' : 'password'} 
-              placeholder="비밀번호" 
-              value={password} 
-              onChange={handlePasswordChange} 
+            <Button
+              type={isPasswordVisible ? "text" : "password"}
+              placeholder="비밀번호"
+              value={password}
+              onChange={handlePasswordChange}
             />
-            <PasswordIcon 
-              src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'} 
-              alt="Password Icon" 
-              onClick={togglePasswordVisibility} 
+            <PasswordIcon
+              src={
+                isPasswordVisible ? "/img/pw-eye-open.svg" : "/img/pw-eye.svg"
+              }
+              alt="Password Icon"
+              onClick={togglePasswordVisibility}
             />
           </PasswordInputContainer>
-          {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-          <OrangeButton text='로그인' onClick={login} />
+          {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+          <OrangeButton text="로그인" onClick={login} />
           <ExtraButtonContainer>
-            <SignUpButton onClick={handleClick}>회원가입</SignUpButton> 
+            <SignUpButton onClick={handleClick}>회원가입</SignUpButton>
             <span> | </span>
-            <SignUpButton onClick={findPassword}>비밀번호를 잊으셨나요?</SignUpButton>
+            <SignUpButton onClick={findPassword}>
+              비밀번호를 잊으셨나요?
+            </SignUpButton>
           </ExtraButtonContainer>
         </ButtonContainer>
       </Wrapper>

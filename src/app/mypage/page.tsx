@@ -1,6 +1,6 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 import MypageList from "./components/MypageListItem";
 import { useRouter } from "next/navigation";
 import MyItemList from "./components/MyItemList";
@@ -16,7 +16,7 @@ const ListContainer = styled.div`
   margin: 30px;
   padding: 0 10px;
   hr {
-    width : 100%;
+    width: 100%;
     border: 0;
     height: 1px;
     background-color: #686868;
@@ -35,7 +35,7 @@ const RecentlyViewedListContainer = styled.div`
   margin: 20px auto;
   border-radius: 20px;
   hr {
-    width : 100%;
+    width: 100%;
     border: 0;
     height: 1px;
     background-color: #686868;
@@ -68,7 +68,7 @@ const Mypage = () => {
         const profile = response.data.data.profile;
         setMyProfile(profile);
       } catch (err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
+        const errorMessage = (err as Error).message || "Something went wrong";
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -78,16 +78,16 @@ const Mypage = () => {
   }, []);
 
   const heartList = () => {
-    router.push('/heart-list');
+    router.push("/heart-list");
   };
 
   const postList = () => {
-    router.push('/post-list');
+    router.push("/post-list");
   };
 
   const contractList = () => {
-    router.push('/contract-list');
-  }
+    router.push("/contract-list");
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -95,7 +95,7 @@ const Mypage = () => {
   return (
     <MainLayout>
       {myProfile ? (
-        <MyProfile 
+        <MyProfile
           userName={myProfile.userName}
           point={myProfile.point}
           image={myProfile.image}
@@ -104,18 +104,30 @@ const Mypage = () => {
       ) : (
         <div>Profile not found</div>
       )}
-      
+
       <ListContainer>
-        <MypageList img="/heart-list.svg" text="내가 좋아요한 게시물" onClick={heartList}></MypageList>
-        <hr/>
-        <MypageList img="/post-list.svg" text="내가 쓴 게시물" onClick={postList}></MypageList>
-        <hr/>
-        <MypageList img="/contract-list.svg" text="거래 내역 조회" onClick={contractList}></MypageList>
+        <MypageList
+          img="/heart-list.svg"
+          text="내가 좋아요한 게시물"
+          onClick={heartList}
+        ></MypageList>
+        <hr />
+        <MypageList
+          img="/post-list.svg"
+          text="내가 쓴 게시물"
+          onClick={postList}
+        ></MypageList>
+        <hr />
+        <MypageList
+          img="/contract-list.svg"
+          text="거래 내역 조회"
+          onClick={contractList}
+        ></MypageList>
       </ListContainer>
       <RecentlyViewedListContainer>
         <TextContainer>최근 본 대여 물품</TextContainer>
-        <hr/>
-        <MyItemList/>
+        <hr />
+        <MyItemList />
       </RecentlyViewedListContainer>
     </MainLayout>
   );

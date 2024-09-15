@@ -1,8 +1,8 @@
 // components/SearchBar.tsx
-'use client'
+"use client";
 import React, { useState } from "react";
-import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
 
 const SearchContainer = styled.div`
   background-color: white;
@@ -31,7 +31,7 @@ const SearchInput = styled.input`
   font-size: 16px;
   color: var(--gray6);
   flex: 1;
-  background-color:white;
+  background-color: white;
 `;
 
 const SearchButton = styled.button`
@@ -54,7 +54,7 @@ interface SearchBarProps {
   initialData?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ initialData = '' }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ initialData = "" }) => {
   const [query, setQuery] = useState<string>(initialData);
   const router = useRouter();
 
@@ -69,13 +69,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ initialData = '' }) => {
 
   return (
     <SearchContainer>
-      <SearchImg src="/img/search-icon.svg" alt="Search Icon"/>
+      <SearchImg src="/img/search-icon.svg" alt="Search Icon" />
       <SearchForm onSubmit={handleSubmit}>
-        <SearchInput 
-          type="text" 
-          value={query}  
-          onChange={handleInputChange} 
-          placeholder="검색어를 입력하세요" 
+        <SearchInput
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          placeholder="검색어를 입력하세요"
         />
         <SearchButton type="submit">검색</SearchButton>
       </SearchForm>

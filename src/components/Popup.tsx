@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import MintButton from './MintButton';
+import React from "react";
+import styled from "styled-components";
+import MintButton from "./MintButton";
 
 interface PopupProps {
   isOpen: boolean;
@@ -38,8 +38,9 @@ const Content = styled.div`
   width: 90%;
   max-width: 400px;
   margin: 0 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
-              0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 6px 20px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
@@ -74,7 +75,14 @@ const CloseButton = styled.button`
   font-weight: 600;
 `;
 
-const Popup: React.FC<PopupProps> = ({ isOpen, onClose, title, children, button1, button2 }) => {
+const Popup: React.FC<PopupProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  button1,
+  button2,
+}) => {
   if (!isOpen) return null;
 
   return (

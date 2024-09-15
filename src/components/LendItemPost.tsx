@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import SkeletonLendItemPost from './skeleton/SkeletonLendItemPost';
-import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import SkeletonLendItemPost from "./skeleton/SkeletonLendItemPost";
+import Image from "next/image";
 
 const Container = styled.div`
   background-color: white;
@@ -60,7 +60,6 @@ const TimeAndPrice = styled.p`
   color: black;
   font-weight: 400;
   margin-bottom: 5px;
-  
 `;
 
 const HashTags = styled.div`
@@ -107,7 +106,7 @@ interface Post {
 
 interface LendItemPostProps {
   post: Post;
-  buttonVisible?: boolean; 
+  buttonVisible?: boolean;
   onClick?: () => void;
 }
 
@@ -127,35 +126,40 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   const router = useRouter();
   const moveDetail = () => {
     router.push(`/lend-detail/${contractId}`);
-  }
-  const token = localStorage.getItem('token');
+  };
+  const token = localStorage.getItem("token");
 
   const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
   const [loading, setLoading] = useState(true);
 
-  const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
+  const likeIconSrc = likeStatus
+    ? "/img/red-heart.svg"
+    : "/img/empty-heart.svg";
 
   const toggleLikeStatus = async (event: React.MouseEvent) => {
     event.stopPropagation();
     if (likeStatus) {
       const response = await axios.delete(`/api/likes/delete/${contractId}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        data: { itemId: itemId }
+        data: { itemId: itemId },
       });
       console.log(response);
     } else {
-      const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await axios.post(
+        `/api/likes/add/${contractId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
       console.log(response);
     }
-    setLikeStatus(prevStatus => !prevStatus);
+    setLikeStatus((prevStatus) => !prevStatus);
   };
-
 
   useEffect(() => {
     setTimeout(() => {
@@ -164,20 +168,34 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
   }, []);
 
   if (loading) {
-    return <SkeletonLendItemPost />; 
+    return <SkeletonLendItemPost />;
   }
 
   return (
     <Container onClick={moveDetail}>
       <ItemInfo>
         <Title>{itemName}</Title>
-        <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
+        <TimeAndPrice>
+          {time}시간 | {price}P
+        </TimeAndPrice>
         <Place>
           <div>
-            <Image src='/img/location-pin.svg' alt='location pin' width={14} height={14}/> {itemPlace}
+            <Image
+              src="/img/location-pin.svg"
+              alt="location pin"
+              width={14}
+              height={14}
+            />{" "}
+            {itemPlace}
           </div>
           <div>
-            <Image src='/img/clock-icon.svg' alt='clock' width={14} height={14}/> {contractTime}분 이내 거래 희망
+            <Image
+              src="/img/clock-icon.svg"
+              alt="clock"
+              width={14}
+              height={14}
+            />{" "}
+            {contractTime}분 이내 거래 희망
           </div>
         </Place>
         <HashTags>
@@ -186,7 +204,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
           ))}
         </HashTags>
       </ItemInfo>
-      <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+      <LikeIcon src={likeIconSrc} alt="like icon" onClick={toggleLikeStatus} />
     </Container>
   );
 };

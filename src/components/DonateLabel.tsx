@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   width: auto;
@@ -11,22 +11,22 @@ const Container = styled.div`
   padding: 3px 10px;
   position: relative;
   border-radius: 8px;
-  background: #DF5532;
+  background: #df5532;
 `;
 
 const DonateLabelText = styled.p`
   font-size: 0.7rem;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 700;
   white-space: nowrap;
 `;
 
 const DonateLabel = () => {
-    return (
-        <Container>
-            <DonateLabelText>기부</DonateLabelText>
-        </Container>
-    );
-}
-  
+  return (
+    <Container>
+      <DonateLabelText>기부</DonateLabelText>
+    </Container>
+  );
+};
+
 export default DonateLabel;

@@ -1,12 +1,12 @@
-'use client';
-import React, { useState, ChangeEvent } from 'react';
-import styled from 'styled-components';
-import AppLayout from '@/components/layout/MobileLayout';
-import MainLayout from '@/components/layout/MainLayout';
-import NoFixedTopBar from '@/components/NoFixedTopBar';
-import OrangeButton from '@/components/OrangeButton';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+"use client";
+import React, { useState, ChangeEvent } from "react";
+import styled from "styled-components";
+import AppLayout from "@/components/layout/MobileLayout";
+import MainLayout from "@/components/layout/MainLayout";
+import NoFixedTopBar from "@/components/NoFixedTopBar";
+import OrangeButton from "@/components/OrangeButton";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,15 +67,15 @@ const PasswordIcon = styled.img`
 
 const FindPassword: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
-  const [schoolNum, setSchoolNum] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [schoolNum, setSchoolNum] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const handleClick = async () => {
     try {
-      const response = await axios.post('/api/member/update/pw', {
+      const response = await axios.post("/api/member/update/pw", {
         email,
         userName,
         schoolNum: Number(schoolNum),
@@ -83,33 +83,33 @@ const FindPassword: React.FC = () => {
       });
 
       if (response.data.code === 200) {
-        alert('비밀번호 변경에 성공하였습니다!');
-        router.push('/login');
+        alert("비밀번호 변경에 성공하였습니다!");
+        router.push("/login");
       } else {
-        alert('비밀번호 변경에 실패하였습니다. 정보를 다시 확인해주세요.');
+        alert("비밀번호 변경에 실패하였습니다. 정보를 다시 확인해주세요.");
       }
     } catch (error) {
-      console.error('Error occurred while updating password:', error);
-      alert('비밀번호 변경에 실패하였습니다.');
+      console.error("Error occurred while updating password:", error);
+      alert("비밀번호 변경에 실패하였습니다.");
     }
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     switch (name) {
-      case 'userName':
+      case "userName":
         setUserName(value);
         break;
-      case 'email':
+      case "email":
         setEmail(value);
         break;
-      case 'schoolNum':
+      case "schoolNum":
         // 학번 입력 시 숫자만 허용
-        if (/^\d+$/.test(value) || value === '') {
+        if (/^\d+$/.test(value) || value === "") {
           setSchoolNum(value);
         }
         break;
-      case 'password':
+      case "password":
         setPassword(value);
         break;
       default:
@@ -125,48 +125,50 @@ const FindPassword: React.FC = () => {
     <AppLayout>
       <MainLayout>
         <Wrapper>
-          <NoFixedTopBar text='비밀번호 변경' />
+          <NoFixedTopBar text="비밀번호 변경" />
           <TextContainer>
             기존 회원 정보를 입력해주세요! <br />
             <p>모든 정보가 일치하면 비밀번호를 변경할 수 있어요 </p>
           </TextContainer>
           <ButtonContainer>
             <Button
-              type='text'
-              placeholder='이름'
-              name='userName'
+              type="text"
+              placeholder="이름"
+              name="userName"
               value={userName}
               onChange={handleInputChange}
             />
             <Button
-              type='email'
-              placeholder='이메일'
-              name='email'
+              type="email"
+              placeholder="이메일"
+              name="email"
               value={email}
               onChange={handleInputChange}
             />
             <Button
-              type='text'
-              placeholder='학번'
-              name='schoolNum'
+              type="text"
+              placeholder="학번"
+              name="schoolNum"
               value={schoolNum}
               onChange={handleInputChange}
             />
             <PasswordInputContainer>
               <Button
-                type={isPasswordVisible ? 'text' : 'password'}
-                placeholder='새로운 비밀번호'
-                name='password'
+                type={isPasswordVisible ? "text" : "password"}
+                placeholder="새로운 비밀번호"
+                name="password"
                 value={password}
                 onChange={handleInputChange}
               />
               <PasswordIcon
-                src={isPasswordVisible ? '/img/pw-eye-open.svg' : '/img/pw-eye.svg'}
-                alt='Password Icon'
+                src={
+                  isPasswordVisible ? "/img/pw-eye-open.svg" : "/img/pw-eye.svg"
+                }
+                alt="Password Icon"
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>
-            <OrangeButton text='비밀번호 변경' onClick={handleClick} />
+            <OrangeButton text="비밀번호 변경" onClick={handleClick} />
           </ButtonContainer>
         </Wrapper>
       </MainLayout>

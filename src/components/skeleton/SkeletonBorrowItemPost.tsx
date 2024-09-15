@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const SkeletonContainer = styled.div`
   background-color: white;
@@ -57,8 +57,8 @@ const SkeletonPost = () => (
     <SkeletonImage />
     <SkeletonInfo>
       <SkeletonTitle />
-      <SkeletonText style={{ width: '50%' }} />
-      <SkeletonText style={{ width: '70%' }} />
+      <SkeletonText style={{ width: "50%" }} />
+      <SkeletonText style={{ width: "70%" }} />
       <SkeletonTags>
         <SkeletonTag />
         <SkeletonTag />

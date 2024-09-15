@@ -35,8 +35,7 @@ const ListContainer = styled.div`
   margin: 0 auto;
 `;
 
-const ItemContainer = styled.div`
-`;
+const ItemContainer = styled.div``;
 
 const CategoryContainer = styled.div`
   position: fixed;
@@ -79,7 +78,10 @@ interface Data {
 
 const MyItemList: NextPage = () => {
   const categories = ["대여하기", "빌려주기", "기부하기"];
-  const [myHeartList, setMyHeartList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
+  const [myHeartList, setMyHeartList] = useState<Data>({
+    lendingItems: [],
+    borrowingItems: [],
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -106,8 +108,8 @@ const MyItemList: NextPage = () => {
         const response = await api.get(`/likes/list`);
         const data = response.data.data;
         setMyHeartList(data);
-      } catch(err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
+      } catch (err) {
+        const errorMessage = (err as Error).message || "Something went wrong";
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -126,7 +128,8 @@ const MyItemList: NextPage = () => {
     } else if (selectedCategory === "빌려주기") {
       items = myHeartList.lendingItems as Item[]; // Type assertion
     } else if (selectedCategory === "기부하기") {
-      items = myHeartList.borrowingItems.filter((item) => item.price === 0)
+      items = myHeartList.borrowingItems
+        .filter((item) => item.price === 0)
         .map((item) => ({
           ...item,
           type: "borrowing",
@@ -154,7 +157,9 @@ const MyItemList: NextPage = () => {
                   imageHeight={imageSize}
                   imageWidth={imageSize}
                   onClick={() => {
-                    item.type === "lending" ? moveLendDetail(item.contractId) : moveBorrowDetail(item.contractId);
+                    item.type === "lending"
+                      ? moveLendDetail(item.contractId)
+                      : moveBorrowDetail(item.contractId);
                   }}
                 />
               </ItemContainer>
@@ -163,7 +168,7 @@ const MyItemList: NextPage = () => {
         ) : (
           <Empty>아직 좋아요를 누른 게시물이 없습니다.</Empty>
         )}
-        </CategoryItemsContainer>
+      </CategoryItemsContainer>
     </Container>
   );
 };

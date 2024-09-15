@@ -1,15 +1,15 @@
-'use client';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import AppLayout from '@/components/layout/MobileLayout';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
-import MainLayout from '@/components/layout/MainLayout';
-import NoFixedTopBar from '@/components/NoFixedTopBar';
-import Popup from '@/components/Popup'; 
-import SkeletonLendDetail from '@/components/skeleton/SkeletonLendDetail';
+"use client";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import AppLayout from "@/components/layout/MobileLayout";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import MainLayout from "@/components/layout/MainLayout";
+import NoFixedTopBar from "@/components/NoFixedTopBar";
+import Popup from "@/components/Popup";
+import SkeletonLendDetail from "@/components/skeleton/SkeletonLendDetail";
 
 interface ItemDetail {
   contractId: number;
@@ -68,9 +68,9 @@ const Place = styled.div`
   font-size: 17px;
   color: var(--gray6);
   display: flex;
-  
+
   img {
-    margin-right: 2px;  
+    margin-right: 2px;
   }
 
   div {
@@ -126,12 +126,13 @@ const User = styled.div`
   align-items: center;
   gap: 10px;
   color: var(--gray6);
-  
+
   span {
     padding-right: 30px;
   }
 
-  img, span {
+  img,
+  span {
     vertical-align: middle;
   }
 `;
@@ -169,7 +170,7 @@ const DeleteButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-weight: 600;
-  
+
   &:hover {
     background-color: darkred;
   }
@@ -243,9 +244,9 @@ const LendDetailPage = () => {
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showRequestPopup, setShowRequestPopup] = useState(false); 
+  const [showRequestPopup, setShowRequestPopup] = useState(false);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!contractId) {
@@ -254,12 +255,15 @@ const LendDetailPage = () => {
 
     const fetchItemDetail = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/contract/detail/${contractId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/contract/detail/${contractId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         if (response.data.code === 200) {
           const item = response.data.data;
@@ -267,9 +271,9 @@ const LendDetailPage = () => {
           setLikeStatus(item.likeStatus);
         }
       } catch (error) {
-        console.error('Failed to fetch item detail:', error);
+        console.error("Failed to fetch item detail:", error);
       } finally {
-        setLoading(false);  // Set loading to false once the data is fetched
+        setLoading(false); // Set loading to false once the data is fetched
       }
     };
 
@@ -281,20 +285,24 @@ const LendDetailPage = () => {
       if (likeStatus) {
         const response = await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
-          data: { 'itemId': `${itemDetail?.itemId}`} 
+          data: { itemId: `${itemDetail?.itemId}` },
         });
         console.log(response);
       } else {
-        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await axios.post(
+          `/api/likes/add/${contractId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         console.log(response);
-      } 
-      setLikeStatus(prevStatus => !prevStatus);
+      }
+      setLikeStatus((prevStatus) => !prevStatus);
     } catch (error) {
       console.error("An error occurred while toggling like status:", error);
     }
@@ -302,22 +310,25 @@ const LendDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`/api/contract/delete/${contractId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `/api/contract/delete/${contractId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
       if (response.data.code === 200) {
         setShowModal(true);
       } else {
-        console.error('삭제에 실패하였습니다:', response.data.message);
-        alert('삭제에 실패하였습니다.');
+        console.error("삭제에 실패하였습니다:", response.data.message);
+        alert("삭제에 실패하였습니다.");
       }
     } catch (error) {
-      console.error('Failed to delete item:', error);
-      alert('삭제에 실패하였습니다.');
+      console.error("Failed to delete item:", error);
+      alert("삭제에 실패하였습니다.");
     }
   };
 
@@ -327,7 +338,7 @@ const LendDetailPage = () => {
 
   const closeModalAndRedirect = () => {
     setShowModal(false);
-    router.push('/lend');
+    router.push("/lend");
   };
 
   const handleLendRequest = () => {
@@ -340,28 +351,32 @@ const LendDetailPage = () => {
 
   const confirmLendRequest = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.patch(`/api/lend/request/${contractId}`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = localStorage.getItem("token");
+      const response = await axios.patch(
+        `/api/lend/request/${contractId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.data.code === 200) {
-        alert('빌려주기 요청에 성공하였습니다.');
+        alert("빌려주기 요청에 성공하였습니다.");
         closeRequestPopup();
-        router.push('/lend');
+        router.push("/lend");
       } else {
-        alert('빌려주기 요청에 실패하였습니다.');
-        console.error('빌려주기 요청에 실패하였습니다:', response.data.message);
+        alert("빌려주기 요청에 실패하였습니다.");
+        console.error("빌려주기 요청에 실패하였습니다:", response.data.message);
       }
     } catch (error) {
-      alert('빌려주기 요청에 실패하였습니다.');
-      console.error('Failed to send lend request:', error);
+      alert("빌려주기 요청에 실패하였습니다.");
+      console.error("Failed to send lend request:", error);
     }
   };
 
-  if (loading) {  
+  if (loading) {
     return (
       <AppLayout>
         <Header />
@@ -374,7 +389,6 @@ const LendDetailPage = () => {
       </AppLayout>
     );
   }
-
 
   if (!itemDetail) {
     return (
@@ -402,16 +416,18 @@ const LendDetailPage = () => {
     contractTime,
     itemHash,
     donateStatus,
-    owner
+    owner,
   } = itemDetail;
 
-  const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
+  const likeIconSrc = likeStatus
+    ? "/img/red-heart.svg"
+    : "/img/empty-heart.svg";
 
   return (
     <AppLayout>
       <Header />
       <MainLayout>
-        <NoFixedTopBar text='' />
+        <NoFixedTopBar text="" />
         <Container>
           <ItemInfo>
             <TitleContainer>
@@ -419,7 +435,8 @@ const LendDetailPage = () => {
             </TitleContainer>
             <UserContainer>
               <User>
-                <ProfileImg src={userImage}/><span>{userName}</span>
+                <ProfileImg src={userImage} />
+                <span>{userName}</span>
               </User>
               {owner && (
                 <EditDeleteContainer>
@@ -434,24 +451,29 @@ const LendDetailPage = () => {
                 <HashTag key={index}>#{tag}</HashTag>
               ))}
             </HashTags>
-            <TimeAndPrice>{time}시간 대여 희망 | {price}P</TimeAndPrice>
+            <TimeAndPrice>
+              {time}시간 대여 희망 | {price}P
+            </TimeAndPrice>
             <Place>
-              <img src='/img/location-pin.svg' alt='location pin' /> {itemPlace}
+              <img src="/img/location-pin.svg" alt="location pin" /> {itemPlace}
               <div>
-                <img src='/img/clock-icon.svg' alt='clock' /> {contractTime}분 이내 거래 희망
+                <img src="/img/clock-icon.svg" alt="clock" /> {contractTime}분
+                이내 거래 희망
               </div>
             </Place>
           </ItemInfo>
-          <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+          <LikeIcon
+            src={likeIconSrc}
+            alt="like icon"
+            onClick={toggleLikeStatus}
+          />
           {!owner && (
-          <ButtonContainer>
-            <LendButton href={kakao} target="_blank">
-              오픈채팅 바로가기
-            </LendButton>
-            <LendButton onClick={handleLendRequest}>
-              빌려주기
-            </LendButton>
-          </ButtonContainer>
+            <ButtonContainer>
+              <LendButton href={kakao} target="_blank">
+                오픈채팅 바로가기
+              </LendButton>
+              <LendButton onClick={handleLendRequest}>빌려주기</LendButton>
+            </ButtonContainer>
           )}
         </Container>
       </MainLayout>
@@ -470,12 +492,12 @@ const LendDetailPage = () => {
           onClose={closeRequestPopup}
           title="빌려주시겠습니까?"
           button1={{
-            text: '예',
-            onClick: confirmLendRequest
+            text: "예",
+            onClick: confirmLendRequest,
           }}
           button2={{
-            text: '아니오',
-            onClick: closeRequestPopup
+            text: "아니오",
+            onClick: closeRequestPopup,
           }}
         >
           *요청 시 상대방에게 알림이 전송됩니다.

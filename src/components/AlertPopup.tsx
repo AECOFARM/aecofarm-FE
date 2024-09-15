@@ -52,27 +52,33 @@ const CloseButton = styled.div`
 `;
 
 interface PopupProps {
-    isOpen: boolean;
-    onClose: () => void;
-    title: string;
-    content: string;
-    button: string;
-  }
-
-const AlertPopup:React.FC<PopupProps> = ({isOpen, onClose, title, content, button}) => {
-    if (!isOpen) return null;
-
-    return (
-        <Container>
-            <BoxContainer>
-                <Title>{title}</Title>
-                <Content>{content}</Content>
-                <CloseButton onClick={onClose}>
-                    <p>{button}</p>
-                </CloseButton>
-            </BoxContainer>
-        </Container>
-    );
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  content: string;
+  button: string;
 }
+
+const AlertPopup: React.FC<PopupProps> = ({
+  isOpen,
+  onClose,
+  title,
+  content,
+  button,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <Container>
+      <BoxContainer>
+        <Title>{title}</Title>
+        <Content>{content}</Content>
+        <CloseButton onClick={onClose}>
+          <p>{button}</p>
+        </CloseButton>
+      </BoxContainer>
+    </Container>
+  );
+};
 
 export default AlertPopup;

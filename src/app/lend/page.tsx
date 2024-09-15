@@ -1,14 +1,14 @@
 "use client";
 
-import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import SelectBox from './components/SelectBox';
-import AppLayout from '@/components/layout/MobileLayout';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
-import MainLayout from '@/components/layout/MainLayout';
-import LendItemPost from '../../components/LendItemPost';
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import SelectBox from "./components/SelectBox";
+import AppLayout from "@/components/layout/MobileLayout";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import MainLayout from "@/components/layout/MainLayout";
+import LendItemPost from "../../components/LendItemPost";
 
 const ButtonContainer = styled.div`
   position: fixed;
@@ -50,17 +50,16 @@ interface Post {
 const LendPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sortType, setSortType] = useState('NEWEST');
+  const [sortType, setSortType] = useState("NEWEST");
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
-
+      const token = localStorage.getItem("token");
       try {
         const response = await fetch(`/api/lend/list?sortType=${sortType}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         const result = await response.json();
@@ -68,10 +67,10 @@ const LendPage = () => {
         if (response.ok) {
           setPosts(result.data);
         } else {
-          console.error('Error fetching data:', result.message);
+          console.error("Error fetching data:", result.message);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 

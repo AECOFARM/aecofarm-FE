@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   position: relative;
@@ -14,7 +14,7 @@ interface SelectListProps {
 
 const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${props => (props.show ? 'block' : 'none')};
+  display: ${(props) => (props.show ? "block" : "none")};
   position: absolute;
   width: 120px;
   top: 42px;
@@ -68,7 +68,9 @@ const SelectButton = styled.button<SelectButtonProps>`
   overflow: hidden;
   color: black;
   position: relative; /* relative positioning for the arrow */
-  transition: border-color 0.3s, outline 0.3s; /* Smooth transition for border and outline */
+  transition:
+    border-color 0.3s,
+    outline 0.3s; /* Smooth transition for border and outline */
 
   &:hover,
   &:focus {
@@ -77,7 +79,7 @@ const SelectButton = styled.button<SelectButtonProps>`
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     right: 14px; /* Adjust to your padding */
     top: 50%;
@@ -88,13 +90,14 @@ const SelectButton = styled.button<SelectButtonProps>`
   }
 
   /* Rotate the triangle when the options are shown */
-  ${({ $show }) => $show && `
+  ${({ $show }) =>
+    $show &&
+    `
     &::after {
       transform: translateY(-80%) rotate(180deg);
     }
   `}
 `;
-
 
 const OptionList = styled.li`
   padding: 3px 5px;
@@ -107,11 +110,11 @@ interface SelectBoxProps {
 }
 
 const SelectBox: React.FC<SelectBoxProps> = ({ onChange }) => {
-  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [selectedOption, setSelectedOption] = useState("최신순");
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectClick = () => {
-    setShowOptions(prevShowOptions => !prevShowOptions);
+    setShowOptions((prevShowOptions) => !prevShowOptions);
   };
 
   const handleOptionClick = (option: string, sortType: string) => {
@@ -122,18 +125,32 @@ const SelectBox: React.FC<SelectBoxProps> = ({ onChange }) => {
 
   return (
     <Container>
-      <SelectButton className="btn-select" onClick={handleSelectClick} $show={showOptions}>
+      <SelectButton
+        className="btn-select"
+        onClick={handleSelectClick}
+        $show={showOptions}
+      >
         {selectedOption}
       </SelectButton>
       <SelectList className="list-member" show={showOptions}>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('최신순', 'NEWEST')}>최신순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick("최신순", "NEWEST")}>
+            최신순
+          </OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('낮은 가격순', 'PRICE_ASC')}>낮은 가격순</OptionButton>
+          <OptionButton
+            onClick={() => handleOptionClick("낮은 가격순", "PRICE_ASC")}
+          >
+            낮은 가격순
+          </OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('높은 가격순', 'PRICE_DESC')}>높은 가격순</OptionButton>
+          <OptionButton
+            onClick={() => handleOptionClick("높은 가격순", "PRICE_DESC")}
+          >
+            높은 가격순
+          </OptionButton>
         </OptionList>
       </SelectList>
     </Container>

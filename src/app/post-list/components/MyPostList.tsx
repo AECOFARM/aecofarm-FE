@@ -78,12 +78,15 @@ const MyItemList: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("대여하기");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [myPostList, setMyPostList] = useState<Data>({ lendingItems: [], borrowingItems: [] });
+  const [myPostList, setMyPostList] = useState<Data>({
+    lendingItems: [],
+    borrowingItems: [],
+  });
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem('token');
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
       setToken(storedToken);
     }
   }, []);
@@ -101,13 +104,13 @@ const MyItemList: NextPage = () => {
       try {
         const response = await api.get(`/mypage/contract/list`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         const data = response.data.data;
         setMyPostList(data);
       } catch (err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
+        const errorMessage = (err as Error).message || "Something went wrong";
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -130,20 +133,21 @@ const MyItemList: NextPage = () => {
         buttonVisible: false,
       }));
     } else if (selectedCategory === "기부하기") {
-      return myPostList.borrowingItems.filter((item) => item.donateStatus === true)
+      return myPostList.borrowingItems
+        .filter((item) => item.donateStatus === true)
         .map((item) => ({
           ...item,
           type: "borrowing",
           buttonVisible: false,
         }));
-    } 
+    }
     return [];
   }, [selectedCategory, myPostList]);
 
   return (
     <Container>
       <CategoryContainer>
-        <Category 
+        <Category
           selectedCategory={selectedCategory}
           onSelectCategory={handleCategoryChange}
           categories={categories}
@@ -152,13 +156,20 @@ const MyItemList: NextPage = () => {
       <CategoryItemsContainer>
         <PostContainer>
           {filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
+            filteredItems.map((item) =>
               item.type === "lending" ? (
-                <LendItemPost key={item.contractId} post={item as LendingItem} buttonVisible={item.buttonVisible} />
+                <LendItemPost
+                  key={item.contractId}
+                  post={item as LendingItem}
+                  buttonVisible={item.buttonVisible}
+                />
               ) : (
-                <BorrowItemPost key={item.contractId} post={item as BorrowingItem} />
+                <BorrowItemPost
+                  key={item.contractId}
+                  post={item as BorrowingItem}
+                />
               )
-            ))
+            )
           ) : (
             <Empty>아직 작성한 게시물이 없습니다.</Empty>
           )}
@@ -166,6 +177,6 @@ const MyItemList: NextPage = () => {
       </CategoryItemsContainer>
     </Container>
   );
-}
+};
 
 export default MyItemList;

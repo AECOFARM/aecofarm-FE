@@ -1,6 +1,6 @@
-"use client"
-import styled from "styled-components"
-import React from "react"
+"use client";
+import styled from "styled-components";
+import React from "react";
 import { Wrapper, Line } from "@/components/CommonStyles";
 
 const BusinessDetailPage = () => {
@@ -12,7 +12,12 @@ const BusinessDetailPage = () => {
           <p>경영대학 학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 경영대학은 글로벌 리더를 양성하기 위해 체계적인 경영 교육을 제공합니다. 경영대학 학생회는 학우들이 다양한 경영 프로젝트를 성공적으로 수행할 수 있도록 필요한 장비와 자료를 대여하고 있습니다. 필요한 물품을 통해 프로젝트를 더욱 효과적으로 진행해보세요.</p>
+          <p>
+            동국대학교 경영대학은 글로벌 리더를 양성하기 위해 체계적인 경영
+            교육을 제공합니다. 경영대학 학생회는 학우들이 다양한 경영 프로젝트를
+            성공적으로 수행할 수 있도록 필요한 장비와 자료를 대여하고 있습니다.
+            필요한 물품을 통해 프로젝트를 더욱 효과적으로 진행해보세요.
+          </p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,25 +26,25 @@ const BusinessDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/경영대학/구두클리너.jpg" />
+              <img src="/img/club/경영대학/구두클리너.jpg" />
               <p>구두 클리너</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/경영대학/문서집게.jpg" />
+              <img src="/img/club/경영대학/문서집게.jpg" />
               <p>문서 집게</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/경영대학/발표레이저.jpg" />
+              <img src="/img/club/경영대학/발표레이저.jpg" />
               <p>발표 레이저</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/경영대학/A4용지.jpg" />
+              <img src="/img/club/경영대학/A4용지.jpg" />
               <p>A4 용지</p>
             </ClubProductInfo>
           </ClubProduct>
@@ -80,7 +85,7 @@ const ClubDescriptionContainer = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: var(--gray6);
-    word-break: keep-all
+    word-break: keep-all;
   }
 `;
 

@@ -1,22 +1,22 @@
 // utils/api.ts
-import axios from 'axios';
-import { getToken } from './localStorage';
+import axios from "axios";
+import { getToken } from "./localStorage";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, 
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
 api.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   return config;
 });
 
 export const getRequest = async (url: string, headers: object = {}) => {
   const response = await fetch(url, {
-    method: 'GET',
+    method: "GET",
     headers: {
       ...headers,
     },
@@ -26,11 +26,15 @@ export const getRequest = async (url: string, headers: object = {}) => {
   return result;
 };
 
-export const postRequest = async (url: string, data: object, headers: object = {}) => {
+export const postRequest = async (
+  url: string,
+  data: object,
+  headers: object = {}
+) => {
   const response = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...headers,
     },
     body: JSON.stringify(data),
@@ -40,9 +44,13 @@ export const postRequest = async (url: string, data: object, headers: object = {
   return result;
 };
 
-export const patchRequest = async (url: string, data: FormData, headers: object = {}) => {
+export const patchRequest = async (
+  url: string,
+  data: FormData,
+  headers: object = {}
+) => {
   const response = await fetch(url, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
       ...headers,
     },
@@ -55,7 +63,7 @@ export const patchRequest = async (url: string, data: FormData, headers: object 
 
 export const deleteRequest = async (url: string, headers: object = {}) => {
   const response = await fetch(url, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
       ...headers,
     },

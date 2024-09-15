@@ -77,7 +77,10 @@ const MyContractList = () => {
   const categories = ["대여하기", "빌려주기", "기부하기"];
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [contractList, setContractList] = useState<ItemList>({ lendingItems: [], borrowingItems: [] });
+  const [contractList, setContractList] = useState<ItemList>({
+    lendingItems: [],
+    borrowingItems: [],
+  });
 
   const handleCategoryChange = useCallback((category: string) => {
     setSelectedCategory(category);
@@ -91,7 +94,7 @@ const MyContractList = () => {
         const { data } = await api.get("/mypage/contract/complete/list");
         setContractList(data.data);
       } catch (err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
+        const errorMessage = (err as Error).message || "Something went wrong";
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -112,7 +115,8 @@ const MyContractList = () => {
         type: "lending",
       }));
     } else if (selectedCategory === "기부하기") {
-      return contractList.borrowingItems.filter((item) => item.donateStatus === true)
+      return contractList.borrowingItems
+        .filter((item) => item.donateStatus === true)
         .map((item) => ({
           ...item,
           type: "borrowing",
@@ -124,18 +128,26 @@ const MyContractList = () => {
   return (
     <Container>
       <CategoryContainer>
-        <Category selectedCategory={selectedCategory} onSelectCategory={handleCategoryChange} categories={categories} />
+        <Category
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategoryChange}
+          categories={categories}
+        />
       </CategoryContainer>
       <CategoryItemsContainer>
         <ContractContainer>
           {filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
+            filteredItems.map((item) =>
               item.type === "lending" ? (
-                <LendItemPost key={item.contractId} post={item} buttonVisible={true}/>
+                <LendItemPost
+                  key={item.contractId}
+                  post={item}
+                  buttonVisible={true}
+                />
               ) : (
                 <BorrowItemPost key={item.contractId} post={item} />
               )
-            ))
+            )
           ) : (
             <Empty>거래 내역이 없습니다.</Empty>
           )}

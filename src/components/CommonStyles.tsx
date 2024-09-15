@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ export const Line = styled.hr`
   width: 100%;
   height: 0.5px;
   background-color: #999999;
-  border: 0; 
+  border: 0;
 `;
 
 export const PaymentContainer = styled.div`
@@ -44,9 +44,8 @@ export const PaymentContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   .payment {
-    color: #D83752;
+    color: #d83752;
     font-size: 1.2rem;
     font-weight: 600;
   }
 `;
-
