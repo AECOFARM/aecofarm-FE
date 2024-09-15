@@ -1,6 +1,6 @@
-"use client"
-import styled from "styled-components"
-import React from "react"
+"use client";
+import styled from "styled-components";
+import React from "react";
 import { Wrapper, Line } from "@/components/CommonStyles";
 
 const StudentDetailPage = () => {
@@ -12,7 +12,12 @@ const StudentDetailPage = () => {
           <p>동국대학교 총학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 총학생회는 모든 학우들의 목소리를 대변하고 학생들의 복지를 향상시키기 위해 활동합니다. 총학생회는 학우들의 편의를 위해 다양한 물품을 대여하는 사업을 운영하고 있습니다. 여러분의 학업과 일상에 필요한 물품들을 손쉽게 빌려 사용하실 수 있습니다.</p>
+          <p>
+            동국대학교 총학생회는 모든 학우들의 목소리를 대변하고 학생들의
+            복지를 향상시키기 위해 활동합니다. 총학생회는 학우들의 편의를 위해
+            다양한 물품을 대여하는 사업을 운영하고 있습니다. 여러분의 학업과
+            일상에 필요한 물품들을 손쉽게 빌려 사용하실 수 있습니다.
+          </p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -21,25 +26,25 @@ const StudentDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/총학생회/노트북거치대.jpg" />
+              <img src="/img/club/총학생회/노트북거치대.jpg" />
               <p>노트북 거치대</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/총학생회/우산.jpg" />
+              <img src="/img/club/총학생회/우산.jpg" />
               <p>우산</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/총학생회/일회용치약.jpg" />
+              <img src="/img/club/총학생회/일회용치약.jpg" />
               <p>일회용 치약</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/club/총학생회/축구공.jpg" />
+              <img src="/img/club/총학생회/축구공.jpg" />
               <p>축구공</p>
             </ClubProductInfo>
           </ClubProduct>
@@ -80,7 +85,7 @@ const ClubDescriptionContainer = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: var(--gray6);
-    word-break: keep-all
+    word-break: keep-all;
   }
 `;
 

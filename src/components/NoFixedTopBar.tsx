@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { NextPage } from 'next';
+import styled from "styled-components";
+import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 
 const Header = styled.div`
@@ -32,7 +32,7 @@ const IconContainer = styled.div`
 `;
 
 interface Props {
-    text: string;
+  text: string;
 }
 
 const NoFixedTopBar: NextPage<Props> = ({ text }) => {
@@ -42,14 +42,14 @@ const NoFixedTopBar: NextPage<Props> = ({ text }) => {
     router.back();
   };
 
-    return(
-        <Header>
-            <p>{text}</p>
-            <IconContainer onClick={handleBack}>
-                <img src = "/back.svg" alt = "back" />
-            </IconContainer>
-        </Header>
-    );
+  return (
+    <Header>
+      <p>{text}</p>
+      <IconContainer onClick={handleBack}>
+        <img src="/back.svg" alt="back" />
+      </IconContainer>
+    </Header>
+  );
 };
 
 export default NoFixedTopBar;

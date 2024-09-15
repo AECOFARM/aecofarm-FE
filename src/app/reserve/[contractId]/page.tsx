@@ -1,10 +1,16 @@
-"use client"
+"use client";
 import React from "react";
-import {useRouter, useParams} from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import ItemPreview from "@/components/ItemPreview";
 import Agreement from "@/components/Agreement";
 import ExtendedOrangeButton from "@/components/ExtendedOrangeButton";
-import { Wrapper, Container, Title, Line, PaymentContainer } from "@/components/CommonStyles";
+import {
+  Wrapper,
+  Container,
+  Title,
+  Line,
+  PaymentContainer,
+} from "@/components/CommonStyles";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -22,48 +28,55 @@ const Reserve = () => {
   const { contractId } = useParams();
   const [checkStatus, setCheckStatus] = useState(false);
   const [itemDetail, setItemDetail] = useState<ItemDetail>();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleRequest = async () => {
     if (!token) {
-      console.error('No token found in localStorage');
+      console.error("No token found in localStorage");
       return;
     }
     try {
-      const response = await axios.patch(`/api/borrow/request/${contractId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await axios.patch(
+        `/api/borrow/request/${contractId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
       if (response.data.code === 200) {
-        router.push('/reserve/complete');
+        router.push("/reserve/complete");
       } else {
-        alert(response.data.message || '대여 요청에 실패하였습니다.');
+        alert(response.data.message || "대여 요청에 실패하였습니다.");
       }
     } catch (error) {
-      console.error('Failed to request item:', error);
-      alert('대여 요청에 실패하였습니다.');
+      console.error("Failed to request item:", error);
+      alert("대여 요청에 실패하였습니다.");
     }
   };
 
   useEffect(() => {
-    const fetchItemDetail = async() => {
+    const fetchItemDetail = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`/api/contract/get/reserve/${contractId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await axios.get(
+          `/api/contract/get/reserve/${contractId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         const data = response.data.data;
         setItemDetail(data);
-      } catch(err) {
-        const errorMessage = (err as Error).message || 'Something went wrong';
+      } catch (err) {
+        const errorMessage = (err as Error).message || "Something went wrong";
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -85,14 +98,14 @@ const Reserve = () => {
           <p className="payment">{itemDetail?.price} P</p>
         </PaymentContainer>
       </Container>
-      <ExtendedOrangeButton 
-        text = "예약하기" 
-        onClick={handleRequest} 
+      <ExtendedOrangeButton
+        text="예약하기"
+        onClick={handleRequest}
         checked={checkStatus}
-        disabled={!checkStatus} 
+        disabled={!checkStatus}
       />
     </Wrapper>
   );
-}
+};
 
 export default Reserve;

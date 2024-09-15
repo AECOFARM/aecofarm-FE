@@ -35,16 +35,16 @@ const ClubName = styled.p`
   color: var(--black);
 `;
 
-const ClubListItem: React.FC<Props> = ({club}) => {
+const ClubListItem: React.FC<Props> = ({ club }) => {
   const router = useRouter();
 
   const moveDetail = () => {
     router.push(`club/${club.move}`);
-  }
+  };
 
   return (
     <Container onClick={moveDetail}>
-      <ImageContainer src = {club.image} />
+      <ImageContainer src={club.image} />
       <ClubName>{club.clubName}</ClubName>
     </Container>
   );

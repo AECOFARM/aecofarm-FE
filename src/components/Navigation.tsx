@@ -1,7 +1,7 @@
 "use client";
-import styled from 'styled-components';
-import Link from 'next/link';
-import AppLayout from './layout/MobileLayout';
+import styled from "styled-components";
+import Link from "next/link";
+import AppLayout from "./layout/MobileLayout";
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -37,24 +37,24 @@ const Navigation = () => {
       <HeaderContainer>
         <NavContainer>
           <Link href="/borrow" passHref>
-            <NavItem src='/img/borrow-icon.svg' alt='lend'/>
+            <NavItem src="/img/borrow-icon.svg" alt="lend" />
           </Link>
           <Link href="/lend" passHref>
-            <NavItem src='/img/lend-icon.svg' alt='borrow'/>
+            <NavItem src="/img/lend-icon.svg" alt="borrow" />
           </Link>
           <Link href="/post" passHref>
-            <NavItem src='/img/post-icon.svg' alt='post'/>
+            <NavItem src="/img/post-icon.svg" alt="post" />
           </Link>
           <Link href="/club" passHref>
-            <NavItem src='/img/club-icon.svg' alt='club'/>
+            <NavItem src="/img/club-icon.svg" alt="club" />
           </Link>
           <Link href="/mypage" passHref>
-            <NavItem src='/img/profile-icon.svg' alt='profile'/>
+            <NavItem src="/img/profile-icon.svg" alt="profile" />
           </Link>
         </NavContainer>
       </HeaderContainer>
     </AppLayout>
   );
-}
+};
 
 export default Navigation;

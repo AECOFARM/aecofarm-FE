@@ -6,8 +6,8 @@ const InputContainer = styled.div`
   width: 100%;
 `;
 
-const Input = styled.input.attrs(props => ({
-  required: props.required
+const Input = styled.input.attrs((props) => ({
+  required: props.required,
 }))`
   width: 100%;
   height: 60px;
@@ -26,7 +26,8 @@ const Input = styled.input.attrs(props => ({
     outline: none;
   }
 
-  &:focus + label, &:valid + label {
+  &:focus + label,
+  &:valid + label {
     font-size: 0.8rem;
     top: -5px;
     color: var(--gray6);
@@ -63,7 +64,6 @@ const ExampleLabel = styled.label`
   top: 20px;
 `;
 
-
 interface TextInputProps {
   placeholder: string;
   value: string;
@@ -74,13 +74,21 @@ interface TextInputProps {
   label?: string;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, name, type, required, label }) => {
+const TextInput: React.FC<TextInputProps> = ({
+  placeholder,
+  value,
+  onChange,
+  name,
+  type,
+  required,
+  label,
+}) => {
   const textInputRef = useRef<HTMLInputElement>(null);
   const handleTextInput = () => {
-    if(textInputRef.current) {
+    if (textInputRef.current) {
       textInputRef.current.focus();
     }
-  }
+  };
 
   const handleWheel = (event: React.WheelEvent<HTMLInputElement>) => {
     if (type === "number") {
@@ -90,8 +98,18 @@ const TextInput: React.FC<TextInputProps> = ({ placeholder, value, onChange, nam
 
   return (
     <InputContainer>
-      <Input value={value} onChange={onChange} name={name} ref={textInputRef} type={type} required={required} onWheel={handleWheel}/>
-      <InputLabel htmlFor={value} onClick={handleTextInput}>{placeholder}</InputLabel>
+      <Input
+        value={value}
+        onChange={onChange}
+        name={name}
+        ref={textInputRef}
+        type={type}
+        required={required}
+        onWheel={handleWheel}
+      />
+      <InputLabel htmlFor={value} onClick={handleTextInput}>
+        {placeholder}
+      </InputLabel>
       <ExampleLabel>{label}</ExampleLabel>
     </InputContainer>
   );

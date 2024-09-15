@@ -6,11 +6,7 @@ const PageContainer = styled.div`
 `;
 
 const MainLayout = (props: { children: React.ReactNode }) => {
-    return (
-      <PageContainer>
-        {props.children}
-      </PageContainer>
-    );
+  return <PageContainer>{props.children}</PageContainer>;
 };
 
 export default MainLayout;

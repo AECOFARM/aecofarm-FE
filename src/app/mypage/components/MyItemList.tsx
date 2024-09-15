@@ -30,51 +30,55 @@ interface Item {
 }
 
 const MyItemList = () => {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const token = localStorage.getItem('token');
-    const [itemList, setItemList] = useState<Item[]>([]);
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const token = localStorage.getItem("token");
+  const [itemList, setItemList] = useState<Item[]>([]);
 
   const moveDetail = (contractId: number) => {
     router.push(`/borrow-detail/${contractId}`);
-  }
+  };
 
-    useEffect(() => {
-        const fetchHistory = async () => {
-            setError(null);
-            setLoading(true);
-            try {
-              const response = await axios.get(`/api/mypage/get`, {
-                headers: {
-                  'Authorization': `Bearer ${token}`
-                }
-              });
-              const history = response.data.data.history;
-              setItemList(history);
-            } catch (err) {
-              const errorMessage = (err as Error).message || 'Something went wrong';
-              setError(errorMessage);
-            } finally {
-              setLoading(false);
-            }
-          };
-          fetchHistory();
-    }, [token])
+  useEffect(() => {
+    const fetchHistory = async () => {
+      setError(null);
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/mypage/get`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const history = response.data.data.history;
+        setItemList(history);
+      } catch (err) {
+        const errorMessage = (err as Error).message || "Something went wrong";
+        setError(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHistory();
+  }, [token]);
 
-    return (
-        <Container>
-          {itemList.length > 0 ? (
-            itemList.map((item) => (
-              <MyItemListItem 
-                  key={item.contractId} item={item} imageHeight={100} imageWidth={100} onClick={() => moveDetail(item.contractId)}
-              />
-            ))
-          ) : (
-            <Empty>최근 본 물품이 없습니다.</Empty>
-          )}
-        </Container>
-    );
-}
+  return (
+    <Container>
+      {itemList.length > 0 ? (
+        itemList.map((item) => (
+          <MyItemListItem
+            key={item.contractId}
+            item={item}
+            imageHeight={100}
+            imageWidth={100}
+            onClick={() => moveDetail(item.contractId)}
+          />
+        ))
+      ) : (
+        <Empty>최근 본 물품이 없습니다.</Empty>
+      )}
+    </Container>
+  );
+};
 
 export default MyItemList;

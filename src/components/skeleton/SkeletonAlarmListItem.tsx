@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import styled from "styled-components";
 
@@ -77,26 +77,25 @@ const AlarmItemImage = styled.div`
 `;
 
 const SkeletonAlarmListItem = () => {
-    
-    return (
-        <Container>
-        <IconContainer>
-            <Icon/>
-        </IconContainer>
-        <AlarmContentContainer>
-            <AlarmTitleContainer>
-            <AlarmTitle />
-            <AlarmTime />
-            </AlarmTitleContainer>
-            <AlarmContent>
-                <Content />
-                <Content />
-                <Content />
-            </AlarmContent>
-        </AlarmContentContainer>
-        <AlarmItemImage/>
-        </Container>
-    );
-}
+  return (
+    <Container>
+      <IconContainer>
+        <Icon />
+      </IconContainer>
+      <AlarmContentContainer>
+        <AlarmTitleContainer>
+          <AlarmTitle />
+          <AlarmTime />
+        </AlarmTitleContainer>
+        <AlarmContent>
+          <Content />
+          <Content />
+          <Content />
+        </AlarmContent>
+      </AlarmContentContainer>
+      <AlarmItemImage />
+    </Container>
+  );
+};
 
 export default SkeletonAlarmListItem;

@@ -1,6 +1,6 @@
-"use client"
-import styled from "styled-components"
-import React from "react"
+"use client";
+import styled from "styled-components";
+import React from "react";
 import { Wrapper, Line } from "@/components/CommonStyles";
 
 const AiDetailPage = () => {
@@ -12,8 +12,11 @@ const AiDetailPage = () => {
           <p>AI융합대학 학생회</p>
         </ClubProfileContainer>
         <ClubDescriptionContainer>
-          <p>동국대학교 AI융합대학 소속 학우들을 위해 다양한 물품을 대여할 수 있도록 마련하였습니다. 
-            학생회는 앞으로도 여러분의 편의 증진을 위해 노력하겠습니다.</p>
+          <p>
+            동국대학교 AI융합대학 소속 학우들을 위해 다양한 물품을 대여할 수
+            있도록 마련하였습니다. 학생회는 앞으로도 여러분의 편의 증진을 위해
+            노력하겠습니다.
+          </p>
         </ClubDescriptionContainer>
         <Line />
       </ClubInfoContainer>
@@ -22,13 +25,13 @@ const AiDetailPage = () => {
         <ClubProducts>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/product-image1.png" />
+              <img src="/img/product-image1.png" />
               <p>로지텍 키보드</p>
             </ClubProductInfo>
           </ClubProduct>
           <ClubProduct>
             <ClubProductInfo>
-              <img src = "/img/product-image2.png" />
+              <img src="/img/product-image2.png" />
               <p>무선 마우스</p>
             </ClubProductInfo>
           </ClubProduct>
@@ -69,7 +72,7 @@ const ClubDescriptionContainer = styled.div`
     font-size: 1rem;
     font-weight: 500;
     color: var(--gray6);
-    word-break: keep-all
+    word-break: keep-all;
   }
 `;
 

@@ -1,8 +1,9 @@
-'use client'
-import styled from 'styled-components';
+"use client";
+
+import styled from "styled-components";
 import AppLayout from "@/components/layout/MobileLayout";
-import OrangeButton from '@/components/OrangeButton';
-import { useRouter } from 'next/navigation';
+import OrangeButton from "@/components/OrangeButton";
+import { useRouter } from "next/navigation";
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,14 +28,12 @@ const IntroText = styled.div`
   color: var(--gray5);
 `;
 
-const ImageContainer = styled.div`
-
-`;
+const ImageContainer = styled.div``;
 
 const ImageBackGround = styled.div`
   width: 330px;
   height: 330px;
-  background-color: var(--orange0);
+  background-color: ${({ theme }) => theme.colors.orange0};
   border-radius: 50%;
   z-index: 0;
 `;
@@ -57,13 +56,11 @@ const ButtonContainer = styled.div`
   padding: 0 40px 0 60px;
 `;
 
-
 const IntroPage = () => {
-
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
@@ -71,26 +68,24 @@ const IntroPage = () => {
       <Wrapper>
         <HeadContainer>
           <IntroHeading>
-            대학생을 위한 <br/>   
-            또 하나의 보물 창고
+            대학생을 위한 <br />또 하나의 보물 창고
           </IntroHeading>
-        
+
           <IntroText>
-            아코팜에서 필요한 물품을 <br/>
+            아코팜에서 필요한 물품을 <br />
             함께 공유해보세요!
           </IntroText>
         </HeadContainer>
 
         <ImageContainer>
-          <ImageBackGround/>
+          <ImageBackGround />
           <IntroImage src="/img/intro.svg" alt="Intro" />
         </ImageContainer>
-        
+
         <ButtonContainer>
-          <OrangeButton text='시작하기' onClick={handleClick}/>
+          <OrangeButton text="시작하기" onClick={handleClick} />
         </ButtonContainer>
       </Wrapper>
-
     </AppLayout>
   );
 };
