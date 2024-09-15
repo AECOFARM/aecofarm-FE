@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Popup from "@/components/Popup";
@@ -92,7 +92,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
   const openModal = () => {
@@ -105,22 +105,24 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
 
   const handleRequest = async (bool: boolean) => {
     if (!token) {
-      alert('토큰이 유효하지 않습니다. 다시 로그인해주세요.');
+      alert("토큰이 유효하지 않습니다. 다시 로그인해주세요.");
       return;
     }
     try {
-      const response = await axios.patch('/api/borrow/success', 
-        { success: bool, contractId: alarm.contractId }, {
+      const response = await axios.patch(
+        "/api/borrow/success",
+        { success: bool, contractId: alarm.contractId },
+        {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       let message = bool ? "승인 완료!" : "거절 완료!";
       alert(message);
     } catch (err: any) {
       console.log(err.message);
-      alert('요청 처리 중 오류가 발생했습니다.');
+      alert("요청 처리 중 오류가 발생했습니다.");
     } finally {
       closeModal();
     }
@@ -139,7 +141,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
         content = `${alarm.userName}님에게 ${alarm.itemName} 상품 빌려주기 요청을 보냈습니다.`;
         onClick = () => {
           router.push(`/lend-detail/${alarm.contractId}`);
-        }
+        };
       } else if (alarm.memberStatus === "BORROW") {
         content = `${alarm.userName}님에게서 ${alarm.itemName} 상품의 빌려주기 요청이 왔습니다. 결제를 진행하세요!`;
         onClick = () => {
@@ -169,7 +171,7 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
         content = `${alarm.userName}님으로부터 ${alarm.itemName} 상품 예약 요청이 왔습니다. 예약 내역을 확인하세요.`;
         onClick = () => {
           openModal();
-        }
+        };
       } else if (alarm.memberStatus === "BORROW") {
         content = `${alarm.userName}님에게 ${alarm.itemName} 상품 예약 요청을 완료하였습니다.`;
         onClick = () => {
@@ -223,17 +225,19 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
 
   const approveButton = {
     text: "승인",
-    onClick: () => handleRequest(true)
-  }
+    onClick: () => handleRequest(true),
+  };
   const rejectButton = {
     text: "거절",
-    onClick: () => handleRequest(false)
-  }
+    onClick: () => handleRequest(false),
+  };
   const modalContent = (
     <ContentContainer>
       <AlarmTitle>{alarm.itemName}</AlarmTitle>
       <AlarmItemImage src={alarm.image || "/img/default-image.png"} />
-      <AlarmContent>{alarm.userName}님의 [{alarm.itemName}] 상품 예약</AlarmContent>
+      <AlarmContent>
+        {alarm.userName}님의 [{alarm.itemName}] 상품 예약
+      </AlarmContent>
       <AlarmTime>{formattedTime}</AlarmTime>
     </ContentContainer>
   );
@@ -241,11 +245,11 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000); 
+    }, 1000);
   }, []);
 
   if (loading) {
-    return <SkeletonAlarmListItem />; 
+    return <SkeletonAlarmListItem />;
   }
 
   return (
@@ -255,21 +259,22 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
       </IconContainer>
       <AlarmContentContainer>
         <AlarmTitleContainer>
-          <AlarmTitle>
-            {title}
-          </AlarmTitle>
-          <AlarmTime>
-            {formattedTime}
-          </AlarmTime>
+          <AlarmTitle>{title}</AlarmTitle>
+          <AlarmTime>{formattedTime}</AlarmTime>
         </AlarmTitleContainer>
-        <AlarmContent>
-          {content}
-        </AlarmContent>
+        <AlarmContent>{content}</AlarmContent>
       </AlarmContentContainer>
       {alarm.image && <AlarmItemImage src={alarm.image} />}
-      <Popup isOpen={isOpen} onClose={closeModal} title="예약 내역" children={modalContent} button1={approveButton} button2={rejectButton} />
+      <Popup
+        isOpen={isOpen}
+        onClose={closeModal}
+        title="예약 내역"
+        children={modalContent}
+        button1={approveButton}
+        button2={rejectButton}
+      />
     </Container>
   );
-}
+};
 
 export default AlarmListItem;
