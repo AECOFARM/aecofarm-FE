@@ -9,6 +9,9 @@ export default [
       parser: tsParser,
       ecmaVersion: "latest",
       sourceType: "module",
+      parserOptions: {
+        project: "./tsconfig.json", // Add this line
+      },
     },
     plugins: {
       react: reactPlugin,
@@ -16,18 +19,22 @@ export default [
     },
     settings: {
       react: {
-        version: "detect", // React 버전 자동 감지
+        version: "detect",
       },
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // React 17 이상에서 'React' import 생략 허용
-      "@typescript-eslint/no-explicit-any": "warn", // 'any' 사용 경고로 변경
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { argsIgnorePattern: "^_" },
-      ], // 사용되지 않는 변수 경고로 처리
+      ],
+      "@typescript-eslint/explicit-module-boundary-types": "warn",
+      "@typescript-eslint/explicit-function-return-type": "warn",
+      "@typescript-eslint/no-floating-promises": "warn",
+      "@typescript-eslint/strict-boolean-expressions": "warn",
     },
   },
 ];
