@@ -1,16 +1,16 @@
 "use client";
 
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import SelectBox from './components/SelectBox';
-import AppLayout from '@/components/layout/MobileLayout';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
-import MainLayout from '@/components/layout/MainLayout';
-import BorrowItemPost from '../../components/BorrowItemPost'; 
-import SeeDonate from './components/SeeDonate';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import SelectBox from "./components/SelectBox";
+import AppLayout from "@/components/layout/MobileLayout";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import MainLayout from "@/components/layout/MainLayout";
+import BorrowItemPost from "../../components/BorrowItemPost";
+import SeeDonate from "./components/SeeDonate";
 
 interface Post {
   contractId: number;
@@ -53,70 +53,74 @@ const PostContainer = styled.div`
 const BorrowPage = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sortType, setSortType] = useState('NEWEST');
+  const [sortType, setSortType] = useState("NEWEST");
   const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
 
   const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const contractId = Number((e.currentTarget as HTMLDivElement).dataset.contractId);
+    const contractId = Number(
+      (e.currentTarget as HTMLDivElement).dataset.contractId
+    );
     if (contractId) {
       router.push(`/borrow-detail/${contractId}`);
     }
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        console.error('No token found');
+        console.error("No token found");
         return;
       }
 
       try {
-        const response = await axios.get('/api/borrow/list', {
+        const response = await axios.get("/api/borrow/list", {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           params: {
-            sortType: sortType
-          }
+            sortType: sortType,
+          },
         });
 
         if (response.data.code === 200) {
           let fetchedPosts = response.data.data;
           if (seeDonateStatus) {
-            fetchedPosts = fetchedPosts.filter((post: Post) => post.price === 0); 
+            fetchedPosts = fetchedPosts.filter(
+              (post: Post) => post.price === 0
+            );
           }
           setPosts(fetchedPosts);
         } else {
-          console.error('Failed to fetch data:', response.data.message);
+          console.error("Failed to fetch data:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [sortType, seeDonateStatus]); 
+  }, [sortType, seeDonateStatus]);
 
   return (
     <AppLayout>
-      <Header/>
+      <Header />
       <MainLayout>
         <ButtonContainer>
-          <SelectBox setSortType={setSortType}/>
-          <SeeDonate setSeeDonateStatus={setSeeDonateStatus}/>
+          <SelectBox setSortType={setSortType} />
+          <SeeDonate setSeeDonateStatus={setSeeDonateStatus} />
         </ButtonContainer>
         <PostContainer>
-        {posts.map((post) => (
-          <BorrowItemPost
-            key={post.contractId}
-            post={post}
-            onClick={moveDetail}
-          />
-        ))}
-      </PostContainer>
+          {posts.map((post) => (
+            <BorrowItemPost
+              key={post.contractId}
+              post={post}
+              onClick={moveDetail}
+            />
+          ))}
+        </PostContainer>
       </MainLayout>
-      <Navigation/>
+      <Navigation />
     </AppLayout>
   );
 };

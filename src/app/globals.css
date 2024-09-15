@@ -39,27 +39,26 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 
+  --orange0: #fbe1ba;
+  --orange1: #ff932f;
+  --orange2: #ff792e;
+  --orange3: #df5532;
 
-  --orange0: #FBE1BA;
-  --orange1: #FF932F;
-  --orange2: #FF792E;
-  --orange3: #DF5532;
+  --red: #f83600;
+  --mint: #9ed2be;
+  --blue: #2c67ff;
 
-  --red: #F83600;
-  --mint: #9ED2BE;
-  --blue: #2C67FF;
-
-  --gray1: #F7F7F7;
-  --gray2: #F4F4F4;
-  --gray3: #DBDBDB;
-  --gray4: #B0B0B0;
+  --gray1: #f7f7f7;
+  --gray2: #f4f4f4;
+  --gray3: #dbdbdb;
+  --gray4: #b0b0b0;
   --gray5: #878787;
-  --gray6: #5A5A5A;
+  --gray6: #5a5a5a;
   --gray7: #393939;
   --gray8: #202020;
   --gray9: #121212;
 
-  --white: #FFFFFF;
+  --white: #ffffff;
   --black: #000000;
 }
 

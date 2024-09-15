@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   position: relative;
@@ -27,8 +26,8 @@ const SelectButton = styled.button`
 
   &:hover,
   &:focus {
-    border: 1px solid #FF9B3F;
-    outline: 3px solid #FFD9B7;
+    border: 1px solid #ff9b3f;
+    outline: 3px solid #ffd9b7;
   }
 `;
 
@@ -38,7 +37,7 @@ interface SelectListProps {
 
 const SelectList = styled.ul<SelectListProps>`
   list-style-type: none;
-  display: ${(props) => (props.show ? 'block' : 'none')};
+  display: ${(props) => (props.show ? "block" : "none")};
   position: absolute;
   width: 120px;
   top: 42px;
@@ -68,7 +67,7 @@ const OptionButton = styled.button`
 
   &:hover,
   &:focus {
-    background-color: #FFD9B7;
+    background-color: #ffd9b7;
   }
 `;
 
@@ -79,7 +78,7 @@ const OptionList = styled.li`
 `;
 
 const SelectBox = () => {
-  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [selectedOption, setSelectedOption] = useState("최신순");
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectClick = () => {
@@ -98,13 +97,19 @@ const SelectBox = () => {
       </SelectButton>
       <SelectList className="list-member" show={showOptions}>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('최신순')}>최신순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick("최신순")}>
+            최신순
+          </OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('낮은 가격순')}>낮은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick("낮은 가격순")}>
+            낮은 가격순
+          </OptionButton>
         </OptionList>
         <OptionList>
-          <OptionButton onClick={() => handleOptionClick('높은 가격순')}>높은 가격순</OptionButton>
+          <OptionButton onClick={() => handleOptionClick("높은 가격순")}>
+            높은 가격순
+          </OptionButton>
         </OptionList>
       </SelectList>
     </Container>

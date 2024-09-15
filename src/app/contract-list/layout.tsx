@@ -1,10 +1,10 @@
-"use client"
-import Header from '@/components/Header';
+"use client";
+import Header from "@/components/Header";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import Navigation from '@/components/Navigation';
-import AppLayout from '@/components/layout/MobileLayout';
-import TopBar from '@/components/TopBar';
+import Navigation from "@/components/Navigation";
+import AppLayout from "@/components/layout/MobileLayout";
+import TopBar from "@/components/TopBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
         <AppLayout>
           <Header />
           <TopBar text="거래 내역 조회" />
-            {children}
+          {children}
           <Navigation />
         </AppLayout>
       </body>
