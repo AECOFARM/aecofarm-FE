@@ -1,4 +1,4 @@
-export interface Post {
+export interface LendPost {
   contractId: number;
   itemId: number;
   itemName: string;
@@ -11,8 +11,6 @@ export interface Post {
   donateStatus: boolean;
 }
 
-export interface BorrowPost extends Post {
+export interface BorrowPost extends LendPost {
   itemImage: string;
 }
-
-export interface LendPost extends Post {}

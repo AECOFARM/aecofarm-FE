@@ -174,7 +174,6 @@ const MyProfile: React.FC<ProfileProps> = ({
         isOpen={isOpen}
         onClose={closeModal}
         title="로그아웃 하시겠습니까?"
-        children=""
         button1={{ text: "예", onClick: handleLogout }}
         button2={{ text: "아니오", onClick: closeModal }}
       />

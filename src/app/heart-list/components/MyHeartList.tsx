@@ -157,9 +157,11 @@ const MyItemList: NextPage = () => {
                   imageHeight={imageSize}
                   imageWidth={imageSize}
                   onClick={() => {
-                    item.type === "lending"
-                      ? moveLendDetail(item.contractId)
-                      : moveBorrowDetail(item.contractId);
+                    if (item.type === "lending") {
+                      moveLendDetail(item.contractId);
+                    } else {
+                      moveBorrowDetail(item.contractId);
+                    }
                   }}
                 />
               </ItemContainer>
