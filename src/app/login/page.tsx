@@ -86,6 +86,8 @@ const SignUpPage = () => {
     setPassword(e.target.value);
 
   const login = async () => {
+    router.push("/borrow");
+    /* 
     try {
       const data = await postRequest(`/api/member/login`, { email, password });
 
@@ -104,6 +106,7 @@ const SignUpPage = () => {
         "서버와의 연결에 실패했습니다. 나중에 다시 시도해주세요."
       );
     }
+      */
   };
 
   const handleClick = () => {
