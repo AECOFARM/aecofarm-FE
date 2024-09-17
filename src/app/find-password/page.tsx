@@ -168,7 +168,12 @@ const FindPassword: React.FC = () => {
                 onClick={togglePasswordVisibility}
               />
             </PasswordInputContainer>
-            <OrangeButton text="비밀번호 변경" onClick={handleClick} />
+            <OrangeButton
+              padding={13}
+              text="비밀번호 변경"
+              onClick={handleClick}
+              fullWidth={400}
+            />
           </ButtonContainer>
         </Wrapper>
       </MainLayout>

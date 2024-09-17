@@ -2,15 +2,17 @@ import styled from "styled-components";
 import { NextPage } from "next";
 
 interface ButtonProps {
-  width: number;
+  width?: number;
   padding: number;
   text: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  fullWidth?: boolean;
 }
 
 const ButtonStyle = styled.button<ButtonProps>`
-  width: ${(props) => props.width + "px"};
+  width: ${(props) =>
+    props.fullWidth ? "100%" : props.width ? props.width + "px" : "auto"};
   padding: ${(props) => props.padding + "px"};
   border: none;
   border-radius: 10px;
@@ -26,6 +28,7 @@ const OrangeButton: NextPage<ButtonProps> = ({
   text,
   onClick,
   className,
+  fullWidth = false, 
 }) => {
   return (
     <ButtonStyle
@@ -33,6 +36,7 @@ const OrangeButton: NextPage<ButtonProps> = ({
       padding={padding}
       onClick={onClick}
       className={className}
+      fullWidth={fullWidth} 
     >
       {text}
     </ButtonStyle>

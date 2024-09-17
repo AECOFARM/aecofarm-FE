@@ -47,12 +47,13 @@ const IntroImage = styled.img`
 `;
 
 const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
   position: absolute;
   top: 670px;
   z-index: 2;
   width: 90%;
   max-width: 450px;
-  padding: 0 40px 0 60px;
 `;
 
 const IntroPage = () => {
@@ -82,7 +83,12 @@ const IntroPage = () => {
         </ImageContainer>
 
         <ButtonContainer>
-          <OrangeButton text="시작하기" onClick={handleClick} />
+          <OrangeButton
+            width={320}
+            padding={13}
+            text="시작하기"
+            onClick={handleClick}
+          />
         </ButtonContainer>
       </Wrapper>
     </AppLayout>

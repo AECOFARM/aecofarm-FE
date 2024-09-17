@@ -477,7 +477,12 @@ const SignUpPage: React.FC = () => {
               />
             )}
             {emailVerificationStatus && <p>{emailVerificationStatus}</p>}
-            <OrangeButton text="회원가입" onClick={handleSignUp} />
+            <OrangeButton
+              padding={13}
+              text="회원가입"
+              onClick={handleSignUp}
+              fullWidth={400}
+            />
           </ButtonContainer>
         </Container>
         {isPopupOpen && (
