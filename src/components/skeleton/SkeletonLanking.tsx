@@ -59,7 +59,7 @@ const SkeletonRankChangeIcon = styled.div`
   margin-left: 8px;
 `;
 
-const SkeletonLanking = () => {
+const SkeletonLanking: React.FC = (): JSX.Element => {
   return (
     <Wrapper>
       <Title>지금 HOT 조회 순위는?</Title>

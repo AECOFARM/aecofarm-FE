@@ -26,7 +26,7 @@ const SkeletonKeyWord = styled.div`
   border-radius: 20px;
 `;
 
-const SkeletonKeyWords = () => {
+const SkeletonKeyWords = (): JSX.Element => {
   return (
     <Wrapper>
       <Title>아코팜 추천 키워드</Title>

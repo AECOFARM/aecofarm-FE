@@ -39,7 +39,7 @@ const ButtonContainer = styled.div`
   padding: 0 40px;
 `;
 
-const Button = styled.input`
+const Input = styled.input`
   padding: 18px 22px;
   border-radius: 15px;
   border: 0px;
@@ -105,7 +105,7 @@ const FindPassword: React.FC = () => {
         break;
       case "schoolNum":
         // 학번 입력 시 숫자만 허용
-        if (/^\d+$/.test(value) || value === "") {
+        if (/^\d*$/.test(value)) {
           setSchoolNum(value);
         }
         break;
@@ -131,21 +131,21 @@ const FindPassword: React.FC = () => {
             <p>모든 정보가 일치하면 비밀번호를 변경할 수 있어요 </p>
           </TextContainer>
           <ButtonContainer>
-            <Button
+            <Input
               type="text"
               placeholder="이름"
               name="userName"
               value={userName}
               onChange={handleInputChange}
             />
-            <Button
+            <Input
               type="email"
               placeholder="이메일"
               name="email"
               value={email}
               onChange={handleInputChange}
             />
-            <Button
+            <Input
               type="text"
               placeholder="학번"
               name="schoolNum"
@@ -153,7 +153,7 @@ const FindPassword: React.FC = () => {
               onChange={handleInputChange}
             />
             <PasswordInputContainer>
-              <Button
+              <Input
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder="새로운 비밀번호"
                 name="password"

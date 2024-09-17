@@ -31,6 +31,7 @@ export default [
         "warn",
         { argsIgnorePattern: "^_" },
       ],
+      "react/prop-types": "off",
       "@typescript-eslint/explicit-module-boundary-types": "warn",
       "@typescript-eslint/explicit-function-return-type": "warn",
       "@typescript-eslint/no-floating-promises": "warn",

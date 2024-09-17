@@ -51,14 +51,14 @@ const ItemTitle = styled.div`
   border-radius: 5px;
 `;
 
-const SkeletonMyItemListItem = () => {
+const SkeletonMyItemListItem: React.FC = (): JSX.Element => {
   return (
     <ItemContainer>
       <ItemImage />
       <ItemTitle />
       <ItemInfoContainer>
-        <Price></Price>
-        <Time></Time>
+        <Price />
+        <Time />
       </ItemInfoContainer>
     </ItemContainer>
   );

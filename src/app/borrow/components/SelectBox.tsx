@@ -49,7 +49,6 @@ const SelectButton = styled.button<SelectButtonProps>`
     transition: transform 0.3s; /* Smooth rotation transition */
   }
 
-  /* Rotate the triangle when the options are shown */
   ${({ $show }) =>
     $show &&
     `
@@ -110,14 +109,14 @@ interface SelectBoxProps {
 }
 
 const SelectBox: React.FC<SelectBoxProps> = ({ setSortType }) => {
-  const [selectedOption, setSelectedOption] = useState("최신순");
-  const [showOptions, setShowOptions] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string>("최신순");
+  const [showOptions, setShowOptions] = useState<boolean>(false);
 
-  const handleSelectClick = () => {
+  const handleSelectClick = (): void => {
     setShowOptions((prevShowOptions) => !prevShowOptions);
   };
 
-  const handleOptionClick = (option: string, sortType: string) => {
+  const handleOptionClick = (option: string, sortType: string): void => {
     setSelectedOption(option);
     setShowOptions(false);
     setSortType(sortType);

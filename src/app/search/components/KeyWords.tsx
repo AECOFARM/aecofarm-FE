@@ -30,36 +30,62 @@ const KeyWord = styled.div`
   font-size: 17px;
   font-weight: 600;
   cursor: pointer;
+
+  &:hover {
+    background-color: var(--orange2);
+    color: white;
+  }
 `;
 
-const KeyWords = () => {
+const KeyWords: React.FC = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchKeywords = async () => {
-      const token = localStorage.getItem("token");
+    const fetchKeywords = async (): Promise<void> => {
+      try {
+        const token = localStorage.getItem("token");
 
-      const response = await fetch("/api/member/recommand", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      setKeywords(result.data.recommendedKeywords.slice(0, 6));
-      setLoading(false);
+        if (!token) {
+          setError("Authentication token is missing.");
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch("/api/member/recommand", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch keywords.");
+        }
+
+        const result = await response.json();
+        setKeywords(result.data.recommendedKeywords.slice(0, 6));
+      } catch (err) {
+        console.error("Error fetching keywords:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchKeywords();
+    fetchKeywords().catch((err) => console.error("Fetch Keywords Error:", err));
   }, []);
 
-  const handleKeywordClick = (keyword: string) => {
+  const handleKeywordClick = (keyword: string): void => {
     router.push(`/search/${encodeURIComponent(keyword)}`);
   };
 
   if (loading) {
     return <SkeletonKeyWords />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (

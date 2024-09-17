@@ -1,4 +1,5 @@
 "use client";
+
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -41,9 +42,8 @@ const Container = styled.div`
   max-width: 440px;
   width: 90%;
   border-radius: 10px;
-  margin: 20px;
+  margin: 20px auto;
   max-height: 700px;
-  margin: auto;
 `;
 
 const ItemInfo = styled.div`
@@ -57,7 +57,6 @@ const ItemInfo = styled.div`
 
 const TitleContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 5px;
 `;
@@ -104,6 +103,7 @@ const Place = styled.div`
   font-size: 17px;
   color: var(--gray6);
   display: flex;
+  align-items: center;
 
   img {
     margin-right: 2px;
@@ -180,8 +180,8 @@ const ItemImage = styled.img`
   margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid var(--gray3);
-  margin: auto;
   display: block;
+  margin: auto;
 `;
 
 const EditDeleteContainer = styled.div`
@@ -253,14 +253,14 @@ const ModalButton = styled.button`
   }
 `;
 
-const BorrowDetailPage = () => {
+const BorrowDetailPage: React.FC = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
-  const [likeStatus, setLikeStatus] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [showRequestPopup, setShowRequestPopup] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [likeStatus, setLikeStatus] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showRequestPopup, setShowRequestPopup] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const token = localStorage.getItem("token");
 
@@ -269,11 +269,11 @@ const BorrowDetailPage = () => {
       return;
     }
 
-    const fetchItemDetail = async () => {
+    const fetchItemDetail = async (): Promise<void> => {
       try {
         const response = await api.get(`/contract/detail/${contractId}`);
         if (response.data.code === 200) {
-          const item = response.data.data;
+          const item: ItemDetail = response.data.data;
           setItemDetail(item);
           setLikeStatus(item.likeStatus);
         } else {
@@ -289,18 +289,17 @@ const BorrowDetailPage = () => {
     fetchItemDetail();
   }, [contractId]);
 
-  const toggleLikeStatus = async () => {
+  const toggleLikeStatus = async (): Promise<void> => {
     try {
       if (likeStatus) {
-        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
+        await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
           data: { itemId: `${itemDetail?.itemId}` },
         });
-        console.log(response);
       } else {
-        const response = await axios.post(
+        await axios.post(
           `/api/likes/add/${contractId}`,
           {},
           {
@@ -309,7 +308,6 @@ const BorrowDetailPage = () => {
             },
           }
         );
-        console.log(response);
       }
       setLikeStatus((prevStatus) => !prevStatus);
     } catch (error) {
@@ -317,7 +315,7 @@ const BorrowDetailPage = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     try {
       const response = await api.delete(`/contract/delete/${contractId}`);
       if (response.data.code === 200) {
@@ -331,24 +329,24 @@ const BorrowDetailPage = () => {
     }
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (): void => {
     router.push(`/post/edit/${contractId}?category=BORROW`);
   };
 
-  const handleRequestClick = () => {
+  const handleRequestClick = (): void => {
     setShowRequestPopup(true);
   };
 
-  const closeRequestPopup = () => {
+  const closeRequestPopup = (): void => {
     setShowRequestPopup(false);
   };
 
-  const closeModalAndRedirect = () => {
+  const closeModalAndRedirect = (): void => {
     setShowModal(false);
     router.push("/borrow");
   };
 
-  const handleRequest = async () => {
+  const handleRequest = (): void => {
     router.push(`/reserve/${contractId}`);
   };
 
@@ -400,7 +398,7 @@ const BorrowDetailPage = () => {
           <ItemInfo>
             <TitleContainer>
               <Title>{itemName}</Title>
-              {donateStatus === true && <DonateLabel />}
+              {donateStatus && <DonateLabel />}
             </TitleContainer>
             <Content>{itemContents}</Content>
             <TimeAndPrice>

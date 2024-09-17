@@ -60,7 +60,7 @@ const SkeletonTag = styled.div`
   border-radius: 5px;
 `;
 
-const SkeletonLendItemPost = () => (
+const SkeletonLendItemPost: React.FC = (): JSX.Element => (
   <SkeletonContainer>
     <SkeletonItemInfo>
       <SkeletonTitle />
