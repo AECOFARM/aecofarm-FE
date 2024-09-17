@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
-import styled from 'styled-components';
-import { useRouter } from 'next/navigation'; 
+import styled from "styled-components";
+import { useRouter } from "next/navigation";
 import SkeletonKeyWords from "@/components/skeleton/SkeletonKeyWords";
 
 const Wrapper = styled.div`
@@ -19,7 +19,7 @@ const KeyWordContainer = styled.div`
   margin: 15px 0;
 `;
 
-const KeyWord = styled.div` 
+const KeyWord = styled.div`
   color: var(--orange2);
   padding: 8px 20px;
   border: 1px solid var(--orange2);
@@ -29,22 +29,22 @@ const KeyWord = styled.div`
   margin-bottom: 10px;
   font-size: 17px;
   font-weight: 600;
-  cursor: pointer; 
+  cursor: pointer;
 `;
 
 const KeyWords = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
     const fetchKeywords = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
-      const response = await fetch('/api/member/recommand', {
+      const response = await fetch("/api/member/recommand", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       const result = await response.json();
       setKeywords(result.data.recommendedKeywords.slice(0, 6));
@@ -55,10 +55,10 @@ const KeyWords = () => {
   }, []);
 
   const handleKeywordClick = (keyword: string) => {
-    router.push(`/search/${encodeURIComponent(keyword)}`); 
+    router.push(`/search/${encodeURIComponent(keyword)}`);
   };
 
-  if (loading) { 
+  if (loading) {
     return <SkeletonKeyWords />;
   }
 
@@ -74,6 +74,6 @@ const KeyWords = () => {
       </KeyWordContainer>
     </Wrapper>
   );
-}
+};
 
 export default KeyWords;

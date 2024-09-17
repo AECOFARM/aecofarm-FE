@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import LendItemPost from '../../../components/LendItemPost';
+import React from "react";
+import styled from "styled-components";
+import LendItemPost from "../../../components/LendItemPost";
 
 const Container = styled.div`
   max-width: 800px;
@@ -22,7 +22,7 @@ const exampleData = [
     donateStatus: false,
     distance: 10,
     lowPrice: 2,
-    highPrice: 25
+    highPrice: 25,
   },
   {
     contractId: 789012,
@@ -37,8 +37,8 @@ const exampleData = [
     donateStatus: true,
     distance: 15,
     lowPrice: 5,
-    highPrice: 30
-  }
+    highPrice: 30,
+  },
 ];
 
 const ItemList: React.FC = () => {
@@ -49,9 +49,9 @@ const ItemList: React.FC = () => {
   return (
     <Container>
       {exampleData.map((post) => (
-        <LendItemPost 
-          key={post.itemId} 
-          post={post} 
+        <LendItemPost
+          key={post.itemId}
+          post={post}
           buttonVisible={true}
           onClick={() => handlePostClick(post.contractId)}
         />

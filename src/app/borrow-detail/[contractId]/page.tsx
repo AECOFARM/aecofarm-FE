@@ -1,19 +1,18 @@
-'use client';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import AppLayout from '@/components/layout/MobileLayout';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
-import MainLayout from '@/components/layout/MainLayout';
-import NoFixedTopBar from '@/components/NoFixedTopBar';
-import DonateLabel from '@/components/DonateLabel';
-import Popup from '@/components/Popup'; 
-import AlertPopup from '@/components/AlertPopup';
-import api from '@/utils/api';
-import SkeletonBorrowDetail from '@/components/skeleton/SkeletonBorrowDetail';
-
+"use client";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
+import AppLayout from "@/components/layout/MobileLayout";
+import Header from "@/components/Header";
+import Navigation from "@/components/Navigation";
+import MainLayout from "@/components/layout/MainLayout";
+import NoFixedTopBar from "@/components/NoFixedTopBar";
+import DonateLabel from "@/components/DonateLabel";
+import Popup from "@/components/Popup";
+import AlertPopup from "@/components/AlertPopup";
+import api from "@/utils/api";
+import SkeletonBorrowDetail from "@/components/skeleton/SkeletonBorrowDetail";
 
 interface ItemDetail {
   owner: boolean;
@@ -82,12 +81,13 @@ const User = styled.div`
   align-items: center;
   gap: 10px;
   color: var(--gray6);
-  
+
   span {
     padding-right: 30px;
   }
 
-  img, span {
+  img,
+  span {
     vertical-align: middle;
   }
 `;
@@ -104,9 +104,9 @@ const Place = styled.div`
   font-size: 17px;
   color: var(--gray6);
   display: flex;
-  
+
   img {
-    margin-right: 2px;  
+    margin-right: 2px;
   }
 
   div {
@@ -211,7 +211,7 @@ const DeleteButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-weight: 600;
-  
+
   &:hover {
     background-color: darkred;
   }
@@ -257,12 +257,12 @@ const BorrowDetailPage = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
   const [likeStatus, setLikeStatus] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [showRequestPopup, setShowRequestPopup] = useState(false); 
+  const [showRequestPopup, setShowRequestPopup] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!contractId) {
@@ -277,12 +277,12 @@ const BorrowDetailPage = () => {
           setItemDetail(item);
           setLikeStatus(item.likeStatus);
         } else {
-          console.error('Error fetching item details:', response.data.message);
+          console.error("Error fetching item details:", response.data.message);
         }
       } catch (error) {
-        console.error('Failed to fetch item detail:', error);
+        console.error("Failed to fetch item detail:", error);
       } finally {
-        setLoading(false);  
+        setLoading(false);
       }
     };
 
@@ -294,20 +294,24 @@ const BorrowDetailPage = () => {
       if (likeStatus) {
         const response = await axios.delete(`/api/likes/delete/${contractId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
-          data: { 'itemId': `${itemDetail?.itemId}`} 
+          data: { itemId: `${itemDetail?.itemId}` },
         });
         console.log(response);
       } else {
-        const response = await axios.post(`/api/likes/add/${contractId}`, {}, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await axios.post(
+          `/api/likes/add/${contractId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         console.log(response);
-      } 
-      setLikeStatus(prevStatus => !prevStatus);
+      }
+      setLikeStatus((prevStatus) => !prevStatus);
     } catch (error) {
       console.error("An error occurred while toggling like status:", error);
     }
@@ -319,11 +323,11 @@ const BorrowDetailPage = () => {
       if (response.data.code === 200) {
         setShowModal(true);
       } else {
-        alert('삭제에 실패하였습니다.');
+        alert("삭제에 실패하였습니다.");
       }
     } catch (error) {
-      console.error('Failed to delete item:', error);
-      setErrorMessage('삭제에 실패하였습니다.');
+      console.error("Failed to delete item:", error);
+      setErrorMessage("삭제에 실패하였습니다.");
     }
   };
 
@@ -341,14 +345,14 @@ const BorrowDetailPage = () => {
 
   const closeModalAndRedirect = () => {
     setShowModal(false);
-    router.push('/borrow');
+    router.push("/borrow");
   };
 
   const handleRequest = async () => {
     router.push(`/reserve/${contractId}`);
   };
 
-  if (loading || !itemDetail) {  
+  if (loading || !itemDetail) {
     return (
       <AppLayout>
         <Header />
@@ -375,30 +379,38 @@ const BorrowDetailPage = () => {
     time,
     contractTime,
     itemHash,
-    donateStatus
+    donateStatus,
   } = itemDetail;
 
-  const likeIconSrc = likeStatus ? '/img/red-heart.svg' : '/img/empty-heart.svg';
+  const likeIconSrc = likeStatus
+    ? "/img/red-heart.svg"
+    : "/img/empty-heart.svg";
 
   return (
     <AppLayout>
-      <Header/>
+      <Header />
       <MainLayout>
-        <NoFixedTopBar text=''/>
+        <NoFixedTopBar text="" />
         <Container>
-          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-          <ItemImage src={itemImage || '/img/default-image.png'} alt={itemName} />
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          <ItemImage
+            src={itemImage || "/img/default-image.png"}
+            alt={itemName}
+          />
           <ItemInfo>
             <TitleContainer>
               <Title>{itemName}</Title>
               {donateStatus === true && <DonateLabel />}
             </TitleContainer>
             <Content>{itemContents}</Content>
-            <TimeAndPrice>{time}시간 | {price}P</TimeAndPrice>
+            <TimeAndPrice>
+              {time}시간 | {price}P
+            </TimeAndPrice>
             <Place>
-              <img src='/img/location-pin.svg' alt='location pin'/> {itemPlace}
+              <img src="/img/location-pin.svg" alt="location pin" /> {itemPlace}
               <div>
-                <img src='/img/clock-icon.svg' alt='clock'/> {contractTime}분 이내 거래 가능
+                <img src="/img/clock-icon.svg" alt="clock" /> {contractTime}분
+                이내 거래 가능
               </div>
             </Place>
             <HashTags>
@@ -407,10 +419,15 @@ const BorrowDetailPage = () => {
               ))}
             </HashTags>
           </ItemInfo>
-          <LikeIcon src={likeIconSrc} alt='like icon' onClick={toggleLikeStatus} />
+          <LikeIcon
+            src={likeIconSrc}
+            alt="like icon"
+            onClick={toggleLikeStatus}
+          />
           <UserContainer>
             <User>
-              <ProfileImg src={userImage}/><span>{userName}</span>
+              <ProfileImg src={userImage} />
+              <span>{userName}</span>
             </User>
             {owner && (
               <EditDeleteContainer>
@@ -420,32 +437,40 @@ const BorrowDetailPage = () => {
             )}
           </UserContainer>
           {!owner && (
-          <ButtonContainer>
-            <LendButton href={kakao} target="_blank">
-              오픈채팅 바로가기
-            </LendButton>
-            <LendButton onClick={handleRequestClick}>대여 요청하기</LendButton>
-          </ButtonContainer>
+            <ButtonContainer>
+              <LendButton href={kakao} target="_blank">
+                오픈채팅 바로가기
+              </LendButton>
+              <LendButton onClick={handleRequestClick}>
+                대여 요청하기
+              </LendButton>
+            </ButtonContainer>
           )}
         </Container>
       </MainLayout>
       <Navigation />
-      <AlertPopup title="게시글 삭제 완료" content="메인 페이지로 이동합니다." isOpen={showModal} onClose={closeModalAndRedirect} button='확인'/>
+      <AlertPopup
+        title="게시글 삭제 완료"
+        content="메인 페이지로 이동합니다."
+        isOpen={showModal}
+        onClose={closeModalAndRedirect}
+        button="확인"
+      />
       {showRequestPopup && (
         <Popup
           isOpen={showRequestPopup}
           onClose={closeRequestPopup}
           title="대여 요청을 하시겠습니까?"
           button1={{
-            text: '요청하기',
-            onClick: handleRequest
+            text: "요청하기",
+            onClick: handleRequest,
           }}
           button2={{
-            text: '취소',
-            onClick: closeRequestPopup
+            text: "취소",
+            onClick: closeRequestPopup,
           }}
         >
-         *요청 시 상대방에게 알림이 전송됩니다.
+          *요청 시 상대방에게 알림이 전송됩니다.
         </Popup>
       )}
     </AppLayout>

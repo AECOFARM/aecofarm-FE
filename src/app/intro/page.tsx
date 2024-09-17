@@ -1,5 +1,4 @@
 "use client";
-
 import styled from "styled-components";
 import AppLayout from "@/components/layout/MobileLayout";
 import OrangeButton from "@/components/OrangeButton";

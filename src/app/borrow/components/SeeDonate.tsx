@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const DonateContainer = styled.div`
   margin-left: 20px;
@@ -29,17 +29,19 @@ interface SeeDonateProps {
 const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
   const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
 
-  const SeeDonateSrc = seeDonateStatus ? '/img/donate-check.svg' : '/img/not-checked.svg';
+  const SeeDonateSrc = seeDonateStatus
+    ? "/img/donate-check.svg"
+    : "/img/not-checked.svg";
 
   const checkSeeDonateStatus = () => {
-    setLocalSeeDonateStatus(prevStatus => !prevStatus);
-    setSeeDonateStatus(prevStatus => !prevStatus); // Update parent state
+    setLocalSeeDonateStatus((prevStatus) => !prevStatus);
+    setSeeDonateStatus((prevStatus) => !prevStatus); // Update parent state
   };
 
   return (
     <DonateContainer onClick={checkSeeDonateStatus}>
       <CheckDonateButton>기부 모아보기</CheckDonateButton>
-      <CheckIcon src={SeeDonateSrc} alt='check' />
+      <CheckIcon src={SeeDonateSrc} alt="check" />
     </DonateContainer>
   );
 };

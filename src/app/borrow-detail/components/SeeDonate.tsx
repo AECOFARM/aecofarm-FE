@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
 const DonateContainer = styled.div`
   margin-left: 20px;
@@ -25,16 +25,18 @@ const CheckIcon = styled.img`
 const SeeDonate: React.FC = () => {
   const [seeDonateStatus, setSeeDonateStatus] = useState(false);
 
-  const SeeDonateSrc = seeDonateStatus ? '/img/not-checked.svg' : '/img/donate-check.svg';
+  const SeeDonateSrc = seeDonateStatus
+    ? "/img/not-checked.svg"
+    : "/img/donate-check.svg";
 
   const checkSeeDonateStatus = () => {
-    setSeeDonateStatus(prevStatus => !prevStatus);
+    setSeeDonateStatus((prevStatus) => !prevStatus);
   };
 
   return (
     <DonateContainer onClick={checkSeeDonateStatus}>
       <CheckDonateButton>기부 모아보기</CheckDonateButton>
-      <CheckIcon src={SeeDonateSrc} alt='check' />
+      <CheckIcon src={SeeDonateSrc} alt="check" />
     </DonateContainer>
   );
 };
