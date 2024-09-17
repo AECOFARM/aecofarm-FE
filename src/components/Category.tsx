@@ -59,4 +59,6 @@ const Category: React.FC<CategoryProps> = React.memo(
   }
 );
 
+Category.displayName = "Category";
+
 export default Category;

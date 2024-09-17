@@ -6,7 +6,7 @@ interface PopupProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   button1: {
     text: string;
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;

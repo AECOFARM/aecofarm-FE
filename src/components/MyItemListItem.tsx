@@ -141,4 +141,6 @@ const MyItemListItem: React.FC<ItemProps> = React.memo(
   }
 );
 
+MyItemListItem.displayName = "MyItemListItem";
+
 export default MyItemListItem;

@@ -269,10 +269,11 @@ const AlarmListItem: React.FC<AlarmProps> = ({ alarm, category }) => {
         isOpen={isOpen}
         onClose={closeModal}
         title="예약 내역"
-        children={modalContent}
         button1={approveButton}
         button2={rejectButton}
-      />
+      >
+        {modalContent}
+      </Popup>
     </Container>
   );
 };

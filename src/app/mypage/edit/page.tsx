@@ -348,10 +348,11 @@ const UpdateMypage = () => {
             isOpen={isOpen}
             onClose={closeModal}
             title="정말 탈퇴하시겠습니까?"
-            children="아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다."
             button1={{ text: "예", onClick: handleDeleteAccount }}
             button2={{ text: "아니오", onClick: closeModal }}
-          />
+          >
+            아코팜 탈퇴 시 관련된 모든 정보가 삭제됩니다.
+          </Popup>
         </LeaveButton>
         <AlertPopup
           isOpen={isCompleteOpen}
@@ -370,7 +371,6 @@ const UpdateMypage = () => {
         <Popup
           isOpen={isImageEditOpen}
           title=""
-          children=""
           button1={editButton}
           button2={removeButton}
           onClose={() => setIsImageEditOpen(false)}
