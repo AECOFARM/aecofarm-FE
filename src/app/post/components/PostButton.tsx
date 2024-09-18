@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import { useRouter } from "next/navigation";
+import OrangeButton from "@/components/OrangeButton";
 
 interface PostButtonProps {
   text: string;
@@ -8,14 +8,10 @@ interface PostButtonProps {
 }
 
 const PostButton: React.FC<PostButtonProps> = ({ text, onClick }) => {
-  const router = useRouter();
-
   return (
     <PostButtonContainer>
       <NoticeButton>상품 등록 시 유의사항을 확인하세요.</NoticeButton>
-      <Button onClick={onClick} type="submit">
-        {text}
-      </Button>
+      <OrangeButton text={text} onClick={onClick} width={150} padding={10} />
     </PostButtonContainer>
   );
 };

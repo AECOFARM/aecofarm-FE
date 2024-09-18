@@ -36,7 +36,6 @@ export default [
       "@typescript-eslint/explicit-function-return-type": "warn",
       "@typescript-eslint/no-floating-promises": "warn",
       "@typescript-eslint/strict-boolean-expressions": "warn",
-      "react/prop-types": "off",
     },
   },
 ];

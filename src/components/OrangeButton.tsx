@@ -4,7 +4,7 @@ import { NextPage } from "next";
 interface ButtonProps {
   width?: number;
   padding: number;
-  text: string;
+  text?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   fullWidth?: boolean;
@@ -28,7 +28,7 @@ const OrangeButton: NextPage<ButtonProps> = ({
   text,
   onClick,
   className,
-  fullWidth = false, 
+  fullWidth = false,
 }) => {
   return (
     <ButtonStyle
@@ -36,7 +36,7 @@ const OrangeButton: NextPage<ButtonProps> = ({
       padding={padding}
       onClick={onClick}
       className={className}
-      fullWidth={fullWidth} 
+      fullWidth={fullWidth}
     >
       {text}
     </ButtonStyle>
