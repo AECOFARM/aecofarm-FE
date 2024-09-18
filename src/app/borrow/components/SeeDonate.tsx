@@ -5,14 +5,17 @@ const DonateContainer = styled.div`
   margin-left: 20px;
   width: 150px;
   display: flex;
+  align-items: center; /* align items to center vertically */
+  cursor: pointer; /* show a pointer cursor to indicate it's clickable */
 `;
 
 const CheckDonateButton = styled.button`
   margin: 0 5px;
   color: black;
-  border: 0px;
+  border: 0;
   background-color: white;
   font-size: 16px;
+  cursor: pointer; /* show a pointer cursor to indicate it's clickable */
 `;
 
 const CheckIcon = styled.img`
@@ -20,6 +23,7 @@ const CheckIcon = styled.img`
   right: 10px;
   top: 50%;
   padding: 0 2px;
+  position: absolute; /* position icon correctly within container */
 `;
 
 interface SeeDonateProps {
@@ -27,13 +31,13 @@ interface SeeDonateProps {
 }
 
 const SeeDonate: React.FC<SeeDonateProps> = ({ setSeeDonateStatus }) => {
-  const [seeDonateStatus, setLocalSeeDonateStatus] = useState(false);
+  const [seeDonateStatus, setLocalSeeDonateStatus] = useState<boolean>(false);
 
   const SeeDonateSrc = seeDonateStatus
     ? "/img/donate-check.svg"
     : "/img/not-checked.svg";
 
-  const checkSeeDonateStatus = () => {
+  const checkSeeDonateStatus = (): void => {
     setLocalSeeDonateStatus((prevStatus) => !prevStatus);
     setSeeDonateStatus((prevStatus) => !prevStatus); // Update parent state
   };

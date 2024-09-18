@@ -148,7 +148,7 @@ const SignUpPage = () => {
             />
           </PasswordInputContainer>
           {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-          <OrangeButton text="로그인" onClick={login} />
+          <OrangeButton padding={13} text="로그인" onClick={login} />
           <ExtraButtonContainer>
             <SignUpButton onClick={handleClick}>회원가입</SignUpButton>
             <span> | </span>

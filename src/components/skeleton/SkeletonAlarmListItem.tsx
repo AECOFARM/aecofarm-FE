@@ -76,7 +76,7 @@ const AlarmItemImage = styled.div`
   border-radius: 5px;
 `;
 
-const SkeletonAlarmListItem = () => {
+const SkeletonAlarmListItem = (): JSX.Element => {
   return (
     <Container>
       <IconContainer>

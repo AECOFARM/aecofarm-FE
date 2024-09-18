@@ -29,6 +29,12 @@ interface Post {
   highPrice: number;
 }
 
+interface FetchResponse {
+  code: number;
+  data: Post[];
+  message?: string;
+}
+
 const ButtonContainer = styled.div`
   position: fixed;
   display: flex;
@@ -50,13 +56,15 @@ const PostContainer = styled.div`
   width: 100%;
 `;
 
-const BorrowPage = () => {
+const BorrowPage: React.FC = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sortType, setSortType] = useState("NEWEST");
-  const [seeDonateStatus, setSeeDonateStatus] = useState(false); // New state
+  const [sortType, setSortType] = useState<string>("NEWEST");
+  const [seeDonateStatus, setSeeDonateStatus] = useState<boolean>(false); // New state
 
-  const moveDetail = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const moveDetail = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ): void => {
     const contractId = Number(
       (e.currentTarget as HTMLDivElement).dataset.contractId
     );
@@ -66,7 +74,7 @@ const BorrowPage = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found");
@@ -74,7 +82,7 @@ const BorrowPage = () => {
       }
 
       try {
-        const response = await axios.get("/api/borrow/list", {
+        const response = await axios.get<FetchResponse>("/api/borrow/list", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

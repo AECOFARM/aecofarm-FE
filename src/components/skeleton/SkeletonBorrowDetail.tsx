@@ -84,7 +84,7 @@ const SkeletonButton = styled.div`
   margin: 10px 5px;
 `;
 
-const SkeletonBorrowDetail = () => (
+const SkeletonBorrowDetail = (): JSX.Element => (
   <SkeletonContainer>
     <SkeletonItemImage />
     <SkeletonTitle />

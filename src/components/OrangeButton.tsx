@@ -1,27 +1,45 @@
 import styled from "styled-components";
 import { NextPage } from "next";
 
-const Button = styled.button`
-  width: 100%;
-  padding: 13px;
-  border-radius: 10px;
-  border: 0px;
-  color: white;
-  background-color: var(--orange2);
-  font-size: 16px;
-`;
-
 interface ButtonProps {
+  width?: number;
+  padding: number;
   text: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  fullWidth?: boolean;
 }
 
-const OrangeButton: NextPage<ButtonProps> = ({ text, onClick, className }) => {
+const ButtonStyle = styled.button<ButtonProps>`
+  width: ${(props) =>
+    props.fullWidth ? "100%" : props.width ? props.width + "px" : "auto"};
+  padding: ${(props) => props.padding + "px"};
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: var(--orange2);
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const OrangeButton: NextPage<ButtonProps> = ({
+  width,
+  padding,
+  text,
+  onClick,
+  className,
+  fullWidth = false, 
+}) => {
   return (
-    <Button onClick={onClick} className={className} type="submit">
+    <ButtonStyle
+      width={width}
+      padding={padding}
+      onClick={onClick}
+      className={className}
+      fullWidth={fullWidth} 
+    >
       {text}
-    </Button>
+    </ButtonStyle>
   );
 };
 

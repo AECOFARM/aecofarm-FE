@@ -52,7 +52,7 @@ const SkeletonTag = styled.div`
   border-radius: 5px;
 `;
 
-const SkeletonPost = () => (
+const SkeletonPost = (): JSX.Element => (
   <SkeletonContainer>
     <SkeletonImage />
     <SkeletonInfo>

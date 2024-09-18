@@ -70,7 +70,7 @@ const RankChangeIcon = styled.div<RankChangeIconProps>`
         : "black"};
 `;
 
-const getCurrentDateTime = () => {
+const getCurrentDateTime = (): string => {
   const now = new Date();
   const date = now.toLocaleDateString();
   const hours = now.getHours().toString().padStart(2, "0");
@@ -79,74 +79,79 @@ const getCurrentDateTime = () => {
   return `${date} ${time}`;
 };
 
-const Lanking = () => {
-  const [dateTime, setDateTime] = useState(getCurrentDateTime());
+const Lanking = (): JSX.Element => {
+  const [dateTime, setDateTime] = useState<string>(getCurrentDateTime());
   const [currentRankings, setCurrentRankings] = useState<string[]>([]);
   const [previousRankings, setPreviousRankings] = useState<string[]>([]);
   const [rankChanges, setRankChanges] = useState<
     Record<string, "▲" | "▼" | "-">
   >({});
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [loading, setLoading] = useState<boolean>(true); // New state for loading
   const lastUpdateTimeRef = useRef<Date | null>(null);
   const initialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
-    const fetchRankings = async () => {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/member/recommand", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      const newRankings: string[] = result.data.hotSearchRankings;
-
-      const now = new Date();
-      const lastUpdateTime = lastUpdateTimeRef.current;
-
-      if (initialLoadRef.current) {
-        // 첫 로딩 시 모든 항목에 '-' 설정
-        const initialRankChanges: Record<string, "▲" | "▼" | "-"> = {};
-        newRankings.forEach((item) => {
-          initialRankChanges[item] = "-";
+    const fetchRankings = async (): Promise<void> => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("/api/member/recommand", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+        const result = await response.json();
+        const newRankings: string[] = result.data.hotSearchRankings;
 
-        setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
-        setCurrentRankings(newRankings);
-        setRankChanges(initialRankChanges);
-        setDateTime(getCurrentDateTime());
-        lastUpdateTimeRef.current = now;
-        initialLoadRef.current = false;
-        setLoading(false); // Set loading to false once data is fetched
-      } else if (
-        !lastUpdateTime ||
-        now.getTime() - lastUpdateTime.getTime() >= 60000
-      ) {
-        // Calculate rank changes
-        const newRankChanges: Record<string, "▲" | "▼" | "-"> = {};
-        newRankings.forEach((item: string, index: number) => {
-          const previousIndex = previousRankings.indexOf(item);
-          if (previousIndex === -1) {
-            newRankChanges[item] = "▲"; // New item, mark as new with upward arrow
-          } else if (previousIndex > index) {
-            newRankChanges[item] = "▲";
-          } else if (previousIndex < index) {
-            newRankChanges[item] = "▼";
-          } else {
-            newRankChanges[item] = "-";
-          }
-        });
+        const now = new Date();
+        const lastUpdateTime = lastUpdateTimeRef.current;
 
-        setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
-        setCurrentRankings(newRankings);
-        setRankChanges(newRankChanges);
-        setDateTime(getCurrentDateTime());
-        lastUpdateTimeRef.current = now;
-        setLoading(false); // Set loading to false once data is fetched
-      } else {
-        // Just update the current rankings and date time
-        setCurrentRankings(newRankings);
-        setDateTime(getCurrentDateTime());
+        if (initialLoadRef.current) {
+          // 첫 로딩 시 모든 항목에 '-' 설정
+          const initialRankChanges: Record<string, "▲" | "▼" | "-"> = {};
+          newRankings.forEach((item) => {
+            initialRankChanges[item] = "-";
+          });
+
+          setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+          setCurrentRankings(newRankings);
+          setRankChanges(initialRankChanges);
+          setDateTime(getCurrentDateTime());
+          lastUpdateTimeRef.current = now;
+          initialLoadRef.current = false;
+          setLoading(false); // Set loading to false once data is fetched
+        } else if (
+          !lastUpdateTime ||
+          now.getTime() - lastUpdateTime.getTime() >= 60000
+        ) {
+          // Calculate rank changes
+          const newRankChanges: Record<string, "▲" | "▼" | "-"> = {};
+          newRankings.forEach((item: string, index: number) => {
+            const previousIndex = previousRankings.indexOf(item);
+            if (previousIndex === -1) {
+              newRankChanges[item] = "▲"; // New item, mark as new with upward arrow
+            } else if (previousIndex > index) {
+              newRankChanges[item] = "▲";
+            } else if (previousIndex < index) {
+              newRankChanges[item] = "▼";
+            } else {
+              newRankChanges[item] = "-";
+            }
+          });
+
+          setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+          setCurrentRankings(newRankings);
+          setRankChanges(newRankChanges);
+          setDateTime(getCurrentDateTime());
+          lastUpdateTimeRef.current = now;
+          setLoading(false); // Set loading to false once data is fetched
+        } else {
+          // Just update the current rankings and date time
+          setCurrentRankings(newRankings);
+          setDateTime(getCurrentDateTime());
+        }
+      } catch (error) {
+        console.error("Failed to fetch rankings:", error);
+        // Optionally handle the error state
       }
     };
 

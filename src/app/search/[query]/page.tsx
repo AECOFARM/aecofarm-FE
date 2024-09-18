@@ -43,14 +43,20 @@ const SearchPage: React.FC = () => {
   const pathname = usePathname();
   const decodedPathname = decodeURIComponent(pathname);
 
-  const query = decodedPathname.split("/").pop();
-  console.log(query);
+  const query = decodedPathname.split("/").pop() || "";
 
   useEffect(() => {
-    const fetchResults = async () => {
+    const fetchResults = async (): Promise<void> => {
       try {
         if (query) {
           const token = localStorage.getItem("token");
+
+          if (!token) {
+            console.error("Token is missing.");
+            setResults({ lendItems: [], borrowItems: [] });
+            return;
+          }
+
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/member/search`,
             {
@@ -62,11 +68,12 @@ const SearchPage: React.FC = () => {
               body: JSON.stringify({ keyword: query }),
             }
           );
+
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-          const result = await response.json();
-          console.log("API response:", result);
+
+          const result: ApiResponse = await response.json();
           setResults({
             lendItems: result.data.lendItems || [],
             borrowItems: result.data.borrowItems || [],
@@ -78,22 +85,24 @@ const SearchPage: React.FC = () => {
       }
     };
 
-    fetchResults();
+    fetchResults().catch((error) =>
+      console.error("FetchResults Error:", error)
+    );
   }, [query]);
 
   return (
     <AppLayout>
       <NoFixedTopBar text="검색 결과" />
-      <SearchBar initialData={(query as string) || ""} />
+      <SearchBar initialData={query} />
       <SearchResultsWrapper>
-        {results.lendItems && results.lendItems.length > 0 && (
+        {results.lendItems.length > 0 && (
           <div>
             {results.lendItems.map((post) => (
               <LendItemPost key={post.contractId} post={post} />
             ))}
           </div>
         )}
-        {results.borrowItems && results.borrowItems.length > 0 && (
+        {results.borrowItems.length > 0 && (
           <div>
             {results.borrowItems.map((post) => (
               <BorrowItemPost key={post.contractId} post={post} />
@@ -101,7 +110,7 @@ const SearchPage: React.FC = () => {
           </div>
         )}
         {results.lendItems.length === 0 && results.borrowItems.length === 0 && (
-          <p></p>
+          <p>No results found.</p>
         )}
       </SearchResultsWrapper>
     </AppLayout>

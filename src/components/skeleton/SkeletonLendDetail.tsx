@@ -73,7 +73,7 @@ const SkeletonButton = styled.div`
   margin: 20px 5px;
 `;
 
-const SkeletonLendDetail = () => (
+const SkeletonLendDetail: React.FC = (): JSX.Element => (
   <SkeletonContainer>
     <SkeletonTitle />
     <SkeletonProfile>

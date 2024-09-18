@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const AppLayout = (props: { children: React.ReactNode }) => {
+const AppLayout = (props: { children: React.ReactNode }): JSX.Element => {
   return (
     <Centering>
       <FixedWidth>{props.children}</FixedWidth>
