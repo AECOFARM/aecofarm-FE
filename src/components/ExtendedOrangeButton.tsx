@@ -11,7 +11,8 @@ const ModifiedOrangeButton = styled(OrangeButton)<ModifiedButtonProps>`
   font-weight: 600;
   width: 90%;
   margin: 20px;
-  background-color: ${({ checked }) => (checked ? "#FF9B3F" : "var(--gray4)")};
+  background-color: ${({ checked }) =>
+    checked ? "var(--orange2)" : "var(--gray4)"};
 `;
 
 interface ButtonProps {
@@ -36,6 +37,7 @@ const ExtendedOrangeButton: React.FC<ButtonProps> = ({
   return (
     <ModifiedOrangeButton
       text={text}
+      padding={13}
       onClick={handleClick}
       checked={checked}
       disabled={disabled}

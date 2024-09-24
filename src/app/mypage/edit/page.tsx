@@ -68,10 +68,6 @@ const EditInput = styled.input`
   color: var(--gray6);
 `;
 
-const ModifiedButton = styled(OrangeButton)`
-  width: 100%;
-`;
-
 const LeaveButton = styled.div`
   font-size: 0.9rem;
   underline: 1px solid var(--black);
@@ -340,7 +336,7 @@ const UpdateMypage = () => {
               onChange={handleInputChange}
             />
           </TextInputContainer>
-          <ModifiedButton text="수정하기" />
+          <OrangeButton padding={12} text="수정하기" />
         </ProfileEditContainer>
         <LeaveButton>
           <p onClick={openModal}>아코팜을 탈퇴하시겠습니까?</p>
