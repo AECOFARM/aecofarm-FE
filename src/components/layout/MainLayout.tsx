@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const PageContainer = styled.div`
-  margin-top: 60px;
+  margin-top: 10px;
   margin-bottom: 80px;
 `;
 

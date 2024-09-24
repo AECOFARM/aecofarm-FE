@@ -13,11 +13,14 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   max-width: 500px;
+  display: absolute;
+  top: 0;
+  height: 100vh;
 `;
 
 const TextContainer = styled.h3`
   color: black;
-  padding: 18px 45px 15px;
+  padding: 18px 45px 30px;
   font-size: 20px;
   text-align: left;
   font-weight: 700;
