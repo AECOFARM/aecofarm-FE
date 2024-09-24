@@ -9,6 +9,7 @@ import Navigation from "@/components/Navigation";
 import MainLayout from "@/components/layout/MainLayout";
 import NoFixedTopBar from "@/components/NoFixedTopBar";
 import Popup from "@/components/Popup";
+import LikeButton from "@/components/LikeButton";
 import SkeletonLendDetail from "@/components/skeleton/SkeletonLendDetail";
 
 interface ItemDetail {
@@ -31,7 +32,7 @@ interface ItemDetail {
 
 const Container = styled.div`
   background-color: white;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 20px;
   position: relative;
   max-width: 440px;
@@ -66,7 +67,7 @@ const Title = styled.h2`
 
 const Place = styled.div`
   font-size: 17px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   display: flex;
 
   img {
@@ -80,7 +81,7 @@ const Place = styled.div`
 
 const Content = styled.div`
   font-size: 17px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   font-weight: 400;
   margin-top: 15px;
 `;
@@ -97,20 +98,11 @@ const HashTags = styled.div`
 
 const HashTag = styled.span`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
   font-size: 15px;
-`;
-
-const LikeIcon = styled.img`
-  position: absolute;
-  top: 30px;
-  right: 45px;
-  width: 25px;
-  height: 30px;
-  cursor: pointer;
 `;
 
 const UserContainer = styled.div`
@@ -125,7 +117,7 @@ const User = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
 
   span {
     padding-right: 30px;
@@ -140,7 +132,7 @@ const User = styled.div`
 const ProfileImg = styled.img`
   width: 30px;
   border-radius: 30px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
 `;
 
 const EditDeleteContainer = styled.div`
@@ -149,7 +141,7 @@ const EditDeleteContainer = styled.div`
 `;
 
 const EditButton = styled.button`
-  background-color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.orange2};
   color: white;
   border: none;
   padding: 5px 10px;
@@ -158,12 +150,12 @@ const EditButton = styled.button`
   font-weight: 600;
 
   &:hover {
-    background-color: var(--orange3);
+    background-color: ${({ theme }) => theme.colors.orange3};
   }
 `;
 
 const DeleteButton = styled.button`
-  background-color: var(--red);
+  background-color: ${({ theme }) => theme.colors.red};
   color: white;
   border: none;
   padding: 5px 10px;
@@ -178,16 +170,16 @@ const DeleteButton = styled.button`
 
 const LendButton = styled.a`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 12px 15px;
   margin: 10px 5px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
 
   &:hover {
-    background-color: var(--orange2);
+    background-color: ${({ theme }) => theme.colors.orange2};
     color: white;
   }
 `;
@@ -224,7 +216,7 @@ const ModalContainer = styled.div`
 `;
 
 const ModalButton = styled.button`
-  background-color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.orange2};
   color: white;
   border: none;
   padding: 10px 20px;
@@ -234,7 +226,7 @@ const ModalButton = styled.button`
   margin-top: 10px;
 
   &:hover {
-    background-color: var(--orange3);
+    background-color: ${({ theme }) => theme.colors.orange3};
   }
 `;
 
@@ -242,7 +234,6 @@ const LendDetailPage = () => {
   const { contractId } = useParams();
   const router = useRouter();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
-  const [likeStatus, setLikeStatus] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showRequestPopup, setShowRequestPopup] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -268,7 +259,6 @@ const LendDetailPage = () => {
         if (response.data.code === 200) {
           const item = response.data.data;
           setItemDetail(item);
-          setLikeStatus(item.likeStatus);
         }
       } catch (error) {
         console.error("Failed to fetch item detail:", error);
@@ -279,34 +269,6 @@ const LendDetailPage = () => {
 
     fetchItemDetail();
   }, [contractId]);
-
-  const toggleLikeStatus = async () => {
-    try {
-      if (likeStatus) {
-        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: { itemId: `${itemDetail?.itemId}` },
-        });
-        console.log(response);
-      } else {
-        const response = await axios.post(
-          `/api/likes/add/${contractId}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response);
-      }
-      setLikeStatus((prevStatus) => !prevStatus);
-    } catch (error) {
-      console.error("An error occurred while toggling like status:", error);
-    }
-  };
 
   const handleDelete = async () => {
     try {
@@ -419,10 +381,6 @@ const LendDetailPage = () => {
     owner,
   } = itemDetail;
 
-  const likeIconSrc = likeStatus
-    ? "/img/red-heart.svg"
-    : "/img/empty-heart.svg";
-
   return (
     <AppLayout>
       <Header />
@@ -462,10 +420,13 @@ const LendDetailPage = () => {
               </div>
             </Place>
           </ItemInfo>
-          <LikeIcon
-            src={likeIconSrc}
-            alt="like icon"
-            onClick={toggleLikeStatus}
+          <LikeButton
+            top={40}
+            right={45}
+            size={30}
+            type="borrow"
+            contractId={itemDetail.contractId}
+            itemId={itemDetail.itemId}
           />
           {!owner && (
             <ButtonContainer>

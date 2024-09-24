@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import AppLayout from "@/components/layout/MobileLayout";
 import Header from "@/components/Header";
@@ -13,6 +12,7 @@ import DonateLabel from "@/components/DonateLabel";
 import Popup from "@/components/Popup";
 import AlertPopup from "@/components/AlertPopup";
 import api from "@/utils/api";
+import LikeButton from "@/components/LikeButton";
 import SkeletonBorrowDetail from "@/components/skeleton/SkeletonBorrowDetail";
 
 interface ItemDetail {
@@ -36,7 +36,7 @@ interface ItemDetail {
 
 const Container = styled.div`
   background-color: white;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 20px;
   position: relative;
   max-width: 440px;
@@ -79,7 +79,7 @@ const User = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
 
   span {
     padding-right: 30px;
@@ -96,12 +96,12 @@ const ProfileImg = styled.img`
   width: 30px;
   margin-left: 7px;
   border-radius: 30px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
 `;
 
 const Place = styled.div`
   font-size: 17px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   display: flex;
   align-items: center;
 
@@ -116,7 +116,7 @@ const Place = styled.div`
 
 const Content = styled.div`
   font-size: 17px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
   font-weight: 400;
   margin-bottom: 5px;
 `;
@@ -131,35 +131,26 @@ const HashTags = styled.div``;
 
 const HashTag = styled.span`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
   font-size: 15px;
 `;
 
-const LikeIcon = styled.img`
-  position: absolute;
-  top: 40px;
-  right: 45px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-`;
-
 const LendButton = styled.a`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 12px 15px;
   margin: 10px 5px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   border-radius: 24px;
   cursor: pointer;
   font-size: 14px;
 
   &:hover {
-    background-color: var(--orange2);
-    color: white;
+    background-color: ${({ theme }) => theme.colors.orange2};
+    color: ${({ theme }) => theme.colors.white};
   }
 `;
 
@@ -179,7 +170,7 @@ const ItemImage = styled.img`
   max-height: 375px;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   display: block;
   margin: auto;
 `;
@@ -190,7 +181,7 @@ const EditDeleteContainer = styled.div`
 `;
 
 const EditButton = styled.button`
-  background-color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.orange2};
   color: white;
   border: none;
   padding: 5px 10px;
@@ -199,12 +190,12 @@ const EditButton = styled.button`
   font-weight: 600;
 
   &:hover {
-    background-color: var(--orange3);
+    background-color: ${({ theme }) => theme.colors.orange3};
   }
 `;
 
 const DeleteButton = styled.button`
-  background-color: var(--red);
+  background-color: ${({ theme }) => theme.colors.red};
   color: white;
   border: none;
   padding: 5px 10px;
@@ -217,46 +208,9 @@ const DeleteButton = styled.button`
   }
 `;
 
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContainer = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 400px;
-  text-align: center;
-`;
-
-const ModalButton = styled.button`
-  background-color: var(--orange2);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 10px;
-
-  &:hover {
-    background-color: var(--orange3);
-  }
-`;
-
 const BorrowDetailPage: React.FC = () => {
   const { contractId } = useParams();
   const [itemDetail, setItemDetail] = useState<ItemDetail | null>(null);
-  const [likeStatus, setLikeStatus] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showRequestPopup, setShowRequestPopup] = useState<boolean>(false);
@@ -275,7 +229,6 @@ const BorrowDetailPage: React.FC = () => {
         if (response.data.code === 200) {
           const item: ItemDetail = response.data.data;
           setItemDetail(item);
-          setLikeStatus(item.likeStatus);
         } else {
           console.error("Error fetching item details:", response.data.message);
         }
@@ -288,32 +241,6 @@ const BorrowDetailPage: React.FC = () => {
 
     fetchItemDetail();
   }, [contractId]);
-
-  const toggleLikeStatus = async (): Promise<void> => {
-    try {
-      if (likeStatus) {
-        await axios.delete(`/api/likes/delete/${contractId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: { itemId: `${itemDetail?.itemId}` },
-        });
-      } else {
-        await axios.post(
-          `/api/likes/add/${contractId}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      }
-      setLikeStatus((prevStatus) => !prevStatus);
-    } catch (error) {
-      console.error("An error occurred while toggling like status:", error);
-    }
-  };
 
   const handleDelete = async (): Promise<void> => {
     try {
@@ -380,10 +307,6 @@ const BorrowDetailPage: React.FC = () => {
     donateStatus,
   } = itemDetail;
 
-  const likeIconSrc = likeStatus
-    ? "/img/red-heart.svg"
-    : "/img/empty-heart.svg";
-
   return (
     <AppLayout>
       <Header />
@@ -417,10 +340,13 @@ const BorrowDetailPage: React.FC = () => {
               ))}
             </HashTags>
           </ItemInfo>
-          <LikeIcon
-            src={likeIconSrc}
-            alt="like icon"
-            onClick={toggleLikeStatus}
+          <LikeButton
+            top={40}
+            right={45}
+            size={30}
+            type="borrow"
+            contractId={itemDetail.contractId}
+            itemId={itemDetail.itemId}
           />
           <UserContainer>
             <User>

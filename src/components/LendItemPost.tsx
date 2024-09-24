@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import SkeletonLendItemPost from "./skeleton/SkeletonLendItemPost";
+import LikeButton from "./LikeButton";
 import Image from "next/image";
 
 const Container = styled.div`
   background-color: white;
-  border-bottom: 1px solid var(--gray3);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 10px 10px;
   position: relative;
   display: flex;
@@ -41,7 +42,7 @@ const Title = styled.div`
 
 const Place = styled.div`
   font-size: 13px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -69,7 +70,7 @@ const HashTags = styled.div`
 
 const HashTag = styled.span`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
@@ -77,15 +78,6 @@ const HashTag = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
-`;
-
-const LikeIcon = styled.img`
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
 `;
 
 interface Post {
@@ -120,46 +112,15 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
     time,
     contractTime,
     itemHash,
-    likeStatus: initialLikeStatus,
+    likeStatus,
   } = post;
 
   const router = useRouter();
   const moveDetail = () => {
     router.push(`/lend-detail/${contractId}`);
   };
-  const token = localStorage.getItem("token");
 
-  const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
   const [loading, setLoading] = useState(true);
-
-  const likeIconSrc = likeStatus
-    ? "/img/red-heart.svg"
-    : "/img/empty-heart.svg";
-
-  const toggleLikeStatus = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (likeStatus) {
-      const response = await axios.delete(`/api/likes/delete/${contractId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: { itemId: itemId },
-      });
-      console.log(response);
-    } else {
-      const response = await axios.post(
-        `/api/likes/add/${contractId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(response);
-    }
-    setLikeStatus((prevStatus) => !prevStatus);
-  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -204,7 +165,14 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
           ))}
         </HashTags>
       </ItemInfo>
-      <LikeIcon src={likeIconSrc} alt="like icon" onClick={toggleLikeStatus} />
+      <LikeButton
+        top={10}
+        right={15}
+        size={24}
+        contractId={contractId}
+        itemId={itemId}
+        type="lend"
+      />
     </Container>
   );
 };
