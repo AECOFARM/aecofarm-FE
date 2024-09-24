@@ -12,20 +12,21 @@ import axios from "axios";
 import { text } from "stream/consumers";
 
 const ProfileImageContainer = styled.div<{ image?: string }>`
-  background-color: ${({ image }) => (image ? "transparent" : "var(--gray3)")};
+  background-color: ${({ image }) =>
+    image ? "transparent" : "${({ theme }) => theme.colors.gray3}"};
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-position: center;
   background-size: cover;
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
 `;
 
 const ProfileImageEditButton = styled.div`
   p {
     font-size: 1rem;
-    color: var(--blue);
+    color: ${({ theme }) => theme.colors.blue};
   }
   display: flex;
   justify-content: center;
@@ -44,7 +45,7 @@ const ProfileEditContainer = styled.form`
 `;
 
 const TextInputContainer = styled.div`
-  border-bottom: 1px solid var(--gray3);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray3};
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -55,23 +56,23 @@ const TextInputContainer = styled.div`
 const EditTitle = styled.p`
   font-size: 1rem;
   font-weight: 600;
-  color: var(--gray8);
+  color: ${({ theme }) => theme.colors.gray8};
   white-space: nowrap;
 `;
 
 const EditInput = styled.input`
   outline: 0;
   border: none;
-  background-color: var(--white);
+  background-color: ${({ theme }) => theme.colors.white};
   width: 100%;
   box-sizing: border-box;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
 `;
 
 const LeaveButton = styled.div`
   font-size: 0.9rem;
-  underline: 1px solid var(--black);
-  color: var(--gray8);
+  underline: 1px solid ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.gray8};
   margin: 20px;
   cursor: pointer;
   p {

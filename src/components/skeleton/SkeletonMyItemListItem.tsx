@@ -8,14 +8,14 @@ const ItemContainer = styled.div`
   align-items: center;
   gap: 3px;
   padding: 5px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   position: relative;
   width: auto;
   height: auto;
 `;
 
 const ItemImage = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 10px;
   width: 100px;
   height: 100px;
@@ -31,21 +31,21 @@ const ItemInfoContainer = styled.div`
 `;
 
 const Price = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
   height: 0.75rem;
   width: 30%;
 `;
 
 const Time = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
   height: 0.75rem;
   width: 50%;
 `;
 
 const ItemTitle = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   width: 100%;
   height: 0.8rem;
   border-radius: 5px;

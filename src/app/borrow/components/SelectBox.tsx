@@ -18,7 +18,7 @@ const SelectButton = styled.button<SelectButtonProps>`
   font-size: 15px;
   line-height: 14px;
   background-color: white;
-  border: 1px solid var(--gray4);
+  border: 1px solid ${({ theme }) => theme.colors.gray4};
   box-sizing: border-box;
   border-radius: 10px;
   cursor: pointer;
@@ -34,8 +34,8 @@ const SelectButton = styled.button<SelectButtonProps>`
 
   &:hover,
   &:focus {
-    border: 1px solid var(--orange2);
-    outline: 3px solid var(--orange0);
+    border: 1px solid ${({ theme }) => theme.colors.orange2};
+    outline: 3px solid ${({ theme }) => theme.colors.orange0};
   }
 
   &::after {
@@ -45,7 +45,8 @@ const SelectButton = styled.button<SelectButtonProps>`
     top: 50%;
     transform: translateY(-40%) rotate(0deg); /* Default rotation */
     border: 5px solid transparent;
-    border-top-color: var(--orange1); /* Color of the triangle */
+    border-top-color: ${({ theme }) =>
+      theme.colors.orange1}; /* Color of the triangle */
     transition: transform 0.3s; /* Smooth rotation transition */
   }
 
@@ -67,11 +68,11 @@ const SelectList = styled.ul<SelectListProps>`
   left: 0;
   margin: 0 0 0 20px;
   padding: 0;
-  border: 1px solid var(--gray4);
+  border: 1px solid ${({ theme }) => theme.colors.gray4};
   box-sizing: border-box;
   box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const OptionButton = styled.button`
@@ -90,14 +91,14 @@ const OptionButton = styled.button`
 
   &:hover,
   &:focus {
-    background-color: var(--orange0);
+    background-color: ${({ theme }) => theme.colors.orange0};
   }
 `;
 
 const OptionList = styled.li`
   padding: 3px 5px;
   margin: 0 3px;
-  color: black;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 interface SelectListProps {

@@ -24,7 +24,7 @@ const IntroHeading = styled.h1`
 const IntroText = styled.div`
   font-size: 17px;
   margin-bottom: 20px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
 `;
 
 const ImageContainer = styled.div``;

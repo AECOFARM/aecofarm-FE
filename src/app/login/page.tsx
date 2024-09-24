@@ -34,8 +34,8 @@ const Button = styled.input`
   padding: 13px 22px;
   border-radius: 15px;
   border: 0px;
-  color: var(--gray6);
-  background-color: var(--gray2);
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.gray2};
   font-size: 16px;
   text-align: left;
 `;
@@ -58,7 +58,7 @@ const ExtraButtonContainer = styled.div`
   font-size: 13px;
   display: flex;
   margin-top: 10px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
   align-items: right;
   text-align: right;
   justify-content: flex-end;
@@ -67,9 +67,9 @@ const ExtraButtonContainer = styled.div`
 const SignUpButton = styled.button`
   font-size: 15px;
   margin: 0 5px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
   border: 0px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   width: auto;
 `;
 

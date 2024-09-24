@@ -1,9 +1,6 @@
 "use client";
 import Header from "@/components/Header";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css";
-import { aecofarmFont } from "@/app/fonts";
 import Navigation from "@/components/Navigation";
 import AppLayout from "@/components/layout/MobileLayout";
 

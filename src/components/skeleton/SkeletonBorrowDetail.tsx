@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const SkeletonContainer = styled.div`
   background-color: white;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 20px;
   position: relative;
   max-width: 440px;
@@ -20,15 +20,15 @@ const SkeletonItemImage = styled.div`
   max-height: 375px;
   margin-bottom: 20px;
   border-radius: 10px;
-  border: 1px solid var(--gray3);
-  background-color: var(--gray2);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
+  background-color: ${({ theme }) => theme.colors.gray2};
   height: 300px;
 `;
 
 const SkeletonTitle = styled.div`
   width: 70%;
   height: 22px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   margin-bottom: 10px;
   border-radius: 5px;
 `;
@@ -36,7 +36,7 @@ const SkeletonTitle = styled.div`
 const SkeletonText = styled.div`
   width: 100%;
   height: 17px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   margin-bottom: 10px;
   border-radius: 5px;
 `;
@@ -50,7 +50,7 @@ const SkeletonTags = styled.div`
 const SkeletonTag = styled.div`
   width: 50px;
   height: 15px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
 `;
 
@@ -66,20 +66,20 @@ const SkeletonProfileImg = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
 `;
 
 const SkeletonProfileText = styled.div`
   width: 30%;
   height: 17px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
 `;
 
 const SkeletonButton = styled.div`
   width: 120px;
   height: 30px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
   margin: 10px 5px;
 `;

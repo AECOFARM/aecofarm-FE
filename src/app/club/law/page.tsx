@@ -75,7 +75,7 @@ const ClubProfileContainer = styled.div`
   p {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--black);
+    color: ${({ theme }) => theme.colors.black};
   }
 `;
 
@@ -84,7 +84,7 @@ const ClubDescriptionContainer = styled.div`
   p {
     font-size: 1rem;
     font-weight: 500;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     word-break: keep-all;
   }
 `;
@@ -94,7 +94,7 @@ const ClubProductsContainer = styled.div`
   margin-top: 20px;
   p {
     font-size: 1.2rem;
-    color: var(--black);
+    color: ${({ theme }) => theme.colors.black};
     font-weight: 600;
   }
   display: flex;
@@ -120,7 +120,7 @@ const ClubProduct = styled.div`
     align-items: center;
   }
   border-radius: 10px;
-  border: 1px solid var(--gray6);
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   display: flex;
   flex-direction: row;
   padding: 10px;
@@ -133,7 +133,7 @@ const ClubProductInfo = styled.div`
   gap: 10px;
   p {
     font-size: 1rem;
-    color: var(--gray9);
+    color: ${({ theme }) => theme.colors.gray9};
     font-weight: 600;
   }
   margin: 0 auto;

@@ -50,18 +50,18 @@ const ContentContainer = styled.div`
 `;
 
 const AlarmTitle = styled.p`
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
   font-size: 1rem;
   font-weight: 700;
 `;
 
 const AlarmTime = styled.p`
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
   font-size: 0.75rem;
 `;
 
 const AlarmContent = styled.div`
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
   font-size: 0.95rem;
 `;
 

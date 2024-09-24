@@ -16,8 +16,8 @@ const ButtonStyle = styled.button<ButtonProps>`
   padding: ${(props) => props.padding + "px"};
   border: none;
   border-radius: 10px;
-  color: white;
-  background-color: var(--orange2);
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.orange2};
   font-size: 16px;
   cursor: pointer;
 `;

@@ -17,7 +17,7 @@ const CompleteMessageContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   p {
-    color: #000000;
+    color: ${({ theme }) => theme.colors.black};
     font-size: 1.2rem;
     font-weight: 700;
   }

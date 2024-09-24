@@ -6,7 +6,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   font-size: 20px;
   font-weight: 600;
   color: black;
@@ -20,7 +20,7 @@ const SkeletonKeyWordContainer = styled.div`
 `;
 
 const SkeletonKeyWord = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   height: 35px;
   width: 80px;
   border-radius: 20px;

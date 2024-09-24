@@ -15,19 +15,19 @@ const Container = styled.div`
 `;
 
 const LoadingIconContainer = styled.div`
-  background-color: var(--white);
+  background-color: ${({ theme }) => theme.colors.white};
   width: 120px;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  border: 1px solid var(--gray4);
+  border: 1px solid ${({ theme }) => theme.colors.gray4};
 `;
 
 const LoadingIcon = styled.img`
   width: 30px;
-  fill: var(--gray4);
+  fill: ${({ theme }) => theme.colors.gray4};
 `;
 
 const PostLoading = () => {

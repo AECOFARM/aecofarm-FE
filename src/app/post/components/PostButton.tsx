@@ -27,7 +27,7 @@ const PostButtonContainer = styled.div`
   gap: 10px;
   position: fixed;
   bottom: 0px;
-  background-color: var(--white);
+  background-color: ${({ theme }) => theme.colors.white};
   left: 50%;
   transform: translateX(-50%);
 `;
@@ -35,22 +35,8 @@ const PostButtonContainer = styled.div`
 const NoticeButton = styled.p`
   font-size: 0.9rem;
   text-decoration: underline;
-  color: #000000;
+  color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
-`;
-
-const Button = styled.button`
-  background-color: #ff9b3f;
-  width: 30%;
-  height: 40px;
-  font-size: 1rem;
-  font-weight: 700;
-  border-radius: 15px;
-  color: #ffffff;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-  border: none;
 `;
 
 export default PostButton;

@@ -8,14 +8,14 @@ const Header = styled.div`
   top: 50px;
   max-width: 500px;
   width: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   flex-direction: column;
   justify-content: center;
   p {
     font-size: 1rem;
     font-weight: 700;
-    color: black;
+    color: ${({ theme }) => theme.colors.black};
     text-align: center;
   }
   z-index: 1000;

@@ -9,9 +9,9 @@ const DonateContainer = styled.div`
 
 const CheckDonateButton = styled.button`
   margin: 0 5px;
-  color: black;
+  color: ${({ theme }) => theme.colors.black};
   border: 0px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   font-size: 16px;
 `;
 

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const SearchContainer = styled.div`
   background-color: white;
-  border: 0.5px solid var(--gray3);
+  border: 0.5px solid ${({ theme }) => theme.colors.gray3};
   width: 90%;
   max-width: 400px;
   border-radius: 50px;
@@ -29,14 +29,14 @@ const SearchForm = styled.form`
 const SearchInput = styled.input`
   border: none;
   font-size: 16px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   flex: 1;
   background-color: white;
 `;
 
 const SearchButton = styled.button`
   width: 60px;
-  background-color: var(--gray4);
+  background-color: ${({ theme }) => theme.colors.gray4};
   border-radius: 50px;
   border: 0px;
   color: white;
@@ -45,7 +45,7 @@ const SearchButton = styled.button`
   margin-left: auto;
 
   &:hover {
-    background-color: var(--orange2);
+    background-color: ${({ theme }) => theme.colors.orange2};
     color: white;
   }
 `;

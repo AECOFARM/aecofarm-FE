@@ -353,8 +353,8 @@ const UpdatePost = () => {
 const Category = styled.div`
   font-size: 0.8rem;
   height: 30px;
-  color: var(--black);
-  border-bottom: 0.5px solid var(--gray6);
+  color: ${({ theme }) => theme.colors.black};
+  border-bottom: 0.5px solid ${({ theme }) => theme.colors.gray6};
   max-width: 500px;
   width: 100%;
   display: flex;
@@ -386,17 +386,17 @@ const ItemInfoContainer = styled.div`
   margin: 10px 0;
   p {
     font-size: 1rem;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
   }
   textarea {
     height: 100%;
     width: 100%;
-    background-color: var(--white);
+    background-color: ${({ theme }) => theme.colors.white};
     border: none;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     font-size: 1rem;
     &::placeholder {
-      color: var(--gray4);
+      color: ${({ theme }) => theme.colors.gray4};
     }
     outline: 0;
   }
@@ -416,7 +416,7 @@ const ImagePreview = styled.div`
   width: 200px;
   height: 200px;
   align-items: center;
-  background-color: var(--gray5);
+  background-color: ${({ theme }) => theme.colors.gray5};
   overflow: hidden;
   border-radius: 10px;
   p {

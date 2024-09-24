@@ -22,7 +22,7 @@ const BoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 30px;
   gap: 10px;
 `;
@@ -30,13 +30,13 @@ const BoxContainer = styled.div`
 const Title = styled.p`
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const Content = styled.p`
   font-size: 1.1rem;
   font-weight: 500;
-  color: var(--gray7);
+  color: ${({ theme }) => theme.colors.gray7};
   word-break: keep-all;
 `;
 
@@ -44,7 +44,7 @@ const CloseButton = styled.div`
   margin: 0 auto;
   padding: 8px 30px;
   border-radius: 20px;
-  background-color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.orange2};
   p {
     font-size: 1rem;
     font-weight: 600;

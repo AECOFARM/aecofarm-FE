@@ -9,12 +9,12 @@ const HeaderContainer = styled.header`
   left: 50%;
   transform: translateX(-50%);
   height: 60px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   z-index: 1000;
   &::before {
     content: "";
@@ -23,7 +23,7 @@ const HeaderContainer = styled.header`
     left: 0;
     width: 100%;
     height: 20px;
-    background-color: #ffffff;
+    background-color: ${({ theme }) => theme.colors.white};
   }
 `;
 

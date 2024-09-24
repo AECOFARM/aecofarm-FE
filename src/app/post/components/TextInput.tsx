@@ -12,14 +12,14 @@ const Input = styled.input.attrs((props) => ({
   width: 100%;
   height: 60px;
   border: none;
-  border-bottom: 1px solid var(--gray6);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray6};
   background: none;
   z-index: 5;
   font-size: 1rem;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   outline: 0;
   &:placeholder {
-    color: var(--gray4);
+    color: ${({ theme }) => theme.colors.gray4};
   }
 
   &:focus {
@@ -30,7 +30,7 @@ const Input = styled.input.attrs((props) => ({
   &:valid + label {
     font-size: 0.8rem;
     top: -5px;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     font-weight: bold;
   }
   /* Remove arrows in input[type="number"] for Chrome, Safari, Edge, Opera */
@@ -48,7 +48,7 @@ const Input = styled.input.attrs((props) => ({
 
 const InputLabel = styled.label`
   position: absolute;
-  color: var(--gray4);
+  color: ${({ theme }) => theme.colors.gray4};
   left: 0px;
   font-size: 1rem;
   top: 20px;
@@ -58,7 +58,7 @@ const InputLabel = styled.label`
 
 const ExampleLabel = styled.label`
   position: absolute;
-  color: var(--gray8);
+  color: ${({ theme }) => theme.colors.gray8};
   right: 0px;
   font-size: 1rem;
   top: 20px;
