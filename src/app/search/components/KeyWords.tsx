@@ -37,6 +37,16 @@ const KeyWord = styled.div`
   }
 `;
 
+// 임시 키워드 데이터 추가
+const mockKeywords = [
+  "스마트 농업",
+  "AI 기반 서비스",
+  "IoT",
+  "친환경 기술",
+  "드론 농업",
+  "자율주행 농기계",
+];
+
 const KeyWords: React.FC = () => {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -65,9 +75,18 @@ const KeyWords: React.FC = () => {
         }
 
         const result = await response.json();
-        setKeywords(result.data.recommendedKeywords.slice(0, 6));
+
+        // 만약 받아온 데이터가 비어있을 경우 mock 데이터 사용
+        const fetchedKeywords = result.data?.recommendedKeywords || [];
+        if (fetchedKeywords.length === 0) {
+          setKeywords(mockKeywords);
+        } else {
+          setKeywords(fetchedKeywords.slice(0, 6));
+        }
       } catch (err) {
         console.error("Error fetching keywords:", err);
+        // 오류가 발생했을 경우에도 mock 데이터를 사용
+        setKeywords(mockKeywords);
       } finally {
         setLoading(false);
       }

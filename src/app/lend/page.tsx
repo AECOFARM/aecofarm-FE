@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import MainLayout from "@/components/layout/MainLayout";
 import LendItemPost from "../../components/LendItemPost";
+import lendMockPosts from "@/data/lendMockPosts";
 
 const ButtonContainer = styled.div`
   position: fixed;
@@ -65,12 +66,18 @@ const LendPage = () => {
         const result = await response.json();
 
         if (response.ok) {
-          setPosts(result.data);
+          if (result.data.length === 0) {
+            setPosts(lendMockPosts); // 데이터가 없을 경우 mock data 사용
+          } else {
+            setPosts(result.data);
+          }
         } else {
           console.error("Error fetching data:", result.message);
+          setPosts(lendMockPosts); // 에러 발생 시 mock data 사용
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setPosts(lendMockPosts); // API 호출 실패 시 mock data 사용
       }
     };
 

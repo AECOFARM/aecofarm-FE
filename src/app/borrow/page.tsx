@@ -11,6 +11,7 @@ import Navigation from "@/components/Navigation";
 import MainLayout from "@/components/layout/MainLayout";
 import BorrowItemPost from "../../components/BorrowItemPost";
 import SeeDonate from "./components/SeeDonate";
+import borrowMockPosts from "@/data/borrowMockPosts";
 
 interface Post {
   contractId: number;
@@ -60,7 +61,7 @@ const BorrowPage: React.FC = () => {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [sortType, setSortType] = useState<string>("NEWEST");
-  const [seeDonateStatus, setSeeDonateStatus] = useState<boolean>(false); // New state
+  const [seeDonateStatus, setSeeDonateStatus] = useState<boolean>(false);
 
   const moveDetail = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -93,17 +94,30 @@ const BorrowPage: React.FC = () => {
 
         if (response.data.code === 200) {
           let fetchedPosts = response.data.data;
-          if (seeDonateStatus) {
+
+          // 만약 API에서 데이터를 가져오지 못했을 경우 MockData 사용
+          if (fetchedPosts.length === 0) {
+            fetchedPosts = seeDonateStatus
+              ? borrowMockPosts.filter((post: Post) => post.price === 0)
+              : borrowMockPosts;
+          } else if (seeDonateStatus) {
             fetchedPosts = fetchedPosts.filter(
               (post: Post) => post.price === 0
             );
           }
+
           setPosts(fetchedPosts);
         } else {
           console.error("Failed to fetch data:", response.data.message);
         }
       } catch (error) {
+        // 서버 오류 발생 시 임시 데이터 사용
         console.error("Error fetching data:", error);
+        const fetchedPosts = seeDonateStatus
+          ? borrowMockPosts.filter((post: Post) => post.price === 0)
+          : borrowMockPosts;
+
+        setPosts(fetchedPosts);
       }
     };
 
