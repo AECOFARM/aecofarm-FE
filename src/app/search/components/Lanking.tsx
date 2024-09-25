@@ -82,6 +82,18 @@ const getCurrentDateTime = (): string => {
   return `${date} ${time}`;
 };
 
+// 임시 랭킹 데이터 추가
+const mockRankings = [
+  "스마트 농업",
+  "AI 서비스",
+  "친환경 기술",
+  "자율주행 농기계",
+  "드론",
+  "클라우드 기반 농업",
+  "IoT 센서",
+  "빅데이터 분석",
+];
+
 const Lanking = (): JSX.Element => {
   const [dateTime, setDateTime] = useState<string>(getCurrentDateTime());
   const [currentRankings, setCurrentRankings] = useState<string[]>([]);
@@ -89,7 +101,7 @@ const Lanking = (): JSX.Element => {
   const [rankChanges, setRankChanges] = useState<
     Record<string, "▲" | "▼" | "-">
   >({});
-  const [loading, setLoading] = useState<boolean>(true); // New state for loading
+  const [loading, setLoading] = useState<boolean>(true);
   const lastUpdateTimeRef = useRef<Date | null>(null);
   const initialLoadRef = useRef<boolean>(true);
 
@@ -103,35 +115,39 @@ const Lanking = (): JSX.Element => {
           },
         });
         const result = await response.json();
-        const newRankings: string[] = result.data.hotSearchRankings;
+        const newRankings: string[] = result.data.hotSearchRankings || [];
+
+        if (newRankings.length === 0) {
+          // 데이터가 없을 경우 mock 데이터를 사용
+          setCurrentRankings(mockRankings);
+          setPreviousRankings(mockRankings);
+          return;
+        }
 
         const now = new Date();
         const lastUpdateTime = lastUpdateTimeRef.current;
 
         if (initialLoadRef.current) {
-          // 첫 로딩 시 모든 항목에 '-' 설정
           const initialRankChanges: Record<string, "▲" | "▼" | "-"> = {};
           newRankings.forEach((item) => {
             initialRankChanges[item] = "-";
           });
 
-          setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+          setPreviousRankings([...newRankings]);
           setCurrentRankings(newRankings);
           setRankChanges(initialRankChanges);
           setDateTime(getCurrentDateTime());
           lastUpdateTimeRef.current = now;
           initialLoadRef.current = false;
-          setLoading(false); // Set loading to false once data is fetched
         } else if (
           !lastUpdateTime ||
           now.getTime() - lastUpdateTime.getTime() >= 60000
         ) {
-          // Calculate rank changes
           const newRankChanges: Record<string, "▲" | "▼" | "-"> = {};
           newRankings.forEach((item: string, index: number) => {
             const previousIndex = previousRankings.indexOf(item);
             if (previousIndex === -1) {
-              newRankChanges[item] = "▲"; // New item, mark as new with upward arrow
+              newRankChanges[item] = "▲";
             } else if (previousIndex > index) {
               newRankChanges[item] = "▲";
             } else if (previousIndex < index) {
@@ -141,24 +157,25 @@ const Lanking = (): JSX.Element => {
             }
           });
 
-          setPreviousRankings([...newRankings]); // 현재 순위를 이전 순위로 업데이트
+          setPreviousRankings([...newRankings]);
           setCurrentRankings(newRankings);
           setRankChanges(newRankChanges);
           setDateTime(getCurrentDateTime());
           lastUpdateTimeRef.current = now;
-          setLoading(false); // Set loading to false once data is fetched
         } else {
-          // Just update the current rankings and date time
           setCurrentRankings(newRankings);
           setDateTime(getCurrentDateTime());
         }
       } catch (error) {
         console.error("Failed to fetch rankings:", error);
-        // Optionally handle the error state
+        // 오류 발생 시 mock 데이터 사용
+        setCurrentRankings(mockRankings);
+        setPreviousRankings(mockRankings);
+      } finally {
+        setLoading(false);
       }
     };
 
-    // Fetch initial rankings
     fetchRankings();
 
     const intervalId = setInterval(fetchRankings, 60000);
