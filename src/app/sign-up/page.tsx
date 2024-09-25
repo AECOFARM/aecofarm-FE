@@ -44,7 +44,7 @@ const HiddenProfileInput = styled.input`
 const CustomProfileInputLabel = styled.label`
   width: 100%;
   height: 50px;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.white};
   border-radius: 24px;
   font-weight: 600;
   cursor: pointer;
@@ -52,13 +52,13 @@ const CustomProfileInputLabel = styled.label`
   align-items: center;
   justify-content: center;
   margin: 80px 10px 15px 10px;
-  border: 1px solid var(--gray3);
-  color: var(--orange2);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
+  color: ${({ theme }) => theme.colors.orange2};
   font-size: 17px;
 
   &:hover {
-    background: var(--orange2);
-    color: #fff;
+    background: ${({ theme }) => theme.colors.orange2};
+    color: ${({ theme }) => theme.colors.white};
     border: none;
   }
 `;
@@ -66,8 +66,8 @@ const CustomProfileInputLabel = styled.label`
 const DefaultProfile = styled.div`
   width: 200px;
   height: 200px;
-  background-color: white;
-  border: 1px solid var(--gray3);
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   border-radius: 11px;
   display: flex;
   justify-content: center;
@@ -91,7 +91,7 @@ const ProfileImage = styled.img`
 const DeleteImage = styled.div`
   width: 100%;
   height: 50px;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.white};
   border-radius: 24px;
   font-weight: 600;
   cursor: pointer;
@@ -99,13 +99,13 @@ const DeleteImage = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 10px;
-  border: 1px solid var(--gray3);
-  color: var(--orange2);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
+  color: ${({ theme }) => theme.colors.orange2};
   font-size: 16px;
 
   &:hover {
-    background: var(--orange2);
-    color: #fff;
+    background: ${({ theme }) => theme.colors.orange2};
+    color: ${({ theme }) => theme.colors.white};
     border: none;
   }
 `;
@@ -145,8 +145,8 @@ const EmailButton = styled.input.attrs((props) => ({
   padding: 15px 22px;
   border-radius: 15px;
   border: 0;
-  color: var(--gray6);
-  background-color: var(--gray2);
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.gray2};
   font-size: 17px;
   text-align: left;
   width: 70%;
@@ -154,7 +154,7 @@ const EmailButton = styled.input.attrs((props) => ({
 
 const EmailCheckButton = styled.button`
   width: 30%;
-  background-color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.orange2};
   color: white;
   padding: 15px 22px;
   border: none;
@@ -182,8 +182,8 @@ const VerificationCodeInput = styled.input`
   padding: 15px 22px;
   border-radius: 15px;
   border: 0;
-  color: var(--gray6);
-  background-color: var(--gray2);
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.gray2};
   font-size: 17px;
   text-align: left;
   width: 100%;
@@ -206,8 +206,8 @@ const Button = styled.input.attrs((props) => ({
   padding: 15px 22px;
   border-radius: 15px;
   border: 0;
-  color: var(--gray6);
-  background-color: var(--gray2);
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.gray2};
   font-size: 17px;
   text-align: left;
   width: 100%;

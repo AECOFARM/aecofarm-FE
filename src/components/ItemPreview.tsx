@@ -45,7 +45,7 @@ const ItemHashTags = styled.div`
 `;
 
 const ItemHashTag = styled.p`
-  color: var(--orange1);
+  color: ${({ theme }) => theme.colors.orange1};
   font-size: 0.8rem;
   white-space: nowrap;
 `;
@@ -57,7 +57,7 @@ const TimeAndPrice = styled.div`
   align-items: flex-start;
   p {
     font-size: 0.8rem;
-    color: var(--gray5);
+    color: ${({ theme }) => theme.colors.gray5};
   }
 `;
 
@@ -78,7 +78,7 @@ const ItemPlace = styled.div`
   gap: 5px;
   p {
     font-size: 0.8rem;
-    color: var(--gray5);
+    color: ${({ theme }) => theme.colors.gray5};
   }
 `;
 
@@ -89,7 +89,7 @@ const ItemContractTime = styled.div`
   gap: 5px;
   p {
     font-size: 0.8rem;
-    color: var(--gray5);
+    color: ${({ theme }) => theme.colors.gray5};
   }
 `;
 

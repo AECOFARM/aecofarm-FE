@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DonateLabel from "./DonateLabel";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import LikeButton from "./LikeButton";
 import SkeletonPost from "./skeleton/SkeletonBorrowItemPost";
 import Image from "next/image";
 
 const Container = styled.div`
   background-color: white;
-  border-bottom: 1px solid var(--gray3);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 10px 10px;
   position: relative;
   display: flex;
@@ -22,7 +22,7 @@ const ItemImage = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 10px;
-  border: 1px solid var(--gray3);
+  border: 1px solid ${({ theme }) => theme.colors.gray3};
   overflow: hidden;
   position: relative;
 `;
@@ -62,7 +62,7 @@ const Title = styled.div`
 
 const Place = styled.div`
   font-size: 13px;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -89,7 +89,7 @@ const HashTags = styled.div`
 
 const HashTag = styled.span`
   background-color: white;
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 2px;
   margin-right: 5px;
   border-radius: 5px;
@@ -97,16 +97,6 @@ const HashTag = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
-`;
-
-const LikeIcon = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  overflow: hidden;
 `;
 
 interface Post {
@@ -142,46 +132,12 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
     time,
     contractTime,
     itemHash,
-    likeStatus: initialLikeStatus,
+    likeStatus,
     donateStatus,
   } = post;
 
   const router = useRouter();
-  const token = localStorage.getItem("token");
-  const [likeStatus, setLikeStatus] = useState(initialLikeStatus);
   const [loading, setLoading] = useState(true);
-
-  const likeIconSrc = likeStatus
-    ? "/img/red-heart.svg"
-    : "/img/empty-heart.svg";
-
-  const toggleLikeStatus = async () => {
-    try {
-      if (likeStatus) {
-        const response = await axios.delete(`/api/likes/delete/${contractId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: { itemId: itemId },
-        });
-        console.log(response);
-      } else {
-        const response = await axios.post(
-          `/api/likes/add/${contractId}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response);
-      }
-      setLikeStatus((prevStatus) => !prevStatus);
-    } catch (error) {
-      console.error("An error occurred while toggling like status:", error);
-    }
-  };
 
   let imageSrc = itemImage || "/img/default-image.png";
 
@@ -234,14 +190,15 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
           ))}
         </HashTags>
       </ItemInfo>
-      <LikeIcon onClick={toggleLikeStatus}>
-        <Image
-          src={likeIconSrc}
-          alt="like icon"
-          layout="fill"
-          objectFit="cover"
-        />
-      </LikeIcon>
+      <LikeButton
+        top={10}
+        right={15}
+        size={24}
+        contractId={contractId}
+        itemId={itemId}
+        likeStatus={likeStatus}
+        type="borrow"
+      />
     </Container>
   );
 };

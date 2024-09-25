@@ -24,12 +24,12 @@ const SelectContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  border-bottom: 0.5px solid var(--gray6);
+  border-bottom: 0.5px solid ${({ theme }) => theme.colors.gray6};
   select,
   option {
     font-size: 0.8rem;
     text-align: center;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     width: inherit;
     height: inherit;
     background: transparent;
@@ -62,7 +62,7 @@ const ImagePreview = styled.div`
   width: 200px;
   height: 200px;
   align-items: center;
-  background-color: var(--gray5);
+  background-color: ${({ theme }) => theme.colors.gray5};
   overflow: hidden;
   border-radius: 10px;
   p {
@@ -97,17 +97,17 @@ const ItemInfoContainer = styled.div`
   margin: 10px 0;
   p {
     font-size: 1rem;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
   }
   textarea {
     height: 100%;
     width: 100%;
-    background-color: var(--white);
+    background-color: ${({ theme }) => theme.colors.while};
     border: none;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     font-size: 1rem;
     &::placeholder {
-      color: var(--gray4);
+      color: ${({ theme }) => theme.colors.gray4};
     }
     outline: 0;
   }

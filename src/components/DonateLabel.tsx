@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const DonateLabelText = styled.p`
   font-size: 0.7rem;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
   font-weight: 700;
   white-space: nowrap;
 `;

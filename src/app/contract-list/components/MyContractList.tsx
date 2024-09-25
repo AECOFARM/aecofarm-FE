@@ -36,7 +36,7 @@ const CategoryContainer = styled.div`
 const Empty = styled.div`
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
   margin: 10px auto;
   width: 100%;
 `;

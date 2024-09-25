@@ -13,7 +13,7 @@ const CheckDonateButton = styled.button`
   margin: 0 5px;
   color: black;
   border: 0;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   font-size: 16px;
   cursor: pointer; /* show a pointer cursor to indicate it's clickable */
 `;

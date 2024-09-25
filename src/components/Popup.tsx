@@ -45,18 +45,18 @@ const Content = styled.div`
 
 const Title = styled.h2`
   font-size: 22px;
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const Line = styled.div`
-  background-color: var(--gray8);
+  background-color: ${({ theme }) => theme.colors.gray8};
   width: 40px;
 `;
 
 const Detail = styled.div`
   margin: 10px;
   font-size: 17px;
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const ButtonContainer = styled.div`
@@ -67,9 +67,9 @@ const CloseButton = styled.button`
   width: 100%;
   padding: 13px;
   border-radius: 30px;
-  border: 1px solid var(--mint);
-  color: var(--gray6);
-  background-color: white;
+  border: 1px solid ${({ theme }) => theme.colors.mint};
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.white};
   font-size: 16px;
   margin-top: 10px;
   font-weight: 600;

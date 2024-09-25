@@ -20,9 +20,9 @@ const KeyWordContainer = styled.div`
 `;
 
 const KeyWord = styled.div`
-  color: var(--orange2);
+  color: ${({ theme }) => theme.colors.orange2};
   padding: 8px 20px;
-  border: 1px solid var(--orange2);
+  border: 1px solid ${({ theme }) => theme.colors.orange2};
   display: inline-block;
   border-radius: 20px;
   margin-right: 10px;
@@ -32,7 +32,7 @@ const KeyWord = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: var(--orange2);
+    background-color: ${({ theme }) => theme.colors.orange2};
     color: white;
   }
 `;

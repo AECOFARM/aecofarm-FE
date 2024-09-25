@@ -64,12 +64,12 @@ const TagInput: React.FC<TagInputProps> = ({
       ) {
         labelRef.current.style.fontSize = "0.8rem";
         labelRef.current.style.top = "-5px";
-        labelRef.current.style.color = "var(--gray6)";
+        labelRef.current.style.color = "${({ theme }) => theme.colors.gray6}";
         labelRef.current.style.fontWeight = "bold";
       } else {
         labelRef.current.style.fontSize = "1rem";
         labelRef.current.style.top = "20px";
-        labelRef.current.style.color = "var(--gray4)";
+        labelRef.current.style.color = "${({ theme }) => theme.colors.gray4}";
         labelRef.current.style.fontWeight = "normal";
       }
     }
@@ -134,33 +134,33 @@ const HashWrapOuter = styled.div`
 
 const HashWrapInner = styled.div`
   font-size: 0.9rem;
-  background-color: var(--white);
-  color: var(--orange2);
+  background-color: ${({ theme }) => theme.colors.while};
+  color: ${({ theme }) => theme.colors.orange2};
   gap: 0px;
   padding: 5px 10px;
-  border: 1px solid var(--orange2);
+  border: 1px solid ${({ theme }) => theme.colors.orange2};
   border-radius: 100px;
   cursor: pointer;
   display: flex;
   &:hover {
-    background-color: var(--orange2);
-    border: 1px solid var(--orange2);
-    color: var(--white);
+    background-color: ${({ theme }) => theme.colors.orange2};
+    border: 1px solid ${({ theme }) => theme.colors.orange2};
+    color: ${({ theme }) => theme.colors.while};
   }
 `;
 
 const HashInput = styled.input`
   border: none;
-  border-bottom: 1px solid var(--gray6);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray6};
   width: 100%;
   height: 60px;
   outline: none;
   background-color: transparent;
   font-size: 1rem;
-  color: var(--gray6);
+  color: ${({ theme }) => theme.colors.gray6};
 
   &::placeholder {
-    color: var(--gray4);
+    color: ${({ theme }) => theme.colors.gray4};
   }
 
   &:focus {
@@ -171,14 +171,14 @@ const HashInput = styled.input`
   &:valid + label {
     font-size: 0.8rem;
     top: -5px;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     font-weight: bold;
   }
 `;
 
 const InputLabel = styled.label`
   position: absolute;
-  color: var(--gray4);
+  color: ${({ theme }) => theme.colors.gray4};
   left: 0px;
   font-size: 1rem;
   top: 20px;

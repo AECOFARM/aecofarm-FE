@@ -6,7 +6,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   font-size: 20px;
   font-weight: 600;
   color: black;
@@ -14,7 +14,7 @@ const Title = styled.div`
 
 const Time = styled.div`
   font-size: 17px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
   margin: 10px 0;
 `;
 
@@ -32,14 +32,14 @@ const SkeletonRankItem = styled.div`
   align-items: center;
   margin: 5px 0;
   padding: 25px 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
 `;
 
 const SkeletonRankNumber = styled.div`
   width: 30px;
   height: 30px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 50%;
   margin-right: 10px;
 `;
@@ -47,14 +47,14 @@ const SkeletonRankNumber = styled.div`
 const SkeletonRankText = styled.div`
   flex: 1;
   height: 20px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
 `;
 
 const SkeletonRankChangeIcon = styled.div`
   width: 20px;
   height: 20px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 50%;
   margin-left: 8px;
 `;

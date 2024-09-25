@@ -1,9 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import { Inter } from "next/font/google";
-import "../globals.css";
 import Navigation from "@/components/Navigation";
-import MainLayout from "@/components/layout/MainLayout";
 import AppLayout from "@/components/layout/MobileLayout";
 import TopBar from "@/components/TopBar";
 

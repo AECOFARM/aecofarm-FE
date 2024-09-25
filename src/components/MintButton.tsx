@@ -6,8 +6,8 @@ const Button = styled.button`
   padding: 13px;
   border-radius: 30px;
   border: 0px;
-  color: white;
-  background-color: var(--mint);
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.mint};
   font-size: 18px;
   font-weight: 500;
 `;

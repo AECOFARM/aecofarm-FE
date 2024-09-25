@@ -29,7 +29,7 @@ const TextContainer = styled.h3`
   p {
     font-size: 15px;
     font-weight: 500;
-    color: var(--gray6);
+    color: ${({ theme }) => theme.colors.gray6};
     padding: 4px 0;
   }
 `;
@@ -46,8 +46,8 @@ const Input = styled.input`
   padding: 18px 22px;
   border-radius: 15px;
   border: 0px;
-  color: var(--gray6);
-  background-color: var(--gray2);
+  color: ${({ theme }) => theme.colors.gray6};
+  background-color: ${({ theme }) => theme.colors.gray2};
   font-size: 17px;
   text-align: left;
   width: 100%;

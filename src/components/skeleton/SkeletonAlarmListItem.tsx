@@ -23,7 +23,7 @@ const Icon = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
 `;
 
 const AlarmContentContainer = styled.div`
@@ -42,14 +42,14 @@ const AlarmTitleContainer = styled.div`
 `;
 
 const AlarmTitle = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   height: 1rem;
   width: 50%;
   border-radius: 5px;
 `;
 
 const AlarmTime = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   height: 0.75rem;
   width: 30%;
   border-radius: 5px;
@@ -63,7 +63,7 @@ const AlarmContent = styled.div`
 `;
 
 const Content = styled.div`
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   height: 0.95rem;
   width: 100%;
   border-radius: 5px;
@@ -72,7 +72,7 @@ const Content = styled.div`
 const AlarmItemImage = styled.div`
   width: 100px;
   height: 100px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
 `;
 

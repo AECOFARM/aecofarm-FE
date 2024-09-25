@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   align-items: center;
   margin-top: 100px;
   margin-bottom: 120px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const CategoryItemsContainer = styled.div`
@@ -29,7 +29,7 @@ export const Container = styled.div`
 export const Title = styled.p`
   font-size: 1.3rem;
   font-weight: 700;
-  color: #000000;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const Line = styled.hr`

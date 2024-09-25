@@ -13,7 +13,7 @@ const SelectButton = styled.button`
   padding: 13px 30px 13px 14px;
   font-size: 15px;
   line-height: 14px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 10px;
@@ -48,14 +48,14 @@ const SelectList = styled.ul<SelectListProps>`
   box-sizing: border-box;
   box-shadow: 4px 4px 14px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const OptionButton = styled.button`
   width: 100%;
   padding: 7px 10px;
   border: none;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
@@ -74,7 +74,7 @@ const OptionButton = styled.button`
 const OptionList = styled.li`
   padding: 3px 5px;
   margin: 0 3px;
-  color: black;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const SelectBox = () => {

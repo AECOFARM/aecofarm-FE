@@ -15,7 +15,7 @@ const Title = styled.div`
 
 const Time = styled.div`
   font-size: 17px;
-  color: var(--gray5);
+  color: ${({ theme }) => theme.colors.gray5};
   margin: 10px 0;
 `;
 
@@ -36,7 +36,10 @@ const RankNumber = styled.div<RankNumberProps>`
   font-weight: bold;
   font-size: 22px;
   margin-right: 10px;
-  color: ${(props) => (props.rank <= 3 ? "var(--red)" : "black")};
+  color: ${(props) =>
+    props.rank <= 3
+      ? "${({ theme }) => theme.colors.red}"
+      : "${({ theme }) => theme.colors.black}"};
 `;
 
 const RankItem = styled.div`
@@ -64,10 +67,10 @@ const RankChangeIcon = styled.div<RankChangeIconProps>`
   margin-left: 8px;
   color: ${(props) =>
     props.change === "▲"
-      ? "var(--orange3)"
+      ? "${({ theme }) => theme.colors.orange3}"
       : props.change === "▼"
-        ? "var(--blue)"
-        : "black"};
+        ? "${({ theme }) => theme.colors.blue}"
+        : "${({ theme }) => theme.colors.black}"};
 `;
 
 const getCurrentDateTime = (): string => {

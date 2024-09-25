@@ -9,7 +9,7 @@ const Container = styled.div`
   gap: 10px;
   width: 100%;
   max-width: 500px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 interface Props {

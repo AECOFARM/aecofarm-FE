@@ -14,7 +14,7 @@ interface Props {
 
 const Container = styled.div`
   width: 45%;
-  border: 1px solid var(--gray5);
+  border: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ const ImageContainer = styled.img`
 const ClubName = styled.p`
   font-size: 1rem;
   font-weight: 600;
-  color: var(--black);
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const ClubListItem: React.FC<Props> = ({ club }) => {

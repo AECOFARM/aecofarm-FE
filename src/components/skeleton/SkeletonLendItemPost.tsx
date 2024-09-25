@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const SkeletonContainer = styled.div`
   background-color: white;
-  border-bottom: 1px solid var(--gray3);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray3};
   padding: 10px 10px;
   display: flex;
   max-width: 480px;
@@ -22,7 +22,7 @@ const SkeletonItemInfo = styled.div`
 const SkeletonTitle = styled.div`
   width: 70%;
   height: 19px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   margin-bottom: 5px;
   border-radius: 5px;
 `;
@@ -30,7 +30,7 @@ const SkeletonTitle = styled.div`
 const SkeletonText = styled.div`
   width: 50%;
   height: 14px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   margin-bottom: 5px;
   border-radius: 5px;
 `;
@@ -42,7 +42,7 @@ const SkeletonPlace = styled.div`
   div {
     width: 100px;
     height: 13px;
-    background-color: var(--gray2);
+    background-color: ${({ theme }) => theme.colors.gray2};
     border-radius: 5px;
   }
 `;
@@ -56,7 +56,7 @@ const SkeletonTags = styled.div`
 const SkeletonTag = styled.div`
   width: 50px;
   height: 13px;
-  background-color: var(--gray2);
+  background-color: ${({ theme }) => theme.colors.gray2};
   border-radius: 5px;
 `;
 
