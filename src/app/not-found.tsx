@@ -1,4 +1,4 @@
-// app/error.tsx
+"use client";
 import { useRouter } from "next/navigation";
 import AppLayout from "@/components/layout/MobileLayout";
 import Header from "@/components/Header";
@@ -23,7 +23,7 @@ const ImageContainer = styled.div`
   }
 `;
 
-const ErrorPage = () => {
+export default function Custom404() {
   const router = useRouter();
 
   const handleClick = () => {
@@ -56,6 +56,4 @@ const ErrorPage = () => {
       <Navigation />
     </AppLayout>
   );
-};
-
-export default ErrorPage;
+}
