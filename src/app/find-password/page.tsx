@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import AppLayout from "@/components/layout/MobileLayout";
-import MainLayout from "@/components/layout/MainLayout";
+import MainLayout2 from "@/components/layout/MainLayout2";
 import NoFixedTopBar from "@/components/NoFixedTopBar";
 import OrangeButton from "@/components/OrangeButton";
 import { useRouter } from "next/navigation";
@@ -126,7 +126,7 @@ const FindPassword: React.FC = () => {
 
   return (
     <AppLayout>
-      <MainLayout>
+      <MainLayout2>
         <Wrapper>
           <NoFixedTopBar text="비밀번호 변경" />
           <TextContainer>
@@ -179,7 +179,7 @@ const FindPassword: React.FC = () => {
             />
           </ButtonContainer>
         </Wrapper>
-      </MainLayout>
+      </MainLayout2>
     </AppLayout>
   );
 };
