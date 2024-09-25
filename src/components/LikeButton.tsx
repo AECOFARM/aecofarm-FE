@@ -13,6 +13,7 @@ interface ButtonProps {
   size: number;
   contractId: number;
   itemId?: number;
+  likeStatus: boolean;
   type: "borrow" | "lend";
 }
 
@@ -31,6 +32,7 @@ const LikeButton: React.FC<ButtonProps> = ({
   size,
   contractId,
   itemId,
+  likeStatus,
   type,
 }) => {
   const [borrowPostDetail, setBorrowPostDetail] = useRecoilState(
@@ -46,7 +48,7 @@ const LikeButton: React.FC<ButtonProps> = ({
 
   const toggleLikeStatus = async (): Promise<void> => {
     try {
-      if (currentDetail.likeStatus) {
+      if (likeStatus) {
         await axios.delete(`/api/likes/delete/${currentDetail.contractId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,13 +68,13 @@ const LikeButton: React.FC<ButtonProps> = ({
       }
       setDetail((prevState: any) => ({
         ...prevState,
-        likeStatus: !prevState.likeStatus,
+        likeStatus: !likeStatus,
       }));
     } catch (error) {
       console.error("An error occurred while toggling like status:", error);
     }
   };
-  const likeStatusSrc = currentDetail.likeStatus
+  const likeStatusSrc = likeStatus
     ? "/img/red-heart.svg"
     : "/img/empty-heart.svg";
   return (
@@ -82,6 +84,8 @@ const LikeButton: React.FC<ButtonProps> = ({
         right={right}
         size={size}
         src={likeStatusSrc}
+        width={size}
+        height={size}
         alt="like status"
         onClick={toggleLikeStatus}
       />

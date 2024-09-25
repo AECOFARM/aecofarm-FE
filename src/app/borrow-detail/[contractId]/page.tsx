@@ -347,6 +347,7 @@ const BorrowDetailPage: React.FC = () => {
             type="borrow"
             contractId={itemDetail.contractId}
             itemId={itemDetail.itemId}
+            likeStatus={itemDetail.likeStatus}
           />
           <UserContainer>
             <User>

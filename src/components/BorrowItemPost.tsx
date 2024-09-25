@@ -196,6 +196,7 @@ const BorrowItemPost: React.FC<BorrowItemPostProps> = ({ post, onClick }) => {
         size={24}
         contractId={contractId}
         itemId={itemId}
+        likeStatus={likeStatus}
         type="borrow"
       />
     </Container>

@@ -171,6 +171,7 @@ const LendItemPost: React.FC<LendItemPostProps> = ({ post }) => {
         size={24}
         contractId={contractId}
         itemId={itemId}
+        likeStatus={likeStatus}
         type="lend"
       />
     </Container>

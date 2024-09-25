@@ -427,6 +427,7 @@ const LendDetailPage = () => {
             type="borrow"
             contractId={itemDetail.contractId}
             itemId={itemDetail.itemId}
+            likeStatus={itemDetail.likeStatus}
           />
           {!owner && (
             <ButtonContainer>
